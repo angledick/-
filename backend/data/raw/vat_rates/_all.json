@@ -1,0 +1,13 @@
+{
+  "德国": {"standard": 19.0, "reduced": 7.0, "currency": "EUR", "note": "标准税率19%，食品/书籍等7%"},
+  "法国": {"standard": 20.0, "reduced": 5.5, "currency": "EUR", "note": "标准税率20%"},
+  "意大利": {"standard": 22.0, "reduced": 4.0, "currency": "EUR"},
+  "西班牙": {"standard": 21.0, "reduced": 4.0, "currency": "EUR"},
+  "荷兰": {"standard": 21.0, "reduced": 9.0, "currency": "EUR"},
+  "比利时": {"standard": 21.0, "reduced": 6.0, "currency": "EUR"},
+  "日本": {"standard": 10.0, "reduced": 8.0, "currency": "JPY", "note": "消费税"},
+  "韩国": {"standard": 10.0, "reduced": 0.0, "currency": "KRW", "note": "增值税"},
+  "英国": {"standard": 20.0, "reduced": 5.0, "currency": "GBP"},
+  "美国": {"standard": 0.0, "reduced": 0.0, "currency": "USD", "note": "无联邦级VAT，各州Sales Tax 0-10%不等"},
+  "新加坡": {"standard": 9.0, "reduced": 0.0, "currency": "SGD", "note": "GST，2024年起9%"}
+}

@@ -1,0 +1,25 @@
+{
+  "chain_id": "e2e_compliance_1780460549",
+  "total_events": 1,
+  "events": [
+    {
+      "event_id": "evt_af5805f0",
+      "chain_id": "e2e_compliance_1780460549",
+      "source": "e2e_test",
+      "type": "compliance:check_started",
+      "description_nl": "E2E合规检查测试-LED灯带德国市场",
+      "severity": "medium",
+      "payload": {
+        "trigger": "e2e_test"
+      },
+      "tags": [
+        "e2e",
+        "compliance"
+      ],
+      "timestamp": "2026-06-03T04:22:29.598039+00:00"
+    }
+  ],
+  "timeline": [
+    "🟡 [Medium] 2026-06-03T04:22:29 E2E合规检查测试-LED灯带德国市场"
+  ]
+}

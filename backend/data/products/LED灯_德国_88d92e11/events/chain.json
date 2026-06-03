@@ -1,0 +1,248 @@
+{
+  "product_id": "LED灯_德国_88d92e11",
+  "events": [
+    {
+      "id": "07430264ad48",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "LED灯_德国_88d92e11",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "LED灯",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "7ea80edb-a33b-420b-a9cf-27be31def22d"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-02T10:06:01.547604+00:00"
+    },
+    {
+      "id": "5c3e61d91e64",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "LED灯_德国_88d92e11",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "LED灯",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "8d2c43d4-6d93-47a2-be59-5c8a674b75e9"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-02T14:24:51.028053+00:00"
+    },
+    {
+      "id": "5a3e1f2e4457",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "LED灯_德国_88d92e11",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "LED灯",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "6029cdb0-9106-4ddb-8ef9-97a32757e191"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-02T14:26:50.849745+00:00"
+    },
+    {
+      "id": "7b602c14680c",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "LED灯_德国_88d92e11",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "LED灯",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "b70110cc-a7e0-40a5-b2be-055b6bc211c9"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-02T14:28:53.777631+00:00"
+    },
+    {
+      "id": "f4f66a5aed7c",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "LED灯_德国_88d92e11",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "LED灯",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "7bc4c4ed-6964-43ab-a928-eeb56616679d"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-02T14:30:57.850485+00:00"
+    },
+    {
+      "id": "372b740859cc",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "LED灯_德国_88d92e11",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "LED灯",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "af06762a-2912-44df-a211-9286d60aa2e6"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-03T02:04:02.464461+00:00"
+    },
+    {
+      "id": "feee24874bd1",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "LED灯_德国_88d92e11",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "LED灯",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "95717d40-2f48-4266-bb7c-a1adb9731610"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-03T02:17:13.923015+00:00"
+    },
+    {
+      "id": "d25543b4fe4a",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "LED灯_德国_88d92e11",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "LED灯",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "65115e86-01e0-4dff-9fe6-4ab8b7b3f325"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-03T02:31:22.160287+00:00"
+    },
+    {
+      "id": "d95c27ba04c9",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "LED灯_德国_88d92e11",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "LED灯",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "2d571f43-0f60-445b-9ac1-7bc95718defb"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-03T04:03:07.016140+00:00"
+    },
+    {
+      "id": "e39cc89da2d3",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "LED灯_德国_88d92e11",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "LED灯",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "62927bda-5a31-4e2c-bffc-b49e94d8da3b"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-03T04:18:59.685941+00:00"
+    }
+  ],
+  "timeline": [
+    "🟢 [Low] 2026-06-03T04:18:59 compliance:check_passed",
+    "🟢 [Low] 2026-06-03T04:03:07 compliance:check_passed",
+    "🟢 [Low] 2026-06-03T02:31:22 compliance:check_passed",
+    "🟢 [Low] 2026-06-03T02:17:13 compliance:check_passed",
+    "🟢 [Low] 2026-06-03T02:04:02 compliance:check_passed",
+    "🟢 [Low] 2026-06-02T14:30:57 compliance:check_passed",
+    "🟢 [Low] 2026-06-02T14:28:53 compliance:check_passed",
+    "🟢 [Low] 2026-06-02T14:26:50 compliance:check_passed",
+    "🟢 [Low] 2026-06-02T14:24:51 compliance:check_passed",
+    "🟢 [Low] 2026-06-02T10:06:01 compliance:check_passed"
+  ],
+  "total_events": 10
+}

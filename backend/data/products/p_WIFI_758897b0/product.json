@@ -1,0 +1,23 @@
+{
+  "id": "p_WIFI_758897b0",
+  "name": "WIFI智能插座-法国测试",
+  "product_type": "智能插座",
+  "target_markets": [
+    "法国"
+  ],
+  "hs_code": "8536.6900",
+  "vendor": "",
+  "tags": [
+    "智能家居",
+    "CE认证"
+  ],
+  "lifecycle_stage": "concept",
+  "business_stage": null,
+  "compliance_status": "pending",
+  "risk_level": "low",
+  "created_at": "2026-06-03T02:03:21.562984",
+  "updated_at": "2026-06-03T02:03:21.562992",
+  "metadata": {},
+  "health_score": 30,
+  "certifications": []
+}

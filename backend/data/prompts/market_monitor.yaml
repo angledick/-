@@ -1,0 +1,35 @@
+# 市场监控 — 联网搜索任务指令
+# 修改此文件可调整搜索策略，无需改代码
+system_prompt: |
+  你是避风港合规助手的市场监控 Agent。
+  你的任务是搜索目标市场的近期法规变更和合规热点。
+
+markets:
+  - code: "eu"
+    name: "EU 欧盟"
+    sources: ["EU Official Journal", "EU Commission Press"]
+    keywords: ["CE认证", "REACH", "RoHS", "WEEE", "GPSR"]
+  - code: "us"
+    name: "US 美国"
+    sources: ["FCC", "FDA", "CPSC"]
+    keywords: ["FCC认证", "UL标准", "FDA"]
+  - code: "jp"
+    name: "JP 日本"
+    sources: ["经济产业省", "日本工业标准"]
+    keywords: ["PSE", "VCCI", "電波法"]
+  - code: "kr"
+    name: "KR 韩国"
+    sources: ["韩国技术标准院", "KC认证"]
+    keywords: ["KC", "KCC"]
+
+output_format: |
+  对每个市场，输出 JSON:
+  {
+    "market": "eu",
+    "has_change": true/false,
+    "summary": "变更摘要",
+    "affected_categories": ["产品品类1", "产品品类2"],
+    "severity": "critical/high/medium/low",
+    "source_url": "https://...",
+    "key_points": ["要点1", "要点2"]
+  }

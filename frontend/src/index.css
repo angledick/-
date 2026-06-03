@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+/* ── 品牌色系 CSS 变量 ──────────────────────────────────────────────────────── */
+:root {
+  /* 主色 */
+  --color-primary: #1D1D1F;
+  --color-primary-hover: #2D2D2F;
+  --color-accent: #0071E3;
+  --color-accent-hover: #0060C0;
+
+  /* 语义色 */
+  --color-success: #34C759;
+  --color-warning: #FF9500;
+  --color-danger: #FF3B30;
+  --color-info: #5AC8FA;
+  --color-purple: #AF52DE;
+
+  /* 背景与文字 */
+  --color-bg-base: #FAFAFA;
+  --color-bg-surface: #FFFFFF;
+  --color-bg-muted: #F5F5F7;
+  --color-text-primary: #1D1D1F;
+  --color-text-secondary: #86868B;
+  --color-text-muted: #C7C7CC;
+  --color-border: rgba(0, 0, 0, 0.06);
+
+  /* 字体 */
+  --font-sans: -apple-system, 'SF Pro Display', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+
+/* ── 全局基础样式 ───────────────────────────────────────────────────────────── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg-base);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── 滚动条 ────────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.22);
+}
+
+/* ── 动画 ───────────────────────────────────────────────────────────────────── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Toast slide-in ────────────────────────────────────────────────── */
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.25s ease-out;
+}
+
+/* ── SSE token 流式光标 ───────────────────────────────────────────────────── */
+.streaming-cursor::after {
+  content: '▍';
+  animation: pulse-dot 1s infinite;
+  color: var(--color-accent);
+}

@@ -1,0 +1,28 @@
+{
+  "product_id": "p_WIFI_f3c800c8",
+  "events": [
+    {
+      "id": "04a2f9bd30f7",
+      "type": "product:created",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_WIFI_f3c800c8",
+      "business_stage": "阶段2",
+      "data": {
+        "name": "WIFI智能插座-法国",
+        "product_type": "智能插座"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-02T14:17:12.594792+00:00"
+    }
+  ],
+  "timeline": [
+    "🟢 [Low] 2026-06-02T14:17:12 product:created"
+  ],
+  "total_events": 1
+}

@@ -1,0 +1,17 @@
+{
+  "aggregated_at": "2026-06-03T04:19:20.572972+00:00",
+  "metrics": {
+    "total_managed_products": 55,
+    "system_health_score": 49.3,
+    "high_risk_product_ratio": 0,
+    "pending_alerts": 0,
+    "cert_expiry_distribution": {},
+    "avg_return_rate": 0,
+    "avg_chargeback_rate": 0,
+    "market_coverage": [
+      "德国",
+      "欧盟",
+      "法国"
+    ]
+  }
+}

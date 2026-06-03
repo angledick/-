@@ -1,0 +1,30 @@
+{
+  "agent_id": "agent_qa",
+  "tools": [
+    "tool_compliance_check",
+    "tool_cert_monitor",
+    "tool_hs_lookup",
+    "tool_vat_query",
+    "tool_regulation_scan",
+    "tool_tracking_query"
+  ],
+  "skills": [
+    "ae45124f7f58",
+    "734b61b30b1d",
+    "2a5d90ea1253",
+    "e5011b5e8a70",
+    "509cb313b725",
+    "151a3cd9cd1e",
+    "da0e894d800e",
+    "d29716c4f32c",
+    "de0437304f6c",
+    "aa562d614322",
+    "f3469ffb9238",
+    "98565003bef9",
+    "962da960689a",
+    "674621c11b71",
+    "d39e8339d0fe"
+  ],
+  "pipeline_mode": "6step",
+  "model_role": "reasoning"
+}

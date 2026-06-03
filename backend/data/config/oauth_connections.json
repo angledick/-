@@ -1,0 +1,1366 @@
+{
+  "da9eb5a1636d": {
+    "id": "da9eb5a1636d",
+    "provider": "shopify",
+    "label": "测试Shopify店铺",
+    "status": "disconnected",
+    "config": {
+      "shop_domain": "test-store.myshopify.com"
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T02:46:11Z",
+    "updated_at": "2026-06-03T02:46:11Z"
+  },
+  "edf3432aaaac": {
+    "id": "edf3432aaaac",
+    "provider": "shopify",
+    "label": "测试Shopify店铺",
+    "status": "disconnected",
+    "config": {
+      "shop_domain": "test-store.myshopify.com"
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T02:47:07Z",
+    "updated_at": "2026-06-03T02:47:07Z"
+  },
+  "afe570cfe267": {
+    "id": "afe570cfe267",
+    "provider": "shopify",
+    "label": "测试Shopify店铺",
+    "status": "disconnected",
+    "config": {
+      "shop_domain": "test-store.myshopify.com"
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T02:48:26Z",
+    "updated_at": "2026-06-03T02:48:26Z"
+  },
+  "862f81669d6f": {
+    "id": "862f81669d6f",
+    "provider": "shopify",
+    "label": "测试Shopify店铺",
+    "status": "disconnected",
+    "config": {
+      "shop_domain": "test-store.myshopify.com"
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T02:51:04Z",
+    "updated_at": "2026-06-03T02:51:04Z"
+  },
+  "a38b7bc0595c": {
+    "id": "a38b7bc0595c",
+    "provider": "shopify",
+    "label": "测试Shopify店铺",
+    "status": "disconnected",
+    "config": {
+      "shop_domain": "test-store.myshopify.com"
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T02:53:12Z",
+    "updated_at": "2026-06-03T02:53:12Z"
+  },
+  "8e4fddb96912": {
+    "id": "8e4fddb96912",
+    "provider": "shopify",
+    "label": "测试Shopify店铺",
+    "status": "disconnected",
+    "config": {
+      "shop_domain": "test-store.myshopify.com"
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T02:54:08Z",
+    "updated_at": "2026-06-03T02:54:08Z"
+  },
+  "c1940a1e8648": {
+    "id": "c1940a1e8648",
+    "provider": "shopify",
+    "label": "测试Shopify店铺",
+    "status": "disconnected",
+    "config": {
+      "shop_domain": "test-store.myshopify.com"
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T03:07:33Z",
+    "updated_at": "2026-06-03T03:07:33Z"
+  },
+  "824df0da2768": {
+    "id": "824df0da2768",
+    "provider": "shopify",
+    "label": "测试Shopify店铺",
+    "status": "disconnected",
+    "config": {
+      "shop_domain": "test-store.myshopify.com"
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T03:08:32Z",
+    "updated_at": "2026-06-03T03:08:32Z"
+  },
+  "3948c97b1d49": {
+    "id": "3948c97b1d49",
+    "provider": "chatwoot",
+    "label": "Chatwoot客服中心",
+    "status": "disconnected",
+    "config": {
+      "base_url": "https://chatwoot.example.com",
+      "api_token": "virt_ck_chatwoot",
+      "inbox_id": "inbox_shopify_01",
+      "features": [
+        "livechat",
+        "email",
+        "whatsapp",
+        "telegram"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T03:34:07Z",
+    "updated_at": "2026-06-03T03:34:07Z"
+  },
+  "b208dd49bc36": {
+    "id": "b208dd49bc36",
+    "provider": "listmonk",
+    "label": "Listmonk邮件服务",
+    "status": "disconnected",
+    "config": {
+      "base_url": "https://listmonk.example.com",
+      "api_user": "admin",
+      "api_pass": "virt_pass",
+      "smtp_host": "smtp.example.com",
+      "features": [
+        "newsletter",
+        "transactional",
+        "double_optin"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T03:34:07Z",
+    "updated_at": "2026-06-03T03:34:07Z"
+  },
+  "0819d4886b10": {
+    "id": "0819d4886b10",
+    "provider": "erpnext",
+    "label": "ERPNext采购系统",
+    "status": "disconnected",
+    "config": {
+      "base_url": "https://erp.example.com",
+      "api_key": "virt_erpnext_key",
+      "api_secret": "virt_erpnext_secret",
+      "modules": [
+        "purchasing",
+        "stock",
+        "accounting",
+        "manufacturing"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T03:34:07Z",
+    "updated_at": "2026-06-03T03:34:07Z"
+  },
+  "c4a62d0a42ed": {
+    "id": "c4a62d0a42ed",
+    "provider": "17track",
+    "label": "17TRACK物流",
+    "status": "disconnected",
+    "config": {
+      "api_key": "virt_17track_key",
+      "plan": "free_500",
+      "carriers": [
+        "dhl",
+        "usps",
+        "royal_mail",
+        "4px",
+        "yanwen"
+      ],
+      "webhook_url": "https://api.example.com/webhook/17track"
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T03:34:07Z",
+    "updated_at": "2026-06-03T03:34:07Z"
+  },
+  "c727c897b1e8": {
+    "id": "c727c897b1e8",
+    "provider": "17track",
+    "label": "4PX递四方物流",
+    "status": "disconnected",
+    "config": {
+      "api_key": "virt_4px_key",
+      "base_url": "https://open.4px.com",
+      "services": [
+        "international_express",
+        "warehousing",
+        "customs_clearance",
+        "last_mile"
+      ],
+      "coverage": [
+        "US",
+        "DE",
+        "FR",
+        "UK",
+        "JP",
+        "AU"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T03:34:07Z",
+    "updated_at": "2026-06-03T03:34:07Z"
+  },
+  "423417511e64": {
+    "id": "423417511e64",
+    "provider": "17track",
+    "label": "Ship24智能物流",
+    "status": "disconnected",
+    "config": {
+      "api_key": "virt_ship24_key",
+      "base_url": "https://api.ship24.com",
+      "features": [
+        "ai_optimization",
+        "multi_carrier",
+        "realtime_tracking"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T03:34:07Z",
+    "updated_at": "2026-06-03T03:34:07Z"
+  },
+  "0d447513661f": {
+    "id": "0d447513661f",
+    "provider": "shopify",
+    "label": "Shopify主店铺",
+    "status": "disconnected",
+    "config": {
+      "shop_domain": "test-store.myshopify.com",
+      "api_key": "virt_shopify_key",
+      "api_secret": "virt_shopify_secret",
+      "scopes": [
+        "read_products",
+        "write_products",
+        "read_orders",
+        "write_orders",
+        "read_fulfillments",
+        "write_fulfillments",
+        "read_customers"
+      ],
+      "webhooks": [
+        "products/create",
+        "orders/create",
+        "orders/fulfilled",
+        "app/uninstalled",
+        "customers/data_request"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T03:34:07Z",
+    "updated_at": "2026-06-03T03:34:07Z"
+  },
+  "0d347d1be0a8": {
+    "id": "0d347d1be0a8",
+    "provider": "shopify",
+    "label": "PayPal支付网关",
+    "status": "disconnected",
+    "config": {
+      "client_id": "virt_paypal_client",
+      "client_secret": "virt_paypal_secret",
+      "mode": "sandbox",
+      "features": [
+        "checkout",
+        "refund",
+        "dispute_resolution",
+        "payout"
+      ],
+      "risk_thresholds": {
+        "chargeback_rate": 0.008,
+        "dispute_rate": 0.03
+      }
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T03:34:07Z",
+    "updated_at": "2026-06-03T03:34:07Z"
+  },
+  "72ef9f714943": {
+    "id": "72ef9f714943",
+    "provider": "shopify",
+    "label": "PyOD反欺诈引擎",
+    "status": "disconnected",
+    "config": {
+      "engine": "pyod",
+      "algorithms": [
+        "IForest",
+        "ECOD",
+        "COPOD"
+      ],
+      "threshold": 0.85,
+      "features": [
+        "order_amount",
+        "ip_risk",
+        "address_mismatch"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T03:34:07Z",
+    "updated_at": "2026-06-03T03:34:07Z"
+  },
+  "2a34669884ad": {
+    "id": "2a34669884ad",
+    "provider": "shopify",
+    "label": "Grafana合规仪表盘",
+    "status": "disconnected",
+    "config": {
+      "base_url": "http://grafana.local:3000",
+      "api_key": "virt_grafana_key",
+      "dashboards": [
+        "compliance_health",
+        "cert_expiry",
+        "order_risk",
+        "logistics_tracking"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T03:34:07Z",
+    "updated_at": "2026-06-03T03:34:07Z"
+  },
+  "7450b78b3769": {
+    "id": "7450b78b3769",
+    "provider": "shopify",
+    "label": "测试Shopify店铺",
+    "status": "disconnected",
+    "config": {
+      "shop_domain": "test-store.myshopify.com"
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:22:08Z",
+    "updated_at": "2026-06-03T04:22:08Z"
+  },
+  "1de7d8308ab0": {
+    "id": "1de7d8308ab0",
+    "provider": "chatwoot",
+    "label": "Chatwoot客服中心",
+    "status": "disconnected",
+    "config": {
+      "base_url": "https://chatwoot.example.com",
+      "api_token": "virt_ck_chatwoot",
+      "inbox_id": "inbox_shopify_01",
+      "features": [
+        "livechat",
+        "email",
+        "whatsapp",
+        "telegram"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:22:30Z",
+    "updated_at": "2026-06-03T04:22:30Z"
+  },
+  "ed218c4a239a": {
+    "id": "ed218c4a239a",
+    "provider": "listmonk",
+    "label": "Listmonk邮件服务",
+    "status": "disconnected",
+    "config": {
+      "base_url": "https://listmonk.example.com",
+      "api_user": "admin",
+      "api_pass": "virt_pass",
+      "smtp_host": "smtp.example.com",
+      "features": [
+        "newsletter",
+        "transactional",
+        "double_optin"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:22:30Z",
+    "updated_at": "2026-06-03T04:22:30Z"
+  },
+  "e11c40f7d186": {
+    "id": "e11c40f7d186",
+    "provider": "erpnext",
+    "label": "ERPNext采购系统",
+    "status": "disconnected",
+    "config": {
+      "base_url": "https://erp.example.com",
+      "api_key": "virt_erpnext_key",
+      "api_secret": "virt_erpnext_secret",
+      "modules": [
+        "purchasing",
+        "stock",
+        "accounting",
+        "manufacturing"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:22:30Z",
+    "updated_at": "2026-06-03T04:22:30Z"
+  },
+  "4a2d17da8d89": {
+    "id": "4a2d17da8d89",
+    "provider": "17track",
+    "label": "17TRACK物流",
+    "status": "disconnected",
+    "config": {
+      "api_key": "virt_17track_key",
+      "plan": "free_500",
+      "carriers": [
+        "dhl",
+        "usps",
+        "royal_mail",
+        "4px",
+        "yanwen"
+      ],
+      "webhook_url": "https://api.example.com/webhook/17track"
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:22:30Z",
+    "updated_at": "2026-06-03T04:22:30Z"
+  },
+  "608365207a2c": {
+    "id": "608365207a2c",
+    "provider": "17track",
+    "label": "4PX递四方物流",
+    "status": "disconnected",
+    "config": {
+      "api_key": "virt_4px_key",
+      "base_url": "https://open.4px.com",
+      "services": [
+        "international_express",
+        "warehousing",
+        "customs_clearance",
+        "last_mile"
+      ],
+      "coverage": [
+        "US",
+        "DE",
+        "FR",
+        "UK",
+        "JP",
+        "AU"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:22:30Z",
+    "updated_at": "2026-06-03T04:22:30Z"
+  },
+  "eb26b148d5a5": {
+    "id": "eb26b148d5a5",
+    "provider": "17track",
+    "label": "Ship24智能物流",
+    "status": "disconnected",
+    "config": {
+      "api_key": "virt_ship24_key",
+      "base_url": "https://api.ship24.com",
+      "features": [
+        "ai_optimization",
+        "multi_carrier",
+        "realtime_tracking"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:22:30Z",
+    "updated_at": "2026-06-03T04:22:30Z"
+  },
+  "6c4b0e0d087c": {
+    "id": "6c4b0e0d087c",
+    "provider": "shopify",
+    "label": "Shopify主店铺",
+    "status": "disconnected",
+    "config": {
+      "shop_domain": "test-store.myshopify.com",
+      "api_key": "virt_shopify_key",
+      "api_secret": "virt_shopify_secret",
+      "scopes": [
+        "read_products",
+        "write_products",
+        "read_orders",
+        "write_orders",
+        "read_fulfillments",
+        "write_fulfillments",
+        "read_customers"
+      ],
+      "webhooks": [
+        "products/create",
+        "orders/create",
+        "orders/fulfilled",
+        "app/uninstalled",
+        "customers/data_request"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:22:30Z",
+    "updated_at": "2026-06-03T04:22:30Z"
+  },
+  "2b90a264fdcd": {
+    "id": "2b90a264fdcd",
+    "provider": "shopify",
+    "label": "PayPal支付网关",
+    "status": "disconnected",
+    "config": {
+      "client_id": "virt_paypal_client",
+      "client_secret": "virt_paypal_secret",
+      "mode": "sandbox",
+      "features": [
+        "checkout",
+        "refund",
+        "dispute_resolution",
+        "payout"
+      ],
+      "risk_thresholds": {
+        "chargeback_rate": 0.008,
+        "dispute_rate": 0.03
+      }
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:22:30Z",
+    "updated_at": "2026-06-03T04:22:30Z"
+  },
+  "a78da4bb6e2a": {
+    "id": "a78da4bb6e2a",
+    "provider": "shopify",
+    "label": "PyOD反欺诈引擎",
+    "status": "disconnected",
+    "config": {
+      "engine": "pyod",
+      "algorithms": [
+        "IForest",
+        "ECOD",
+        "COPOD"
+      ],
+      "threshold": 0.85,
+      "features": [
+        "order_amount",
+        "ip_risk",
+        "address_mismatch"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:22:30Z",
+    "updated_at": "2026-06-03T04:22:30Z"
+  },
+  "de4d5dc2def9": {
+    "id": "de4d5dc2def9",
+    "provider": "shopify",
+    "label": "Grafana合规仪表盘",
+    "status": "disconnected",
+    "config": {
+      "base_url": "http://grafana.local:3000",
+      "api_key": "virt_grafana_key",
+      "dashboards": [
+        "compliance_health",
+        "cert_expiry",
+        "order_risk",
+        "logistics_tracking"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:22:30Z",
+    "updated_at": "2026-06-03T04:22:30Z"
+  },
+  "3625189315c3": {
+    "id": "3625189315c3",
+    "provider": "shopify",
+    "label": "测试Shopify店铺",
+    "status": "disconnected",
+    "config": {
+      "shop_domain": "test-store.myshopify.com"
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:24:29Z",
+    "updated_at": "2026-06-03T04:24:29Z"
+  },
+  "6431fd41a8ea": {
+    "id": "6431fd41a8ea",
+    "provider": "chatwoot",
+    "label": "Chatwoot客服中心",
+    "status": "disconnected",
+    "config": {
+      "base_url": "https://chatwoot.example.com",
+      "api_token": "virt_ck_chatwoot",
+      "inbox_id": "inbox_shopify_01",
+      "features": [
+        "livechat",
+        "email",
+        "whatsapp",
+        "telegram"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:24:48Z",
+    "updated_at": "2026-06-03T04:24:48Z"
+  },
+  "ba8c7b78f96c": {
+    "id": "ba8c7b78f96c",
+    "provider": "listmonk",
+    "label": "Listmonk邮件服务",
+    "status": "disconnected",
+    "config": {
+      "base_url": "https://listmonk.example.com",
+      "api_user": "admin",
+      "api_pass": "virt_pass",
+      "smtp_host": "smtp.example.com",
+      "features": [
+        "newsletter",
+        "transactional",
+        "double_optin"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:24:48Z",
+    "updated_at": "2026-06-03T04:24:48Z"
+  },
+  "072a4832e95b": {
+    "id": "072a4832e95b",
+    "provider": "erpnext",
+    "label": "ERPNext采购系统",
+    "status": "disconnected",
+    "config": {
+      "base_url": "https://erp.example.com",
+      "api_key": "virt_erpnext_key",
+      "api_secret": "virt_erpnext_secret",
+      "modules": [
+        "purchasing",
+        "stock",
+        "accounting",
+        "manufacturing"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:24:48Z",
+    "updated_at": "2026-06-03T04:24:48Z"
+  },
+  "776a52387779": {
+    "id": "776a52387779",
+    "provider": "17track",
+    "label": "17TRACK物流",
+    "status": "disconnected",
+    "config": {
+      "api_key": "virt_17track_key",
+      "plan": "free_500",
+      "carriers": [
+        "dhl",
+        "usps",
+        "royal_mail",
+        "4px",
+        "yanwen"
+      ],
+      "webhook_url": "https://api.example.com/webhook/17track"
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:24:48Z",
+    "updated_at": "2026-06-03T04:24:48Z"
+  },
+  "c92abbf6202a": {
+    "id": "c92abbf6202a",
+    "provider": "17track",
+    "label": "4PX递四方物流",
+    "status": "disconnected",
+    "config": {
+      "api_key": "virt_4px_key",
+      "base_url": "https://open.4px.com",
+      "services": [
+        "international_express",
+        "warehousing",
+        "customs_clearance",
+        "last_mile"
+      ],
+      "coverage": [
+        "US",
+        "DE",
+        "FR",
+        "UK",
+        "JP",
+        "AU"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:24:48Z",
+    "updated_at": "2026-06-03T04:24:48Z"
+  },
+  "81f1c48b1de4": {
+    "id": "81f1c48b1de4",
+    "provider": "17track",
+    "label": "Ship24智能物流",
+    "status": "disconnected",
+    "config": {
+      "api_key": "virt_ship24_key",
+      "base_url": "https://api.ship24.com",
+      "features": [
+        "ai_optimization",
+        "multi_carrier",
+        "realtime_tracking"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:24:48Z",
+    "updated_at": "2026-06-03T04:24:48Z"
+  },
+  "48b4a18400a1": {
+    "id": "48b4a18400a1",
+    "provider": "shopify",
+    "label": "Shopify主店铺",
+    "status": "disconnected",
+    "config": {
+      "shop_domain": "test-store.myshopify.com",
+      "api_key": "virt_shopify_key",
+      "api_secret": "virt_shopify_secret",
+      "scopes": [
+        "read_products",
+        "write_products",
+        "read_orders",
+        "write_orders",
+        "read_fulfillments",
+        "write_fulfillments",
+        "read_customers"
+      ],
+      "webhooks": [
+        "products/create",
+        "orders/create",
+        "orders/fulfilled",
+        "app/uninstalled",
+        "customers/data_request"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:24:48Z",
+    "updated_at": "2026-06-03T04:24:48Z"
+  },
+  "35a8f776d35f": {
+    "id": "35a8f776d35f",
+    "provider": "shopify",
+    "label": "PayPal支付网关",
+    "status": "disconnected",
+    "config": {
+      "client_id": "virt_paypal_client",
+      "client_secret": "virt_paypal_secret",
+      "mode": "sandbox",
+      "features": [
+        "checkout",
+        "refund",
+        "dispute_resolution",
+        "payout"
+      ],
+      "risk_thresholds": {
+        "chargeback_rate": 0.008,
+        "dispute_rate": 0.03
+      }
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:24:48Z",
+    "updated_at": "2026-06-03T04:24:48Z"
+  },
+  "41e43211c394": {
+    "id": "41e43211c394",
+    "provider": "shopify",
+    "label": "PyOD反欺诈引擎",
+    "status": "disconnected",
+    "config": {
+      "engine": "pyod",
+      "algorithms": [
+        "IForest",
+        "ECOD",
+        "COPOD"
+      ],
+      "threshold": 0.85,
+      "features": [
+        "order_amount",
+        "ip_risk",
+        "address_mismatch"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:24:48Z",
+    "updated_at": "2026-06-03T04:24:48Z"
+  },
+  "b30753a83d79": {
+    "id": "b30753a83d79",
+    "provider": "shopify",
+    "label": "Grafana合规仪表盘",
+    "status": "disconnected",
+    "config": {
+      "base_url": "http://grafana.local:3000",
+      "api_key": "virt_grafana_key",
+      "dashboards": [
+        "compliance_health",
+        "cert_expiry",
+        "order_risk",
+        "logistics_tracking"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:24:48Z",
+    "updated_at": "2026-06-03T04:24:48Z"
+  },
+  "b008debeb274": {
+    "id": "b008debeb274",
+    "provider": "chatwoot",
+    "label": "Chatwoot客服中心",
+    "status": "disconnected",
+    "config": {
+      "base_url": "https://chatwoot.example.com",
+      "api_token": "virt_ck_chatwoot",
+      "inbox_id": "inbox_shopify_01",
+      "features": [
+        "livechat",
+        "email",
+        "whatsapp",
+        "telegram"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:27:28Z",
+    "updated_at": "2026-06-03T04:27:28Z"
+  },
+  "23ab085e30d9": {
+    "id": "23ab085e30d9",
+    "provider": "listmonk",
+    "label": "Listmonk邮件服务",
+    "status": "disconnected",
+    "config": {
+      "base_url": "https://listmonk.example.com",
+      "api_user": "admin",
+      "api_pass": "virt_pass",
+      "smtp_host": "smtp.example.com",
+      "features": [
+        "newsletter",
+        "transactional",
+        "double_optin"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:27:28Z",
+    "updated_at": "2026-06-03T04:27:28Z"
+  },
+  "bcb8d07d3b61": {
+    "id": "bcb8d07d3b61",
+    "provider": "erpnext",
+    "label": "ERPNext采购系统",
+    "status": "disconnected",
+    "config": {
+      "base_url": "https://erp.example.com",
+      "api_key": "virt_erpnext_key",
+      "api_secret": "virt_erpnext_secret",
+      "modules": [
+        "purchasing",
+        "stock",
+        "accounting",
+        "manufacturing"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:27:28Z",
+    "updated_at": "2026-06-03T04:27:28Z"
+  },
+  "ec13ac993dc8": {
+    "id": "ec13ac993dc8",
+    "provider": "17track",
+    "label": "17TRACK物流",
+    "status": "disconnected",
+    "config": {
+      "api_key": "virt_17track_key",
+      "plan": "free_500",
+      "carriers": [
+        "dhl",
+        "usps",
+        "royal_mail",
+        "4px",
+        "yanwen"
+      ],
+      "webhook_url": "https://api.example.com/webhook/17track"
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:27:28Z",
+    "updated_at": "2026-06-03T04:27:28Z"
+  },
+  "b6bde5f545af": {
+    "id": "b6bde5f545af",
+    "provider": "17track",
+    "label": "4PX递四方物流",
+    "status": "disconnected",
+    "config": {
+      "api_key": "virt_4px_key",
+      "base_url": "https://open.4px.com",
+      "services": [
+        "international_express",
+        "warehousing",
+        "customs_clearance",
+        "last_mile"
+      ],
+      "coverage": [
+        "US",
+        "DE",
+        "FR",
+        "UK",
+        "JP",
+        "AU"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:27:28Z",
+    "updated_at": "2026-06-03T04:27:28Z"
+  },
+  "bd3d21e7acc9": {
+    "id": "bd3d21e7acc9",
+    "provider": "17track",
+    "label": "Ship24智能物流",
+    "status": "disconnected",
+    "config": {
+      "api_key": "virt_ship24_key",
+      "base_url": "https://api.ship24.com",
+      "features": [
+        "ai_optimization",
+        "multi_carrier",
+        "realtime_tracking"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:27:28Z",
+    "updated_at": "2026-06-03T04:27:28Z"
+  },
+  "60374b11ecdb": {
+    "id": "60374b11ecdb",
+    "provider": "shopify",
+    "label": "Shopify主店铺",
+    "status": "disconnected",
+    "config": {
+      "shop_domain": "test-store.myshopify.com",
+      "api_key": "virt_shopify_key",
+      "api_secret": "virt_shopify_secret",
+      "scopes": [
+        "read_products",
+        "write_products",
+        "read_orders",
+        "write_orders",
+        "read_fulfillments",
+        "write_fulfillments",
+        "read_customers"
+      ],
+      "webhooks": [
+        "products/create",
+        "orders/create",
+        "orders/fulfilled",
+        "app/uninstalled",
+        "customers/data_request"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:27:28Z",
+    "updated_at": "2026-06-03T04:27:28Z"
+  },
+  "805a5637a4c6": {
+    "id": "805a5637a4c6",
+    "provider": "shopify",
+    "label": "PayPal支付网关",
+    "status": "disconnected",
+    "config": {
+      "client_id": "virt_paypal_client",
+      "client_secret": "virt_paypal_secret",
+      "mode": "sandbox",
+      "features": [
+        "checkout",
+        "refund",
+        "dispute_resolution",
+        "payout"
+      ],
+      "risk_thresholds": {
+        "chargeback_rate": 0.008,
+        "dispute_rate": 0.03
+      }
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:27:28Z",
+    "updated_at": "2026-06-03T04:27:28Z"
+  },
+  "14963c003d41": {
+    "id": "14963c003d41",
+    "provider": "shopify",
+    "label": "PyOD反欺诈引擎",
+    "status": "disconnected",
+    "config": {
+      "engine": "pyod",
+      "algorithms": [
+        "IForest",
+        "ECOD",
+        "COPOD"
+      ],
+      "threshold": 0.85,
+      "features": [
+        "order_amount",
+        "ip_risk",
+        "address_mismatch"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:27:28Z",
+    "updated_at": "2026-06-03T04:27:28Z"
+  },
+  "758a5d0bd45c": {
+    "id": "758a5d0bd45c",
+    "provider": "shopify",
+    "label": "Grafana合规仪表盘",
+    "status": "disconnected",
+    "config": {
+      "base_url": "http://grafana.local:3000",
+      "api_key": "virt_grafana_key",
+      "dashboards": [
+        "compliance_health",
+        "cert_expiry",
+        "order_risk",
+        "logistics_tracking"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:27:28Z",
+    "updated_at": "2026-06-03T04:27:28Z"
+  },
+  "c5327f8dfbcd": {
+    "id": "c5327f8dfbcd",
+    "provider": "shopify",
+    "label": "测试Shopify店铺",
+    "status": "disconnected",
+    "config": {
+      "shop_domain": "test-store.myshopify.com"
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:31:29Z",
+    "updated_at": "2026-06-03T04:31:29Z"
+  },
+  "565ef5a46e84": {
+    "id": "565ef5a46e84",
+    "provider": "chatwoot",
+    "label": "Chatwoot客服中心",
+    "status": "disconnected",
+    "config": {
+      "base_url": "https://chatwoot.example.com",
+      "api_token": "virt_ck_chatwoot",
+      "inbox_id": "inbox_shopify_01",
+      "features": [
+        "livechat",
+        "email",
+        "whatsapp",
+        "telegram"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:31:48Z",
+    "updated_at": "2026-06-03T04:31:48Z"
+  },
+  "0c50b4129c46": {
+    "id": "0c50b4129c46",
+    "provider": "listmonk",
+    "label": "Listmonk邮件服务",
+    "status": "disconnected",
+    "config": {
+      "base_url": "https://listmonk.example.com",
+      "api_user": "admin",
+      "api_pass": "virt_pass",
+      "smtp_host": "smtp.example.com",
+      "features": [
+        "newsletter",
+        "transactional",
+        "double_optin"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:31:48Z",
+    "updated_at": "2026-06-03T04:31:48Z"
+  },
+  "d8484344e3c4": {
+    "id": "d8484344e3c4",
+    "provider": "erpnext",
+    "label": "ERPNext采购系统",
+    "status": "disconnected",
+    "config": {
+      "base_url": "https://erp.example.com",
+      "api_key": "virt_erpnext_key",
+      "api_secret": "virt_erpnext_secret",
+      "modules": [
+        "purchasing",
+        "stock",
+        "accounting",
+        "manufacturing"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:31:48Z",
+    "updated_at": "2026-06-03T04:31:48Z"
+  },
+  "65bf7afa03a9": {
+    "id": "65bf7afa03a9",
+    "provider": "17track",
+    "label": "17TRACK物流",
+    "status": "disconnected",
+    "config": {
+      "api_key": "virt_17track_key",
+      "plan": "free_500",
+      "carriers": [
+        "dhl",
+        "usps",
+        "royal_mail",
+        "4px",
+        "yanwen"
+      ],
+      "webhook_url": "https://api.example.com/webhook/17track"
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:31:48Z",
+    "updated_at": "2026-06-03T04:31:48Z"
+  },
+  "01ae03320821": {
+    "id": "01ae03320821",
+    "provider": "17track",
+    "label": "4PX递四方物流",
+    "status": "disconnected",
+    "config": {
+      "api_key": "virt_4px_key",
+      "base_url": "https://open.4px.com",
+      "services": [
+        "international_express",
+        "warehousing",
+        "customs_clearance",
+        "last_mile"
+      ],
+      "coverage": [
+        "US",
+        "DE",
+        "FR",
+        "UK",
+        "JP",
+        "AU"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:31:48Z",
+    "updated_at": "2026-06-03T04:31:48Z"
+  },
+  "90d876c57a5f": {
+    "id": "90d876c57a5f",
+    "provider": "17track",
+    "label": "Ship24智能物流",
+    "status": "disconnected",
+    "config": {
+      "api_key": "virt_ship24_key",
+      "base_url": "https://api.ship24.com",
+      "features": [
+        "ai_optimization",
+        "multi_carrier",
+        "realtime_tracking"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:31:48Z",
+    "updated_at": "2026-06-03T04:31:48Z"
+  },
+  "0127450f36c6": {
+    "id": "0127450f36c6",
+    "provider": "shopify",
+    "label": "Shopify主店铺",
+    "status": "disconnected",
+    "config": {
+      "shop_domain": "test-store.myshopify.com",
+      "api_key": "virt_shopify_key",
+      "api_secret": "virt_shopify_secret",
+      "scopes": [
+        "read_products",
+        "write_products",
+        "read_orders",
+        "write_orders",
+        "read_fulfillments",
+        "write_fulfillments",
+        "read_customers"
+      ],
+      "webhooks": [
+        "products/create",
+        "orders/create",
+        "orders/fulfilled",
+        "app/uninstalled",
+        "customers/data_request"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:31:48Z",
+    "updated_at": "2026-06-03T04:31:48Z"
+  },
+  "a01ced755054": {
+    "id": "a01ced755054",
+    "provider": "shopify",
+    "label": "PayPal支付网关",
+    "status": "disconnected",
+    "config": {
+      "client_id": "virt_paypal_client",
+      "client_secret": "virt_paypal_secret",
+      "mode": "sandbox",
+      "features": [
+        "checkout",
+        "refund",
+        "dispute_resolution",
+        "payout"
+      ],
+      "risk_thresholds": {
+        "chargeback_rate": 0.008,
+        "dispute_rate": 0.03
+      }
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:31:48Z",
+    "updated_at": "2026-06-03T04:31:48Z"
+  },
+  "b92dd0664e34": {
+    "id": "b92dd0664e34",
+    "provider": "shopify",
+    "label": "PyOD反欺诈引擎",
+    "status": "disconnected",
+    "config": {
+      "engine": "pyod",
+      "algorithms": [
+        "IForest",
+        "ECOD",
+        "COPOD"
+      ],
+      "threshold": 0.85,
+      "features": [
+        "order_amount",
+        "ip_risk",
+        "address_mismatch"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:31:48Z",
+    "updated_at": "2026-06-03T04:31:48Z"
+  },
+  "36bb442b6482": {
+    "id": "36bb442b6482",
+    "provider": "shopify",
+    "label": "Grafana合规仪表盘",
+    "status": "disconnected",
+    "config": {
+      "base_url": "http://grafana.local:3000",
+      "api_key": "virt_grafana_key",
+      "dashboards": [
+        "compliance_health",
+        "cert_expiry",
+        "order_risk",
+        "logistics_tracking"
+      ]
+    },
+    "token": null,
+    "last_sync_at": 0.0,
+    "last_error": "",
+    "created_at": "2026-06-03T04:31:48Z",
+    "updated_at": "2026-06-03T04:31:48Z"
+  }
+}

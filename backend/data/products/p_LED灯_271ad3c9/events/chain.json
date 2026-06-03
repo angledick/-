@@ -1,0 +1,95 @@
+{
+  "product_id": "p_LED灯_271ad3c9",
+  "events": [
+    {
+      "id": "a3c533e51242",
+      "type": "product:created",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_271ad3c9",
+      "business_stage": "阶段2",
+      "data": {
+        "name": "LED灯带-德国测试",
+        "product_type": "LED灯"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-02T14:28:51.694674+00:00"
+    },
+    {
+      "id": "c48af0a65218",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_271ad3c9",
+      "business_stage": null,
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-02T14:28:51.744713+00:00"
+    },
+    {
+      "id": "7c489572d5fa",
+      "type": "compliance:check_failed",
+      "category": "compliance",
+      "source": "rule_engine",
+      "product_id": "p_LED灯_271ad3c9",
+      "business_stage": "阶段2",
+      "data": {
+        "risk_level": "high",
+        "failed_items": [
+          "CE认证缺失",
+          "WEEE未注册"
+        ]
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "high",
+      "error": null,
+      "created_at": "2026-06-02T14:28:51.752256+00:00"
+    },
+    {
+      "id": "bacdc754c116",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_271ad3c9",
+      "business_stage": null,
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-02T14:28:56.563476+00:00"
+    }
+  ],
+  "timeline": [
+    "🟡 [Medium] 2026-06-02T14:28:56 compliance:pipeline_completed",
+    "🔴 [High] 2026-06-02T14:28:51 compliance:check_failed",
+    "🟡 [Medium] 2026-06-02T14:28:51 compliance:pipeline_completed",
+    "🟢 [Low] 2026-06-02T14:28:51 product:created"
+  ],
+  "total_events": 4
+}

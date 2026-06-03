@@ -1,0 +1,32 @@
+{
+  "product_id": "手机_德国_4cc746e0",
+  "events": [
+    {
+      "id": "faefbf1557d4",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "手机_德国_4cc746e0",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "手机",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "545f5a2b-9a09-4af7-9b2e-d587f960ceec"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-02T10:28:29.433121+00:00"
+    }
+  ],
+  "timeline": [
+    "🟢 [Low] 2026-06-02T10:28:29 compliance:check_passed"
+  ],
+  "total_events": 1
+}

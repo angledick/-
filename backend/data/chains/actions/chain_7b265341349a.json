@@ -1,0 +1,177 @@
+{
+  "chain_id": "chain_7b265341349a",
+  "total_actions": 7,
+  "status": "running",
+  "actions": [
+    {
+      "action_id": "act_3b804f90",
+      "chain_id": "chain_7b265341349a",
+      "parent_id": null,
+      "type": "user_input",
+      "description_nl": "用户输入查询: 无线蓝牙耳机出口美国，FCC 怎么办理？",
+      "agent": "User",
+      "input": {
+        "raw_message": "无线蓝牙耳机出口美国，FCC 怎么办理？"
+      },
+      "output": {
+        "message": "无线蓝牙耳机出口美国，FCC 怎么办理？"
+      },
+      "status": "success",
+      "timestamp": "2026-05-31T01:29:56.875765+00:00",
+      "duration_ms": 0
+    },
+    {
+      "action_id": "act_e8a7c9f1",
+      "chain_id": "chain_7b265341349a",
+      "parent_id": "act_3b804f90",
+      "type": "codex_chat",
+      "description_nl": "Codex Agent 处理用户合规查询",
+      "agent": "CodexAgent",
+      "input": {
+        "message": "无线蓝牙耳机出口美国，FCC 怎么办理？"
+      },
+      "output": {},
+      "status": "running",
+      "timestamp": "2026-05-31T01:29:56.875792+00:00",
+      "duration_ms": 0
+    },
+    {
+      "action_id": "act_a42c0609",
+      "chain_id": "chain_7b265341349a",
+      "parent_id": "act_3b804f90",
+      "type": "codex_fallback",
+      "description_nl": "Codex 调用失败，自动切换到 NLU + 规则引擎 + RAG 降级链路",
+      "agent": "System",
+      "input": {},
+      "output": {
+        "fallback": true
+      },
+      "status": "success",
+      "timestamp": "2026-05-31T01:29:56.877200+00:00",
+      "duration_ms": 0
+    },
+    {
+      "action_id": "act_a5d7b113",
+      "chain_id": "chain_7b265341349a",
+      "parent_id": "act_3b804f90",
+      "type": "nlu_parse",
+      "description_nl": "解析用户输入 → 产品='无线蓝牙耳机', 目标市场='美国'",
+      "agent": "NLU",
+      "input": {
+        "message": "无线蓝牙耳机出口美国，FCC 怎么办理？"
+      },
+      "output": {
+        "product": "无线蓝牙耳机",
+        "target_country": "美国",
+        "action": "export_check",
+        "confidence": 0.5
+      },
+      "status": "success",
+      "timestamp": "2026-05-31T01:29:56.900794+00:00",
+      "duration_ms": 0
+    },
+    {
+      "action_id": "act_8ab39680",
+      "chain_id": "chain_7b265341349a",
+      "parent_id": "act_a5d7b113",
+      "type": "rule_engine_check",
+      "description_nl": "规则引擎执行合规检查 → HS编码=, VAT=0.0%, 认证3项, 风险⚠️medium",
+      "agent": "RuleEngine",
+      "input": {
+        "product": "无线蓝牙耳机",
+        "country": "美国"
+      },
+      "output": {
+        "hs_code": "",
+        "hs_description": "无线蓝牙耳机（未精确匹配，建议人工确认HS编码）",
+        "vat_rate": 0.0,
+        "certifications": [
+          "FCC认证(电磁兼容)",
+          "UL安全认证",
+          "FDA(如适用)"
+        ],
+        "risk_level": "medium",
+        "risk_score": 69,
+        "risk_flags": [
+          "⚠️ 美国各州Sales Tax税率不同，建议按州独立核算"
+        ],
+        "logistics_flags": [
+          "电子电器产品建议提前核对电压、插头制式、能效标签和电磁兼容要求",
+          "美国市场需按州/平台要求核对 Sales Tax、FCC/UL 适用性和进口商信息"
+        ],
+        "customs_documents": [
+          "商业发票（Commercial Invoice）",
+          "装箱单（Packing List）",
+          "运输单据（提单/Air Waybill/快递面单）",
+          "产品规格书与材质说明",
+          "HS 编码归类依据"
+        ],
+        "cultural_notes": [
+          "美国市场需注意州级标签、儿童产品警告语和平台合规声明差异"
+        ],
+        "remediation_steps": [
+          "先完成 HS 编码人工复核，避免税则、认证和清关路径全部偏移",
+          "按优先级准备核心认证材料：FCC认证(电磁兼容), UL安全认证, FDA(如适用)",
+          "将物流限制项同步给货代/承运商，确认包装、标签和运输渠道",
+          "针对风险提示逐项补充证明文件，并保留可追溯记录"
+        ],
+        "checklist": [
+          "确认HS编码 (需人工核实)",
+          "准备美国进口关税核算（VAT 0.0%）",
+          "获取FCC认证(电磁兼容)",
+          "获取UL安全认证",
+          "获取FDA(如适用)",
+          "准备商业发票（Commercial Invoice）",
+          "准备装箱单（Packing List）",
+          "准备运输单据（提单/Air Waybill/快递面单）",
+          "美国各州Sales Tax税率不同，建议按州独立核算"
+        ]
+      },
+      "status": "success",
+      "timestamp": "2026-05-31T01:29:56.900997+00:00",
+      "duration_ms": 0
+    },
+    {
+      "action_id": "act_578c2722",
+      "chain_id": "chain_7b265341349a",
+      "parent_id": "act_8ab39680",
+      "type": "rag_retrieval",
+      "description_nl": "RAG 检索法规知识库 → 匹配到 0 条相关法规 (无匹配)",
+      "agent": "RAG",
+      "input": {
+        "query": "无线蓝牙耳机 出口 美国 合规要求 认证"
+      },
+      "output": {
+        "result_count": 0,
+        "sources": []
+      },
+      "status": "success",
+      "timestamp": "2026-05-31T01:29:56.901219+00:00",
+      "duration_ms": 43
+    },
+    {
+      "action_id": "act_5b829353",
+      "chain_id": "chain_7b265341349a",
+      "parent_id": "act_578c2722",
+      "type": "report_generation",
+      "description_nl": "生成合规报告并返回给用户",
+      "agent": "System",
+      "input": {},
+      "output": {
+        "report_length": 842
+      },
+      "status": "success",
+      "timestamp": "2026-05-31T01:29:56.944437+00:00",
+      "duration_ms": 0
+    }
+  ],
+  "trail": [
+    "✅ 第1步: [User] 用户输入查询: 无线蓝牙耳机出口美国，FCC 怎么办理？",
+    "⏳ 第2步: [CodexAgent] Codex Agent 处理用户合规查询",
+    "✅ 第3步: [System] Codex 调用失败，自动切换到 NLU + 规则引擎 + RAG 降级链路",
+    "✅ 第4步: [NLU] 解析用户输入 → 产品='无线蓝牙耳机', 目标市场='美国'",
+    "✅ 第5步: [RuleEngine] 规则引擎执行合规检查 → HS编码=, VAT=0.0%, 认证3项, 风险⚠️medium",
+    "✅ 第6步: [RAG] RAG 检索法规知识库 → 匹配到 0 条相关法规 (无匹配) (43ms)",
+    "✅ 第7步: [System] 生成合规报告并返回给用户"
+  ]
+}

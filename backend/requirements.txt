@@ -1,0 +1,27 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+sqlalchemy
+asyncpg
+chromadb
+langchain
+langchain-community
+
+python-dotenv
+alembic
+pytest
+pytest-asyncio
+ShopifyAPI
+html2text
+httpx
+
+# Claude Agent SDK — Anthropic 官方 Python SDK (bundles Claude Code CLI)
+# 覆盖 Claude Code 全部功能：会话管理、子代理、钩子、MCP 工具、技能、沙箱
+claude-agent-sdk>=0.2.0
+
+# Scheduler
+apscheduler
+
+# YAML for prompt templates
+pyyaml

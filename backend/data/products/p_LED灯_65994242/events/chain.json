@@ -1,0 +1,51 @@
+{
+  "product_id": "p_LED灯_65994242",
+  "events": [
+    {
+      "id": "fe2f9646a96d",
+      "type": "product:created",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_65994242",
+      "business_stage": "阶段2",
+      "data": {
+        "name": "LED灯带-德国",
+        "product_type": "LED灯"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-02T14:17:12.583271+00:00"
+    },
+    {
+      "id": "1147a038d7ac",
+      "type": "compliance:check_failed",
+      "category": "compliance",
+      "source": "rule_engine",
+      "product_id": "p_LED灯_65994242",
+      "business_stage": "阶段2",
+      "data": {
+        "risk_level": "high",
+        "failed_items": [
+          "CE认证缺失",
+          "WEEE未注册"
+        ]
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "high",
+      "error": null,
+      "created_at": "2026-06-02T14:17:12.625390+00:00"
+    }
+  ],
+  "timeline": [
+    "🔴 [High] 2026-06-02T14:17:12 compliance:check_failed",
+    "🟢 [Low] 2026-06-02T14:17:12 product:created"
+  ],
+  "total_events": 2
+}

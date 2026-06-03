@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+.venv/
+venv/
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# DB
+*.db
+*.sqlite3
+
+# Chroma
+data/chroma/
+
+# Node
+node_modules/
+frontend/dist/backend/data/chains/actions/chain_*
+backend/data/chains/actions/[0-9a-f]*-*.json
+backend/data/regulations/
+backend/data/risk_alerts/
+backend/data/project_memory/
+backend/data/session_memory/
+frontend/tsconfig.tsbuildinfo
+
+# Test artifacts
+backend/output/
+*.log
+backend/claude_*.txt
+backend/server_*.log
+backend/server_*.err
+backend/test_*.json

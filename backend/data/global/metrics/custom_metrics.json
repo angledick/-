@@ -1,0 +1,20 @@
+{
+  "metrics": [
+    {
+      "id": "metric_test_custom_kpi",
+      "name": "测试自定义指标",
+      "key": "test_custom_kpi",
+      "scope": {
+        "market": "DE"
+      },
+      "formula": "count(risk>2)",
+      "threshold_warning": 5.0,
+      "threshold_critical": 10.0,
+      "notify_on_warning": true,
+      "notify_on_critical": true,
+      "channels": [
+        "dashboard"
+      ]
+    }
+  ]
+}

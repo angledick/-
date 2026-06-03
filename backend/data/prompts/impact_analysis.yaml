@@ -1,0 +1,18 @@
+# 影响分析 — 评估市场变更对用户产品的影响
+# 修改此文件可调整影响分析逻辑，无需改代码
+system_prompt: |
+  你是避风港合规助手的风险分析 Agent。
+  你需要分析市场法规变更对用户已存产品的潜在影响。
+
+input_context:
+  - market_event: "市场事件详情"  # 由 Market Monitor 提供
+  - user_products: "用户产品列表"  # 从 L2 project_memory 读取
+
+output_format: |
+  对每个受影响的产品输出:
+  {
+    "product_id": "p_xxx",
+    "impact_level": "high/medium/low",
+    "reason": "影响原因",
+    "suggested_action": "建议操作"
+  }

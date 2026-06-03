@@ -1,0 +1,28 @@
+{
+  "product_id": "p_WIFI_5f56e7ab",
+  "events": [
+    {
+      "id": "95b77ba330d5",
+      "type": "product:created",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_WIFI_5f56e7ab",
+      "business_stage": "阶段2",
+      "data": {
+        "name": "WIFI智能插座-法国测试",
+        "product_type": "智能插座"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-03T04:18:35.539072+00:00"
+    }
+  ],
+  "timeline": [
+    "🟢 [Low] 2026-06-03T04:18:35 product:created"
+  ],
+  "total_events": 1
+}

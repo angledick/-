@@ -1,0 +1,6458 @@
+[
+  {
+    "id": "c0361dcaa33c",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "出口到中东茶叶产品调研",
+      "target_country": "中东",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-01T14:38:34.316594+00:00"
+  },
+  {
+    "id": "93327819566e",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T06:58:53.256575+00:00"
+  },
+  {
+    "id": "31abb5f7e3b4",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:02:18.968145+00:00"
+  },
+  {
+    "id": "de165e44a675",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:05:45.277919+00:00"
+  },
+  {
+    "id": "d614302cbf60",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:06:08.387000+00:00"
+  },
+  {
+    "id": "61527d831182",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:07:42.210136+00:00"
+  },
+  {
+    "id": "c0a0bec2e263",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:07:58.986405+00:00"
+  },
+  {
+    "id": "b723b5bf6b90",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:11:15.845536+00:00"
+  },
+  {
+    "id": "7ee1611d13fd",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:11:38.483979+00:00"
+  },
+  {
+    "id": "c40c79ef61ee",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:13:22.568162+00:00"
+  },
+  {
+    "id": "552d97c3e90b",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:17:40.838292+00:00"
+  },
+  {
+    "id": "bd37d5fa525c",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:24:49.448226+00:00"
+  },
+  {
+    "id": "a446ad782b51",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.00015401840209960938
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:44:00.588559+00:00"
+  },
+  {
+    "id": "e3bcc7fd8d6d",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 6.985664367675781e-05
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:44:00.596230+00:00"
+  },
+  {
+    "id": "8f5a620a3f7b",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 9.608268737792969e-05
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:44:00.603995+00:00"
+  },
+  {
+    "id": "683718d34946",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:48:27.464304+00:00"
+  },
+  {
+    "id": "f7205eaf8908",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:48:42.307466+00:00"
+  },
+  {
+    "id": "135e9dd0baaf",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:52:14.826909+00:00"
+  },
+  {
+    "id": "9e625605c2f4",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:56:09.371827+00:00"
+  },
+  {
+    "id": "b08600482394",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:56:49.286224+00:00"
+  },
+  {
+    "id": "449b510f909d",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T07:58:39.540478+00:00"
+  },
+  {
+    "id": "9f34d2edde6a",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T08:02:56.645897+00:00"
+  },
+  {
+    "id": "f59a8cbc1d67",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T08:06:27.422004+00:00"
+  },
+  {
+    "id": "d10dff0cb828",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T08:07:49.920895+00:00"
+  },
+  {
+    "id": "afd83c2b6fe5",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T08:11:57.985712+00:00"
+  },
+  {
+    "id": "105bea13fccf",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T08:56:25.683197+00:00"
+  },
+  {
+    "id": "3fd6d1249ce0",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T08:57:48.765157+00:00"
+  },
+  {
+    "id": "e5e20f0a4183",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:01:02.787170+00:00"
+  },
+  {
+    "id": "000750cb6fb1",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:11:17.962278+00:00"
+  },
+  {
+    "id": "215abb29e07e",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:13:55.591743+00:00"
+  },
+  {
+    "id": "80a4fff2398d",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:15:36.080138+00:00"
+  },
+  {
+    "id": "2e25b4985f3d",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:15:55.876090+00:00"
+  },
+  {
+    "id": "ab54a9fbb175",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:16:48.388443+00:00"
+  },
+  {
+    "id": "eaa97da0569d",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:31:52.209481+00:00"
+  },
+  {
+    "id": "220ca5ca5b1d",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:33:13.923456+00:00"
+  },
+  {
+    "id": "9e9398e01251",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:33:27.402745+00:00"
+  },
+  {
+    "id": "1e58f3acf3fc",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:33:38.681716+00:00"
+  },
+  {
+    "id": "11d36ef804ec",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:33:49.979526+00:00"
+  },
+  {
+    "id": "48c6558b996c",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:33:53.933319+00:00"
+  },
+  {
+    "id": "5dc8ad5c7842",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:34:39.481177+00:00"
+  },
+  {
+    "id": "2273299a08f0",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:37:50.542552+00:00"
+  },
+  {
+    "id": "0b3e61f7a806",
+    "type": "user:system_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段1",
+    "data": {
+      "user_id": "anonymous",
+      "action": "system_query",
+      "product": "帮我配置 飞书 机器人集成。\n\n请执行以下步骤：\n1. 搜索飞书开放平台文档，确认最新集成方式\n2. 引导我完成飞书应用配置：\n   - 需要 App ID\n   - 需要 App Secret\n   - 需要获取 Tenant Access Token\n   - 配置 Webhook URL 用于消息推送\n3. 配置完成后测试连接\n4. 保存配置\n\n请开始搜索飞书机器人集成文档",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-use-shopify-cli"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:38:18.101099+00:00"
+  },
+  {
+    "id": "81f2bba97911",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:39:35.970510+00:00"
+  },
+  {
+    "id": "4aa2737fc4da",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:54:41.802176+00:00"
+  },
+  {
+    "id": "393f96c4a293",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带",
+      "product_type": "电子产品"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T09:56:50.740932+00:00"
+  },
+  {
+    "id": "0056123a1eca",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "LED灯",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:04:06.984268+00:00"
+  },
+  {
+    "id": "69217f45efd0",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:04:25.314155+00:00"
+  },
+  {
+    "id": "7943c070a73e",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索一下今天有没有新的电子产品法规发布？",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:04:25.478425+00:00"
+  },
+  {
+    "id": "9f892fbc989f",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:04:25.520536+00:00"
+  },
+  {
+    "id": "0007b83cbe31",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:05:17.386291+00:00"
+  },
+  {
+    "id": "ea6d4858cbd9",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:05:54.427194+00:00"
+  },
+  {
+    "id": "68cc9223ae0f",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "LED灯",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:05:59.799220+00:00"
+  },
+  {
+    "id": "07430264ad48",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED灯_德国_88d92e11",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED灯",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "7ea80edb-a33b-420b-a9cf-27be31def22d"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:06:01.547604+00:00"
+  },
+  {
+    "id": "786db9107adf",
+    "type": "user:cert_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "cert_query",
+      "product": "搜索一下最近GPSR法规有什么更新？",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-custom-data",
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:06:01.623613+00:00"
+  },
+  {
+    "id": "6033f70426b5",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "搜索一下最近GPSR法规有什么更新_欧盟_2115a9c0",
+    "business_stage": "阶段2",
+    "data": {
+      "product": "搜索一下最近GPSR法规有什么更新？",
+      "country": "欧盟",
+      "risk_level": "medium",
+      "risk_score": 55,
+      "certifications": 5,
+      "session_id": "b92a260a-e112-4627-84e5-d2d3b09ffbd1"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:06:02.874844+00:00"
+  },
+  {
+    "id": "9348728ae466",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:06:02.898073+00:00"
+  },
+  {
+    "id": "07e83524cb66",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "请帮我搜索一下2026年5月有没有发布新的电子产品法规？用英文搜索然后把结果告诉我",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:08:43.058557+00:00"
+  },
+  {
+    "id": "d7bcebb4d7e1",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "请帮我搜索一下2026年5月有没有发布新的电子产品法规_用英文搜索然后把结果告诉_82b785fd",
+    "business_stage": "阶段2",
+    "data": {
+      "product": "请帮我搜索一下2026年5月有没有发布新的电子产品法规？用英文搜索然后把结果告诉我",
+      "country": "欧盟",
+      "risk_level": "medium",
+      "risk_score": 60,
+      "certifications": 5,
+      "session_id": "b133aa1b-01a2-49f2-a1a4-025fffe06be7"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:08:44.429158+00:00"
+  },
+  {
+    "id": "fce149aafacf",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:08:55.295192+00:00"
+  },
+  {
+    "id": "78f191dab7f5",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:09:29.614618+00:00"
+  },
+  {
+    "id": "e57fd59c2367",
+    "type": "user:system_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段1",
+    "data": {
+      "user_id": "anonymous",
+      "action": "system_query",
+      "product": "请用Read工具读取文件 c:/Users/22859/Desktop/astra-main/backend/.env 的前10行，告诉我里面有什么配置",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-use-shopify-cli"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:09:47.936701+00:00"
+  },
+  {
+    "id": "91a075ec2748",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "请用Read工具读取文件_c_Users_22859_Desktop_astra_fa325543",
+    "business_stage": "阶段1",
+    "data": {
+      "product": "请用Read工具读取文件 c:/Users/22859/Desktop/astra-main/backend/.env 的前10行，告诉我里面有什么配置",
+      "country": "欧盟",
+      "risk_level": "medium",
+      "risk_score": 55,
+      "certifications": 5,
+      "session_id": "838cbb59-dd28-4756-a71d-9c39e69727a3"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:09:49.170489+00:00"
+  },
+  {
+    "id": "22ec5a14d30b",
+    "type": "user:system_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段1",
+    "data": {
+      "user_id": "anonymous",
+      "action": "system_query",
+      "product": "请用Read工具读取文件 c:/Users/22859/Desktop/astra-main/backend/.env 的前10行，然后告诉我文件里有什么配置",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-use-shopify-cli"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:13:24.183036+00:00"
+  },
+  {
+    "id": "862172ba1223",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:13:36.769848+00:00"
+  },
+  {
+    "id": "45afbfaa710d",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:13:54.188245+00:00"
+  },
+  {
+    "id": "28b159df1b1d",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:15:58.569550+00:00"
+  },
+  {
+    "id": "7f5ece30ea4f",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:23:00.518253+00:00"
+  },
+  {
+    "id": "b6333ff14828",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:24:37.352096+00:00"
+  },
+  {
+    "id": "a29c933c49df",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:24:57.343047+00:00"
+  },
+  {
+    "id": "2365b3ec9a98",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:25:27.410446+00:00"
+  },
+  {
+    "id": "8007e161961c",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:27:15.186534+00:00"
+  },
+  {
+    "id": "854acb658b3e",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "手机",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:28:27.673650+00:00"
+  },
+  {
+    "id": "faefbf1557d4",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "手机_德国_4cc746e0",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "手机",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "545f5a2b-9a09-4af7-9b2e-d587f960ceec"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:28:29.433121+00:00"
+  },
+  {
+    "id": "141a2a308ea6",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:28:58.511926+00:00"
+  },
+  {
+    "id": "a8b9e26a6d08",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:31:16.211976+00:00"
+  },
+  {
+    "id": "52fc0f13b24d",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:32:00.444360+00:00"
+  },
+  {
+    "id": "be6823b660a3",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:32:28.478294+00:00"
+  },
+  {
+    "id": "7ed72ef5969f",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:33:03.495790+00:00"
+  },
+  {
+    "id": "3b2c914af662",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:33:26.423318+00:00"
+  },
+  {
+    "id": "c83e56c19012",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:34:34.612941+00:00"
+  },
+  {
+    "id": "67a46ceb5aff",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:34:50.764831+00:00"
+  },
+  {
+    "id": "afc23dd929a6",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:34:51.131644+00:00"
+  },
+  {
+    "id": "934e7d96d067",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:35:22.112501+00:00"
+  },
+  {
+    "id": "f56fc5ab7f6e",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:35:52.358183+00:00"
+  },
+  {
+    "id": "abb096e1498e",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:37:09.359893+00:00"
+  },
+  {
+    "id": "fc493ac03053",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:39:50.059060+00:00"
+  },
+  {
+    "id": "67e53a043759",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:40:14.792391+00:00"
+  },
+  {
+    "id": "a04a1a295da9",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:41:24.566520+00:00"
+  },
+  {
+    "id": "6893a01cf953",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:42:23.189596+00:00"
+  },
+  {
+    "id": "4998eedf0df9",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:42:59.903908+00:00"
+  },
+  {
+    "id": "898d5cfb4ee2",
+    "type": "user:regulation_query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段2",
+    "data": {
+      "user_id": "anonymous",
+      "action": "regulation_query",
+      "product": "搜索2026年电子产品有哪些新法规",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-dev",
+        "web-search"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:44:01.465251+00:00"
+  },
+  {
+    "id": "04f1f40da3ca",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0011222362518310547
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:44:12.256296+00:00"
+  },
+  {
+    "id": "e517bacd2437",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 8.797645568847656e-05
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:44:12.902105+00:00"
+  },
+  {
+    "id": "cdb11a0726a7",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.00015163421630859375
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:44:12.909323+00:00"
+  },
+  {
+    "id": "21a57ef6a441",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T10:49:40.970992+00:00"
+  },
+  {
+    "id": "fe2f9646a96d",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_65994242",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国",
+      "product_type": "LED灯"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:17:12.583271+00:00"
+  },
+  {
+    "id": "04a2f9bd30f7",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_WIFI_f3c800c8",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "WIFI智能插座-法国",
+      "product_type": "智能插座"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:17:12.594792+00:00"
+  },
+  {
+    "id": "1147a038d7ac",
+    "type": "compliance:check_failed",
+    "category": "compliance",
+    "source": "rule_engine",
+    "product_id": "p_LED灯_65994242",
+    "business_stage": "阶段2",
+    "data": {
+      "risk_level": "high",
+      "failed_items": [
+        "CE认证缺失",
+        "WEEE未注册"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "high",
+    "error": null,
+    "created_at": "2026-06-02T14:17:12.625390+00:00"
+  },
+  {
+    "id": "ed3a3377cb5d",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_78240208",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "LED灯"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:24:48.883352+00:00"
+  },
+  {
+    "id": "213aa59b62f4",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_WIFI_a33c3797",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "WIFI智能插座-法国测试",
+      "product_type": "智能插座"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:24:48.896217+00:00"
+  },
+  {
+    "id": "be60d1488a4e",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_78240208",
+    "business_stage": null,
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-02T14:24:48.935318+00:00"
+  },
+  {
+    "id": "3ed345ea40d7",
+    "type": "compliance:check_failed",
+    "category": "compliance",
+    "source": "rule_engine",
+    "product_id": "p_LED灯_78240208",
+    "business_stage": "阶段2",
+    "data": {
+      "risk_level": "high",
+      "failed_items": [
+        "CE认证缺失",
+        "WEEE未注册"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "high",
+    "error": null,
+    "created_at": "2026-06-02T14:24:48.942471+00:00"
+  },
+  {
+    "id": "ff0e266972f7",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "LED灯",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:24:49.299347+00:00"
+  },
+  {
+    "id": "5c3e61d91e64",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED灯_德国_88d92e11",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED灯",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "8d2c43d4-6d93-47a2-be59-5c8a674b75e9"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:24:51.028053+00:00"
+  },
+  {
+    "id": "556cadbe71b3",
+    "type": "user_action:approval_requested",
+    "category": "system",
+    "source": "rbac",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "approval_id": "e767e59dc952",
+      "requester": "测试用户",
+      "resource": "product:publish",
+      "action": "execute"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:24:53.898916+00:00"
+  },
+  {
+    "id": "4990cea01b08",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_78240208",
+    "business_stage": null,
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-02T14:24:53.963977+00:00"
+  },
+  {
+    "id": "091ad1acef67",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_1a7207d4",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "LED灯"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:26:48.761230+00:00"
+  },
+  {
+    "id": "f6cafa0d538b",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_WIFI_d8804b17",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "WIFI智能插座-法国测试",
+      "product_type": "智能插座"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:26:48.774758+00:00"
+  },
+  {
+    "id": "03e4344a1187",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_1a7207d4",
+    "business_stage": null,
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-02T14:26:48.817801+00:00"
+  },
+  {
+    "id": "516dd6cf84c9",
+    "type": "compliance:check_failed",
+    "category": "compliance",
+    "source": "rule_engine",
+    "product_id": "p_LED灯_1a7207d4",
+    "business_stage": "阶段2",
+    "data": {
+      "risk_level": "high",
+      "failed_items": [
+        "CE认证缺失",
+        "WEEE未注册"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "high",
+    "error": null,
+    "created_at": "2026-06-02T14:26:48.826299+00:00"
+  },
+  {
+    "id": "9f5b0628da5d",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "LED灯",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:26:49.121343+00:00"
+  },
+  {
+    "id": "5a3e1f2e4457",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED灯_德国_88d92e11",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED灯",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "6029cdb0-9106-4ddb-8ef9-97a32757e191"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:26:50.849745+00:00"
+  },
+  {
+    "id": "b149d8f332b6",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_1a7207d4",
+    "business_stage": null,
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-02T14:26:53.627084+00:00"
+  },
+  {
+    "id": "a3c533e51242",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_271ad3c9",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "LED灯"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:28:51.694674+00:00"
+  },
+  {
+    "id": "27565493edd5",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_WIFI_2c41c5e9",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "WIFI智能插座-法国测试",
+      "product_type": "智能插座"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:28:51.706530+00:00"
+  },
+  {
+    "id": "c48af0a65218",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_271ad3c9",
+    "business_stage": null,
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-02T14:28:51.744713+00:00"
+  },
+  {
+    "id": "7c489572d5fa",
+    "type": "compliance:check_failed",
+    "category": "compliance",
+    "source": "rule_engine",
+    "product_id": "p_LED灯_271ad3c9",
+    "business_stage": "阶段2",
+    "data": {
+      "risk_level": "high",
+      "failed_items": [
+        "CE认证缺失",
+        "WEEE未注册"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "high",
+    "error": null,
+    "created_at": "2026-06-02T14:28:51.752256+00:00"
+  },
+  {
+    "id": "cece721eafdb",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "LED灯",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:28:52.049837+00:00"
+  },
+  {
+    "id": "7b602c14680c",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED灯_德国_88d92e11",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED灯",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "b70110cc-a7e0-40a5-b2be-055b6bc211c9"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:28:53.777631+00:00"
+  },
+  {
+    "id": "bacdc754c116",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_271ad3c9",
+    "business_stage": null,
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-02T14:28:56.563476+00:00"
+  },
+  {
+    "id": "e68a1c4d31a0",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_e05b86dc",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "LED灯"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:30:55.766336+00:00"
+  },
+  {
+    "id": "5283d86bd593",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_WIFI_c7f22618",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "WIFI智能插座-法国测试",
+      "product_type": "智能插座"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:30:55.780213+00:00"
+  },
+  {
+    "id": "b5310c136e39",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_e05b86dc",
+    "business_stage": null,
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-02T14:30:55.821677+00:00"
+  },
+  {
+    "id": "12f7a2a72017",
+    "type": "compliance:check_failed",
+    "category": "compliance",
+    "source": "rule_engine",
+    "product_id": "p_LED灯_e05b86dc",
+    "business_stage": "阶段2",
+    "data": {
+      "risk_level": "high",
+      "failed_items": [
+        "CE认证缺失",
+        "WEEE未注册"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "high",
+    "error": null,
+    "created_at": "2026-06-02T14:30:55.831424+00:00"
+  },
+  {
+    "id": "236287f6fcee",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "LED灯",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:30:56.127141+00:00"
+  },
+  {
+    "id": "f4f66a5aed7c",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED灯_德国_88d92e11",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED灯",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "7bc4c4ed-6964-43ab-a928-eeb56616679d"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:30:57.850485+00:00"
+  },
+  {
+    "id": "d2ad645cbf49",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_e05b86dc",
+    "business_stage": null,
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-02T14:31:00.657402+00:00"
+  },
+  {
+    "id": "ebbe5464938f",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.00020003318786621094
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:32:28.269551+00:00"
+  },
+  {
+    "id": "3449d2f92664",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.00011038780212402344
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:32:28.280883+00:00"
+  },
+  {
+    "id": "ba8104d0f8a1",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.00010156631469726562
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:32:28.291238+00:00"
+  },
+  {
+    "id": "d956e0366038",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.00016069412231445312
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:34:57.922722+00:00"
+  },
+  {
+    "id": "231e614c97d1",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 9.751319885253906e-05
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:34:57.931810+00:00"
+  },
+  {
+    "id": "c09c338ce25c",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.00011563301086425781
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-02T14:34:57.939121+00:00"
+  },
+  {
+    "id": "299246d42116",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_Veri_6cb00f82",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "VerifyProduct",
+      "product_type": "Test"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T01:55:40.313061+00:00"
+  },
+  {
+    "id": "a494589132c1",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_Veri_6cb00f82",
+    "business_stage": null,
+    "data": {
+      "new_stage": "design",
+      "reason": "verify fix"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T01:55:42.388921+00:00"
+  },
+  {
+    "id": "2b9e18c80692",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_8fa11169",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "LED灯"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:03:21.555561+00:00"
+  },
+  {
+    "id": "82f32f4e58f9",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_WIFI_758897b0",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "WIFI智能插座-法国测试",
+      "product_type": "智能插座"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:03:21.566969+00:00"
+  },
+  {
+    "id": "a85e3701e2c4",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_8fa11169",
+    "business_stage": null,
+    "data": {
+      "new_stage": "design",
+      "reason": "测试流程推进到设计阶段"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T02:03:21.586937+00:00"
+  },
+  {
+    "id": "def901c297f7",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_8fa11169",
+    "business_stage": null,
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T02:04:00.303351+00:00"
+  },
+  {
+    "id": "a17de262086c",
+    "type": "compliance:check_failed",
+    "category": "compliance",
+    "source": "rule_engine",
+    "product_id": "p_LED灯_8fa11169",
+    "business_stage": "阶段2",
+    "data": {
+      "risk_level": "high",
+      "failed_items": [
+        "CE认证缺失",
+        "WEEE未注册"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "high",
+    "error": null,
+    "created_at": "2026-06-03T02:04:00.312950+00:00"
+  },
+  {
+    "id": "42599713f9f4",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "LED灯",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:04:00.733608+00:00"
+  },
+  {
+    "id": "372b740859cc",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED灯_德国_88d92e11",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED灯",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "af06762a-2912-44df-a211-9286d60aa2e6"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:04:02.464461+00:00"
+  },
+  {
+    "id": "7484c746afa5",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_8fa11169",
+    "business_stage": null,
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T02:04:03.479613+00:00"
+  },
+  {
+    "id": "fbb19ee81b86",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.00016951560974121094
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:13:47.419132+00:00"
+  },
+  {
+    "id": "caef8ceb0fe3",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 6.747245788574219e-05
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:13:47.425011+00:00"
+  },
+  {
+    "id": "a71af2a079ff",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 6.389617919921875e-05
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:13:47.429721+00:00"
+  },
+  {
+    "id": "3a603d337a89",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_14adc1cc",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "LED灯"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:17:11.915021+00:00"
+  },
+  {
+    "id": "1d9f4bb1ec3b",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_WIFI_97d98d40",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "WIFI智能插座-法国测试",
+      "product_type": "智能插座"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:17:11.927304+00:00"
+  },
+  {
+    "id": "565a654f7477",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_14adc1cc",
+    "business_stage": null,
+    "data": {
+      "new_stage": "design",
+      "reason": "测试流程推进到设计阶段"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T02:17:11.946363+00:00"
+  },
+  {
+    "id": "617c3ae3e15f",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_14adc1cc",
+    "business_stage": null,
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T02:17:11.968986+00:00"
+  },
+  {
+    "id": "35a6704242f1",
+    "type": "compliance:check_failed",
+    "category": "compliance",
+    "source": "rule_engine",
+    "product_id": "p_LED灯_14adc1cc",
+    "business_stage": "阶段2",
+    "data": {
+      "risk_level": "high",
+      "failed_items": [
+        "CE认证缺失",
+        "WEEE未注册"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "high",
+    "error": null,
+    "created_at": "2026-06-03T02:17:11.975837+00:00"
+  },
+  {
+    "id": "3296cfe34419",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "LED灯",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:17:12.232189+00:00"
+  },
+  {
+    "id": "feee24874bd1",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED灯_德国_88d92e11",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED灯",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "95717d40-2f48-4266-bb7c-a1adb9731610"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:17:13.923015+00:00"
+  },
+  {
+    "id": "e78a033921cd",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:17:13.949499+00:00"
+  },
+  {
+    "id": "54eba1eeb541",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_14adc1cc",
+    "business_stage": null,
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T02:17:29.860079+00:00"
+  },
+  {
+    "id": "179c6212fb2f",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "17track",
+      "sync_type": "tracking",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.00012922286987304688
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:23:47.425739+00:00"
+  },
+  {
+    "id": "4f4914aee060",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_c6c6146c",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "LED灯"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:30:58.589628+00:00"
+  },
+  {
+    "id": "4dcbfd32a6b0",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_WIFI_c44c2caf",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "WIFI智能插座-法国测试",
+      "product_type": "智能插座"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:30:58.601050+00:00"
+  },
+  {
+    "id": "891152c83aa6",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_c6c6146c",
+    "business_stage": null,
+    "data": {
+      "new_stage": "design",
+      "reason": "测试流程推进到设计阶段"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T02:30:58.625651+00:00"
+  },
+  {
+    "id": "3717c6894623",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_c6c6146c",
+    "business_stage": null,
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T02:31:20.125239+00:00"
+  },
+  {
+    "id": "e352eb49a870",
+    "type": "compliance:check_failed",
+    "category": "compliance",
+    "source": "rule_engine",
+    "product_id": "p_LED灯_c6c6146c",
+    "business_stage": "阶段2",
+    "data": {
+      "risk_level": "high",
+      "failed_items": [
+        "CE认证缺失",
+        "WEEE未注册"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "high",
+    "error": null,
+    "created_at": "2026-06-03T02:31:20.135253+00:00"
+  },
+  {
+    "id": "eb9524445d76",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "LED灯",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:31:20.468409+00:00"
+  },
+  {
+    "id": "d25543b4fe4a",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED灯_德国_88d92e11",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED灯",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "65115e86-01e0-4dff-9fe6-4ab8b7b3f325"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:31:22.160287+00:00"
+  },
+  {
+    "id": "bebab1f97dce",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:31:22.191054+00:00"
+  },
+  {
+    "id": "ac48f895249e",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_c6c6146c",
+    "business_stage": null,
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T02:31:39.134218+00:00"
+  },
+  {
+    "id": "e526624113e6",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_04f33804",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:46:11.233755+00:00"
+  },
+  {
+    "id": "7f6de5b9053c",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_bd4a877f",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:46:11.254197+00:00"
+  },
+  {
+    "id": "a3d33fff1a0e",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_1cab15b1",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:46:11.267418+00:00"
+  },
+  {
+    "id": "6a8b54282d49",
+    "type": "system:skill_installed",
+    "category": "system",
+    "source": "skill_registry",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "skill_name": "shopify-admin-test",
+      "source": "builtin"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:46:11.339558+00:00"
+  },
+  {
+    "id": "52bf7ad8c4cf",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "检查LED灯带",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:46:11.648947+00:00"
+  },
+  {
+    "id": "e59520848a24",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "检查LED灯带_德国_23f299fa",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "检查LED灯带",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "0598aea5-e924-4df6-85b7-aeeb439e98a6"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:46:31.919046+00:00"
+  },
+  {
+    "id": "a03e86310056",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_E2E测_4737b6fa",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "E2E测试产品_1780454792",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:46:32.080754+00:00"
+  },
+  {
+    "id": "196171c6bed1",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_f8ffa8e1",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:47:06.932056+00:00"
+  },
+  {
+    "id": "53cb5036e4b0",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_47416756",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:47:06.946279+00:00"
+  },
+  {
+    "id": "8eb7ff731738",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_614097c5",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:47:06.957044+00:00"
+  },
+  {
+    "id": "9432b7e8df7b",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "检查LED灯带",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:47:07.225722+00:00"
+  },
+  {
+    "id": "73d35e177829",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "检查LED灯带_德国_23f299fa",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "检查LED灯带",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "2d1963fe-0650-4449-ad89-50dbe1167fc9"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:47:24.011141+00:00"
+  },
+  {
+    "id": "2f5d97313eee",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_E2E测_2aa18a53",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "E2E测试产品_1780454844",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:47:24.161477+00:00"
+  },
+  {
+    "id": "fcef1b8425cd",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_b31e693e",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:48:25.908273+00:00"
+  },
+  {
+    "id": "9df0c7ff96f9",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_6f01417d",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:48:25.923723+00:00"
+  },
+  {
+    "id": "a591311e17c4",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_d6474b60",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:48:25.934197+00:00"
+  },
+  {
+    "id": "d2f7a731e87e",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "检查LED灯带",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:48:26.236276+00:00"
+  },
+  {
+    "id": "ff06b183d498",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "检查LED灯带_德国_23f299fa",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "检查LED灯带",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "83aad851-9d17-407d-bb5d-34ce34dc633f"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:48:43.949147+00:00"
+  },
+  {
+    "id": "b2fa53a3660e",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_E2E测_45b6be6b",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "E2E测试产品_1780454924",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:48:44.113445+00:00"
+  },
+  {
+    "id": "b768d3fbd0bc",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_3d0c01b2",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:51:02.953128+00:00"
+  },
+  {
+    "id": "e59a96da35d1",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_0be34881",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:51:02.969237+00:00"
+  },
+  {
+    "id": "b0e11b8f3cc8",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_928ac7eb",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:51:02.980427+00:00"
+  },
+  {
+    "id": "af64ecb2812b",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "检查LED灯带",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:51:04.570307+00:00"
+  },
+  {
+    "id": "c7d403a8f976",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "检查LED灯带_德国_23f299fa",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "检查LED灯带",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "7b9aacd5-b822-45ca-960f-64af5851ac70"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:51:27.687527+00:00"
+  },
+  {
+    "id": "86707253b8b3",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_E2E测_a5db1676",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "E2E测试产品_1780455088",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:51:28.409652+00:00"
+  },
+  {
+    "id": "bda07d83cacd",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_bccc0bdd",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:53:11.222070+00:00"
+  },
+  {
+    "id": "f0d7cf26c7f0",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_fd2a26e6",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:53:11.239519+00:00"
+  },
+  {
+    "id": "74458305d9f9",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_4520fa6f",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:53:11.251493+00:00"
+  },
+  {
+    "id": "10f959746589",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "检查LED灯带",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:53:12.455366+00:00"
+  },
+  {
+    "id": "37447a7abd7e",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "检查LED灯带_德国_23f299fa",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "检查LED灯带",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "40d99996-2d8f-4ed6-ac99-90b559f48a29"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:53:30.192381+00:00"
+  },
+  {
+    "id": "c2c08548adce",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_E2E测_b80be432",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "E2E测试产品_1780455210",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:53:30.620652+00:00"
+  },
+  {
+    "id": "99b74e7f2275",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_964d00f5",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:54:07.728670+00:00"
+  },
+  {
+    "id": "ea7402b6597a",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_8c23be14",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:54:07.743998+00:00"
+  },
+  {
+    "id": "aaaff5119bd6",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_adc21163",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:54:07.755297+00:00"
+  },
+  {
+    "id": "80e36eb4882c",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "检查LED灯带",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:54:08.950217+00:00"
+  },
+  {
+    "id": "1a7694a116fe",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "检查LED灯带_德国_23f299fa",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "检查LED灯带",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "99d32958-5316-48db-ae91-dd922fc2b59f"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:54:28.900232+00:00"
+  },
+  {
+    "id": "aed5f0960e20",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_E2E测_1d642ce3",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "E2E测试产品_1780455269",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T02:54:29.334677+00:00"
+  },
+  {
+    "id": "cf796b74baf6",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_fccb8400",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:07:32.210067+00:00"
+  },
+  {
+    "id": "64f944ce72d2",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_dfc30d5d",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:07:32.223299+00:00"
+  },
+  {
+    "id": "c73a8258ff14",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_92ee4419",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:07:32.234317+00:00"
+  },
+  {
+    "id": "e23c7f385261",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "检查LED灯带",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:07:33.532097+00:00"
+  },
+  {
+    "id": "db979f12de50",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "检查LED灯带_德国_23f299fa",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "检查LED灯带",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "1178f98f-7473-415e-87a3-abf309128351"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:08:03.946062+00:00"
+  },
+  {
+    "id": "7d32fa2982dd",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_E2E测_8cb4bdcc",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "E2E测试产品_1780456084",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:08:04.397318+00:00"
+  },
+  {
+    "id": "c71b2828e023",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_16f328cb",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:08:31.343048+00:00"
+  },
+  {
+    "id": "adf6d84bae88",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_e9117b63",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:08:31.360522+00:00"
+  },
+  {
+    "id": "9bc621ee73d4",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_a4ba7018",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:08:31.373088+00:00"
+  },
+  {
+    "id": "f0bf145340c8",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "检查LED灯带",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:08:32.787678+00:00"
+  },
+  {
+    "id": "18a5cac3865b",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "检查LED灯带_德国_23f299fa",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "检查LED灯带",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "19d4956c-2bca-4f13-895f-de1837ee1347"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:08:52.917582+00:00"
+  },
+  {
+    "id": "a87f3d715f46",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_E2E测_ca96f4a0",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "E2E测试产品_1780456133",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:08:53.354749+00:00"
+  },
+  {
+    "id": "022297eeaea0",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0001964569091796875
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:30:02.791727+00:00"
+  },
+  {
+    "id": "481f8c562e44",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.00010204315185546875
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:30:02.798253+00:00"
+  },
+  {
+    "id": "05f92245f6e0",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.00010061264038085938
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:30:02.803954+00:00"
+  },
+  {
+    "id": "fb46b36867df",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_6de9b8c2",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:34:07.726962+00:00"
+  },
+  {
+    "id": "31a553b6e23e",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": null,
+    "data": {
+      "new_stage": "design",
+      "reason": "样品确认,IP风险排查通过(USPTO/EUIPO无冲突)"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T03:34:07.775076+00:00"
+  },
+  {
+    "id": "b4d9d700e2c6",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": null,
+    "data": {
+      "new_stage": "sourcing",
+      "reason": "供应商审核通过,CE/WEEE/RoHS认证文件已上传,ERPNext采购单已创建"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T03:34:07.828973+00:00"
+  },
+  {
+    "id": "bc796060f85a",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": null,
+    "data": {
+      "new_stage": "ready",
+      "reason": "合规元数据绑定完成,广告法审查通过,FB Pixel/GA4埋点合规"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T03:34:07.877883+00:00"
+  },
+  {
+    "id": "2c5a349a44c6",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": null,
+    "data": {
+      "new_stage": "active",
+      "reason": "已上架,Shopify Payments/PayPal配置完成,3D Secure已启用"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T03:34:07.911824+00:00"
+  },
+  {
+    "id": "243fdcd1f3f4",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": null,
+    "data": {
+      "new_stage": "fulfilling",
+      "reason": "首单已发货,17TRACK追踪已注册,4PX干线运输中,报关单已提交"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T03:34:07.965732+00:00"
+  },
+  {
+    "id": "bcf1eaa3ad72",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": null,
+    "data": {
+      "new_stage": "aftersale",
+      "reason": "买家签收,进入售后阶段,Chatwoot工单已创建"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T03:34:08.005057+00:00"
+  },
+  {
+    "id": "2d2f49fb9366",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": null,
+    "data": {
+      "new_stage": "end",
+      "reason": "产品退市,库存已清空,财务结算完成"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T03:34:08.051976+00:00"
+  },
+  {
+    "id": "8bc80ed5eb00",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "17track",
+      "sync_type": "tracking",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0022058486938476562
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:34:11.671389+00:00"
+  },
+  {
+    "id": "f3e1fb46fd36",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": null,
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T03:34:35.329414+00:00"
+  },
+  {
+    "id": "779309fd75dc",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "17track",
+      "sync_type": "tracking",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.00016355514526367188
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:40:02.790436+00:00"
+  },
+  {
+    "id": "26cd7c08eb59",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.00017499923706054688
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:50:02.812920+00:00"
+  },
+  {
+    "id": "175fdc6c2c37",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0001506805419921875
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:50:02.823689+00:00"
+  },
+  {
+    "id": "48433820d858",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0001266002655029297
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T03:50:02.832862+00:00"
+  },
+  {
+    "id": "4f6abc2c456c",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_2fa20c73",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "LED灯"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:02:32.814521+00:00"
+  },
+  {
+    "id": "5782249816f3",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_WIFI_fc756d25",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "WIFI智能插座-法国测试",
+      "product_type": "智能插座"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:02:32.828694+00:00"
+  },
+  {
+    "id": "c5de5fd9c392",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_2fa20c73",
+    "business_stage": null,
+    "data": {
+      "new_stage": "design",
+      "reason": "测试流程推进到设计阶段"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T04:02:32.861558+00:00"
+  },
+  {
+    "id": "df64f7f7bc10",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_2fa20c73",
+    "business_stage": "阶段2",
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T04:03:04.571413+00:00"
+  },
+  {
+    "id": "5213f4b31600",
+    "type": "compliance:check_failed",
+    "category": "compliance",
+    "source": "rule_engine",
+    "product_id": "p_LED灯_2fa20c73",
+    "business_stage": "阶段2",
+    "data": {
+      "risk_level": "high",
+      "failed_items": [
+        "CE认证缺失",
+        "WEEE未注册"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "high",
+    "error": null,
+    "created_at": "2026-06-03T04:03:04.952010+00:00"
+  },
+  {
+    "id": "0f5f3081c97f",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "LED灯",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:03:05.304593+00:00"
+  },
+  {
+    "id": "d95c27ba04c9",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED灯_德国_88d92e11",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED灯",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "2d571f43-0f60-445b-9ac1-7bc95718defb"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:03:07.016140+00:00"
+  },
+  {
+    "id": "3ee085978fed",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:03:07.044313+00:00"
+  },
+  {
+    "id": "2a39eb1ff1fe",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_2fa20c73",
+    "business_stage": "阶段2",
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T04:03:27.853920+00:00"
+  },
+  {
+    "id": "debed9862c9c",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_8fc8b72e",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "LED灯"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:18:35.525960+00:00"
+  },
+  {
+    "id": "95b77ba330d5",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_WIFI_5f56e7ab",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "WIFI智能插座-法国测试",
+      "product_type": "智能插座"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:18:35.539072+00:00"
+  },
+  {
+    "id": "f7560e9a79bc",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_8fc8b72e",
+    "business_stage": null,
+    "data": {
+      "new_stage": "design",
+      "reason": "测试流程推进到设计阶段"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T04:18:35.569190+00:00"
+  },
+  {
+    "id": "e2b6d2e71a8e",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_8fc8b72e",
+    "business_stage": "阶段2",
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T04:18:40.602674+00:00"
+  },
+  {
+    "id": "310d554303c0",
+    "type": "compliance:check_failed",
+    "category": "compliance",
+    "source": "rule_engine",
+    "product_id": "p_LED灯_8fc8b72e",
+    "business_stage": "阶段2",
+    "data": {
+      "risk_level": "high",
+      "failed_items": [
+        "CE认证缺失",
+        "WEEE未注册"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "high",
+    "error": null,
+    "created_at": "2026-06-03T04:18:40.611393+00:00"
+  },
+  {
+    "id": "e841dabcff3b",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "LED灯",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:18:57.960069+00:00"
+  },
+  {
+    "id": "e39cc89da2d3",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED灯_德国_88d92e11",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED灯",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "62927bda-5a31-4e2c-bffc-b49e94d8da3b"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:18:59.685941+00:00"
+  },
+  {
+    "id": "be687189955a",
+    "type": "user:query",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "user_id": "anonymous",
+      "action": "general",
+      "product": "",
+      "target_country": "",
+      "confidence": 0.4,
+      "recommended_skills": [
+        "shopify-dev"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:18:59.709182+00:00"
+  },
+  {
+    "id": "c19e407cab39",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_8fc8b72e",
+    "business_stage": "阶段2",
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T04:19:20.605413+00:00"
+  },
+  {
+    "id": "3c7e4b8b0edb",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_a972daf3",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:22:07.054491+00:00"
+  },
+  {
+    "id": "67d0def01c58",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_1ffc569b",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:22:07.071173+00:00"
+  },
+  {
+    "id": "40e18d588ff8",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_51fae805",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:22:07.086224+00:00"
+  },
+  {
+    "id": "28b2ec9fa2ea",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "检查LED灯带",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:22:08.477021+00:00"
+  },
+  {
+    "id": "0f455771ded2",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "检查LED灯带_德国_23f299fa",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "检查LED灯带",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "098d5d09-a30b-4532-9a63-ba013e068340"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:22:28.990775+00:00"
+  },
+  {
+    "id": "aa948b0959a1",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_E2E测_913e5db9",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "E2E测试产品_1780460549",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:22:29.554993+00:00"
+  },
+  {
+    "id": "7c0b0dfb4408",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_7c930290",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:22:30.135134+00:00"
+  },
+  {
+    "id": "50133594de23",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": null,
+    "data": {
+      "new_stage": "end",
+      "reason": "产品退市,库存已清空,财务结算完成"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T04:22:30.357134+00:00"
+  },
+  {
+    "id": "1dfe46ec9047",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "17track",
+      "sync_type": "tracking",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.002301931381225586
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:22:34.031265+00:00"
+  },
+  {
+    "id": "4016fdae079c",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": "阶段10",
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T04:22:34.142463+00:00"
+  },
+  {
+    "id": "c4adbffb418a",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_67d466eb",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:24:28.565412+00:00"
+  },
+  {
+    "id": "311cecfe59d6",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_b3f645c2",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:24:28.580418+00:00"
+  },
+  {
+    "id": "e05c7e05a89d",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_46ee1b6f",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:24:28.591943+00:00"
+  },
+  {
+    "id": "f1cd6944586d",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "检查LED灯带",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:24:29.792194+00:00"
+  },
+  {
+    "id": "1ac1a14af477",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "检查LED灯带_德国_23f299fa",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "检查LED灯带",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "26e88d2b-9cb1-4fa3-9440-668d9d979cf1"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:24:47.603263+00:00"
+  },
+  {
+    "id": "bcbc084f297e",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_E2E测_b19249c7",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "E2E测试产品_1780460688",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:24:48.036975+00:00"
+  },
+  {
+    "id": "ae8743b6b74e",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_1e8f9461",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:24:48.580077+00:00"
+  },
+  {
+    "id": "452f5573af7c",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": null,
+    "data": {
+      "new_stage": "end",
+      "reason": "产品退市,库存已清空,财务结算完成"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T04:24:48.796623+00:00"
+  },
+  {
+    "id": "44d312d41bd7",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "17track",
+      "sync_type": "tracking",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.004062652587890625
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:24:51.885887+00:00"
+  },
+  {
+    "id": "c8421caf169a",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": "阶段10",
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T04:24:52.011101+00:00"
+  },
+  {
+    "id": "89f82e2462a2",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "LED灯具",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:24:52.645644+00:00"
+  },
+  {
+    "id": "b212df5272b4",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED灯具_德国_c07085ff",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED灯具",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "9fa334d2-fa2c-4eb4-bfd8-81ff109f5596"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:24:54.397769+00:00"
+  },
+  {
+    "id": "a24ca3170693",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_d61b0636",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:27:28.787020+00:00"
+  },
+  {
+    "id": "155718c3769a",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": null,
+    "data": {
+      "new_stage": "end",
+      "reason": "产品退市,库存已清空,财务结算完成"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T04:27:28.996326+00:00"
+  },
+  {
+    "id": "1f7e5a6efed2",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "17track",
+      "sync_type": "tracking",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0059528350830078125
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:27:32.115587+00:00"
+  },
+  {
+    "id": "4c889b89454d",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": "阶段10",
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T04:27:37.244355+00:00"
+  },
+  {
+    "id": "4f5ab5292e9a",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_cb2450d8",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:31:28.809713+00:00"
+  },
+  {
+    "id": "4774e87343b2",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_bbec4e4a",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:31:28.825935+00:00"
+  },
+  {
+    "id": "a72fd1b3e223",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_2c477086",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国测试",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:31:28.837753+00:00"
+  },
+  {
+    "id": "2a75ae707474",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "检查LED灯带",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:31:30.118242+00:00"
+  },
+  {
+    "id": "014479375a6c",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "检查LED灯带_德国_23f299fa",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "检查LED灯带",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "113f24b7-f0ff-42e3-82cc-ac6d4d87f47c"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:31:47.721593+00:00"
+  },
+  {
+    "id": "07196784596c",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_E2E测_6a93773b",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "E2E测试产品_1780461108",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:31:48.157548+00:00"
+  },
+  {
+    "id": "3b7fedfdc78c",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_8deac2b3",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "LED灯带-德国",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:31:48.712937+00:00"
+  },
+  {
+    "id": "6ad4a6d6454b",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": null,
+    "data": {
+      "new_stage": "end",
+      "reason": "产品退市,库存已清空,财务结算完成"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T04:31:48.917916+00:00"
+  },
+  {
+    "id": "c3f32ecd38c1",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "17track",
+      "sync_type": "tracking",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0044708251953125
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:31:51.954379+00:00"
+  },
+  {
+    "id": "c0c2e33877e9",
+    "type": "compliance:pipeline_completed",
+    "category": "compliance",
+    "source": "compliance_flow",
+    "product_id": "p_LED灯_87b74ea0",
+    "business_stage": "阶段10",
+    "data": {
+      "status": "awaiting_interaction",
+      "pipeline_mode": "6step",
+      "risk_level": "low",
+      "recommendations_count": 1
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-03T04:31:52.090827+00:00"
+  },
+  {
+    "id": "f69a6a9c8849",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "nlu",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "LED灯具",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:31:52.652306+00:00"
+  },
+  {
+    "id": "7f66f33489b3",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED灯具_德国_c07085ff",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED灯具",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "6464dbc3-8771-4ea2-98bd-cfdadd3752c3"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-03T04:31:54.350781+00:00"
+  }
+]

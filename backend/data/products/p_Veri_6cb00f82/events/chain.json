@@ -1,0 +1,48 @@
+{
+  "product_id": "p_Veri_6cb00f82",
+  "events": [
+    {
+      "id": "299246d42116",
+      "type": "product:created",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_Veri_6cb00f82",
+      "business_stage": "阶段2",
+      "data": {
+        "name": "VerifyProduct",
+        "product_type": "Test"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-03T01:55:40.313061+00:00"
+    },
+    {
+      "id": "a494589132c1",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_Veri_6cb00f82",
+      "business_stage": null,
+      "data": {
+        "new_stage": "design",
+        "reason": "verify fix"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-03T01:55:42.388921+00:00"
+    }
+  ],
+  "timeline": [
+    "🟡 [Medium] 2026-06-03T01:55:42 product:status_changed",
+    "🟢 [Low] 2026-06-03T01:55:40 product:created"
+  ],
+  "total_events": 2
+}

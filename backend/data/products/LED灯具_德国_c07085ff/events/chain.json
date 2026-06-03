@@ -1,0 +1,56 @@
+{
+  "product_id": "LED灯具_德国_c07085ff",
+  "events": [
+    {
+      "id": "b212df5272b4",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "LED灯具_德国_c07085ff",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "LED灯具",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "9fa334d2-fa2c-4eb4-bfd8-81ff109f5596"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-03T04:24:54.397769+00:00"
+    },
+    {
+      "id": "7f66f33489b3",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "LED灯具_德国_c07085ff",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "LED灯具",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "6464dbc3-8771-4ea2-98bd-cfdadd3752c3"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-03T04:31:54.350781+00:00"
+    }
+  ],
+  "timeline": [
+    "🟢 [Low] 2026-06-03T04:31:54 compliance:check_passed",
+    "🟢 [Low] 2026-06-03T04:24:54 compliance:check_passed"
+  ],
+  "total_events": 2
+}
