@@ -1,0 +1,12 @@
+stage:
+  number: 3
+  name: "供应商审核与采购"
+  description: "供应商产品导入、HS编码查询与匹配、VAT税率查询、认证需求识别与上传验证（CE/WEEE/RoHS等）、供应链风险预警。Agent在此阶段需确保供应商产品信息完整，合规认证齐全。"
+  events:
+    - event_code: "compliance:hs_code_matched"
+    - event_code: "certification:uploaded"
+    - event_code: "certification:verified"
+    - event_code: "certification:rejected"
+    - event_code: "certification:required"
+    - event_code: "certification:missing"
+    - event_code: "risk:supply_chain_alert"

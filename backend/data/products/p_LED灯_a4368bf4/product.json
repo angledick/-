@@ -1,0 +1,21 @@
+{
+  "id": "p_LED灯_a4368bf4",
+  "name": "LED灯带-德国测试",
+  "product_type": "electronics",
+  "target_markets": [
+    "德国",
+    "欧盟"
+  ],
+  "hs_code": "8541.4100",
+  "vendor": "",
+  "tags": [],
+  "lifecycle_stage": "concept",
+  "business_stage": "阶段2",
+  "compliance_status": "pending",
+  "risk_level": "low",
+  "created_at": "2026-06-08T08:12:24.631036",
+  "updated_at": "2026-06-08T08:12:24.631044",
+  "metadata": {},
+  "health_score": 30,
+  "certifications": []
+}

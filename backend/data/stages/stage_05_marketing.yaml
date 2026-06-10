@@ -1,0 +1,7 @@
+stage:
+  number: 5
+  name: "营销与推广"
+  description: "支付网关配置、KYC认证提交、拒付风控Function配置、广告营销合规检查、结汇配置。Agent在此阶段需确保支付链路合规，风控规则到位。"
+  events:
+    - event_code: "risk:chargeback_alert"
+    - event_code: "user:notification_settings"

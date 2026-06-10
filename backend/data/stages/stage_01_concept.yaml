@@ -1,0 +1,11 @@
+stage:
+  number: 1
+  name: "建站与环境搭建"
+  description: "店铺注册、店铺基础配置（域名/支付/物流）、法律页面（隐私政策/退换货/Terms）、GDPR/CCPA Cookie合规、Liquid主题定制。Agent在此阶段需引导用户完成Shopify店铺初始化，配置核心店铺参数，确保法律合规页面到位。"
+  events:
+    - event_code: "system:api_health_ok"
+    - event_code: "system:api_health_degraded"
+    - event_code: "system:scheduler_tick"
+    - event_code: "user:login"
+    - event_code: "user:logout"
+    - event_code: "user:config_changed"

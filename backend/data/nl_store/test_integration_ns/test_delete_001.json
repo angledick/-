@@ -1,0 +1,13 @@
+{
+  "record_id": "rec_5ecfd57b",
+  "namespace": "test_integration_ns",
+  "key": "test_delete_001",
+  "title": "待删除记录",
+  "content_nl": "即将删除",
+  "metadata": {},
+  "tags": [
+    "delete-test"
+  ],
+  "created_at": "2026-06-08T08:12:24.538308+00:00",
+  "updated_at": "2026-06-08T08:12:24.538308+00:00"
+}

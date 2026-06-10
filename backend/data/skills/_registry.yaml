@@ -1,0 +1,154 @@
+# 内置 Skills 注册表
+# 用户可在此添加自定义 Skill 定义
+skills:
+  - name: shopify-admin
+    display_name: Shopify Admin
+    description: Shopify Admin GraphQL API 操作。当Agent需要管理Shopify后台（产品/订单/客户等资源CRUD）时调用此技能，需要已配置Shopify OAuth凭证。
+    stages: [3, 4, 6, 7, 8, 9, 10]
+    source: builtin
+    path: ""
+  - name: shopify-custom-data
+    display_name: Shopify Custom Data
+    description: Metafields/Metaobjects 管理。Agent需要为Shopify资源扩展自定义数据字段时使用，支持自定义元字段和元对象的定义/读取/写入。
+    stages: [2, 3, 4, 6, 7, 10]
+    source: builtin
+    path: ""
+  - name: shopify-dev
+    display_name: Shopify Dev
+    description: Shopify 开发文档查询。Agent需要查询Shopify API文档、了解开发规范、排查集成问题时使用。
+    stages: [1, 2, 4, 5, 7]
+    source: builtin
+    path: ""
+  - name: shopify-liquid
+    display_name: Shopify Liquid
+    description: Liquid 模板引擎定制。Agent需要修改或开发Shopify主题模板时使用，用于定制店铺前端展示。
+    stages: [1, 4, 9]
+    source: builtin
+    path: ""
+  - name: shopify-storefront-graphql
+    display_name: Shopify Storefront
+    description: Storefront GraphQL API 调用。Agent需要在前端场景查询产品/购物车/客户数据时使用，通过Storefront API获取公开数据。
+    stages: [2, 4, 8]
+    source: builtin
+    path: ""
+  - name: shopify-onboarding-merchant
+    display_name: Shopify Onboarding
+    description: 商户入门引导。Agent引导新商户完成Shopify店铺注册和基础配置时使用，包括创建店铺、配置域名、设置支付等。
+    stages: [1]
+    source: builtin
+    path: ""
+  - name: shopify-functions
+    display_name: Shopify Functions
+    description: Shopify Functions 开发。Agent需要自定义Shopify后台逻辑（折扣/配送/支付/验证等）时使用，通过编写Function扩展Shopify核心功能。
+    stages: [5, 6, 8]
+    source: builtin
+    path: ""
+  - name: shopify-payments-apps
+    display_name: Shopify Payments
+    description: Payments Apps API 集成。Agent需要接入或管理Shopify支付应用时使用，支持支付网关配置和交易查询。
+    stages: [5, 10]
+    source: builtin
+    path: ""
+  - name: shopify-customer
+    display_name: Shopify Customer
+    description: Customer Account API 操作。Agent需要管理客户账户、查询客户数据、处理DSAR请求时使用。
+    stages: [6, 9]
+    source: builtin
+    path: ""
+  - name: shopify-partner
+    display_name: Shopify Partner
+    description: Partner Dashboard API 查询。Agent需要查询Partner Dashboard数据（应用/主题/联盟佣金等）时使用。
+    stages: [2, 10]
+    source: builtin
+    path: ""
+  - name: shopify-hydrogen
+    display_name: Shopify Hydrogen
+    description: Hydrogen Headless 前端开发。Agent需要开发或维护Hydrogen前端应用时使用，用于构建自定义购物体验。
+    stages: [4, 9]
+    source: builtin
+    path: ""
+  - name: skill-vetter
+    display_name: Skill Vetter
+    description: Skills 安全审查。Agent安装外部Skill前必须执行此技能进行安全扫描，检查代码中是否包含高危模式（eval/exec/网络请求/文件写入等）。
+    stages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    source: builtin
+    path: ""
+  - name: web-search
+    display_name: Web Search
+    description: Web 搜索引擎查询。Agent需要联网获取实时信息时使用，优先使用配置的Tavily API，回退到DuckDuckGo。
+    stages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    source: builtin
+    path: ""
+  - name: summarize
+    display_name: Summarize
+    description: URL或文本内容摘要生成。Agent需要提取网页或长文本的核心要点时使用，支持HTML自动提取纯文本。
+    stages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    source: builtin
+    path: ""
+  - name: brandkit
+    display_name: Brand Kit
+    description: 品牌工具包。Agent需要为品牌生成视觉指南（色板/字体/排版规范/品牌展示板）时使用，基于品牌名称哈希生成确定性设计建议。
+    stages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    source: builtin
+    path: ""
+
+  # ── 合规领域 Skills（映射到 prompts） ──────────────
+  - name: regulation-scan
+    display_name: 法规扫描
+    description: 扫描目标市场最新法规/政策变更并评估影响。Agent定时或按需执行此技能，使用WebSearch联网搜索各市场的法规公告，输出结构化变更列表。
+    stages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    source: prompt
+    prompt: regulation_scan
+    path: regulation-scan
+  - name: impact-analysis
+    display_name: 影响分析
+    description: 分析法规变更对用户产品的潜在影响。Agent在获取法规变更后执行此技能，评估受影响的产品范围、影响等级和整改建议。
+    stages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    source: prompt
+    prompt: impact_analysis
+    path: impact-analysis
+  - name: market-monitor
+    display_name: 市场监控
+    description: 联网监控目标市场合规动态。Agent按固定周期执行此技能，持续巡查各目标市场的法规/关税/认证要求变更。
+    stages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    source: prompt
+    prompt: market_monitor
+    path: market-monitor
+  - name: compliance-check
+    display_name: 合规检查
+    description: 执行六阶段合规流水线检查。Agent收到合规相关事件或用户请求时执行此技能，完整执行感知→检查→推荐→告知→交互→处理六步骤。
+    stages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    source: prompt
+    prompt: chat_compliance
+    path: compliance-check
+  - name: risk-summary
+    display_name: 风险摘要
+    description: 生成合规风险摘要报告。Agent需要汇总合规风险状态时执行此技能，整合多来源数据生成结构化的风险报告。
+    stages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    source: prompt
+    prompt: risk_summary
+    path: risk-summary
+  - name: news-collect
+    display_name: 新闻采集
+    description: 多数据源新闻采集器，支持关键词评分和存储，用于跨境行业新闻监控。
+    stages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    source: script
+    script: news-collect/script/news_collector.py
+    script_args: ["--hours", "{hours}", "--user-id", "{user_id}", "--save"]
+    path: news-collect
+  - name: news-analyze
+    display_name: 新闻AI分析
+    description: 使用LLM分析新闻对跨境电商的风险方向（利多/利空/中性）。
+    stages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    source: script
+    script: news-analyze/script/news_analyzer.py
+    script_args: ["--limit", "{limit}"]
+    path: news-analyze
+  - name: browser-control
+    display_name: 浏览器控制
+    description: OpenCLI 浏览器自动化，支持导航/快照/站点数据抓取。
+    stages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    source: script
+    script: browser-control/script/opencli_browser.py
+    script_args: ["--action", "{action}", "--params", "{params}"]
+    path: browser-control

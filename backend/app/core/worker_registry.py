@@ -2,21 +2,24 @@
 Worker注册表 (WorkerRegistry) — 配置文件驱动的Worker管理。
 
 职责：
-  1. 从 data/config/workers/ 目录的Markdown文件加载Worker定义
+  1. 从 data/workers/ 目录的Markdown文件（YAML front-matter格式）加载Worker定义
   2. 支持QAAgent和用户动态注册/修改/删除Worker
   3. 按业务阶段查询可用Worker
   4. Worker运行时状态追踪
 
 存储:
-  - 配置: data/config/workers/*.md
-  - 归档: data/config/workers/_archive/
+  - 配置: data/workers/builtin/*.md
+  - 归档: data/workers/_archive/
 """
 
 import json
 import logging
+import re
 from pathlib import Path
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any
+
+import yaml
 
 from app.config import settings
 from app.models.schemas import WorkerDefinition, WorkerStatus
@@ -42,33 +45,62 @@ class WorkerRegistry:
     """
 
     def __init__(self, config_dir: str = None):
-        self.config_dir = Path(config_dir or (DATA_DIR / "config" / "workers"))
+        self.config_dir = Path(config_dir or (DATA_DIR / "workers" / "builtin"))
         self._workers: Dict[str, WorkerDefinition] = {}
         self._runtime_status: Dict[str, WorkerStatus] = {}
         self._load_all_workers()
 
     def _load_all_workers(self):
-        """加载所有Worker配置"""
+        """加载所有Worker配置。配置目录必须存在。"""
         if not self.config_dir.exists():
-            self._register_defaults()
-            return
+            raise FileNotFoundError(
+                f"Worker配置目录不存在: {self.config_dir}\n"
+                "请确保 data/workers/builtin/ 已创建"
+            )
         for md_file in self.config_dir.glob("*.md"):
             if md_file.name.startswith("_") or md_file.name == "README.md":
                 continue
             self._load_workers_from_file(md_file)
-
         if not self._workers:
-            self._register_defaults()
+            raise ValueError(f"Worker配置目录中未找到有效定义: {self.config_dir}")
 
     def _load_workers_from_file(self, file_path: Path):
-        """从Markdown文件加载Worker定义"""
-        try:
-            content = file_path.read_text(encoding="utf-8")
-            workers = self._parse_worker_table(content)
-            for worker_def in workers:
-                self._workers[worker_def.worker_code] = worker_def
-        except Exception:
-            pass
+        """从Markdown文件加载Worker定义（支持 YAML front-matter 和表格两种格式）。"""
+        content = file_path.read_text(encoding="utf-8")
+        # YAML front-matter 解析
+        match = re.match(r'^---\s*\n(.*?)\n---\s*\n', content, re.DOTALL)
+        if match:
+            front_matter = yaml.safe_load(match.group(1))
+            if front_matter and isinstance(front_matter, dict):
+                workers_data = front_matter.get("workers", [])
+                if workers_data:
+                    for w in workers_data:
+                        w["config_file"] = str(file_path)
+                        worker_def = self._create_worker_from_dict(w)
+                        if worker_def:
+                            self._workers[worker_def.worker_code] = worker_def
+                    return
+        # 表格解析
+        workers = self._parse_worker_table(content)
+        for worker_def in workers:
+            worker_def.config_file = str(file_path)
+            self._workers[worker_def.worker_code] = worker_def
+
+    def _create_worker_from_dict(self, data: dict) -> Optional[WorkerDefinition]:
+        """从 YAML front-matter 字典创建 Worker 定义。"""
+        worker_code = data.get("worker_code", "")
+        if not worker_code:
+            return None
+        return WorkerDefinition(
+            worker_code=worker_code,
+            worker_name=data.get("worker_name", ""),
+            business_stage=data.get("business_stage", ""),
+            description=data.get("description", ""),
+            available_skills=data.get("available_skills", []),
+            priority=data.get("priority", 5),
+            timeout=data.get("timeout", 300),
+            config_file=data.get("config_file"),
+        )
 
     def _parse_worker_table(self, content: str) -> List[WorkerDefinition]:
         """解析Markdown表格中的Worker定义"""
@@ -143,32 +175,6 @@ class WorkerRegistry:
             timeout=timeout,
         )
 
-    def _register_defaults(self):
-        """注册默认Worker（当配置文件不存在时）"""
-        defaults = [
-            ("product_worker", "产品管理Worker", "阶段2-4", "产品CRUD、生命周期状态管理", "product_crud,lifecycle_manager", 2, 300),
-            ("compliance_worker", "合规检查Worker", "全阶段", "执行六阶段合规流水线", "compliance_check,hs_lookup,vat_query", 1, 600),
-            ("cert_worker", "认证管理Worker", "阶段3", "认证上传/验证/到期预警", "cert_verify,cert_monitor", 2, 300),
-            ("listing_worker", "商品上架Worker", "阶段4", "Listing内容合规检查", "content_check,shopify_publish", 2, 300),
-            ("order_worker", "订单处理Worker", "阶段6-9", "订单生命周期管理", "order_track,logistics_query", 3, 300),
-            ("customs_worker", "报关清关Worker", "阶段7-8", "出口报关/进口清关", "customs_declare,duty_calc", 2, 600),
-            ("logistics_worker", "物流Worker", "阶段7-8", "跨境运输追踪", "tracking_query,eta_calc", 3, 300),
-            ("regulation_worker", "法规监控Worker", "全阶段", "法规变更扫描、影响分析", "regulation_scan,impact_analysis", 1, 600),
-            ("risk_worker", "风险预警Worker", "全阶段", "风险评分、异常检测", "risk_score,anomaly_detect", 1, 300),
-            ("system_worker", "系统运维Worker", "全阶段", "API健康检查、同步任务", "health_check,sync_task", 3, 120),
-            ("qa_agent", "QAAgent", "全阶段", "系统自我管理", "config_manage,event_define,diagnose", 1, 600),
-        ]
-
-        for code, name, stage, desc, skills, priority, timeout in defaults:
-            self._workers[code] = WorkerDefinition(
-                worker_code=code,
-                worker_name=name,
-                business_stage=stage,
-                description=desc,
-                available_skills=[s.strip() for s in skills.split(",")],
-                priority=priority,
-                timeout=timeout,
-            )
 
     # ── 查询接口 ──────────────────────────────────
 
@@ -245,16 +251,64 @@ class WorkerRegistry:
         content += new_row
         file_path.write_text(content, encoding="utf-8")
 
+        worker_def.config_file = str(file_path)
         self._workers[worker_def.worker_code] = worker_def
         return True
 
     async def update_worker(self, worker_def: WorkerDefinition) -> bool:
-        """更新Worker定义"""
+        """更新Worker定义（持久化到配置文件）"""
         if worker_def.worker_code not in self._workers:
             return False
         worker_def.updated_at = datetime.now(timezone.utc).isoformat()
         self._workers[worker_def.worker_code] = worker_def
+        await self._rewrite_worker_file(worker_def)
         return True
+
+    async def _rewrite_worker_file(self, worker_def: WorkerDefinition):
+        """将 Worker 定义回写到配置文件。
+
+        如果 Worker 的 config_file 存在则替换对应行，否则写入 custom_workers.md。
+        """
+        if worker_def.config_file:
+            file_path = Path(worker_def.config_file)
+        else:
+            file_path = self.config_dir / "custom_workers.md"
+
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # 读取或创建配置文件
+        if file_path.exists():
+            content = file_path.read_text(encoding="utf-8")
+        else:
+            content = (
+                "# 自定义Worker定义\n\n"
+                "| Worker编码 | Worker名称 | 业务阶段 | 职责描述 | 可用Skills | 优先级 | 超时(秒) |\n"
+                "|------------|------------|----------|----------|------------|--------|----------|\n"
+            )
+
+        search_pattern = f"| {worker_def.worker_code} |"
+        skills_str = ",".join(worker_def.available_skills) if worker_def.available_skills else ""
+        new_row = (
+            f"| {worker_def.worker_code} | {worker_def.worker_name} | "
+            f"{worker_def.business_stage} | {worker_def.description} | "
+            f"{skills_str} | {worker_def.priority} | {worker_def.timeout} |\n"
+        )
+
+        if search_pattern in content:
+            # 替换已有行
+            lines = content.split("\n")
+            updated_lines = []
+            for line in lines:
+                if search_pattern in line:
+                    updated_lines.append(new_row.rstrip())
+                else:
+                    updated_lines.append(line)
+            content = "\n".join(updated_lines)
+        else:
+            # 追加新行
+            content = content.rstrip() + "\n" + new_row
+
+        file_path.write_text(content, encoding="utf-8")
 
     async def delete_worker(self, worker_code: str) -> bool:
         """删除Worker（归档）"""

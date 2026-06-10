@@ -1,0 +1,9 @@
+stage:
+  number: 9
+  name: "交付与售后"
+  description: "订单签收确认、退换货处理、退款/争议处理、客户账户管理、DSAR请求处理、退货政策页面Liquid定制。Agent在此阶段需处理售后流程，确保客户权益和合规退换货。"
+  events:
+    - event_code: "order:delivered"
+    - event_code: "order:returned"
+    - event_code: "order:refund_issued"
+    - event_code: "order:dispute"

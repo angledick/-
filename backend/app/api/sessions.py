@@ -75,4 +75,16 @@ async def delete_session(session_id: str, current_user: dict = Depends(get_curre
     if current_user["role"] != "admin" and data.get("user_id") != current_user["id"]:
         raise HTTPException(status_code=403, detail="无权限删除此会话")
     session_store.delete_session(session_id)
+
+    # 发布会话删除事件
+    try:
+        from app.core.event_bus import get_event_bus
+        await get_event_bus().publish_raw({
+            "type": "session:deleted",
+            "source": "sessions_api",
+            "data": {"session_id": session_id, "user_id": data.get("user_id")},
+        })
+    except Exception:
+        pass
+
     return {"ok": True}

@@ -1,9 +1,11 @@
 from typing import Any, Optional
 
+from pydantic import ConfigDict
 from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
+    model_config = ConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
     # App
     app_name: str = "避风港"
     debug: bool = True
@@ -115,6 +117,7 @@ class Settings(BaseSettings):
     sdk_user: str = ""
     """关联的用户标识符。"""
 
+
     # ── 米塔AI搜索 ────────────────────────────────────────────
     metaso_api_key: str = ""
     """米塔AI搜索 API Key（用于联网搜索替代 WebSearch）。"""
@@ -130,6 +133,14 @@ class Settings(BaseSettings):
 
     # Chroma
     chroma_persist_dir: str = "./data/chroma"
+
+    # Cloud Embedding（OpenAI 兼容接口，用于知识库向量化）
+    embedding_api_key: str = ""
+    """云端 Embedding API Key（为空时回退 anthropic_api_key）。"""
+    embedding_base_url: str = "https://api.openai.com/v1"
+    """云端 Embedding API Base URL。"""
+    embedding_model: str = "text-embedding-3-small"
+    """云端 Embedding 模型名。"""
 
     # Knowledge
     data_dir: str = "./data"
@@ -158,10 +169,6 @@ class Settings(BaseSettings):
     jwt_secret: str = "astra-change-me-in-production-2024"
     jwt_expire_hours: int = 24
 
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-        extra = "ignore"
 
 
 settings = Settings()

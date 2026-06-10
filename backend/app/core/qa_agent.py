@@ -20,6 +20,7 @@ QAAgent 系统自我管理智能体 — 负责系统配置管理、事件/Worker
 """
 
 import json
+import logging
 from pathlib import Path
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any
@@ -29,6 +30,8 @@ from app.models.schemas import (
     EventDefinition, WorkerDefinition, EventCategory,
     GuardResult, CLICommandResult
 )
+
+logger = logging.getLogger(__name__)
 
 DATA_DIR = Path(settings.data_dir)
 
@@ -88,8 +91,27 @@ class QAAgent:
         self._event_registry = event_registry
         self._worker_registry = worker_registry
         self._config_dir = DATA_DIR / "config"
-        self._rules_dir = DATA_DIR / "config" / "rules"
-        self._notification_config_file = DATA_DIR / "config" / "notification_config.json"
+        self._events_dir = DATA_DIR / "events" / "builtin"
+        self._workers_dir = DATA_DIR / "workers" / "builtin"
+        self._rules_dir = DATA_DIR / "rules"
+        self._notification_config_file = DATA_DIR / "notifications" / "config.json"
+        # 所有可扫描的配置目录（read_config 概览 + health_check）
+        self._scan_dirs = [
+            self._config_dir,
+            self._events_dir,
+            self._workers_dir,
+            DATA_DIR / "skills",
+            DATA_DIR / "tools",
+            DATA_DIR / "agents",
+            DATA_DIR / "scheduler",
+            DATA_DIR / "models",
+            DATA_DIR / "oauth",
+            self._rules_dir,
+            DATA_DIR / "notifications",
+            DATA_DIR / "prompts",
+            DATA_DIR / "event_chain",
+            DATA_DIR / "stages",
+        ]
 
     def set_registries(self, event_registry, worker_registry):
         """设置事件和Worker注册表（延迟注入，避免循环依赖）"""
@@ -112,34 +134,73 @@ class QAAgent:
     # ── 配置管理 ──────────────────────────────────
 
     async def read_config(self, config_path: str = None) -> Dict[str, Any]:
-        """读取系统配置"""
+        """读取系统配置
+
+        config_path 支持两种形式:
+          - 相对路径 (如 'events/builtin/product_created.md') → 解析到 DATA_DIR 下
+          - 省略 → 返回所有配置目录的文件概览
+        """
         if config_path:
-            file_path = self._config_dir / config_path
+            # 从 DATA_DIR 解析
+            file_path = DATA_DIR / config_path
             if not file_path.exists():
                 return {"error": f"配置文件不存在: {config_path}"}
+            # 安全检查: 禁止路径穿越
+            try:
+                file_path.resolve().relative_to(DATA_DIR.resolve())
+            except ValueError:
+                return {"error": f"非法路径: {config_path}"}
             try:
                 if file_path.suffix == ".json":
                     return json.loads(file_path.read_text(encoding="utf-8"))
+                elif file_path.suffix in (".yaml", ".yml"):
+                    try:
+                        import yaml
+                        return yaml.safe_load(file_path.read_text(encoding="utf-8"))
+                    except Exception:
+                        return {"content": file_path.read_text(encoding="utf-8")}
                 else:
                     return {"content": file_path.read_text(encoding="utf-8")}
             except Exception as e:
                 return {"error": str(e)}
 
-        # 返回配置概览
+        # 返回配置概览（扫描所有配置子目录）
         configs = {}
-        if self._config_dir.exists():
-            for f in self._config_dir.rglob("*"):
-                if f.is_file() and not f.name.startswith("_"):
-                    rel_path = str(f.relative_to(self._config_dir))
-                    configs[rel_path] = f.stat().st_size
+        for scan_dir in self._scan_dirs:
+            if scan_dir.exists():
+                for f in scan_dir.rglob("*"):
+                    if f.is_file() and not f.name.startswith("_"):
+                        rel_path = str(f.relative_to(DATA_DIR))
+                        configs[rel_path] = f.stat().st_size
         return {"config_files": configs}
 
     async def write_config(self, config_path: str, content: Any) -> bool:
-        """写入系统配置（需要用户确认）"""
-        file_path = self._config_dir / config_path
+        """写入系统配置（需要用户确认）
+
+        config_path 支持相对路径，解析到 DATA_DIR 下对应的子目录。
+        例如: 'events/builtin/custom_events.md' → data/events/builtin/custom_events.md
+        """
+        # 优先从 DATA_DIR 解析，兼容新目录结构
+        file_path = DATA_DIR / config_path
+        # 安全检查: 禁止路径穿越
+        try:
+            file_path.resolve().relative_to(DATA_DIR.resolve())
+        except ValueError:
+            raise ValueError(f"非法路径: {config_path}")
+
         file_path.parent.mkdir(parents=True, exist_ok=True)
 
         if isinstance(content, dict):
+            if file_path.suffix in (".yaml", ".yml"):
+                try:
+                    import yaml
+                    file_path.write_text(
+                        yaml.dump(content, allow_unicode=True, default_flow_style=False),
+                        encoding="utf-8",
+                    )
+                    return True
+                except Exception:
+                    pass
             file_path.write_text(
                 json.dumps(content, ensure_ascii=False, indent=2),
                 encoding="utf-8",
@@ -351,14 +412,21 @@ class QAAgent:
         except Exception as e:
             status["checks"]["worker_registry"] = {"status": "error", "error": str(e)}
 
-        # 检查配置文件目录
-        for subdir in ["events", "workers"]:
-            dir_path = self._config_dir / subdir
-            if dir_path.exists():
-                files = list(dir_path.glob("*.md"))
-                status["checks"][f"config_{subdir}"] = {"status": "healthy", "files": len(files)}
-            else:
-                status["checks"][f"config_{subdir}"] = {"status": "missing"}
+        # 检查事件配置目录
+        dir_path = self._events_dir
+        if dir_path.exists():
+            files = list(dir_path.glob("*.md"))
+            status["checks"]["events_builtin"] = {"status": "healthy", "files": len(files)}
+        else:
+            status["checks"]["events_builtin"] = {"status": "missing"}
+
+        # 检查Worker配置目录
+        dir_path = self._workers_dir
+        if dir_path.exists():
+            files = list(dir_path.glob("*.md"))
+            status["checks"]["workers_builtin"] = {"status": "healthy", "files": len(files)}
+        else:
+            status["checks"]["workers_builtin"] = {"status": "missing"}
 
         # 可选：Claude 智能分析健康报告
         if status.get("overall") != "healthy":
@@ -489,14 +557,13 @@ class QAAgent:
     # ── 通知配置管理 ──────────────────────────────────
 
     async def get_notification_config(self) -> Dict[str, Any]:
-        """获取通知配置"""
+        """获取通知配置。配置文件必须存在。"""
         if not self._notification_config_file.exists():
-            return self._default_notification_config()
-
-        try:
-            return json.loads(self._notification_config_file.read_text(encoding="utf-8"))
-        except Exception:
-            return self._default_notification_config()
+            raise FileNotFoundError(
+                f"通知配置文件不存在: {self._notification_config_file}\n"
+                "请确保 data/notifications/config.json 已创建"
+            )
+        return json.loads(self._notification_config_file.read_text(encoding="utf-8"))
 
     async def set_notification_config(self, config: Dict[str, Any]) -> bool:
         """更新通知配置（含可选 SDK 智能验证）"""
@@ -527,24 +594,6 @@ class QAAgent:
             ok = await self.set_notification_config(config)
             return {"success": ok}
         return {"error": f"无效操作: {action}"}
-
-    def _default_notification_config(self) -> Dict[str, Any]:
-        """默认通知配置"""
-        return {
-            "channels": {
-                "dashboard": {"enabled": True},
-                "websocket": {"enabled": True},
-                "email": {"enabled": False, "smtp_host": "", "smtp_port": 587},
-                "webhook": {"enabled": False, "url": ""},
-            },
-            "severity_routing": {
-                "critical": ["dashboard", "websocket", "email"],
-                "high": ["dashboard", "websocket"],
-                "medium": ["dashboard"],
-                "low": ["dashboard"],
-            },
-            "quiet_hours": {"enabled": False, "start": "22:00", "end": "08:00"},
-        }
 
     # ── 定时任务管理 ──────────────────────────────────
 
@@ -736,14 +785,6 @@ class QAAgent:
                     success=True,
                     output=json.dumps(result, ensure_ascii=False, indent=2),
                 )
-            elif command == "astra products":
-                from app.core.product_storage import get_product_storage
-                storage = get_product_storage()
-                products = storage.list_products(limit=20)
-                output = f"产品总数: {storage.count_products()}\n"
-                for p in products:
-                    output += f"  [{p.lifecycle_stage.value}] {p.id}: {p.name}\n"
-                return CLICommandResult(command=command, success=True, output=output)
             elif command == "astra products":
                 from app.core.product_storage import get_product_storage
                 storage = get_product_storage()

@@ -1,0 +1,21 @@
+{
+  "id": "p_LED灯_457df0b8",
+  "name": "LED灯带-德国",
+  "product_type": "electronics",
+  "target_markets": [
+    "德国",
+    "欧盟"
+  ],
+  "hs_code": "94054090",
+  "vendor": "",
+  "tags": [],
+  "lifecycle_stage": "concept",
+  "business_stage": "阶段2",
+  "compliance_status": "pending",
+  "risk_level": "low",
+  "created_at": "2026-06-08T08:12:28.337666",
+  "updated_at": "2026-06-08T08:12:28.337675",
+  "metadata": {},
+  "health_score": 30,
+  "certifications": []
+}

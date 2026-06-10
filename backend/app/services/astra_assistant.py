@@ -101,6 +101,10 @@ COMPLIANCE_TOOL_NAMES = [
 # tool_id → (模块导入路径, 工厂函数名)
 _AGENT_TOOL_MCP_REGISTRY: dict[str, tuple[str, str]] = {
     "tool_metaso_search": ("app.services.metaso_search", "get_metaso_mcp_server"),
+    "tool_compliance_check": ("app.services.astra_tools", "get_compliance_mcp_server"),
+    "tool_hs_lookup": ("app.services.astra_tools", "get_compliance_mcp_server"),
+    "tool_vat_query": ("app.services.astra_tools", "get_compliance_mcp_server"),
+    "tool_regulation_scan": ("app.services.astra_tools", "get_compliance_mcp_server"),
 }
 
 
@@ -442,7 +446,7 @@ class AstraAssistant:
             try:
                 import json as _json
                 from pathlib import Path as _Path
-                _ext_file = _Path(settings.data_dir) / "config" / "agent_extensions.json"
+                _ext_file = _Path(settings.data_dir) / "agents" / "extensions.json"
                 if _ext_file.exists():
                     _ext_data = _json.loads(_ext_file.read_text(encoding="utf-8"))
                     _agent_ext = _ext_data.get(agent_id, {})
@@ -716,7 +720,7 @@ class AstraAssistant:
             try:
                 import json as _json
                 from pathlib import Path as _Path
-                _ext_file_chat = _Path(settings.data_dir) / "config" / "agent_extensions.json"
+                _ext_file_chat = _Path(settings.data_dir) / "agents" / "extensions.json"
                 if _ext_file_chat.exists():
                     _ext_data_chat = _json.loads(_ext_file_chat.read_text(encoding="utf-8"))
                     _agent_ext_chat = _ext_data_chat.get(agent_id, {})

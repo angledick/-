@@ -9,10 +9,10 @@
   5. Token预算: 跟踪Token使用量
 
 配置驱动:
-  - data/config/model_routes.json — 模型路由配置
+  - data/models/routes.yaml — 模型路由配置
 """
 
-import json
+import yaml
 from pathlib import Path
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any
@@ -21,7 +21,7 @@ from app.config import settings
 from app.models.schemas import ModelConfig, ModelRouteRequest
 
 DATA_DIR = Path(settings.data_dir)
-CONFIG_FILE = DATA_DIR / "config" / "model_routes.json"
+CONFIG_YAML = DATA_DIR / "models" / "routes.yaml"
 
 
 class ModelRouter:
@@ -51,56 +51,22 @@ class ModelRouter:
         self._load_config()
 
     def _load_config(self):
-        """加载模型路由配置"""
-        if CONFIG_FILE.exists():
-            try:
-                data = json.loads(CONFIG_FILE.read_text(encoding="utf-8"))
-                for role, config in data.get("routes", {}).items():
-                    self._routes[role] = ModelConfig(**config)
-                self._fallback_chain = data.get("fallback_chain", {})
-                return
-            except Exception:
-                pass
+        """加载模型路由配置（从 data/models/routes.yaml）。配置文件必须存在且正确。"""
+        if not CONFIG_YAML.exists():
+            raise FileNotFoundError(
+                f"模型路由配置不存在: {CONFIG_YAML}\n"
+                "请确保 data/models/routes.yaml 已创建"
+            )
+        data = yaml.safe_load(CONFIG_YAML.read_text(encoding="utf-8"))
+        if not data:
+            raise ValueError(f"模型路由配置为空: {CONFIG_YAML}")
+        self._parse_routes(data)
 
-        # 默认配置
-        self._routes = {
-            "reasoning": ModelConfig(
-                role="reasoning",
-                provider="anthropic",
-                model="claude-sonnet-4-20250514",
-                api_key_env="ANTHROPIC_API_KEY",
-                max_tokens=8192,
-                temperature=0.3,
-            ),
-            "fast": ModelConfig(
-                role="fast",
-                provider="anthropic",
-                model="claude-haiku-3-5",
-                api_key_env="ANTHROPIC_API_KEY",
-                max_tokens=4096,
-                temperature=0.5,
-            ),
-            "vision": ModelConfig(
-                role="vision",
-                provider="anthropic",
-                model="claude-sonnet-4-20250514",
-                api_key_env="ANTHROPIC_API_KEY",
-                max_tokens=4096,
-                temperature=0.3,
-            ),
-            "embedding": ModelConfig(
-                role="embedding",
-                provider="openai",
-                model="text-embedding-3-small",
-                api_key_env="OPENAI_API_KEY",
-                max_tokens=1536,
-            ),
-        }
-        self._fallback_chain = {
-            "reasoning": ["fast"],
-            "fast": ["reasoning"],
-            "vision": ["reasoning"],
-        }
+    def _parse_routes(self, data: dict):
+        """从配置字典解析路由。"""
+        for role, config in data.get("routes", {}).items():
+            self._routes[role] = ModelConfig(**config)
+        self._fallback_chain = data.get("fallback_chain", {})
 
     # ── 路由接口 ──────────────────────────────────
 
@@ -132,6 +98,10 @@ class ModelRouter:
         """获取所有路由配置"""
         return dict(self._routes)
 
+    def get_fallback_chain(self) -> Dict[str, List[str]]:
+        """获取降级链配置"""
+        return dict(self._fallback_chain)
+
     # ── 配置管理 ──────────────────────────────────
 
     async def update_route(self, role: str, config: ModelConfig) -> bool:
@@ -161,14 +131,14 @@ class ModelRouter:
         return True
 
     async def _save_config(self):
-        """保存配置到文件"""
+        """保存配置到 YAML 文件"""
         data = {
             "routes": {role: config.model_dump() for role, config in self._routes.items()},
             "fallback_chain": self._fallback_chain,
         }
-        CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
-        CONFIG_FILE.write_text(
-            json.dumps(data, ensure_ascii=False, indent=2),
+        CONFIG_YAML.parent.mkdir(parents=True, exist_ok=True)
+        CONFIG_YAML.write_text(
+            yaml.dump(data, allow_unicode=True, default_flow_style=False),
             encoding="utf-8",
         )
 

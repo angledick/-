@@ -19,8 +19,10 @@
 """
 
 import json
+import re
 import uuid
 import asyncio
+import yaml
 from pathlib import Path
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any, Callable, Awaitable
@@ -518,34 +520,70 @@ class GlobalEventBus:
 class EventRegistry:
     """事件注册表 - 配置文件驱动
 
-    从 data/config/events/ 目录的Markdown文件加载事件定义，
+    从 data/events/builtin/ 目录的Markdown文件加载事件定义，
     支持QAAgent和用户动态增删改事件类型。
     """
 
     def __init__(self, config_dir: str = None):
-        self.config_dir = Path(config_dir or (DATA_DIR / "config" / "events"))
+        self.config_dir = Path(config_dir or (DATA_DIR / "events" / "builtin"))
         self._events: Dict[str, EventDefinition] = {}
         self._load_all_events()
 
     def _load_all_events(self):
-        """加载所有事件配置"""
+        """加载所有事件配置。配置目录必须存在。"""
         if not self.config_dir.exists():
-            self._register_defaults()
-            return
+            raise FileNotFoundError(
+                f"事件配置目录不存在: {self.config_dir}\n"
+                "请确保 data/events/builtin/ 已创建"
+            )
         for md_file in self.config_dir.glob("*.md"):
             if md_file.name.startswith("_"):
                 continue
             self._load_events_from_file(md_file)
+        if not self._events:
+            raise ValueError(f"事件配置目录中未找到有效事件定义: {self.config_dir}")
 
     def _load_events_from_file(self, file_path: Path):
-        """从Markdown文件解析事件定义表格"""
-        try:
-            content = file_path.read_text(encoding="utf-8")
-            events = self._parse_event_table(content, str(file_path))
-            for event_def in events:
-                self._events[event_def.event_code] = event_def
-        except Exception:
-            pass
+        """从Markdown文件解析事件定义（支持 YAML front-matter 和表格两种格式）。"""
+        content = file_path.read_text(encoding="utf-8")
+        # YAML front-matter 解析
+        match = re.match(r'^---\s*\n(.*?)\n---\s*\n', content, re.DOTALL)
+        if match:
+            import yaml
+            front_matter = yaml.safe_load(match.group(1))
+            if front_matter and isinstance(front_matter, dict):
+                events_list = front_matter.get("events", [])
+                if events_list:
+                    for evt in events_list:
+                        self._events[evt["event_code"]] = self._create_event_from_dict(evt, str(file_path))
+                    return
+        # 表格解析
+        events = self._parse_event_table(content, str(file_path))
+        for event_def in events:
+            self._events[event_def.event_code] = event_def
+
+    def _create_event_from_dict(self, data: dict, source_file: str = "") -> EventDefinition:
+        """从 YAML front-matter 字典创建 EventDefinition。"""
+        from app.models.schemas import EventCategory
+        category = EventStandardizer.classify_event_type(data.get("event_code", ""))
+        # 兼容 tools 字段：YAML 中可能是 dict 列表（含 name/impl），需提取 name 字符串
+        raw_tools = data.get("tools", [])
+        tools = [t["name"] if isinstance(t, dict) and "name" in t else t for t in raw_tools]
+        return EventDefinition(
+            event_code=data.get("event_code", ""),
+            event_name=data.get("event_name", ""),
+            business_stage=data.get("business_stage", ""),
+            category=category,
+            trigger_condition=data.get("trigger_condition", ""),
+            related_worker=data.get("worker", ""),
+            severity=data.get("severity", "low"),
+            notify_strategy=data.get("notify_strategy", ["dashboard"]),
+            tools=tools,
+            skills=data.get("skills", []),
+            agent_action=data.get("agent_action", ""),
+            description=data.get("description", ""),
+            config_file=source_file,
+        )
 
     def _parse_event_table(self, content: str, source_file: str = "") -> List[EventDefinition]:
         """解析Markdown表格中的事件定义"""
@@ -611,46 +649,6 @@ class EventRegistry:
             config_file=source_file,
         )
 
-    def _register_defaults(self):
-        """注册默认事件定义（当配置文件不存在时）"""
-        defaults = [
-            ("product:created", "产品创建", "阶段2", "lifecycle", "新产品纳入管理", "low"),
-            ("product:status_changed", "产品状态变更", "全阶段", "lifecycle", "产品生命周期状态变更", "medium"),
-            ("product:listed", "产品上架", "阶段4", "lifecycle", "产品状态变为active", "medium"),
-            ("product:ended", "产品下架", "全阶段", "lifecycle", "产品状态变为end", "low"),
-            ("compliance:check_started", "合规检查开始", "全阶段", "compliance", "发起合规检查", "low"),
-            ("compliance:check_passed", "合规检查通过", "全阶段", "compliance", "合规检查通过", "low"),
-            ("compliance:check_failed", "合规检查失败", "全阶段", "compliance", "合规检查未通过", "high"),
-            ("certification:uploaded", "认证上传", "阶段3", "certification", "上传认证文件", "low"),
-            ("certification:expiring", "认证即将到期", "全阶段", "certification", "认证N天内到期", "high"),
-            ("certification:expired", "认证已过期", "全阶段", "certification", "认证已过期", "critical"),
-            ("certification:renewed", "认证已续期", "全阶段", "certification", "认证续期完成", "low"),
-            ("order:created", "订单创建", "阶段6", "order", "新订单产生", "low"),
-            ("order:shipped", "订单发货", "阶段6", "order", "订单已发货", "low"),
-            ("order:delivered", "订单签收", "阶段9", "order", "买家签收", "low"),
-            ("order:returned", "订单退货", "阶段9", "order", "退货完成", "medium"),
-            ("regulation:updated", "法规更新", "全阶段", "regulation", "法规内容更新", "high"),
-            ("regulation:new", "新法规生效", "全阶段", "regulation", "新法规生效", "high"),
-            ("risk:threshold_breached", "风险阈值突破", "全阶段", "risk_alert", "指标超阈值", "high"),
-            ("risk:metric_alert", "指标预警", "全阶段", "risk_alert", "指标异常", "medium"),
-            ("risk:chargeback_alert", "拒付预警", "阶段5", "risk_alert", "拒付率超阈值", "high"),
-            ("system:sync_failed", "同步失败", "全阶段", "system", "外部系统同步失败", "medium"),
-            ("system:api_health", "API健康检查", "全阶段", "system", "API健康状态变更", "low"),
-            ("user:login", "用户登录", "全阶段", "user_action", "用户登录系统", "low"),
-            ("user:config_changed", "配置变更", "全阶段", "user_action", "用户修改系统配置", "medium"),
-            ("user:product_added", "用户添加产品", "阶段2", "user_action", "用户手动添加产品", "low"),
-        ]
-
-        for code, name, stage, cat, trigger, sev in defaults:
-            self._events[code] = EventDefinition(
-                event_code=code,
-                event_name=name,
-                business_stage=stage,
-                category=EventCategory(cat),
-                trigger_condition=trigger,
-                severity=sev,
-                notify_strategy=["dashboard"],
-            )
 
     # ── 查询接口 ──────────────────────────────────
 

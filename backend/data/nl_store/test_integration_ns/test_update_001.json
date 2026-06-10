@@ -1,0 +1,14 @@
+{
+  "record_id": "rec_20eb9359",
+  "namespace": "test_integration_ns",
+  "key": "test_update_001",
+  "title": "已更新记录",
+  "content_nl": "更新后的内容",
+  "metadata": {},
+  "tags": [
+    "update-test",
+    "updated"
+  ],
+  "created_at": "2026-06-08T08:05:39.640276+00:00",
+  "updated_at": "2026-06-08T08:12:24.529757+00:00"
+}

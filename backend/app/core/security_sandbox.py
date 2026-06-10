@@ -493,7 +493,7 @@ class SecuritySandbox:
         self._load_rules()
 
     def _load_rules(self):
-        rules_file = Path(settings.data_dir) / "config" / "security_rules.json"
+        rules_file = Path(settings.data_dir) / "rules" / "security_rules.json"
         if rules_file.exists():
             try:
                 import json
@@ -506,7 +506,7 @@ class SecuritySandbox:
 
     def _save_rules(self):
         import json
-        rules_file = Path(settings.data_dir) / "config" / "security_rules.json"
+        rules_file = Path(settings.data_dir) / "rules" / "security_rules.json"
         rules_file.parent.mkdir(parents=True, exist_ok=True)
         with open(rules_file, "w", encoding="utf-8") as f:
             json.dump([r.to_dict() for r in self._custom_rules], f, ensure_ascii=False, indent=2)
@@ -584,6 +584,19 @@ class SecuritySandbox:
             self._save_rules()
             return True
         return False
+
+    def update_rule(self, rule_id: str, updates: Dict[str, Any]) -> Optional[Dict]:
+        """更新防护规则"""
+        for i, r in enumerate(self._custom_rules):
+            if r.id == rule_id:
+                current = r.to_dict()
+                current.update(updates)
+                current["id"] = rule_id  # 不允许修改 ID
+                gr = GuardRule(**{k: v for k, v in current.items() if k in GuardRule.__dataclass_fields__})
+                self._custom_rules[i] = gr
+                self._save_rules()
+                return gr.to_dict()
+        return None
 
     def list_rules(self) -> List[Dict]:
         """列出所有防护规则"""

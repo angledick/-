@@ -98,6 +98,15 @@ class AddRuleRequest(BaseModel):
     action: str = "block"
 
 
+class UpdateRuleRequest(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    guard_type: Optional[str] = None
+    pattern: Optional[str] = None
+    threat_level: Optional[str] = None
+    action: Optional[str] = None
+
+
 @security_router.post("/check/tool", summary="检查工具调用安全性")
 async def check_tool(req: ToolCheckRequest):
     from app.core.security_sandbox import get_security_sandbox
@@ -147,7 +156,18 @@ async def list_rules():
 async def add_rule(req: AddRuleRequest):
     from app.core.security_sandbox import get_security_sandbox
     sandbox = get_security_sandbox()
-    return sandbox.add_rule(req.dict())
+    return sandbox.add_rule(req.model_dump())
+
+
+@security_router.put("/rules/{rule_id}", summary="更新防护规则")
+async def update_rule(rule_id: str, req: UpdateRuleRequest):
+    from app.core.security_sandbox import get_security_sandbox
+    sandbox = get_security_sandbox()
+    updates = {k: v for k, v in req.model_dump().items() if v is not None}
+    result = sandbox.update_rule(rule_id, updates)
+    if result is None:
+        raise HTTPException(status_code=404, detail="Rule not found")
+    return result
 
 
 @security_router.delete("/rules/{rule_id}", summary="删除防护规则")

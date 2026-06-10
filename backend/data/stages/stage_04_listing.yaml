@@ -1,0 +1,9 @@
+stage:
+  number: 4
+  name: "商品上架"
+  description: "商品Listing创建与管理、合规元数据绑定（HS编码/VAT/认证）、产品描述模板(Liquid)、广告合规检查、Hydrogen前端定制。Agent在此阶段需确保每个Listing附带完整合规数据后发布。"
+  events:
+    - event_code: "product:listed"
+    - event_code: "product:content_updated"
+    - event_code: "compliance:vat_queried"
+    - event_code: "compliance:pipeline_completed"

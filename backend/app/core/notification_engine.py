@@ -53,7 +53,7 @@ class NotificationEngine:
     """
 
     def __init__(self, config_file: str = None):
-        self._config_file = Path(config_file) if config_file else DATA_DIR / "config" / "notification_config.json"
+        self._config_file = Path(config_file) if config_file else DATA_DIR / "notifications" / "config.json"
         self._config = self._load_config()
         self._notification_history: List[NotificationPayload] = []
         NOTIFICATIONS_DIR.mkdir(parents=True, exist_ok=True)
@@ -219,14 +219,21 @@ class NotificationEngine:
         return True
 
     async def _send_websocket(self, notification: NotificationPayload) -> bool:
-        """通过WebSocket推送"""
+        """通过WebSocket推送（统一 {type, payload} 格式）"""
         try:
             from app.services.ws_manager import ws_manager
-            if hasattr(ws_manager, "broadcast"):
-                await ws_manager.broadcast({
-                    "type": "notification",
-                    "data": notification.model_dump(),
-                })
+            target_user = notification.product_id or "default"
+            await ws_manager.send_to_user(target_user, {
+                "type": "alert",
+                "payload": {
+                    "alert_id": notification.id,
+                    "severity": notification.severity,
+                    "title": notification.title,
+                    "description": notification.message,
+                    "product_id": notification.product_id,
+                    "created_at": notification.created_at,
+                },
+            })
             return True
         except Exception:
             return False

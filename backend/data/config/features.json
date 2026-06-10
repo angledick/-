@@ -1,0 +1,14 @@
+{
+  "sse_streaming": true,
+  "multi_agent": true,
+  "memory_tree": true,
+  "proactive_engine": true,
+  "security_sandbox": true,
+  "skill_registry": true,
+  "plugin_system": true,
+  "code_capability": true,
+  "auto_pull": true,
+  "channel_adapter": true,
+  "rbac": true,
+  "approval_flow": true
+}

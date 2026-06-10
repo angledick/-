@@ -25,3 +25,16 @@ apscheduler
 
 # YAML for prompt templates
 pyyaml
+
+# RAG 知识库导入
+pypdf
+beautifulsoup4
+
+# 新闻采集
+feedparser
+
+# 本地 Embedding
+sentence-transformers
+
+# OpenAI 兼容接口（新闻分析/NLU）
+openai

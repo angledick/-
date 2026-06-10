@@ -1,0 +1,77 @@
+{
+  "chain_id": "test_product_001",
+  "total_events": 3,
+  "events": [
+    {
+      "event_id": "evt_a1576bb5",
+      "chain_id": "test_product_001",
+      "source": "compliance_engine",
+      "type": "compliance:check_started",
+      "description_nl": "LED灯带-德国合规检查启动",
+      "severity": "medium",
+      "payload": {
+        "product_id": "p_led_de_001",
+        "target_market": "德国",
+        "check_items": [
+          "CE",
+          "WEEE",
+          "RoHS"
+        ]
+      },
+      "tags": [
+        "compliance",
+        "germany"
+      ],
+      "timestamp": "2026-06-08T08:09:38.044303+00:00"
+    },
+    {
+      "event_id": "evt_258a466d",
+      "chain_id": "test_product_001",
+      "source": "compliance_engine",
+      "type": "compliance:check_started",
+      "description_nl": "LED灯带-德国合规检查启动",
+      "severity": "medium",
+      "payload": {
+        "product_id": "p_led_de_001",
+        "target_market": "德国",
+        "check_items": [
+          "CE",
+          "WEEE",
+          "RoHS"
+        ]
+      },
+      "tags": [
+        "compliance",
+        "germany"
+      ],
+      "timestamp": "2026-06-08T08:11:31.524827+00:00"
+    },
+    {
+      "event_id": "evt_b5d6a52a",
+      "chain_id": "test_product_001",
+      "source": "compliance_engine",
+      "type": "compliance:check_started",
+      "description_nl": "LED灯带-德国合规检查启动",
+      "severity": "medium",
+      "payload": {
+        "product_id": "p_led_de_001",
+        "target_market": "德国",
+        "check_items": [
+          "CE",
+          "WEEE",
+          "RoHS"
+        ]
+      },
+      "tags": [
+        "compliance",
+        "germany"
+      ],
+      "timestamp": "2026-06-08T08:12:24.885865+00:00"
+    }
+  ],
+  "timeline": [
+    "🟡 [Medium] 2026-06-08T08:12:24 LED灯带-德国合规检查启动",
+    "🟡 [Medium] 2026-06-08T08:11:31 LED灯带-德国合规检查启动",
+    "🟡 [Medium] 2026-06-08T08:09:38 LED灯带-德国合规检查启动"
+  ]
+}

@@ -389,6 +389,7 @@ def main():
         "business_stage": "阶段2",
         "category": "system",
         "trigger_condition": "手动触发",
+        "agent_action": "记录自定义事件信息，根据事件类型分发到对应的Worker处理。更新Dashboard事件列表。",
         "severity": "low",
         "notify_strategy": ["dashboard"]
     }

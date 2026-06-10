@@ -66,7 +66,7 @@ class TestEventChains:
         payload = {
             "chain_id": "test_event_chain_001",
             "source": "unit_test",
-            "event_type": "regulation_change",
+            "type": "regulation_change",
             "description_nl": "测试事件：欧盟更新GPSR法规",
             "severity": "medium",
             "tags": ["测试", "GPSR"]

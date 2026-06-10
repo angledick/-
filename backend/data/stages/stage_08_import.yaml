@@ -1,0 +1,9 @@
+stage:
+  number: 8
+  name: "进口清关"
+  description: "进口清关处理、IOSS/VAT配置、进口关税支付、税费计算Function、物流追踪前端展示、进口限制监控、VAT变更监控。Agent在此阶段需确保目的国清关合规，税费正确缴纳。"
+  events:
+    - event_code: "order:import_customs"
+    - event_code: "order:import_duty_paid"
+    - event_code: "regulation:vat_changed"
+    - event_code: "regulation:import_restriction"

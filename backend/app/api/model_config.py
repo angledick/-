@@ -67,6 +67,44 @@ async def list_model_configs():
     }
 
 
+@router.get("/active", summary="当前激活路由")
+async def get_active_routes():
+    """获取当前激活的全部模型路由"""
+    model_router = get_model_router()
+    routes = model_router.get_all_routes()
+    return {
+        "routes": {
+            role: {
+                "provider": cfg.provider,
+                "model": cfg.model,
+                "max_tokens": cfg.max_tokens,
+            }
+            for role, cfg in routes.items()
+        },
+        "fallback_chain": model_router.get_fallback_chain(),
+    }
+
+
+@router.get("/{role}", summary="获取单条路由")
+async def get_model_config(role: str):
+    """获取指定角色的模型路由配置"""
+    model_router = get_model_router()
+    routes = model_router.get_all_routes()
+    if role not in routes:
+        raise HTTPException(status_code=404, detail=f"路由 {role} 不存在")
+    cfg = routes[role]
+    return ModelConfigResponse(
+        role=role,
+        provider=cfg.provider,
+        model=cfg.model,
+        api_key_env=cfg.api_key_env,
+        base_url=cfg.base_url,
+        max_tokens=cfg.max_tokens,
+        temperature=cfg.temperature,
+        top_p=cfg.top_p,
+    )
+
+
 @router.post("", summary="创建/更新模型路由")
 async def create_model_config(req: ModelConfigRequest):
     """创建或更新模型路由配置"""

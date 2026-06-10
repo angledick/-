@@ -1,0 +1,5 @@
+stage:
+  number: 1
+  name: "阶段名称"
+  description: ""  # 阶段详细描述（供Agent阅读）
+  events: []

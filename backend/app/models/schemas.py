@@ -3,7 +3,7 @@
 import uuid
 from pydantic import BaseModel, Field, computed_field
 from typing import Optional, Any, Literal, List, Dict
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 
 
@@ -323,7 +323,7 @@ class EventRecord(BaseModel):
     data_sources: DataSourceInfo = Field(default_factory=DataSourceInfo, description="数据血缘")
     severity: str = Field(default="low", description="严重级别: low/medium/high/critical")
     error: Optional[str] = Field(default=None, description="错误信息（失败时）")
-    created_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat(), description="创建时间")
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat(), description="创建时间")
 
 
 class EventDefinition(BaseModel):
@@ -336,12 +336,15 @@ class EventDefinition(BaseModel):
     related_worker: str = Field(default="", description="关联Worker")
     severity: str = Field(default="low", description="严重级别")
     notify_strategy: List[str] = Field(default_factory=lambda: ["dashboard"], description="通知策略")
+    tools: List[str] = Field(default_factory=list, description="Worker 使用的工具列表")
+    skills: List[str] = Field(default_factory=list, description="Worker 使用的技能列表")
+    agent_action: str = Field(default="", description="Agent 执行指令描述")
     description: str = Field(default="", description="事件描述")
     data_schema: Optional[Dict[str, Any]] = Field(default=None, description="事件数据Schema")
     data_sources: DataSourceInfo = Field(default_factory=DataSourceInfo, description="数据血缘")
     config_file: Optional[str] = Field(default=None, description="对应事件配置文件路径")
-    created_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
-    updated_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    updated_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 class EventCreateOSRequest(BaseModel):
@@ -376,8 +379,9 @@ class WorkerDefinition(BaseModel):
     status: str = Field(default="idle", description="当前状态: idle/busy/error")
     sdk_enabled: bool = Field(default=True, description="是否使用 Claude Agent SDK 执行任务")
     sdk_agent_id: Optional[str] = Field(default=None, description="SDK 执行时使用的 Agent 配置 ID")
-    created_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
-    updated_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
+    config_file: Optional[str] = Field(default=None, description="对应 Worker 配置文件路径")
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    updated_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 class WorkerStatus(BaseModel):
@@ -401,8 +405,8 @@ class SchedulerBinding(BaseModel):
     worker_code: str = Field(description="绑定的 Worker 编码")
     enabled: bool = Field(default=True, description="是否启用 SDK 执行（false 则走传统 Python 回调）")
     params_override: Optional[Dict[str, Any]] = Field(default=None, description="覆盖触发器参数")
-    created_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
-    updated_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    updated_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 # ── OS级智能体：产品模型 ──────────────────────────────
@@ -458,8 +462,8 @@ class ProductInfo(BaseModel):
     business_stage: Optional[str] = None
     compliance_status: str = Field(default="pending", description="合规状态: pending/checking/passed/failed")
     risk_level: str = Field(default="low")
-    created_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
-    updated_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    updated_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     metadata: Dict[str, Any] = Field(default_factory=dict)
 
     # ── 计算字段：健康度 ───────────────────────────
@@ -537,7 +541,7 @@ class CompliancePipelineResult(BaseModel):
     process_result: Optional[Dict[str, Any]] = None
     pipeline_mode: str = Field(default="6step", description="流水线模式: 5step/6step")
     status: str = Field(default="pending", description="流水线状态")
-    started_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
+    started_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     completed_at: Optional[str] = None
 
 
@@ -571,7 +575,7 @@ class NotificationPayload(BaseModel):
     product_id: Optional[str] = Field(default=None, description="深度链接跳转目标")
     stage: Optional[str] = Field(default=None, description="业务阶段")
     severity: str = Field(default="low")
-    created_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     is_read: bool = Field(default=False)
 
 
@@ -692,7 +696,7 @@ class PipelineHealthResponse(BaseModel):
     """流水线整体健康度"""
     overall_score: float = Field(default=0.0, description="整体健康度 0-100")
     stages: List[PipelineStageStatus] = Field(default_factory=list)
-    last_updated: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
+    last_updated: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 # ── OS级智能体：自定义指标 ──────────────────────────────
@@ -705,14 +709,14 @@ class CustomMetricDefinition(BaseModel):
     description: str = Field(default="")
     refresh_interval: str = Field(default="realtime", description="刷新频率")
     unit: str = Field(default="", description="单位")
-    created_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 class MetricValue(BaseModel):
     """指标值"""
     metric_id: str
     value: float = 0.0
-    timestamp: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
+    timestamp: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     metadata: Dict[str, Any] = Field(default_factory=dict)
 
 
@@ -736,7 +740,7 @@ class WorkflowDefinition(BaseModel):
     steps: List[WorkflowStep] = Field(default_factory=list)
     status: str = Field(default="idle", description="idle/running/completed/failed")
     current_step: int = Field(default=0)
-    created_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
     completed_at: Optional[str] = None
 
 
@@ -750,7 +754,7 @@ class AgentMessage(BaseModel):
     task_id: Optional[str] = None
     payload: Dict[str, Any] = Field(default_factory=dict)
     context: Dict[str, Any] = Field(default_factory=dict)
-    created_at: str = Field(default_factory=lambda: datetime.utcnow().isoformat())
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 # ── OS级智能体：安全沙箱 ──────────────────────────────

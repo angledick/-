@@ -1,0 +1,38 @@
+{
+  "chain_id": "test_event_chain_001",
+  "total_events": 2,
+  "events": [
+    {
+      "event_id": "evt_4b12d0b5",
+      "chain_id": "test_event_chain_001",
+      "source": "unit_test",
+      "type": "regulation_change",
+      "description_nl": "测试事件：欧盟更新GPSR法规",
+      "severity": "medium",
+      "payload": {},
+      "tags": [
+        "测试",
+        "GPSR"
+      ],
+      "timestamp": "2026-06-08T08:11:30.069473+00:00"
+    },
+    {
+      "event_id": "evt_ba74238e",
+      "chain_id": "test_event_chain_001",
+      "source": "unit_test",
+      "type": "regulation_change",
+      "description_nl": "测试事件：欧盟更新GPSR法规",
+      "severity": "medium",
+      "payload": {},
+      "tags": [
+        "测试",
+        "GPSR"
+      ],
+      "timestamp": "2026-06-08T08:12:24.490997+00:00"
+    }
+  ],
+  "timeline": [
+    "🟡 [Medium] 2026-06-08T08:12:24 测试事件：欧盟更新GPSR法规",
+    "🟡 [Medium] 2026-06-08T08:11:30 测试事件：欧盟更新GPSR法规"
+  ]
+}

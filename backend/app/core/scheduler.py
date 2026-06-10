@@ -18,6 +18,8 @@ from typing import Optional, Dict, Any, Callable, List
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from app.config import settings
 
+import yaml
+
 logger = logging.getLogger(__name__)
 
 _scheduler: Optional[AsyncIOScheduler] = None
@@ -26,19 +28,7 @@ _scheduler: Optional[AsyncIOScheduler] = None
 # ── 任务-Worker 绑定 ────────────────────────────────
 # 每个定时任务绑定到指定 Worker，Worker 调用 Claude Agent SDK 执行
 
-DEFAULT_BINDINGS: Dict[str, Dict[str, Any]] = {
-    "poll_all_markets": {"worker_code": "regulation_worker", "enabled": True},
-    "collect_metrics": {"worker_code": "system_worker", "enabled": True},
-    "daily_compliance_brief": {"worker_code": "compliance_worker", "enabled": True},
-    "check_cert_expiry": {"worker_code": "cert_worker", "enabled": True},
-    "scan_regulation_changes": {"worker_code": "regulation_worker", "enabled": True},
-    "heartbeat_check": {"worker_code": "system_worker", "enabled": True},
-    "generate_cross_product_insights": {"worker_code": "compliance_worker", "enabled": True},
-    "aggregate_global_metrics": {"worker_code": "system_worker", "enabled": True},
-}
-
-BINDINGS_DIR = Path(settings.data_dir) / "config" / "scheduler"
-BINDINGS_FILE = BINDINGS_DIR / "task_worker_bindings.json"
+BINDINGS_YAML = Path(settings.data_dir) / "scheduler" / "bindings.yaml"
 
 TASK_WORKER_BINDINGS: Dict[str, Dict[str, Any]] = {}
 """
@@ -54,23 +44,24 @@ TASK_WORKER_BINDINGS: Dict[str, Dict[str, Any]] = {}
 
 
 def _load_bindings():
-    """从 JSON 配置文件加载绑定。"""
+    """从 YAML 配置文件加载绑定。"""
     global TASK_WORKER_BINDINGS
     try:
-        if BINDINGS_FILE.exists():
-            data = json.loads(BINDINGS_FILE.read_text(encoding="utf-8"))
-            TASK_WORKER_BINDINGS.update(data)
-            logger.info("已加载 %d 条任务-Worker 绑定", len(data))
+        if BINDINGS_YAML.exists():
+            data = yaml.safe_load(BINDINGS_YAML.read_text(encoding="utf-8"))
+            bindings = data.get("bindings", {}) if isinstance(data, dict) else {}
+            TASK_WORKER_BINDINGS.update(bindings)
+            logger.info("已加载 %d 条任务-Worker 绑定", len(bindings))
     except Exception as e:
         logger.warning("加载任务-Worker 绑定失败: %s", e)
 
 
 def _save_bindings():
-    """持久化绑定到 JSON 文件。"""
+    """持久化绑定到 YAML 文件。"""
     try:
-        BINDINGS_DIR.mkdir(parents=True, exist_ok=True)
-        BINDINGS_FILE.write_text(
-            json.dumps(TASK_WORKER_BINDINGS, ensure_ascii=False, indent=2, default=str),
+        BINDINGS_YAML.parent.mkdir(parents=True, exist_ok=True)
+        BINDINGS_YAML.write_text(
+            yaml.dump({"bindings": TASK_WORKER_BINDINGS}, allow_unicode=True, default_flow_style=False, sort_keys=False),
             encoding="utf-8",
         )
     except Exception as e:
@@ -78,13 +69,11 @@ def _save_bindings():
 
 
 def init_bindings():
-    """初始化绑定：加载配置 + 合并默认值。"""
+    """初始化绑定：从 YAML 加载配置。"""
     _load_bindings()
-    # 合并默认绑定（配置中的优先）
-    for task_name, default_binding in DEFAULT_BINDINGS.items():
-        if task_name not in TASK_WORKER_BINDINGS:
-            TASK_WORKER_BINDINGS[task_name] = dict(default_binding)
-    _save_bindings()
+    if not TASK_WORKER_BINDINGS:
+        _save_bindings()
+    logger.info("当前 %d 条任务-Worker 绑定", len(TASK_WORKER_BINDINGS))
 
 
 def get_task_worker_binding(task_name: str) -> Optional[Dict[str, Any]]:
@@ -533,69 +522,33 @@ async def collect_metrics():
         logger.error(f"Scheduler job: collect_metrics failed: {e}", exc_info=True)
 
 
-# ── 注册可调度任务模板 ────────────────────────────
+# ── 注册可调度任务模板（从 YAML 加载，无回退）──────────────────
 
-register_task(
-    "poll_all_markets",
-    "市场轮询",
-    "定时市场轮询 → 联网搜索 → 影响分析 → 预警推送",
-    default_trigger="interval",
-    default_args={"minutes": settings.market_poll_interval_minutes},
-    worker_code="regulation_worker",
-)
-register_task(
-    "collect_metrics",
-    "指标收集",
-    "定时聚合Dashboard指标数据",
-    default_trigger="interval",
-    default_args={"hours": 6},
-    worker_code="system_worker",
-)
-register_task(
-    "daily_compliance_brief",
-    "每日合规简报",
-    "每天09:00生成合规简报并推送到Dashboard",
-    default_trigger="cron",
-    default_args={"hour": 9, "minute": 0},
-    worker_code="compliance_worker",
-)
-register_task(
-    "check_cert_expiry",
-    "认证到期预警",
-    "每天10:00检查产品认证是否即将到期",
-    default_trigger="cron",
-    default_args={"hour": 10, "minute": 0},
-    worker_code="cert_worker",
-)
-register_task(
-    "scan_regulation_changes",
-    "法规变更扫描",
-    "每小时扫描目标市场法规变更",
-    default_trigger="interval",
-    default_args={"hours": 1},
-    worker_code="regulation_worker",
-)
-register_task(
-    "heartbeat_check",
-    "心跳自检",
-    "每5分钟检查系统各组件健康状态",
-    default_trigger="interval",
-    default_args={"minutes": 5},
-    worker_code="system_worker",
-)
-register_task(
-    "generate_cross_product_insights",
-    "跨产品洞察",
-    "每4小时生成跨产品合规洞察报告",
-    default_trigger="interval",
-    default_args={"hours": 4},
-    worker_code="compliance_worker",
-)
-register_task(
-    "aggregate_global_metrics",
-    "全局指标聚合",
-    "每12小时聚合全局合规指标",
-    default_trigger="interval",
-    default_args={"hours": 12},
-    worker_code="system_worker",
-)
+TASKS_YAML = Path(settings.data_dir) / "scheduler" / "tasks.yaml"
+
+
+def _register_tasks_from_yaml():
+    """从 data/scheduler/tasks.yaml 加载任务定义。配置文件必须存在且正确。"""
+    if not TASKS_YAML.exists():
+        raise FileNotFoundError(
+            f"任务配置文件不存在: {TASKS_YAML}\n"
+            "请确保 data/scheduler/tasks.yaml 已创建"
+        )
+    data = yaml.safe_load(TASKS_YAML.read_text(encoding="utf-8"))
+    tasks = data.get("tasks", [])
+    if not tasks:
+        raise ValueError(f"tasks.yaml 中未定义任何任务: {TASKS_YAML}")
+    for t in tasks:
+        register_task(
+            name=t["task_name"],
+            display_name=t.get("display_name", t["task_name"]),
+            description=t.get("description", ""),
+            default_trigger=t.get("default_trigger", "interval"),
+            default_args=t.get("trigger_args", {}),
+            worker_code=t.get("default_worker"),
+        )
+    logger.info("从 tasks.yaml 加载了 %d 个任务模板", len(tasks))
+
+
+_register_tasks_from_yaml()
+

@@ -200,6 +200,14 @@ class RBACManager:
         self._persist()
         return user.to_dict()
 
+    def remove_role(self, user_id: str) -> bool:
+        """撤销用户角色"""
+        if user_id in self._users:
+            del self._users[user_id]
+            self._persist()
+            return True
+        return False
+
     def get_user(self, user_id: str) -> Optional[Dict]:
         user = self._users.get(user_id)
         return user.to_dict() if user else None

@@ -17,6 +17,8 @@ Skills×阶段映射矩阵对齐指南 §4.2
 from __future__ import annotations
 
 import json
+import subprocess
+import sys
 import time
 import uuid
 from dataclasses import dataclass, field, asdict
@@ -95,124 +97,37 @@ class SkillExecution:
         return asdict(self)
 
 
-# ── Skills×阶段映射矩阵（指南 §4.2）─────────────────
+import yaml
 
-SKILLS_STAGE_MATRIX: Dict[int, List[Dict]] = {
-    1: [  # 建站与基础环境搭建
-        {"skill": "shopify-onboarding-merchant", "events": ["account_setup", "legal_pages"], "purpose": "店铺注册与法律页面"},
-        {"skill": "shopify-dev", "events": ["gdpr_cookie"], "purpose": "GDPR/CCPA Cookie合规"},
-        {"skill": "shopify-liquid", "events": ["theme_config"], "purpose": "Liquid模板主题定制"},
-        {"skill": "skill-vetter", "events": ["*"], "purpose": "Skills安全审查（跨所有阶段）"},
-    ],
-    2: [  # 选品与样品设计
-        {"skill": "shopify-dev", "events": ["ip_check"], "purpose": "知识产权排查"},
-        {"skill": "shopify-custom-data", "events": ["product_modeling"], "purpose": "Metafields/Metaobjects数据建模"},
-        {"skill": "shopify-storefront-graphql", "events": ["trend_analysis"], "purpose": "选品趋势分析"},
-        {"skill": "shopify-partner", "events": ["partner_query"], "purpose": "Partner数据查询"},
-    ],
-    3: [  # 供应商审核与采购
-        {"skill": "shopify-admin", "events": ["supplier_import"], "purpose": "供应商产品导入"},
-        {"skill": "shopify-custom-data", "events": ["tax_attribute"], "purpose": "税务属性标记"},
-    ],
-    4: [  # 商品上架与内容合规
-        {"skill": "shopify-admin", "events": ["product_listing"], "purpose": "商品上架管理"},
-        {"skill": "shopify-custom-data", "events": ["compliance_metadata"], "purpose": "合规元数据绑定"},
-        {"skill": "shopify-dev", "events": ["ad_compliance"], "purpose": "广告合规检查"},
-        {"skill": "shopify-storefront-graphql", "events": ["listing_query"], "purpose": "产品详情前端查询"},
-        {"skill": "shopify-liquid", "events": ["description_template"], "purpose": "产品描述模板"},
-        {"skill": "shopify-hydrogen", "events": ["headless_frontend"], "purpose": "Hydrogen前端深度定制"},
-    ],
-    5: [  # 支付与收款配置
-        {"skill": "shopify-payments-apps", "events": ["payment_gateway"], "purpose": "支付网关配置"},
-        {"skill": "shopify-admin", "events": ["kyc_submit"], "purpose": "KYC认证资料提交"},
-        {"skill": "shopify-functions", "events": ["fraud_rule"], "purpose": "拒付风控Function"},
-        {"skill": "shopify-dev", "events": ["settlement_config"], "purpose": "结汇配置"},
-    ],
-    6: [  # 订单处理与境内物流
-        {"skill": "shopify-admin", "events": ["order_fetch"], "purpose": "订单抓取管理"},
-        {"skill": "shopify-functions", "events": ["shipping_function"], "purpose": "配送自定义Function"},
-        {"skill": "shopify-custom-data", "events": ["three_way_check"], "purpose": "三单一致性校验"},
-        {"skill": "shopify-customer", "events": ["customer_notify"], "purpose": "客户通知"},
-    ],
-    7: [  # 出口报关
-        {"skill": "shopify-dev", "events": ["customs_resource"], "purpose": "报关资源查询"},
-        {"skill": "shopify-custom-data", "events": ["hs_code_bind"], "purpose": "HS编码绑定"},
-        {"skill": "shopify-admin", "events": ["customs_doc"], "purpose": "报关单证生成"},
-    ],
-    8: [  # 进口清关与境外派送
-        {"skill": "shopify-admin", "events": ["tax_config"], "purpose": "IOSS/VAT配置"},
-        {"skill": "shopify-functions", "events": ["tax_function"], "purpose": "税费计算Function"},
-        {"skill": "shopify-storefront-graphql", "events": ["tracking_display"], "purpose": "物流追踪前端展示"},
-    ],
-    9: [  # 交付、售后与退货
-        {"skill": "shopify-customer", "events": ["account_manage", "dsar_request"], "purpose": "客户账户/DSAR"},
-        {"skill": "shopify-admin", "events": ["return_process"], "purpose": "退换货处理"},
-        {"skill": "shopify-liquid", "events": ["return_policy"], "purpose": "退货政策页面"},
-    ],
-    10: [  # 财务结算与税务申报
-        {"skill": "shopify-admin", "events": ["financial_export"], "purpose": "财务数据导出"},
-        {"skill": "shopify-custom-data", "events": ["tax_refund"], "purpose": "出口退税资料"},
-        {"skill": "shopify-payments-apps", "events": ["multi_currency"], "purpose": "多币种结算"},
-        {"skill": "shopify-partner", "events": ["partner_finance"], "purpose": "Partner财务查询"},
-    ],
-}
+SKILLS_DATA_DIR = Path(settings.data_dir) / "skills"
 
-# 跨阶段通用Skills（指南 §4.3）
-CROSS_STAGE_SKILLS = [
-    {"skill": "skill-vetter", "purpose": "安全审查", "stages": "all"},
-    {"skill": "web-search", "purpose": "Web搜索", "stages": "all"},
-    {"skill": "summarize", "purpose": "内容摘要", "stages": "all"},
-    {"skill": "brandkit", "purpose": "品牌工具包", "stages": "all"},
-]
 
-# 事件动作推荐清单（指南 §5 三层动作推荐）
-EVENT_ACTION_MAP: Dict[str, List[Dict]] = {
-    "lifecycle": [
-        {"type": "skill", "name": "shopify-custom-data", "action": "更新产品元字段"},
-        {"type": "cli", "name": "shopify store execute", "action": "执行店铺操作"},
-        {"type": "api", "name": "PUT /products/:id/lifecycle", "action": "更新生命周期状态"},
-    ],
-    "compliance": [
-        {"type": "skill", "name": "shopify-admin", "action": "执行合规检查"},
-        {"type": "cli", "name": "shopify store execute query", "action": "查询店铺"},
-        {"type": "api", "name": "POST /compliance/checks", "action": "执行合规检查"},
-    ],
-    "certification": [
-        {"type": "skill", "name": "shopify-custom-data", "action": "管理认证到期"},
-        {"type": "cli", "name": "shopify store execute", "action": "执行店铺操作"},
-        {"type": "api", "name": "PUT /products/:id/certifications", "action": "更新认证"},
-    ],
-    "order": [
-        {"type": "skill", "name": "shopify-customer", "action": "订单合规审核"},
-        {"type": "cli", "name": "shopify store execute", "action": "执行店铺操作"},
-        {"type": "api", "name": "GET /products/:id/events", "action": "查看产品事件"},
-    ],
-    "regulation": [
-        {"type": "skill", "name": "web-search", "action": "查询新法规原文"},
-        {"type": "cli", "name": "summarize URL", "action": "摘要法规URL"},
-        {"type": "api", "name": "POST /rag/reload", "action": "重新加载知识库"},
-    ],
-    "risk_alert": [
-        {"type": "skill", "name": "skill-vetter", "action": "风险扫描"},
-        {"type": "cli", "name": "shopify store execute", "action": "执行店铺操作"},
-        {"type": "api", "name": "POST /risk/alerts", "action": "提交风险预警"},
-    ],
-    "system": [
-        {"type": "skill", "name": "summarize", "action": "生成系统报告"},
-        {"type": "cli", "name": "shopify store execute", "action": "执行店铺操作"},
-        {"type": "api", "name": "GET /config/health", "action": "健康检查"},
-    ],
-    "user_action": [
-        {"type": "skill", "name": "brandkit", "action": "生成审计报表"},
-        {"type": "cli", "name": "-", "action": "-"},
-        {"type": "api", "name": "GET /events", "action": "查询审计日志"},
-    ],
-}
+def _load_yaml_config(filename: str) -> Any:
+    """从 data/skills/ 加载 YAML 配置。"""
+    path = SKILLS_DATA_DIR / filename
+    if path.exists():
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return yaml.safe_load(f)
+        except Exception:
+            pass
+    return {}
+
+
+# ── Skills×阶段映射矩阵（指南 §4.2）— 从 YAML 文件加载 ─────────────────
+
+_skills_data = _load_yaml_config("_stage_matrix.yaml")
+SKILLS_STAGE_MATRIX: Dict[int, List[Dict]] = _skills_data.get("stage_matrix", {})
+CROSS_STAGE_SKILLS: List[Dict] = _skills_data.get("cross_stage_skills", [])
+
+# 事件动作推荐清单（指南 §5 三层动作推荐）— 从 YAML 文件加载
+_actions_data = _load_yaml_config("_event_actions.yaml")
+EVENT_ACTION_MAP: Dict[str, List[Dict]] = _actions_data.get("event_actions", {})
 
 
 # ── 持久化 ────────────────────────────────────────
 
-SKILLS_DIR = Path(settings.data_dir) / "config" / "skills"
+SKILLS_DIR = Path(settings.data_dir) / "skills"
 SKILLS_FILE = SKILLS_DIR / "registry.json"
 EXECUTIONS_FILE = SKILLS_DIR / "executions.json"
 
@@ -239,24 +154,8 @@ def _save_json(path: Path, data: Any) -> None:
 class SkillRegistry:
     """技能注册表"""
 
-    # 内置Skills列表（从指南 §4.2 映射）
-    BUILTIN_SKILLS = [
-        {"name": "shopify-admin", "display_name": "Shopify Admin", "description": "Shopify Admin GraphQL API操作", "stages": [3, 4, 6, 7, 8, 9, 10]},
-        {"name": "shopify-custom-data", "display_name": "Shopify Custom Data", "description": "Metafields/Metaobjects管理", "stages": [2, 3, 4, 6, 7, 10]},
-        {"name": "shopify-dev", "display_name": "Shopify Dev", "description": "Shopify开发文档查询", "stages": [1, 2, 4, 5, 7]},
-        {"name": "shopify-liquid", "display_name": "Shopify Liquid", "description": "Liquid模板引擎定制", "stages": [1, 4, 9]},
-        {"name": "shopify-storefront-graphql", "display_name": "Shopify Storefront", "description": "Storefront GraphQL API", "stages": [2, 4, 8]},
-        {"name": "shopify-onboarding-merchant", "display_name": "Shopify Onboarding", "description": "商户入门引导", "stages": [1]},
-        {"name": "shopify-functions", "display_name": "Shopify Functions", "description": "Shopify Functions开发", "stages": [5, 6, 8]},
-        {"name": "shopify-payments-apps", "display_name": "Shopify Payments", "description": "Payments Apps API", "stages": [5, 10]},
-        {"name": "shopify-customer", "display_name": "Shopify Customer", "description": "Customer Account API", "stages": [6, 9]},
-        {"name": "shopify-partner", "display_name": "Shopify Partner", "description": "Partner Dashboard API", "stages": [2, 10]},
-        {"name": "shopify-hydrogen", "display_name": "Shopify Hydrogen", "description": "Hydrogen Headless前端", "stages": [4, 9]},
-        {"name": "skill-vetter", "display_name": "Skill Vetter", "description": "Skills安全审查（跨所有阶段）", "stages": list(range(1, 11))},
-        {"name": "web-search", "display_name": "Web Search", "description": "Web搜索引擎查询", "stages": list(range(1, 11))},
-        {"name": "summarize", "display_name": "Summarize", "description": "内容摘要生成", "stages": list(range(1, 11))},
-        {"name": "brandkit", "display_name": "Brand Kit", "description": "品牌工具包", "stages": list(range(1, 11))},
-    ]
+    # 内置Skills列表（从 data/skills/_registry.yaml 加载）
+    BUILTIN_SKILLS = _load_yaml_config("_registry.yaml").get("skills", [])
 
     def __init__(self):
         self._skills: Dict[str, SkillInfo] = {}
@@ -266,27 +165,74 @@ class SkillRegistry:
     def _load_all(self):
         raw = _load_json(SKILLS_FILE)
         for sd in raw:
-            try:
-                skill = SkillInfo.from_dict(sd)
-                self._skills[skill.id] = skill
-            except Exception:
-                continue
+            skill = SkillInfo.from_dict(sd)
+            self._skills[skill.id] = skill
 
     def _ensure_builtins(self):
-        """确保内置Skills已注册"""
-        existing_names = {s.name for s in self._skills.values()}
+        """确保内置Skills已注册（支持 builtin / prompt 两种来源）
+
+        如果技能在YAML中声明了 path，则尝试加载其 SKILL.md 文件夹:
+          - 读取 YAML frontmatter 丰富技能元数据
+          - 设置 file_path 指向 SKILL.md
+
+        对已存在的技能也会更新 file_path（处理缓存脏数据场景）。
+        """
+        existing = {s.name: s for s in self._skills.values()}
         for builtin in self.BUILTIN_SKILLS:
-            if builtin["name"] not in existing_names:
+            file_path = ""
+            loaded_yaml = {}
+            skill_path = builtin.get("path", "")
+            if skill_path:
+                md_path, loaded_yaml = self._load_skill_md(skill_path)
+                if md_path:
+                    file_path = md_path
+
+            name = builtin["name"]
+            if name not in existing:
+                # 新技能: 创建并注册
                 skill = SkillInfo(
-                    name=builtin["name"],
-                    display_name=builtin["display_name"],
-                    description=builtin["description"],
-                    source="builtin",
+                    name=name,
+                    display_name=loaded_yaml.get("display_name", builtin["display_name"]),
+                    description=loaded_yaml.get("description", builtin["description"]),
+                    source=builtin.get("source", "builtin"),
                     status=SkillStatus.installed,
                     business_stages=builtin["stages"],
+                    file_path=file_path,
+                    config={"prompt": builtin["prompt"]} if builtin.get("prompt") else {},
                 )
                 self._skills[skill.id] = skill
+            elif file_path and not existing[name].file_path:
+                # 已存在但 file_path 为空: 更新之
+                existing[name].file_path = file_path
         self._persist()
+
+    @staticmethod
+    def _load_skill_md(skill_path: str) -> tuple:
+        """从技能文件夹加载 SKILL.md 文件。
+
+        Args:
+            skill_path: 技能文件夹名（相对于 data/skills/）
+
+        Returns:
+            (file_path, frontmatter_dict) — SKILL.md 的路径和 YAML frontmatter
+            如果找不到文件则返回 ("", {})
+        """
+        md_file = SKILLS_DATA_DIR / skill_path / "SKILL.md"
+        if not md_file.exists():
+            return "", {}
+
+        content = md_file.read_text(encoding="utf-8")
+        import re
+        match = re.match(r'^---\s*\n(.*?)\n---\s*\n', content, re.DOTALL)
+        if match:
+            try:
+                front_matter = yaml.safe_load(match.group(1))
+                if isinstance(front_matter, dict):
+                    return str(md_file), front_matter
+            except Exception:
+                pass
+
+        return str(md_file), {}
 
     def _persist(self):
         _save_json(SKILLS_FILE, [s.to_dict() for s in self._skills.values()])
@@ -313,7 +259,11 @@ class SkillRegistry:
 
     def install_skill(self, name: str, source: str = "builtin",
                      source_url: str = "", config: Dict = None) -> Dict:
-        """安装Skill"""
+        """安装Skill。
+
+        对于自定义技能（source != 'builtin'），自动在 data/skills/custom/ 下生成
+        SKILL.md 模板文件，供用户编辑实现逻辑。
+        """
         # 检查是否已安装
         for s in self._skills.values():
             if s.name == name and s.status == SkillStatus.installed:
@@ -345,6 +295,11 @@ class SkillRegistry:
             config=config or {},
             install_count=1,
         )
+
+        # 自定义技能: 生成 SKILL.md 实现文件到 data/skills/custom/
+        if source != "builtin":
+            skill.file_path = self._generate_skill_md(skill)
+
         self._skills[skill.id] = skill
         self._persist()
 
@@ -361,6 +316,70 @@ class SkillRegistry:
             pass
 
         return skill.to_dict()
+
+    def _generate_skill_md(self, skill: SkillInfo) -> str:
+        """为自定义技能生成 SKILL.md 模板到 data/skills/custom/。
+
+        返回生成的文件相对路径。
+        """
+        custom_dir = SKILLS_DIR / "custom"
+        custom_dir.mkdir(parents=True, exist_ok=True)
+
+        safe_name = skill.name.lower().replace(" ", "-").replace("_", "-")
+        safe_name = "".join(c for c in safe_name if c.isalnum() or c == "-")
+        file_path = custom_dir / f"{safe_name}" / "SKILL.md"
+        file_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # 不覆盖已有文件
+        if file_path.exists():
+            return str(file_path.relative_to(SKILLS_DIR))
+
+        content = f"""---
+name: {skill.name}
+display_name: {skill.display_name}
+description: {skill.description}
+version: "1.0.0"
+author: custom
+source: {skill.source}
+source_url: "{skill.source_url}"
+business_stages: {json.dumps(skill.business_stages)}
+---
+
+# {skill.display_name}
+
+{skill.description}
+
+## 使用方法
+
+Agent 在接收到匹配的事件或用户指令时，将调用此 Skill。
+
+## 执行逻辑
+
+```python
+# TODO: 实现技能核心逻辑
+def execute(args: dict) -> dict:
+    \"\"\"技能入口函数。
+
+    Args:
+        args: 输入参数字典
+
+    Returns:
+        dict: 执行结果
+    \"\"\"
+    return {{
+        "status": "success",
+        "result": "技能执行完成",
+    }}
+```
+
+## 配置
+
+| 参数 | 类型 | 默认值 | 说明 |
+|------|------|--------|------|
+| timeout | int | 30 | 超时时间（秒） |
+"""
+        file_path.write_text(content, encoding="utf-8")
+        return str(file_path.relative_to(SKILLS_DIR))
 
     def uninstall_skill(self, skill_id: str) -> bool:
         skill = self._skills.get(skill_id)
@@ -481,9 +500,31 @@ class SkillExecutor:
         """实际执行Skill
 
         根据 skill_name 路由到对应的真实执行逻辑。
-        支持: shopify系列、web-search、summarize、brandkit、skill-vetter
+        支持:
+          - shopify系列: 通过 Shopify GraphQL API
+          - web-search / summarize / brandkit / skill-vetter: 内置逻辑
+          - prompt 类型: 通过 AstraAssistant.run_task() 执行 prompt 模板
         """
         import asyncio
+
+        # 先查注册表，判断 skill 类型
+        skill_info = self.registry.get_skill_by_name(skill_name)
+        if isinstance(skill_info, dict):
+            source = skill_info.get("source", "")
+            prompt_name = ((skill_info.get("config", {}) or {})).get("prompt", "")
+            script = skill_info.get("script", "")
+            script_args = skill_info.get("script_args", [])
+        else:
+            source = prompt_name = script = ""
+            script_args = []
+
+        # prompt 类型: 委托给 AstraAssistant 执行 prompt 模板
+        if source == "prompt" and prompt_name:
+            return await self._execute_prompt_skill(prompt_name, skill_name, args)
+
+        # script 类型: 通过 subprocess 执行独立脚本
+        if source == "script" and script:
+            return await self._execute_script_skill(script, script_args, skill_name, args, timeout)
 
         async def _inner():
             if skill_name.startswith("shopify-"):
@@ -500,6 +541,110 @@ class SkillExecutor:
                 return {"message": f"Skill '{skill_name}' executed", "args": args}
 
         return await asyncio.wait_for(_inner(), timeout=timeout)
+
+    async def _execute_script_skill(
+        self,
+        script: str,
+        script_args: List[str],
+        skill_name: str,
+        args: Dict[str, Any],
+        timeout: int,
+    ) -> Dict:
+        """通过 subprocess 执行脚本 Skill。
+
+        将 skill_info 中的 script_args 模板与调用参数绑定后，
+        使用 subprocess.run([sys.executable, script_path, ...]) 执行。
+        """
+        script_path = SKILLS_DATA_DIR / script
+        if not script_path.exists():
+            return {
+                "skill": skill_name,
+                "status": "error",
+                "error": f"脚本文件不存在: {script_path}",
+            }
+
+        # 绑定模板参数: {key} → args["key"]
+        cmd = [sys.executable, str(script_path)]
+        for arg_tpl in script_args:
+            bound = arg_tpl
+            for key, val in (args or {}).items():
+                placeholder = "{" + key + "}"
+                if placeholder in bound:
+                    bound = bound.replace(placeholder, str(val))
+            if "{" in bound or "}" in bound:
+                # 有未绑定的占位符，跳过该参数
+                continue
+            cmd.append(bound)
+
+        try:
+            loop = asyncio.get_event_loop()
+            proc = await asyncio.wait_for(
+                loop.run_in_executor(
+                    None,
+                    lambda: subprocess.run(
+                        cmd,
+                        capture_output=True,
+                        text=True,
+                        timeout=timeout // 1000 if timeout > 1000 else timeout,
+                        encoding="utf-8",
+                    ),
+                ),
+                timeout=timeout if timeout < 300 else 300,
+            )
+            if proc.returncode == 0 and proc.stdout.strip():
+                try:
+                    result_data = json.loads(proc.stdout.strip())
+                except json.JSONDecodeError:
+                    result_data = {"raw": proc.stdout.strip()}
+            else:
+                result_data = {
+                    "returncode": proc.returncode,
+                    "stderr": proc.stderr[:500] if proc.stderr else "",
+                }
+            return {
+                "skill": skill_name,
+                "script": str(script_path),
+                "status": "success" if proc.returncode == 0 else "error",
+                "result": result_data,
+            }
+        except subprocess.TimeoutExpired:
+            return {
+                "skill": skill_name,
+                "status": "timeout",
+                "error": f"脚本执行超时 ({timeout}s)",
+            }
+        except Exception as e:
+            return {
+                "skill": skill_name,
+                "status": "error",
+                "error": str(e),
+            }
+
+    async def _execute_prompt_skill(self, prompt_name: str, skill_name: str, args: Dict[str, Any]) -> Dict:
+        """通过 Prompt 模板执行合规技能。
+
+        使用 AstraAssistant.run_task() 调用 prompts/{prompt_name}.yaml 模板。
+        """
+        try:
+            from app.services.astra_assistant import AstraAssistant
+            assistant = AstraAssistant()
+            result = await assistant.run_task(
+                prompt_name=prompt_name,
+                context=args,
+            )
+            return {
+                "skill": skill_name,
+                "prompt": prompt_name,
+                "status": "success",
+                "result": result,
+            }
+        except Exception as e:
+            return {
+                "skill": skill_name,
+                "prompt": prompt_name,
+                "status": "error",
+                "error": str(e),
+            }
 
     async def _execute_web_search(self, args: Dict[str, Any]) -> Dict:
         """真实 Web 搜索

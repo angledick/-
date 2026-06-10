@@ -16,6 +16,7 @@
 """
 
 import json
+import logging
 import uuid
 from pathlib import Path
 from datetime import datetime, timezone, timedelta, date
@@ -23,6 +24,8 @@ from typing import Optional, List, Dict, Any
 from dataclasses import dataclass, field
 
 from app.config import settings
+
+logger = logging.getLogger(__name__)
 from app.models.schemas import NotificationPayload
 
 DATA_DIR = Path(settings.data_dir)
@@ -120,73 +123,6 @@ class ProactiveEngine:
         self._global_events_path.mkdir(parents=True, exist_ok=True)
 
     # ── 定时任务设置 ──────────────────────────────────
-
-    async def setup_scheduled_tasks(self):
-        """注册定时任务到Scheduler
-
-        任务清单:
-          - 每日合规简报: 每天09:00
-          - 认证到期预警: 每天10:00
-          - 法规变更扫描: 每小时
-          - 心跳自检: 每5分钟
-          - 跨产品洞察: 每4小时
-          - 全局指标聚合: 每12小时
-        """
-        try:
-            from app.core.scheduler import get_scheduler
-            scheduler = get_scheduler()
-
-            if scheduler:
-                # 每日合规简报
-                scheduler.add_job(
-                    self.daily_compliance_brief,
-                    'cron', hour=9, minute=0,
-                    id='proactive_daily_brief',
-                    replace_existing=True,
-                )
-
-                # 认证到期预警
-                scheduler.add_job(
-                    self.check_cert_expiry,
-                    'cron', hour=10, minute=0,
-                    id='proactive_cert_expiry',
-                    replace_existing=True,
-                )
-
-                # 法规变更扫描
-                scheduler.add_job(
-                    self.scan_regulation_changes,
-                    'interval', hours=1,
-                    id='proactive_regulation_scan',
-                    replace_existing=True,
-                )
-
-                # 心跳自检
-                scheduler.add_job(
-                    self.heartbeat_check,
-                    'interval', minutes=5,
-                    id='proactive_heartbeat',
-                    replace_existing=True,
-                )
-
-                # 跨产品洞察
-                scheduler.add_job(
-                    self.generate_cross_product_insights,
-                    'interval', hours=4,
-                    id='proactive_insights',
-                    replace_existing=True,
-                )
-
-                # 全局指标聚合
-                scheduler.add_job(
-                    self.aggregate_global_metrics,
-                    'interval', hours=12,
-                    id='proactive_global_metrics',
-                    replace_existing=True,
-                )
-        except Exception:
-            # Scheduler不可用时静默降级
-            pass
 
     # ── SDK 报告生成辅助 ──────────────────────────
 

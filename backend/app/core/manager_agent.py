@@ -18,6 +18,7 @@ Manager Agent — 多Agent调度协调者。
 import uuid
 import asyncio
 import json
+import logging
 from pathlib import Path
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any
@@ -27,6 +28,8 @@ from app.config import settings
 from app.core.task_decomposer import TaskDecomposer, SubTask, get_task_decomposer
 from app.core.worker_registry import WorkerRegistry, get_worker_registry
 from app.models.schemas import WorkerDefinition, WorkerStatus
+
+logger = logging.getLogger(__name__)
 
 DATA_DIR = Path(settings.data_dir)
 
@@ -465,23 +468,38 @@ class ManagerAgent:
                     if check_sdk():
                         assistant = AstraAssistant()
                         sdk_agent_id = worker_def.sdk_agent_id
+                        # 注入事件分配的 tools/skills 到 task_context
+                        event_tools = (subtask.context or {}).get("event_tools", [])
+                        event_skills = (subtask.context or {}).get("event_skills", [])
+                        agent_action = (subtask.context or {}).get("agent_action", "")
                         task_context = {
                             "task_id": subtask.task_id,
                             "task_type": subtask.task_type,
                             "business_stage": subtask.business_stage,
                             "description": subtask.description,
+                            "tools": event_tools,
+                            "skills": event_skills or subtask.required_skills,
+                            "agent_action": agent_action,
                             **(subtask.context or {}),
                         }
 
                         if sdk_agent_id:
                             # 方式 A: 以 Agent 身份执行
+                            message_parts = [
+                                f"分配任务: {subtask.description}",
+                                f"任务类型: {subtask.task_type}",
+                            ]
+                            if agent_action:
+                                message_parts.append(f"执行指令: {agent_action}")
+                            if event_tools:
+                                message_parts.append(f"可用工具: {', '.join(event_tools)}")
+                            if event_skills or subtask.required_skills:
+                                skills = event_skills or subtask.required_skills
+                                message_parts.append(f"所需技能: {', '.join(skills)}")
+                            message_parts.append(f"上下文: {json.dumps(task_context, ensure_ascii=False)}")
                             sdk_result = await assistant.run_as_agent(
                                 agent_id=sdk_agent_id,
-                                message=(
-                                    f"分配任务: {subtask.description}\n"
-                                    f"任务类型: {subtask.task_type}\n"
-                                    f"上下文: {json.dumps(task_context, ensure_ascii=False)}"
-                                ),
+                                message="\n".join(message_parts),
                             )
                             raw_response = sdk_result.get("response", "") or json.dumps(sdk_result, ensure_ascii=False)
                         else:
@@ -713,6 +731,309 @@ class ManagerAgent:
             },
             "templates_available": len(self.decomposer.list_templates()),
         }
+
+    # ── 事件驱动中枢 ─────────────────────────────────
+
+    @property
+    def _event_registry(self):
+        """懒加载事件注册表"""
+        if not hasattr(self, "__event_registry") or self.__event_registry is None:
+            try:
+                from app.core.event_bus import get_event_registry
+                self.__event_registry = get_event_registry()
+            except Exception:
+                self.__event_registry = None
+        return self.__event_registry
+
+    async def on_event(self, event):
+        """事件驱动中枢 — 接收所有事件，路由到 WS推送 / Worker调度 / 指标更新
+
+        注册方式: bus.on_all(manager.on_event)
+        参数 event: EventRecord (来自 event_bus.publish)
+        """
+        try:
+            await self._route_to_websocket(event)
+        except Exception as e:
+            logger.debug("ManagerAgent._route_to_websocket 失败: %s", e)
+
+        try:
+            await self._route_to_worker(event)
+        except Exception as e:
+            logger.debug("ManagerAgent._route_to_worker 失败: %s", e)
+
+        try:
+            await self._route_to_product_metrics(event)
+        except Exception as e:
+            logger.debug("ManagerAgent._route_to_product_metrics 失败: %s", e)
+
+        try:
+            await self._route_to_custom_metrics(event)
+        except Exception as e:
+            logger.debug("ManagerAgent._route_to_custom_metrics 失败: %s", e)
+
+    async def _route_to_websocket(self, event):
+        """事件 → WS 消息推送
+
+        映射规则:
+          session:created/deleted → {type:"session_update", payload:{}}
+          message:created         → {type:"new_message", payload:{session_id, message}}
+          severity high/critical  → {type:"alert", payload:{...}}
+          scan:*                  → {type:"scan_update", payload:{...}}
+        """
+        from app.services.ws_manager import ws_manager
+
+        event_type = event.type
+        event_data = event.data or {}
+        user_id = event_data.get("user_id")
+
+        # session 事件
+        if event_type in ("session:created", "session:deleted"):
+            if user_id:
+                await ws_manager.send_to_user(user_id, {
+                    "type": "session_update",
+                    "payload": {},
+                })
+            return
+
+        # message 事件
+        if event_type == "message:created":
+            if user_id:
+                await ws_manager.send_to_user(user_id, {
+                    "type": "new_message",
+                    "payload": {
+                        "session_id": event_data.get("session_id", ""),
+                        "message": {
+                            "id": event_data.get("message_id", ""),
+                            "role": "assistant",
+                            "content": event_data.get("content_preview", ""),
+                            "created_at": event.created_at,
+                        },
+                    },
+                })
+            return
+
+        # scan 事件
+        if event_type.startswith("scan:"):
+            if user_id:
+                await ws_manager.send_to_user(user_id, {
+                    "type": "scan_update",
+                    "payload": {
+                        "scan_id": event_data.get("scan_id", event.id),
+                        "status": event_data.get("status", "running"),
+                        "progress": event_data.get("progress", 0),
+                        "total": event_data.get("total", 0),
+                        "current_item": event_data.get("current_item", ""),
+                    },
+                })
+            return
+
+        # risk 事件或高严重级别 → alert
+        if event_type.startswith("risk:") or event.severity in ("high", "critical"):
+            target_user = user_id or "default"
+            await ws_manager.send_alert(target_user, {
+                "alert_id": event.id,
+                "severity": event.severity,
+                "title": f"[{event_type}] {event.source}",
+                "description": str(event_data)[:500] if event_data else event.type,
+                "affected_markets": event_data.get("affected_markets", []),
+                "created_at": event.created_at,
+            })
+
+    async def _route_to_worker(self, event):
+        """事件 → Worker 调度（SDK 底座）
+
+        从事件定义查找 related_worker，分配 tools/skills/context 后执行。
+        """
+        event_def = self._event_registry.get_event(event.type) if self._event_registry else None
+        if not event_def or not event_def.related_worker:
+            return
+
+        logger.info(
+            "ManagerAgent: 事件 '%s' 触发 Worker '%s'",
+            event.type, event_def.related_worker,
+        )
+
+        # 通过 submit_event_task 拆解为子任务
+        group = await self.submit_event_task(event.type, event.data or {})
+
+        # 为每个子任务注入事件定义中的 tools/skills/agent_action
+        for st in group.subtasks:
+            st.context["event_tools"] = event_def.tools or []
+            st.context["event_skills"] = event_def.skills or []
+            st.context["agent_action"] = event_def.agent_action or ""
+
+        # 执行任务组
+        await self.execute_group(group.group_id)
+
+    async def _route_to_product_metrics(self, event):
+        """事件 → 产品指标更新
+
+        传输: event.product_id + event.type + event.created_at
+        目标: data/products/{product_id}/metrics/metrics.json
+        更新: event_count 递增, last_event_type, last_event_time
+        """
+        if not event.product_id:
+            return
+
+        metrics_path = DATA_DIR / "products" / event.product_id / "metrics" / "metrics.json"
+        metrics_path.parent.mkdir(parents=True, exist_ok=True)
+
+        metrics = {}
+        if metrics_path.exists():
+            try:
+                metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
+            except Exception:
+                pass
+
+        # 更新指标
+        event_count = metrics.get("event_count", 0) + 1
+        metrics["event_count"] = event_count
+        metrics["last_event_type"] = event.type
+        metrics["last_event_time"] = event.created_at
+        metrics["snapshot_time"] = datetime.now(timezone.utc).isoformat()
+
+        # 按事件类型分组计数
+        type_counts = metrics.get("event_type_counts", {})
+        type_counts[event.type] = type_counts.get(event.type, 0) + 1
+        metrics["event_type_counts"] = type_counts
+
+        metrics_path.write_text(
+            json.dumps(metrics, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+
+    async def _route_to_custom_metrics(self, event):
+        """事件 → 自定义指标更新
+
+        传输: 读取 data/global/metrics/custom_metrics.json 中所有指标
+        匹配: 每个指标的 scope 与 event.data 比对
+        计算: 匹配时按 formula 重算当前值
+        告警: 超阈值时通过 WS 推送 alert
+        """
+        from app.services.ws_manager import ws_manager
+
+        custom_path = DATA_DIR / "global" / "metrics" / "custom_metrics.json"
+        if not custom_path.exists():
+            return
+
+        try:
+            data = json.loads(custom_path.read_text(encoding="utf-8"))
+        except Exception:
+            return
+
+        metrics = data.get("metrics", [])
+        event_data = event.data or {}
+
+        for metric in metrics:
+            scope = metric.get("scope", {})
+            if not self._scope_matches(scope, event_data):
+                continue
+
+            # 匹配，重新计算当前值
+            current_value = self._evaluate_formula(metric.get("formula", ""), event_data, metric)
+            metric["current_value"] = current_value
+            metric["last_updated"] = event.created_at
+
+            # 检查阈值
+            threshold_critical = metric.get("threshold_critical", 0)
+            threshold_warning = metric.get("threshold_warning", 0)
+
+            if threshold_critical and current_value >= threshold_critical:
+                if metric.get("notify_on_critical", True):
+                    await ws_manager.send_to_user("default", {
+                        "type": "alert",
+                        "payload": {
+                            "alert_id": f"metric_{metric.get('key', '')}_critical",
+                            "severity": "critical",
+                            "title": f"指标预警: {metric.get('name', metric.get('key'))}",
+                            "description": f"当前值 {current_value} 超过临界阈值 {threshold_critical}",
+                            "created_at": event.created_at,
+                        },
+                    })
+
+            elif threshold_warning and current_value >= threshold_warning:
+                if metric.get("notify_on_warning", True):
+                    await ws_manager.send_to_user("default", {
+                        "type": "alert",
+                        "payload": {
+                            "alert_id": f"metric_{metric.get('key', '')}_warning",
+                            "severity": "medium",
+                            "title": f"指标警告: {metric.get('name', metric.get('key'))}",
+                            "description": f"当前值 {current_value} 超过警告阈值 {threshold_warning}",
+                            "created_at": event.created_at,
+                        },
+                    })
+
+        # 写回文件
+        data["metrics"] = metrics
+        custom_path.write_text(
+            json.dumps(data, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+
+    def _scope_matches(self, scope: Dict, event_data: Dict) -> bool:
+        """检查指标的 scope 是否与事件数据匹配"""
+        if not scope:
+            return True  # 空 scope 匹配所有事件
+        for key, value in scope.items():
+            # 支持嵌套字段匹配
+            event_value = event_data.get(key)
+            if event_value is None:
+                # 尝试从 market/country 字段匹配
+                if key == "market":
+                    event_value = event_data.get("country") or event_data.get("target_country")
+                elif key == "country":
+                    event_value = event_data.get("market")
+            if event_value is None:
+                return False
+            # 支持大小写不敏感匹配
+            if isinstance(value, str) and isinstance(event_value, str):
+                if value.upper() != event_value.upper():
+                    return False
+            elif value != event_value:
+                return False
+        return True
+
+    def _evaluate_formula(self, formula: str, event_data: Dict, metric: Dict) -> float:
+        """简单公式求值（支持 count 和 sum 类公式）
+
+        支持格式:
+          count(risk>N)  — 风险计数
+          count(*)       — 事件计数
+          sum(field)     — 字段求和
+        """
+        current = metric.get("current_value", 0)
+        try:
+            if not formula:
+                return current + 1
+
+            if formula.startswith("count("):
+                inner = formula[6:-1].strip()
+                if inner == "*":
+                    return current + 1
+                # count(risk>N) 格式
+                import re
+                m = re.match(r'(\w+)\s*([><=!]+)\s*(\d+)', inner)
+                if m:
+                    field, op, threshold = m.group(1), m.group(2), float(m.group(3))
+                    val = float(event_data.get(field, 0))
+                    if op == ">" and val > threshold:
+                        return current + 1
+                    elif op == ">=" and val >= threshold:
+                        return current + 1
+                    elif op == "<" and val < threshold:
+                        return current + 1
+                    elif op == "==" and val == threshold:
+                        return current + 1
+                return current
+
+            elif formula.startswith("sum("):
+                field = formula[4:-1].strip()
+                return current + float(event_data.get(field, 0))
+
+            return current + 1
+        except Exception:
+            return current
 
 
 # ── 单例管理 ──────────────────────────────────

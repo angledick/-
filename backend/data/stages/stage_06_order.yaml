@@ -1,0 +1,10 @@
+stage:
+  number: 6
+  name: "订单处理"
+  description: "订单创建/确认/发货、三单一致性校验（订单/支付/物流）、配送Function配置、客户通知、拒付与风控检测。Agent在此阶段需确保订单合规流转，触发三单校验和客户通知。"
+  events:
+    - event_code: "order:created"
+    - event_code: "order:confirmed"
+    - event_code: "order:shipped"
+    - event_code: "risk:fraud_detected"
+    - event_code: "compliance:risk_scored"

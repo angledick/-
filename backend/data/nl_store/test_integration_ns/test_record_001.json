@@ -1,0 +1,14 @@
+{
+  "record_id": "rec_481c00fa",
+  "namespace": "test_integration_ns",
+  "key": "test_record_001",
+  "title": "集成测试记录",
+  "content_nl": "这是一条通过HTTP接口创建的NLStore集成测试记录",
+  "metadata": {},
+  "tags": [
+    "test",
+    "integration"
+  ],
+  "created_at": "2026-06-08T08:05:39.628655+00:00",
+  "updated_at": "2026-06-08T08:12:24.513997+00:00"
+}

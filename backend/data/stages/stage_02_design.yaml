@@ -1,0 +1,11 @@
+stage:
+  number: 2
+  name: "选品与设计"
+  description: "产品概念设计、选品趋势分析、知识产权排查、Metafields/Metaobjects数据建模。Agent在此阶段需辅助用户进行选品决策，检查IP风险，建立产品数据模型。"
+  events:
+    - event_code: "product:created"
+    - event_code: "product:design_started"
+    - event_code: "product:duplicate"
+    - event_code: "product:status_changed"
+    - event_code: "user:product_added"
+    - event_code: "user:event_defined"

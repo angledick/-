@@ -22,6 +22,14 @@ _DB_PATH = Path(settings.data_dir) / "sessions.db"
 _conn: Optional[sqlite3.Connection] = None
 
 
+def close_conn():
+    """关闭全局 SQLite 连接（供测试 / 关闭时调用）。"""
+    global _conn
+    if _conn is not None:
+        _conn.close()
+        _conn = None
+
+
 # ── 初始化 ────────────────────────────────────────────────────────────────────
 
 def _get_conn() -> sqlite3.Connection:

@@ -1,0 +1,154 @@
+# 业务阶段 → Skills 映射矩阵
+# 每个阶段包含该阶段可用的 Skill 列表及对应事件
+stage_matrix:
+  1:
+    - skill: shopify-onboarding-merchant
+      events: ["account_setup", "legal_pages"]
+      purpose: "店铺注册与法律页面"
+    - skill: shopify-dev
+      events: ["gdpr_cookie"]
+      purpose: "GDPR/CCPA Cookie 合规"
+    - skill: shopify-liquid
+      events: ["theme_config"]
+      purpose: "Liquid 模板主题定制"
+    - skill: skill-vetter
+      events: ["*"]
+      purpose: "Skills 安全审查（跨所有阶段）"
+  2:
+    - skill: shopify-dev
+      events: ["ip_check"]
+      purpose: "知识产权排查"
+    - skill: shopify-custom-data
+      events: ["product_modeling"]
+      purpose: "Metafields/Metaobjects 数据建模"
+    - skill: shopify-storefront-graphql
+      events: ["trend_analysis"]
+      purpose: "选品趋势分析"
+    - skill: shopify-partner
+      events: ["partner_query"]
+      purpose: "Partner 数据查询"
+  3:
+    - skill: shopify-admin
+      events: ["supplier_import"]
+      purpose: "供应商产品导入"
+    - skill: shopify-custom-data
+      events: ["tax_attribute"]
+      purpose: "税务属性标记"
+  4:
+    - skill: shopify-admin
+      events: ["product_listing"]
+      purpose: "商品上架管理"
+    - skill: shopify-custom-data
+      events: ["compliance_metadata"]
+      purpose: "合规元数据绑定"
+    - skill: shopify-dev
+      events: ["ad_compliance"]
+      purpose: "广告合规检查"
+    - skill: shopify-storefront-graphql
+      events: ["listing_query"]
+      purpose: "产品详情前端查询"
+    - skill: shopify-liquid
+      events: ["description_template"]
+      purpose: "产品描述模板"
+    - skill: shopify-hydrogen
+      events: ["headless_frontend"]
+      purpose: "Hydrogen 前端深度定制"
+  5:
+    - skill: shopify-payments-apps
+      events: ["payment_gateway"]
+      purpose: "支付网关配置"
+    - skill: shopify-admin
+      events: ["kyc_submit"]
+      purpose: "KYC 认证资料提交"
+    - skill: shopify-functions
+      events: ["fraud_rule"]
+      purpose: "拒付风控 Function"
+    - skill: shopify-dev
+      events: ["settlement_config"]
+      purpose: "结汇配置"
+  6:
+    - skill: shopify-admin
+      events: ["order_fetch"]
+      purpose: "订单抓取管理"
+    - skill: shopify-functions
+      events: ["shipping_function"]
+      purpose: "配送自定义 Function"
+    - skill: shopify-custom-data
+      events: ["three_way_check"]
+      purpose: "三单一致性校验"
+    - skill: shopify-customer
+      events: ["customer_notify"]
+      purpose: "客户通知"
+  7:
+    - skill: shopify-dev
+      events: ["customs_resource"]
+      purpose: "报关资源查询"
+    - skill: shopify-custom-data
+      events: ["hs_code_bind"]
+      purpose: "HS 编码绑定"
+    - skill: shopify-admin
+      events: ["customs_doc"]
+      purpose: "报关单证生成"
+  8:
+    - skill: shopify-admin
+      events: ["tax_config"]
+      purpose: "IOSS/VAT 配置"
+    - skill: shopify-functions
+      events: ["tax_function"]
+      purpose: "税费计算 Function"
+    - skill: shopify-storefront-graphql
+      events: ["tracking_display"]
+      purpose: "物流追踪前端展示"
+  9:
+    - skill: shopify-customer
+      events: ["account_manage", "dsar_request"]
+      purpose: "客户账户/DSAR"
+    - skill: shopify-admin
+      events: ["return_process"]
+      purpose: "退换货处理"
+    - skill: shopify-liquid
+      events: ["return_policy"]
+      purpose: "退货政策页面"
+  10:
+    - skill: shopify-admin
+      events: ["financial_export"]
+      purpose: "财务数据导出"
+    - skill: shopify-custom-data
+      events: ["tax_refund"]
+      purpose: "出口退税资料"
+    - skill: shopify-payments-apps
+      events: ["multi_currency"]
+      purpose: "多币种结算"
+    - skill: shopify-partner
+      events: ["partner_finance"]
+      purpose: "Partner 财务查询"
+
+# 跨阶段通用 Skills
+cross_stage_skills:
+  - skill: skill-vetter
+    purpose: "安全审查"
+    stages: all
+  - skill: web-search
+    purpose: "Web 搜索"
+    stages: all
+  - skill: summarize
+    purpose: "内容摘要"
+    stages: all
+  - skill: brandkit
+    purpose: "品牌工具包"
+    stages: all
+  - skill: regulation-scan
+    purpose: "法规变更扫描"
+    stages: all
+  - skill: impact-analysis
+    purpose: "法规影响分析"
+    stages: all
+  - skill: market-monitor
+    purpose: "市场合规动态监控"
+    stages: all
+  - skill: compliance-check
+    purpose: "六阶段合规流水线检查"
+    stages: all
+  - skill: risk-summary
+    purpose: "合规风险摘要报告"
+    stages: all

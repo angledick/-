@@ -545,6 +545,111 @@ class EmailAdapter(ChannelAdapter):
         return await self.send_message(target, "\n".join(html_parts))
 
 
+# ── 企业微信适配器 ───────────────────────────────
+
+
+class WeComAdapter(ChannelAdapter):
+    """
+    企业微信群机器人适配器
+
+    参考: main 分支 notifier.py 企微 Webhook 推送实现
+    文档: https://developer.work.weixin.qq.com/document/path/91770
+    配置: webhook_url, msg_type(text/markdown)
+    """
+
+    channel_name = "wecom"
+
+    async def send_message(self, target: str, content: str,
+                          attachments: List[Dict] = None) -> ChannelMessage:
+        import httpx
+
+        msg = ChannelMessage(channel=self.channel_name, target=target, content=content, msg_type="text")
+
+        webhook_url = self.config.get("webhook_url", "")
+        if not webhook_url:
+            msg.status = "failed"
+            msg.error = "webhook_url not configured"
+            self._log_message(msg)
+            return msg
+
+        try:
+            payload = {
+                "msgtype": "text",
+                "text": {"content": content},
+            }
+
+            async with httpx.AsyncClient() as client:
+                resp = await client.post(webhook_url, json=payload, timeout=15)
+                data = resp.json()
+                msg.status = "sent" if data.get("errcode") == 0 else "failed"
+                if msg.status == "failed":
+                    msg.error = data.get("errmsg", str(data))
+        except Exception as e:
+            msg.status = "failed"
+            msg.error = str(e)
+
+        self._log_message(msg)
+        return msg
+
+    async def send_card(self, target: str, card: NotificationCard) -> ChannelMessage:
+        import httpx
+
+        msg = ChannelMessage(channel=self.channel_name, target=target,
+                            content=card.title, msg_type="markdown")
+
+        webhook_url = self.config.get("webhook_url", "")
+        if not webhook_url:
+            msg.status = "failed"
+            msg.error = "webhook_url not configured"
+            self._log_message(msg)
+            return msg
+
+        # 企微 Markdown 消息格式（参考 main _wecom_markdown）
+        severity_emoji = {"info": "●", "warning": "🟠", "error": "🔴", "success": "🟢"}
+        severity_color = {"info": "comment", "warning": "warning", "error": "warning", "success": "info"}
+        emoji = severity_emoji.get(card.severity, "●")
+        color = severity_color.get(card.severity, "comment")
+
+        md_lines = [
+            f"## {emoji} {card.title}",
+            "",
+        ]
+        if card.description:
+            md_lines.append(f"> {card.description}")
+            md_lines.append("")
+
+        if card.product_id:
+            md_lines.append(f'<font color="{color}">产品ID：{card.product_id} | 阶段：{card.stage}</font>')
+            md_lines.append("")
+
+        for f in card.fields:
+            md_lines.append(f"- **{f.get('label', '')}**: {f.get('value', '')}")
+
+        if card.actions:
+            md_lines.append("")
+            for a in card.actions:
+                md_lines.append(f"[查看详情]({a.get('url', '')})")
+
+        payload = {
+            "msgtype": "markdown",
+            "markdown": {"content": "\n".join(md_lines)},
+        }
+
+        try:
+            async with httpx.AsyncClient() as client:
+                resp = await client.post(webhook_url, json=payload, timeout=15)
+                data = resp.json()
+                msg.status = "sent" if data.get("errcode") == 0 else "failed"
+                if msg.status == "failed":
+                    msg.error = data.get("errmsg", str(data))
+        except Exception as e:
+            msg.status = "failed"
+            msg.error = str(e)
+
+        self._log_message(msg)
+        return msg
+
+
 # ── 通用Webhook适配器 ────────────────────────────
 
 
@@ -631,6 +736,7 @@ class ChannelRegistry:
         adapter_map = {
             "feishu": FeishuAdapter,
             "dingtalk": DingTalkAdapter,
+            "wecom": WeComAdapter,
             "slack": SlackAdapter,
             "email": EmailAdapter,
             "webhook": WebhookAdapter,
@@ -650,6 +756,16 @@ class ChannelRegistry:
             self._save_config()
             return True
         return False
+
+    def update(self, name: str, config: Dict[str, Any]) -> Optional[Dict]:
+        """更新频道配置"""
+        adapter = self._adapters.get(name)
+        if not adapter:
+            return None
+        channel_type = adapter.channel_name
+        self._create_adapter(name, {"channel": channel_type, "config": config})
+        self._save_config()
+        return {"name": name, "channel_type": channel_type, "status": "updated"}
 
     def get_adapter(self, name: str) -> Optional[ChannelAdapter]:
         return self._adapters.get(name)

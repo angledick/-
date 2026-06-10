@@ -1,0 +1,9 @@
+stage:
+  number: 7
+  name: "出口报关"
+  description: "报关单证生成（发票/箱单/COO等）、HS编码绑定、关税变更监控、报关资源查询、物流追踪。Agent在此阶段需生成完整报关文件包，确保出口流程合规。"
+  events:
+    - event_code: "order:customs_declared"
+    - event_code: "order:customs_cleared_export"
+    - event_code: "order:in_transit"
+    - event_code: "regulation:tariff_changed"

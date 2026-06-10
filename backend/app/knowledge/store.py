@@ -1,9 +1,9 @@
-"""ChromaDB vector store for compliance knowledge — multi-collection, local embedding.
+"""ChromaDB vector store for compliance knowledge — multi-collection, cloud embedding.
 
 数据流转:
   L1 知识库层:
     - 按市场分 collection: eu_knowledge, us_knowledge, jp_knowledge, kr_knowledge
-    - Embedding: paraphrase-multilingual-MiniLM-L12-v2 (sentence-transformers, 离线)
+    - Embedding: Cloud OpenAI-compatible API（text-embedding-3-small 等）
     - 写入: init_knowledge.py → upsert_documents()
     - 读取: RAG (rag.py) → search()
     - 降级: ChromaDB 不可用 → 返回空结果，不阻塞主流程
@@ -13,30 +13,33 @@ import logging
 
 import chromadb
 from chromadb.config import Settings as ChromaSettings
-from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+from chromadb.utils.embedding_functions import OpenAIEmbeddingFunction
 
 from app.config import settings
 from app.knowledge.market_routing import get_collection_name, get_all_collections
 
 log = logging.getLogger(__name__)
 
-# 多语言模型，支持中文查询
-_EMBED_MODEL = "paraphrase-multilingual-MiniLM-L12-v2"
+# 云端 Embedding 模型（通过 settings 配置）
+_EMBED_MODEL = ""  # 将在 _get_ef 中从 settings 读取
 
 _client = None
 _collections: dict[str, object] = {}
 _ef = None   # embedding function（首次使用时懒加载，避免启动时下载模型）
 
 
-def _get_ef() -> SentenceTransformerEmbeddingFunction:
-    """懒加载 embedding function。local_files_only=True 跳过 HuggingFace 网络检查。"""
+def _get_ef() -> OpenAIEmbeddingFunction:
+    """懒加载 cloud embedding function。"""
     global _ef
     if _ef is None:
-        log.info("加载 sentence-transformer 模型: %s", _EMBED_MODEL)
-        _ef = SentenceTransformerEmbeddingFunction(
-            model_name=_EMBED_MODEL,
-            local_files_only=True,
+        api_key = settings.embedding_api_key or settings.anthropic_api_key
+        _ef = OpenAIEmbeddingFunction(
+            api_key=api_key,
+            api_base=settings.embedding_base_url,
+            model_name=settings.embedding_model,
         )
+        log.info("Cloud embedding 已初始化: model=%s base=%s",
+                 settings.embedding_model, settings.embedding_base_url)
     return _ef
 
 
@@ -87,7 +90,7 @@ def upsert_documents(
     """幂等写入文档块到指定市场 collection。
 
     使用 {regulation_id}_{chunk_index} 作为 ID，重复运行不会产生重复文档。
-    Embedding 由 ChromaDB 的 SentenceTransformerEmbeddingFunction 自动生成。
+    Embedding 由 Cloud Embedding API 自动生成。
 
     Args:
         chunks:        文本块列表
@@ -112,7 +115,7 @@ def add_documents(
 ):
     """向后兼容：接受外部 embeddings，但内部实际使用 upsert + 自动 embedding。
 
-    注意: embeddings 参数已被忽略；ChromaDB 使用 SentenceTransformer 自动向量化。
+    注意: embeddings 参数已被忽略；ChromaDB 使用 Cloud Embedding API 自动向量化。
     """
     col = get_collection(market)
     start = col.count()

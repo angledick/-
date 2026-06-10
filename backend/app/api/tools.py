@@ -14,6 +14,7 @@ Tools CRUD API — 前端ToolPanel操作的后端支持。
 
 import json
 import uuid
+import yaml
 from pathlib import Path
 from datetime import datetime, timezone
 from fastapi import APIRouter, HTTPException
@@ -23,7 +24,9 @@ from typing import Optional, List, Dict, Any
 from app.config import settings
 
 DATA_DIR = Path(settings.data_dir)
-TOOLS_FILE = DATA_DIR / "config" / "tools.json"
+TOOLS_FILE = DATA_DIR / "tools" / "tools.json"
+TOOLS_YAML = Path(settings.data_dir) / "tools" / "_registry.yaml"
+TOOLS_IMPL_DIR = DATA_DIR / "tools" / "impl"
 
 router = APIRouter(prefix="/api/v1/tools", tags=["tools"])
 
@@ -33,9 +36,10 @@ router = APIRouter(prefix="/api/v1/tools", tags=["tools"])
 class ToolCreate(BaseModel):
     name: str
     description: str = ""
-    tool_type: str = "custom"       # builtin/custom/skill_wrapper
+    tool_type: str = "custom"       # builtin/custom/script/skill_wrapper
     category: str = "general"       # compliance/logistics/certification/general
     config: Dict[str, Any] = {}
+    script_args: List[str] = []     # script 类型的命令行参数模板
     enabled: bool = True
 
 
@@ -50,14 +54,12 @@ class ToolUpdate(BaseModel):
 # ── 辅助函数 ──────────────────────────────────
 
 def _load_tools() -> List[Dict[str, Any]]:
-    """加载Tools列表"""
+    """加载Tools列表。配置文件必须存在且正确。"""
     if not TOOLS_FILE.exists():
+        # 尝试从 _registry.yaml 初始化
         return _init_default_tools()
-    try:
-        data = json.loads(TOOLS_FILE.read_text(encoding="utf-8"))
-        return data.get("tools", [])
-    except Exception:
-        return []
+    data = json.loads(TOOLS_FILE.read_text(encoding="utf-8"))
+    return data.get("tools", [])
 
 
 def _save_tools(tools: List[Dict[str, Any]]):
@@ -70,63 +72,18 @@ def _save_tools(tools: List[Dict[str, Any]]):
 
 
 def _init_default_tools() -> List[Dict[str, Any]]:
-    """初始化默认Tools"""
-    defaults = [
-        {
-            "id": "tool_compliance_check",
-            "name": "合规检查",
-            "description": "执行六阶段合规流水线检查",
-            "tool_type": "builtin",
-            "category": "compliance",
-            "config": {"pipeline_mode": "6step", "auto_notify": True},
-            "enabled": True,
-        },
-        {
-            "id": "tool_cert_monitor",
-            "name": "认证监控",
-            "description": "监控产品认证到期状态",
-            "tool_type": "builtin",
-            "category": "certification",
-            "config": {"advance_days": 30, "check_interval": "daily"},
-            "enabled": True,
-        },
-        {
-            "id": "tool_hs_lookup",
-            "name": "HS编码查询",
-            "description": "查询产品HS编码和关税税率",
-            "tool_type": "builtin",
-            "category": "compliance",
-            "config": {"data_source": "hs_codes.json"},
-            "enabled": True,
-        },
-        {
-            "id": "tool_vat_query",
-            "name": "VAT税率查询",
-            "description": "查询各国VAT税率及IOSS规则",
-            "tool_type": "builtin",
-            "category": "compliance",
-            "config": {"data_source": "vat_rates.json"},
-            "enabled": True,
-        },
-        {
-            "id": "tool_regulation_scan",
-            "name": "法规变更扫描",
-            "description": "扫描目标市场法规变更",
-            "tool_type": "builtin",
-            "category": "compliance",
-            "config": {"scan_interval": "hourly", "markets": ["EU", "US"]},
-            "enabled": True,
-        },
-        {
-            "id": "tool_tracking_query",
-            "name": "物流追踪",
-            "description": "跨境物流单号追踪查询",
-            "tool_type": "builtin",
-            "category": "logistics",
-            "config": {"provider": "17track", "free_tier": True},
-            "enabled": True,
-        },
-    ]
+    """从 data/tools/_registry.yaml 初始化 Tools。配置文件必须存在。"""
+    if not TOOLS_YAML.exists():
+        raise FileNotFoundError(
+            f"Tools注册配置不存在: {TOOLS_YAML}\n"
+            "请确保 data/tools/_registry.yaml 已创建"
+        )
+    import yaml
+    with open(TOOLS_YAML, "r", encoding="utf-8") as f:
+        data = yaml.safe_load(f)
+    defaults = data.get("tools", [])
+    if not defaults:
+        raise ValueError(f"Tools注册配置为空: {TOOLS_YAML}")
 
     _save_tools(defaults)
     return defaults
@@ -152,7 +109,11 @@ async def list_tools(
 
 @router.post("", summary="创建Tool")
 async def create_tool(req: ToolCreate):
-    """创建新Tool"""
+    """创建新Tool。
+
+    当 tool_type == 'script' 时，自动在 data/tools/impl/ 下生成脚手架脚本，
+    并同步到 _registry.yaml。Agent 可通过 python 命令传参运行该脚本。
+    """
     tools = _load_tools()
 
     tool_id = f"tool_{uuid.uuid4().hex[:8]}"
@@ -166,6 +127,13 @@ async def create_tool(req: ToolCreate):
         "enabled": req.enabled,
         "created_at": datetime.now(timezone.utc).isoformat(),
     }
+
+    # script 类型: 生成实现脚本 + 同步 _registry.yaml
+    if req.tool_type == "script":
+        script_filename = _generate_impl_script(tool_id, req)
+        tool["script"] = f"impl/{script_filename}"
+        tool["script_args"] = req.script_args or ["--input", "{input}"]
+        _sync_to_registry_yaml(tool)
 
     tools.append(tool)
     _save_tools(tools)
@@ -239,3 +207,126 @@ async def toggle_tool(tool_id: str):
             }
 
     raise HTTPException(status_code=404, detail=f"Tool {tool_id} not found")
+
+
+# ── Script 工具实现生成 ──────────────────────────────────
+
+def _generate_impl_script(tool_id: str, req: ToolCreate) -> str:
+    """为 script 类型工具生成脚手架 Python 脚本到 data/tools/impl/。
+
+    返回生成的脚本文件名。
+    """
+    TOOLS_IMPL_DIR.mkdir(parents=True, exist_ok=True)
+
+    # 使用 tool name 生成安全文件名
+    safe_name = req.name.lower().replace(" ", "_").replace("-", "_")
+    safe_name = "".join(c for c in safe_name if c.isalnum() or c == "_")
+    script_filename = f"{safe_name}.py"
+    script_path = TOOLS_IMPL_DIR / script_filename
+
+    # 如果文件已存在不覆盖
+    if script_path.exists():
+        return script_filename
+
+    # 生成脚手架脚本
+    scaffold = f'''#!/usr/bin/env python3
+"""{req.name} — 自定义工具脚本。
+
+{req.description or "用户自定义工具实现。"}
+
+Agent 可通过 Python 命令传参运行:
+  python data/tools/impl/{script_filename} --input "参数内容"
+
+也可通过 JSON stdin 传参:
+  echo '{{\'input\': \'内容\'}}' | python data/tools/impl/{script_filename} --stdin
+
+输出: JSON 格式结果到 stdout
+"""
+
+import argparse
+import json
+import sys
+
+
+def run(input_data: str, **kwargs) -> dict:
+    """工具主逻辑。
+
+    Args:
+        input_data: 输入数据
+        **kwargs: 其他参数
+
+    Returns:
+        dict: 执行结果
+    """
+    # TODO: 实现工具逻辑
+    return {{
+        "status": "success",
+        "tool_id": "{tool_id}",
+        "result": f"处理完成: {{input_data}}",
+    }}
+
+
+def main():
+    parser = argparse.ArgumentParser(description="{req.name}")
+    parser.add_argument("--input", "-i", type=str, help="输入数据")
+    parser.add_argument("--stdin", action="store_true", help="从 stdin 读取 JSON 输入")
+    parser.add_argument("--pretty", action="store_true", help="格式化 JSON 输出")
+    args = parser.parse_args()
+
+    if args.stdin:
+        raw = sys.stdin.read().strip()
+        if not raw:
+            print(json.dumps({{{"error": "stdin 为空"}}}))
+            sys.exit(1)
+        params = json.loads(raw)
+        input_data = params.get("input", "")
+    elif args.input:
+        input_data = args.input
+    else:
+        print(json.dumps({{{"error": "请提供 --input 或 --stdin 参数"}}}))
+        sys.exit(1)
+
+    result = run(input_data)
+    indent = 2 if args.pretty else None
+    print(json.dumps(result, ensure_ascii=False, indent=indent))
+
+
+if __name__ == "__main__":
+    main()
+'''
+    script_path.write_text(scaffold, encoding="utf-8")
+    return script_filename
+
+
+def _sync_to_registry_yaml(tool: Dict[str, Any]):
+    """将新创建的 script 工具同步到 data/tools/_registry.yaml。"""
+    TOOLS_YAML.parent.mkdir(parents=True, exist_ok=True)
+
+    data = {"tools": []}
+    if TOOLS_YAML.exists():
+        raw = yaml.safe_load(TOOLS_YAML.read_text(encoding="utf-8"))
+        if raw and isinstance(raw, dict):
+            data = raw
+
+    # 检查是否已存在
+    existing_ids = {t.get("id") for t in data.get("tools", [])}
+    if tool["id"] in existing_ids:
+        return
+
+    entry = {
+        "id": tool["id"],
+        "name": tool["name"],
+        "description": tool.get("description", ""),
+        "tool_type": "script",
+        "category": tool.get("category", "general"),
+        "script": tool.get("script", ""),
+        "script_args": tool.get("script_args", []),
+        "config": tool.get("config", {}),
+        "enabled": tool.get("enabled", True),
+    }
+    data["tools"].append(entry)
+
+    TOOLS_YAML.write_text(
+        yaml.dump(data, allow_unicode=True, default_flow_style=False, sort_keys=False),
+        encoding="utf-8",
+    )

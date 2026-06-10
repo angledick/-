@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
 import time
 import uuid
 from dataclasses import dataclass, field, asdict
@@ -28,6 +29,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+import yaml
 from app.config import settings
 
 
@@ -96,86 +98,29 @@ class OAuthConnection:
         return conn
 
 
-# ── Provider配置模板 ──────────────────────────────
+logger = logging.getLogger(__name__)
 
-PROVIDER_TEMPLATES: Dict[str, Dict[str, Any]] = {
-    "shopify": {
-        "name": "Shopify",
-        "auth_type": "oauth2",
-        "auth_url": "https://{shop}/admin/oauth/authorize",
-        "token_url": "https://{shop}/admin/oauth/access_token",
-        "scopes": "read_products,write_products,read_orders,read_customers,read_inventory",
-        "config_fields": ["shop", "api_key", "api_secret", "redirect_uri"],
-        "icon": "🛍️",
-        "description": "Shopify店铺OAuth连接，支持产品/订单/库存同步",
-        "guide_ref": "§3.1 Shopify Admin API",
-    },
-    "feishu": {
-        "name": "飞书",
-        "auth_type": "oauth2",
-        "auth_url": "https://open.feishu.cn/open-apis/authen/v1/authorize",
-        "token_url": "https://open.feishu.cn/open-apis/authen/v1/oidc/access_token",
-        "scopes": "im:message:send_as_bot im:chat",
-        "config_fields": ["app_id", "app_secret", "redirect_uri", "encrypt_key", "verification_token"],
-        "icon": "🐦",
-        "description": "飞书开放平台Bot连接，支持消息推送与交互卡片",
-        "guide_ref": "§3.5.11 Chatwoot全渠道接入",
-    },
-    "dingtalk": {
-        "name": "钉钉",
-        "auth_type": "oauth2",
-        "auth_url": "https://login.dingtalk.com/oauth2/auth",
-        "token_url": "https://api.dingtalk.com/v1.0/oauth2/userAccessToken",
-        "scopes": "openid corpid",
-        "config_fields": ["app_key", "app_secret", "agent_id", "robot_code"],
-        "icon": "📌",
-        "description": "钉钉开放平台Bot连接，支持群消息与工单通知",
-        "guide_ref": "§3.5.11 Chatwoot全渠道接入",
-    },
-    "slack": {
-        "name": "Slack",
-        "auth_type": "oauth2",
-        "auth_url": "https://slack.com/oauth/v2/authorize",
-        "token_url": "https://slack.com/api/oauth.v2.access",
-        "scopes": "chat:write,channels:read,incoming-webhook",
-        "config_fields": ["client_id", "client_secret", "signing_secret", "redirect_uri"],
-        "icon": "💬",
-        "description": "Slack Bot连接，支持频道消息与通知推送",
-        "guide_ref": "§3.5.11 Chatwoot全渠道接入",
-    },
-    "erpnext": {
-        "name": "ERPNext",
-        "auth_type": "token",
-        "config_fields": ["base_url", "api_key", "api_secret"],
-        "icon": "🏭",
-        "description": "ERPNext ERP系统连接（指南 §3.5.3），采购/库存/财务同步",
-        "guide_ref": "§3.5.3 ERPNext",
-    },
-    "listmonk": {
-        "name": "Listmonk",
-        "auth_type": "basic",
-        "config_fields": ["base_url", "username", "password"],
-        "icon": "📧",
-        "description": "Listmonk邮件营销连接（指南 §3.5.2），EDM合规发送",
-        "guide_ref": "§3.5.2 Listmonk",
-    },
-    "17track": {
-        "name": "17TRACK",
-        "auth_type": "token",
-        "config_fields": ["api_key"],
-        "icon": "📦",
-        "description": "17TRACK物流追踪连接（指南 §3.5.5），3100+承运商查询",
-        "guide_ref": "§3.5.5 17TRACK",
-    },
-    "chatwoot": {
-        "name": "Chatwoot",
-        "auth_type": "token",
-        "config_fields": ["base_url", "api_access_token", "account_id"],
-        "icon": "🎧",
-        "description": "Chatwoot全渠道客服连接（指南 §3.5.1），工单与实时聊天",
-        "guide_ref": "§3.5.1 Chatwoot",
-    },
-}
+
+# ── Provider配置模板（从 data/oauth/providers.yaml 加载）──────
+
+OAUTH_PROVIDERS_YAML = Path(settings.data_dir) / "oauth" / "providers.yaml"
+
+
+def _load_provider_templates() -> Dict[str, Dict[str, Any]]:
+    """从 YAML 加载 OAuth Provider 配置模板。"""
+    if OAUTH_PROVIDERS_YAML.exists():
+        try:
+            with open(OAUTH_PROVIDERS_YAML, "r", encoding="utf-8") as f:
+                data = yaml.safe_load(f)
+            return data.get("providers", {})
+        except Exception:
+            pass
+    logger.warning("OAuth Provider YAML 未找到: %s，使用空配置", OAUTH_PROVIDERS_YAML)
+    return {}
+
+
+# 所有代码通过 PROVIDER_TEMPLATES 访问 Provider 定义
+PROVIDER_TEMPLATES: Dict[str, Dict[str, Any]] = _load_provider_templates()
 
 
 # ── 持久化层 ──────────────────────────────────────
