@@ -311,6 +311,32 @@ async def start_scheduler():
         replace_existing=True,
     )
 
+    # ── 产品出海生命周期管理任务 ──────────────────────────────────
+    _scheduler.add_job(
+        _execute_via_worker_wrapper("contract_expiry_check"),
+        'cron', hour=8, minute=30,
+        id='lifecycle_contract_expiry',
+        replace_existing=True,
+    )
+    _scheduler.add_job(
+        _execute_via_worker_wrapper("logistics_track_update"),
+        'interval', hours=2,
+        id='lifecycle_logistics_track',
+        replace_existing=True,
+    )
+    _scheduler.add_job(
+        _execute_via_worker_wrapper("customs_status_poll"),
+        'interval', hours=4,
+        id='lifecycle_customs_poll',
+        replace_existing=True,
+    )
+    _scheduler.add_job(
+        _execute_via_worker_wrapper("payment_chargeback_monitor"),
+        'cron', hour=9, minute=0,
+        id='lifecycle_chargeback_monitor',
+        replace_existing=True,
+    )
+
     _scheduler.start()
     logger.info(
         f"Scheduler started: {len(TASK_WORKER_BINDINGS)} tasks bound to Workers"

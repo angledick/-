@@ -1,0 +1,40 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><style>body{font-family:"SimSun",serif;font-size:14px;line-height:1.8;margin:40px}h1{text-align:center;font-size:22px}h2{border-bottom:1px solid #333;padding-bottom:4px;margin-top:20px}table{width:100%;border-collapse:collapse;margin:10px 0}td,th{border:1px solid #999;padding:8px 12px}th{background:#f5f5f5;width:30%}.highlight{background:#fffbe6;padding:8px;border-left:3px solid #faad14;margin:8px 0;font-size:13px}.sign-area{display:flex;justify-content:space-between;margin-top:40px}.sign-box{width:45%}</style></head>
+<body>
+<h1>代工生产合同（OEM）</h1>
+<p style="text-align:center;color:#666">合同编号：{{ contract_id | default('__________') }}</p>
+<p>委托方（甲方）：<strong>{{ buyer_name }}</strong>，地址：{{ buyer_address }}<br>
+受托方（乙方）：<strong>{{ seller_name }}</strong>，地址：{{ seller_address }}<br>
+签订日期：{{ contract_date }}</p>
+
+<h2>一、委托生产产品</h2>
+<table>
+  <tr><th>产品名称</th><td>{{ product_name }}</td></tr>
+  <tr><th>HS 编码</th><td>{{ hs_code }}</td></tr>
+  <tr><th>产品规格要求</th><td>{{ product_spec }}</td></tr>
+  <tr><th>生产数量</th><td>{{ quantity }}</td></tr>
+  <tr><th>代工单价</th><td>{{ unit_price }} {{ currency }}</td></tr>
+  <tr><th>合同总金额</th><td><strong>{{ total_amount }} {{ currency }}</strong></td></tr>
+  <tr><th>完成交货日期</th><td>{{ delivery_date }}</td></tr>
+</table>
+
+<h2>二、品牌与知识产权</h2>
+<p>{{ brand_authorization }}</p>
+<div class="highlight">⚠️ <strong>知识产权约定</strong>：本合同委托生产的产品设计、图纸、模具等知识产权归甲方所有。乙方不得将甲方设计用于第三方订单，不得仿制或销售相同/相似产品，否则承担侵权责任。</div>
+
+<h2>三、付款方式</h2>
+<p>{{ payment_terms }}</p>
+
+<h2>四、质量与验货</h2>
+<p>乙方应按甲方提供的规格书、样品及检测标准进行生产。甲方有权派驻质检人员或委托第三方在交货前进行验货。不合格品由乙方负责返工或补货，费用由乙方承担。</p>
+
+<h2>五、保密条款</h2>
+<p>乙方对甲方提供的产品设计、技术资料、商业信息负有保密义务，保密期为合同有效期满后 5 年。</p>
+
+<h2>六、违约与争议解决</h2>
+<p>逾期交货，每日按合同总金额 0.5‰ 支付违约金，最高 5%。争议提交受托方所在地仲裁委员会仲裁。</p>
+
+<div class="sign-area">
+  <div class="sign-box"><p>甲方（委托方）：{{ buyer_name }}</p><br><p>签字：___________</p><p>日期：{{ contract_date }}</p></div>
+  <div class="sign-box"><p>乙方（受托方）：{{ seller_name }}</p><br><p>签字：___________</p><p>日期：{{ contract_date }}</p></div>
+</div>
+</body></html>

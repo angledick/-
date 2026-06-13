@@ -68,3 +68,15 @@ bindings:
   risk_intel_analyze:
     worker_code: risk_worker
     enabled: true
+  contract_expiry_check:
+    worker_code: compliance_worker
+    enabled: true
+  logistics_track_update:
+    worker_code: system_worker
+    enabled: true
+  customs_status_poll:
+    worker_code: compliance_worker
+    enabled: true
+  payment_chargeback_monitor:
+    worker_code: system_worker
+    enabled: true

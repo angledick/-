@@ -1,0 +1,24 @@
+{
+  "name": "标准采购合同",
+  "description": "适用于从国内供应商采购成品或半成品的 ToC 卖家",
+  "contract_type": "purchase",
+  "variables": [
+    {"key": "buyer_name", "label": "买方名称", "required": true},
+    {"key": "buyer_address", "label": "买方地址", "required": true},
+    {"key": "seller_name", "label": "卖方/供应商名称", "required": true},
+    {"key": "seller_address", "label": "卖方地址", "required": true},
+    {"key": "product_name", "label": "产品名称", "required": true},
+    {"key": "hs_code", "label": "HS 编码", "required": true},
+    {"key": "quantity", "label": "采购数量", "required": true},
+    {"key": "unit", "label": "单位（件/套/千克）", "default": "件"},
+    {"key": "unit_price", "label": "单价", "required": true},
+    {"key": "currency", "label": "货币", "default": "USD"},
+    {"key": "total_amount", "label": "合同总金额", "required": true},
+    {"key": "delivery_term", "label": "贸易术语（FOB/EXW/DAP等）", "default": "FOB"},
+    {"key": "delivery_port", "label": "交货港/交货地点", "required": true},
+    {"key": "delivery_date", "label": "预计交货日期", "required": true},
+    {"key": "payment_terms", "label": "付款条件", "default": "30% 定金，70% 见提单"},
+    {"key": "quality_standard", "label": "质量标准/检验标准", "default": "GB/T 国家标准"},
+    {"key": "contract_date", "label": "合同签订日期", "required": true}
+  ]
+}

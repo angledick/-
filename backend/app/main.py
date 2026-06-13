@@ -32,6 +32,14 @@ from app.api import knowledge
 from app.api import knowledge_import, news_monitor
 # Phase 3.7 新增路由（风险情报引擎）
 from app.api import risk_intel as risk_intel_router
+# Phase 3.8 新增路由（产品出海生命周期管理）
+from app.api import (
+    suppliers as suppliers_router,
+    contracts as contracts_router,
+    payment_channels as payment_channels_router,
+    logistics as logistics_router,
+    customs as customs_router,
+)
 # Phase 4 新增路由（后台管理）
 from app.api import admin_rbac, admin_approvals, admin_config as admin_config_router, admin_reports
 
@@ -207,6 +215,13 @@ app.include_router(news_monitor.router)
 
 # ── Phase 3.7 风险情报引擎 ────────────────────────
 app.include_router(risk_intel_router.router, prefix="/api/v1/risk-intel")
+
+# ── Phase 3.8 产品出海生命周期管理 ──────────────────
+app.include_router(suppliers_router.router)
+app.include_router(contracts_router.router)
+app.include_router(payment_channels_router.router)
+app.include_router(logistics_router.router)
+app.include_router(customs_router.router)
 
 # ── 定时任务管理路由 ────────────────────────────
 app.include_router(scheduler_config.router)

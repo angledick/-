@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: "SimSun", serif; font-size: 14px; line-height: 1.8; margin: 40px; color: #1a1a1a; }
+  h1 { text-align: center; font-size: 22px; margin-bottom: 8px; }
+  h2 { font-size: 15px; border-bottom: 1px solid #333; padding-bottom: 4px; margin-top: 24px; }
+  .contract-no { text-align: center; color: #666; margin-bottom: 24px; }
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+  td, th { border: 1px solid #999; padding: 8px 12px; }
+  th { background: #f5f5f5; font-weight: bold; width: 30%; }
+  .clause { margin: 12px 0; }
+  .sign-area { display: flex; justify-content: space-between; margin-top: 40px; }
+  .sign-box { width: 45%; }
+  .highlight { background: #fffbe6; padding: 8px; border-left: 3px solid #faad14; margin: 8px 0; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<h1>采购合同</h1>
+<div class="contract-no">合同编号：{{ contract_id | default('__________') }}</div>
+
+<p>
+买方（甲方）：<strong>{{ buyer_name }}</strong>，地址：{{ buyer_address }}<br>
+卖方（乙方）：<strong>{{ seller_name }}</strong>，地址：{{ seller_address }}<br>
+签订日期：{{ contract_date }}
+</p>
+
+<p>经双方协商，就以下货物的采购达成本合同，具体条款如下：</p>
+
+<h2>一、货物信息</h2>
+<table>
+  <tr><th>货物名称</th><td>{{ product_name }}</td></tr>
+  <tr><th>HS 编码</th><td>{{ hs_code }}</td></tr>
+  <tr><th>采购数量</th><td>{{ quantity }} {{ unit }}</td></tr>
+  <tr><th>单价</th><td>{{ unit_price }} {{ currency }}</td></tr>
+  <tr><th>合同总金额</th><td><strong>{{ total_amount }} {{ currency }}</strong></td></tr>
+</table>
+
+<h2>二、贸易条款</h2>
+<table>
+  <tr><th>贸易术语</th><td>{{ delivery_term }}</td></tr>
+  <tr><th>交货地点</th><td>{{ delivery_port }}</td></tr>
+  <tr><th>交货日期</th><td>{{ delivery_date }}</td></tr>
+</table>
+
+{% if delivery_term == 'EXW' %}
+<div class="highlight">
+⚠️ <strong>EXW 风险提示</strong>：卖方仅负责在工厂将货物交付买方，出口报关、国际运输、进口清关及目的地运输费用均由买方（甲方）承担。买方应提前安排货代并确认保险覆盖范围。
+</div>
+{% elif delivery_term == 'DDP' %}
+<div class="highlight">
+⚠️ <strong>DDP 风险提示</strong>：卖方需承担将货物运至目的地并完成进口清关的全部费用及风险，包括目的国进口关税。卖方应确认具备目的国进口资质。
+</div>
+{% endif %}
+
+<h2>三、付款方式</h2>
+<div class="clause">{{ payment_terms }}</div>
+
+<h2>四、质量标准</h2>
+<div class="clause">货物应符合 {{ quality_standard }}，甲方有权在交货前安排第三方验货机构（如 SGS/BV）进行检验。验货费用由甲方承担。若验货不合格，乙方须在 7 个工作日内完成整改或换货。</div>
+
+<h2>五、违约责任</h2>
+<div class="clause">
+1. 若乙方未能在约定日期内交货，每逾期一日，按合同总金额的 0.5‰ 向甲方支付违约金，最高不超过合同总金额的 5%。<br>
+2. 若乙方提供货物存在严重质量缺陷，甲方有权要求退货退款或等值赔偿。<br>
+3. 若甲方未能按时付款，每逾期一日，按未付金额的 0.5‰ 向乙方支付违约金。
+</div>
+
+<h2>六、知识产权</h2>
+<div class="clause">乙方保证所供货物不侵犯任何第三方的知识产权（包括专利权、商标权、著作权等）。若因乙方原因导致甲方遭受第三方知识产权索赔，乙方须承担全部赔偿责任。</div>
+
+<h2>七、适用法律与争议解决</h2>
+<div class="clause">本合同适用中华人民共和国法律。双方因本合同发生争议，应协商解决；协商不成，提交 <strong>{{ delivery_port | default('上海') }}</strong> 仲裁委员会仲裁。</div>
+
+<h2>八、其他约定</h2>
+<div class="clause">本合同一式两份，甲乙双方各执一份，均具同等法律效力。本合同自双方签字盖章之日起生效。</div>
+
+<div class="sign-area">
+  <div class="sign-box">
+    <p>甲方（买方）签章：</p>
+    <p>{{ buyer_name }}</p>
+    <br><br>
+    <p>签字：___________________</p>
+    <p>日期：{{ contract_date }}</p>
+  </div>
+  <div class="sign-box">
+    <p>乙方（卖方）签章：</p>
+    <p>{{ seller_name }}</p>
+    <br><br>
+    <p>签字：___________________</p>
+    <p>日期：{{ contract_date }}</p>
+  </div>
+</div>
+
+</body>
+</html>

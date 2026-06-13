@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><style>body{font-family:"SimSun",serif;font-size:14px;line-height:1.8;margin:40px}h1{text-align:center;font-size:20px}h2{border-bottom:1px solid #333;padding-bottom:4px;margin-top:20px}.sign-area{display:flex;justify-content:space-between;margin-top:40px}.sign-box{width:45%}</style></head>
+<body>
+<h1>保密协议（NDA）</h1>
+<p style="text-align:center;color:#666">合同日期：{{ contract_date }}</p>
+<p>信息披露方（甲方）：<strong>{{ disclosing_party }}</strong>，地址：{{ disclosing_address }}<br>
+信息接收方（乙方）：<strong>{{ receiving_party }}</strong>，地址：{{ receiving_address }}</p>
+
+<h2>一、保密信息范围</h2>
+<p>甲方向乙方披露的以下信息为保密信息：{{ confidential_scope }}。</p>
+
+<h2>二、信息使用目的</h2>
+<p>乙方仅可将上述保密信息用于：{{ purpose }}，不得用于其他目的。</p>
+
+<h2>三、保密义务</h2>
+<p>1. 乙方应对保密信息采取不低于保护自身同类信息的保密措施。<br>
+2. 乙方不得向任何第三方披露保密信息，不得复制或留存超出工作需要的副本。<br>
+3. 合同终止后，乙方应立即销毁或归还甲方所有包含保密信息的材料。</p>
+
+<h2>四、保密期限</h2>
+<p>本协议保密义务自签署之日起持续 {{ confidential_period }} 年，即使合作关系终止后仍然有效。</p>
+
+<h2>五、违约责任</h2>
+<p>乙方违反本协议导致甲方损失的，应承担赔偿责任，最低赔偿金为人民币 100,000 元（或等值外币）。甲方同时有权申请禁止令。</p>
+
+<div class="sign-area">
+  <div class="sign-box"><p>甲方：{{ disclosing_party }}</p><br><p>签字：___________</p><p>日期：{{ contract_date }}</p></div>
+  <div class="sign-box"><p>乙方：{{ receiving_party }}</p><br><p>签字：___________</p><p>日期：{{ contract_date }}</p></div>
+</div>
+</body></html>

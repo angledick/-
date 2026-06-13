@@ -120,3 +120,37 @@ tasks:
     trigger_args:
       minutes: 15
     default_worker: risk_worker
+  - task_name: contract_expiry_check
+    display_name: "合同到期检查"
+    description: "每天检查即将到期或已到期合同，发送预警提醒（提前90天/30天/7天）"
+    agent_instructions: "检查 contracts 表中 delivery_date 距今 90/30/7 天的合同，发布 contract:expiring 事件并推送通知。"
+    default_trigger: cron
+    trigger_args:
+      hour: 8
+      minute: 30
+    default_worker: compliance_worker
+  - task_name: logistics_track_update
+    display_name: "物流轨迹刷新"
+    description: "每2小时刷新 in_transit 状态的物流单轨迹"
+    agent_instructions: "查询 logistics_orders 表中 status IN (picked_up, in_transit, customs_export, customs_import) 的订单，调用 17TRACK API 批量刷新轨迹。"
+    default_trigger: interval
+    trigger_args:
+      hours: 2
+    default_worker: system_worker
+  - task_name: customs_status_poll
+    display_name: "报关状态轮询"
+    description: "每4小时检查 submitted 状态的报关单，推送异常预警"
+    agent_instructions: "检查 customs_declarations 表中 status=submitted 且 submitted_at 距今超24小时的单据，推送 customs:exception 风险预警。"
+    default_trigger: interval
+    trigger_args:
+      hours: 4
+    default_worker: compliance_worker
+  - task_name: payment_chargeback_monitor
+    display_name: "拒付率日统计"
+    description: "每天统计各支付通道拒付率，超阈值自动预警"
+    agent_instructions: "查询 payment_channels 表，计算近30天拒付率。超过 chargeback_limit 的通道发布 payment:chargeback_alert 事件并通知管理员。"
+    default_trigger: cron
+    trigger_args:
+      hour: 9
+      minute: 0
+    default_worker: system_worker

@@ -823,3 +823,236 @@ export const riskIntelApi = {
       { method: 'POST' }
     ),
 }
+
+// ── 产品出海生命周期 API ──────────────────────────────────────────────────────
+
+export type LifecycleStage = 'concept' | 'design' | 'sourcing' | 'ready' | 'active' | 'fulfilling' | 'aftersale' | 'end'
+
+export interface SupplierInfo {
+  id: string
+  name: string
+  source_type: string
+  contact_name: string
+  contact_phone: string
+  contact_email: string
+  address: string
+  country: string
+  business_license: string
+  tax_id: string
+  has_invoice: boolean
+  certifications: string[]
+  categories: string[]
+  rating: number
+  risk_level: string
+  status: string
+  tags: string[]
+  ai_review?: Record<string, any> | null
+  ai_review_at?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface ContractInfo {
+  id: string
+  product_id: string
+  supplier_id: string
+  contract_type: string
+  template_id: string
+  title: string
+  version: number
+  status: string
+  delivery_term: string
+  currency: string
+  total_amount: number
+  payment_terms: string
+  delivery_date: string
+  quality_terms: string
+  content_html: string
+  content_vars: Record<string, any>
+  compliance_issues: any[]
+  compliance_score: number
+  parties: string[]
+  signed_at?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface ContractTemplate {
+  id: string
+  name: string
+  description: string
+  contract_type: string
+  variables: Array<{ key: string; label: string; required?: boolean; default?: string }>
+}
+
+export interface PaymentChannel {
+  id: string
+  provider: string
+  display_name: string
+  currency: string[]
+  markets: string[]
+  status: string
+  kyc_verified: boolean
+  webhook_url: string
+  test_mode: boolean
+  chargeback_rate: number
+  chargeback_limit: number
+  pci_dss: boolean
+  compliance_notes: Array<{ level: string; code: string; message: string }>
+  last_tested_at?: string
+  created_at: string
+}
+
+export interface LogisticsOrder {
+  id: string
+  product_id: string
+  order_id: string
+  carrier: string
+  tracking_number: string
+  service_type: string
+  incoterm: string
+  origin_country: string
+  dest_country: string
+  status: string
+  estimated_delivery?: string
+  insured: boolean
+  insured_value: number
+  freight_cost: number
+  customs_declaration_id?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface CustomsDeclaration {
+  id: string
+  product_id: string
+  logistics_id?: string
+  mode: string
+  hs_code: string
+  declared_name: string
+  declared_value: number
+  declared_currency: string
+  quantity: number
+  unit: string
+  origin_country: string
+  dest_country: string
+  duty_rate: number
+  calculated_duty: number
+  vat_applicable: boolean
+  ioss_number?: string
+  documents: string[]
+  compliance_checks: any[]
+  status: string
+  exception_reason?: string
+  created_at: string
+}
+
+export interface DutyCalcResult {
+  hs_code: string
+  dest_country: string
+  declared_value: number
+  currency: string
+  duty_rate_pct: number
+  calculated_duty: number
+  ioss_applicable: boolean
+  ioss_tip: string
+}
+
+// ── 供应商 API ────────────────────────────────────────────────────────────────
+export const suppliersApi = {
+  list: (params?: { status?: string; source_type?: string; country?: string }) => {
+    const p = new URLSearchParams()
+    if (params?.status) p.set('status', params.status)
+    if (params?.source_type) p.set('source_type', params.source_type)
+    if (params?.country) p.set('country', params.country)
+    return request<SupplierInfo[]>(`${API}/suppliers?${p.toString()}`)
+  },
+  get: (id: string) => request<SupplierInfo>(`${API}/suppliers/${id}`),
+  create: (data: Partial<SupplierInfo>) => request<SupplierInfo>(`${API}/suppliers`, { method: 'POST', body: JSON.stringify(data) }),
+  update: (id: string, data: Partial<SupplierInfo>) => request<SupplierInfo>(`${API}/suppliers/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  verify: (id: string) => request<{ status: string; message: string }>(`${API}/suppliers/${id}/verify`, { method: 'POST' }),
+  rate: (id: string, score: number, dimensions?: Record<string, number>, comment?: string) =>
+    request(`${API}/suppliers/${id}/rate`, { method: 'POST', body: JSON.stringify({ score, dimensions: dimensions || {}, comment: comment || '' }) }),
+  getProducts: (id: string) => request<{ products: any[]; total: number }>(`${API}/suppliers/${id}/products`),
+  getRiskAssessment: (id: string) => request<any>(`${API}/suppliers/${id}/risk-assessment`),
+}
+
+// ── 合同 API ──────────────────────────────────────────────────────────────────
+export const contractsApi = {
+  listTemplates: () => request<ContractTemplate[]>(`${API}/contracts/templates`),
+  getTemplate: (id: string) => request<ContractTemplate>(`${API}/contracts/templates/${id}`),
+  generate: (data: {
+    product_id: string; supplier_id: string; template_id: string
+    title?: string; variables: Record<string, any>
+    delivery_term?: string; currency?: string; total_amount?: number
+    payment_terms?: string; delivery_date?: string; parties?: string[]
+    auto_review?: boolean
+  }) => request<ContractInfo>(`${API}/contracts/generate`, { method: 'POST', body: JSON.stringify(data) }),
+  list: (params?: { product_id?: string; supplier_id?: string; status?: string }) => {
+    const p = new URLSearchParams()
+    if (params?.product_id) p.set('product_id', params.product_id)
+    if (params?.supplier_id) p.set('supplier_id', params.supplier_id)
+    if (params?.status) p.set('status', params.status)
+    return request<ContractInfo[]>(`${API}/contracts?${p.toString()}`)
+  },
+  get: (id: string) => request<ContractInfo>(`${API}/contracts/${id}`),
+  update: (id: string, data: Partial<ContractInfo>) => request<ContractInfo>(`${API}/contracts/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  review: (id: string) => request<{ status: string; message: string }>(`${API}/contracts/${id}/review`, { method: 'POST' }),
+  sign: (id: string) => request<ContractInfo>(`${API}/contracts/${id}/sign`, { method: 'POST' }),
+  getVersions: (id: string) => request<{ versions: any[] }>(`${API}/contracts/${id}/versions`),
+}
+
+// ── 支付通道 API ──────────────────────────────────────────────────────────────
+export const paymentChannelsApi = {
+  list: (status?: string) => request<PaymentChannel[]>(`${API}/payment-channels${status ? `?status=${status}` : ''}`),
+  get: (id: string) => request<PaymentChannel>(`${API}/payment-channels/${id}`),
+  create: (data: { provider: string; webhook_url?: string; test_mode?: boolean }) =>
+    request<PaymentChannel>(`${API}/payment-channels`, { method: 'POST', body: JSON.stringify(data) }),
+  update: (id: string, data: Partial<PaymentChannel>) =>
+    request<PaymentChannel>(`${API}/payment-channels/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  test: (id: string) => request<{ status: string }>(`${API}/payment-channels/${id}/test`, { method: 'POST' }),
+  complianceCheck: (id: string) => request<any>(`${API}/payment-channels/${id}/compliance-check`, { method: 'POST' }),
+  getChargebackStats: (id: string, days?: number) =>
+    request<any>(`${API}/payment-channels/${id}/chargeback-stats${days ? `?days=${days}` : ''}`),
+}
+
+// ── 物流 API ──────────────────────────────────────────────────────────────────
+export const logisticsApi = {
+  listCarriers: () => request<any[]>(`${API}/logistics/carriers`),
+  createShipment: (data: {
+    product_id: string; carrier: string; dest_country: string
+    tracking_number?: string; service_type?: string; incoterm?: string
+    insured?: boolean; insured_value?: number; freight_cost?: number
+  }) => request<LogisticsOrder>(`${API}/logistics/shipments`, { method: 'POST', body: JSON.stringify(data) }),
+  listShipments: (params?: { product_id?: string; status?: string }) => {
+    const p = new URLSearchParams()
+    if (params?.product_id) p.set('product_id', params.product_id)
+    if (params?.status) p.set('status', params.status)
+    return request<LogisticsOrder[]>(`${API}/logistics/shipments?${p.toString()}`)
+  },
+  getShipment: (id: string) => request<LogisticsOrder>(`${API}/logistics/shipments/${id}`),
+  getTracking: (id: string) => request<any>(`${API}/logistics/shipments/${id}/tracking`),
+  refreshTracking: (id: string) => request<any>(`${API}/logistics/shipments/${id}/refresh`, { method: 'POST' }),
+}
+
+// ── 报关 API ──────────────────────────────────────────────────────────────────
+export const customsApi = {
+  create: (data: {
+    product_id: string; hs_code: string; declared_name: string
+    declared_value: number; dest_country: string; quantity?: number
+    mode?: string; origin_country?: string; documents?: string[]
+    ioss_number?: string
+  }) => request<CustomsDeclaration>(`${API}/customs/declarations`, { method: 'POST', body: JSON.stringify(data) }),
+  list: (params?: { product_id?: string; status?: string }) => {
+    const p = new URLSearchParams()
+    if (params?.product_id) p.set('product_id', params.product_id)
+    if (params?.status) p.set('status', params.status)
+    return request<CustomsDeclaration[]>(`${API}/customs/declarations?${p.toString()}`)
+  },
+  get: (id: string) => request<CustomsDeclaration>(`${API}/customs/declarations/${id}`),
+  submit: (id: string) => request<CustomsDeclaration>(`${API}/customs/declarations/${id}/submit`, { method: 'POST' }),
+  check: (id: string) => request<any>(`${API}/customs/declarations/${id}/check`, { method: 'POST' }),
+  calculateDuty: (data: { hs_code: string; dest_country: string; declared_value: number; currency?: string }) =>
+    request<DutyCalcResult>(`${API}/customs/duty-calculator`, { method: 'POST', body: JSON.stringify(data) }),
+  getTariffRates: () => request<any>(`${API}/customs/tariff-rates`),
+}
