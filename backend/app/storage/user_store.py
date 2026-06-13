@@ -14,7 +14,7 @@ from passlib.context import CryptContext
 
 from app.storage.session_store import _get_conn
 
-_pwd_ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
+_pwd_ctx = CryptContext(schemes=["sha256_crypt"], deprecated="auto")
 
 
 # ── Schema ────────────────────────────────────────────────────────────────────

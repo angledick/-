@@ -96,3 +96,27 @@ tasks:
     trigger_args:
       hours: 1
     default_worker: regulation_worker
+  - task_name: risk_intel_global_scan
+    display_name: "风险情报全局扫描"
+    description: "每2小时扫描关税/冲突/金融三大域全球风险情报，自动生成高风险预警"
+    agent_instructions: "此任务执行全球风险情报三大域扫描。1) 调用 risk_intel_collector 采集 tariff/conflict/financial 三大域最新情报 2) 用规则引擎快速分类打分 3) risk_score >= 0.6 的条目自动触发 risk_intel 类型预警 4) 发布 risk:new_intel_alert 事件到 EventBus 5) 通过 WS 推送给在线用户。"
+    default_trigger: interval
+    trigger_args:
+      hours: 2
+    default_worker: risk_worker
+  - task_name: risk_intel_keyword_scan
+    display_name: "用户关键词周期检索"
+    description: "每6小时执行所有启用周期检索的用户关键词"
+    agent_instructions: "此任务遍历 risk_intel_keywords 表中所有 periodic_enabled=1 的关键词，依次调用 RiskIntelEngine.search() 执行实时检索和分析，高风险结果触发预警，结果持久化到 risk_intel_items 表。"
+    default_trigger: interval
+    trigger_args:
+      hours: 6
+    default_worker: risk_worker
+  - task_name: risk_intel_analyze
+    display_name: "风险情报 LLM 深度分析"
+    description: "每15分钟对新入库的情报条目执行 LLM 结构化分析，写回摘要/影响/建议"
+    agent_instructions: "此任务对数据库中 llm_analyzed=0 的风险情报条目执行 LLM 深度分析。调用 RiskIntelEngine.analyze_pending_items(batch_size=20)，为每条情报生成：事件摘要/影响分析/建议行动/校正后的风险评分。分析结果写回 risk_intel_items 表的 llm_analysis 字段。"
+    default_trigger: interval
+    trigger_args:
+      minutes: 15
+    default_worker: risk_worker

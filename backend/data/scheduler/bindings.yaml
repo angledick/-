@@ -59,3 +59,12 @@ bindings:
   news_collect_and_analyze:
     worker_code: regulation_worker
     enabled: true
+  risk_intel_global_scan:
+    worker_code: risk_worker
+    enabled: true
+  risk_intel_keyword_scan:
+    worker_code: risk_worker
+    enabled: true
+  risk_intel_analyze:
+    worker_code: risk_worker
+    enabled: true

@@ -30,6 +30,8 @@ from app.api import skills, plugins, integrations, oauth, channels, sync, code_s
 from app.api import knowledge
 # Phase 3.6 新增路由（RAG知识导入 + 新闻监控）
 from app.api import knowledge_import, news_monitor
+# Phase 3.7 新增路由（风险情报引擎）
+from app.api import risk_intel as risk_intel_router
 # Phase 4 新增路由（后台管理）
 from app.api import admin_rbac, admin_approvals, admin_config as admin_config_router, admin_reports
 
@@ -116,6 +118,12 @@ async def lifespan(app: FastAPI):
     op_guard = get_operation_guard()
     proactive = get_proactive_engine()
 
+    # 风险情报引擎初始化（Phase 3.7）
+    from app.core.risk_intel_engine import get_risk_intel_engine
+    risk_engine = get_risk_intel_engine()
+    restored = risk_engine.restore_periodic_jobs()
+    _log.info("  RiskIntelEngine 初始化完成，恢复 %d 个周期任务", restored)
+
     # ── 4. 调度器（最后启动） ──────────────────────
     _log.info("[启动] Phase 4: 调度器启动")
     await start_scheduler()
@@ -196,6 +204,9 @@ app.include_router(knowledge.router)
 # ── Phase 3.6 RAG知识导入 + 新闻监控 ──────────────
 app.include_router(knowledge_import.router)
 app.include_router(news_monitor.router)
+
+# ── Phase 3.7 风险情报引擎 ────────────────────────
+app.include_router(risk_intel_router.router, prefix="/api/v1/risk-intel")
 
 # ── 定时任务管理路由 ────────────────────────────
 app.include_router(scheduler_config.router)

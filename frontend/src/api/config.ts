@@ -632,3 +632,194 @@ export const schedulerApi = {
     ),
 }
 
+
+// ── 风险情报引擎 API ──────────────────────────────────────────────────────────
+
+export type RiskDomain = 'tariff' | 'conflict' | 'financial'
+export type RiskSeverity = 'critical' | 'high' | 'medium' | 'low'
+
+export interface LlmAnalysis {
+  summary: string       // ≤80字事件概述
+  impact: string        // ≤60字影响分析
+  actions: string[]     // ≤3条建议行动
+  confidence: number    // 置信度 0~1
+  analyzed_at?: string
+  model?: string
+}
+
+export interface RiskIntelItem {
+  id: string
+  source_type: string
+  source_name: string
+  title: string
+  summary?: string
+  url?: string
+  pub_time?: string
+  collected_at: string
+  risk_domain?: RiskDomain
+  risk_category?: string
+  risk_score: number
+  severity: RiskSeverity
+  sentiment?: string
+  affected_markets: string[]
+  affected_hs_codes: string[]
+  matched_keywords: string[]
+  trigger_source?: string
+  jin10_id?: string
+  jin10_important?: number
+  jin10_channel?: number[]
+  analyzed: number
+  alert_id?: string
+  headline_summary?: string
+  // LLM 深度分析字段
+  llm_analysis?: LlmAnalysis | null
+  llm_analyzed?: number   // 0=未分析, 1=已分析
+  llm_error?: string | null
+}
+
+export interface RiskIntelKeyword {
+  id: string
+  user_id: string
+  keyword: string
+  label?: string
+  domain: string
+  auto_suggested: number
+  source_hint?: string
+  periodic_enabled: number
+  cron_expr: string
+  last_run_at?: string
+  next_run_at?: string
+  total_runs: number
+  total_hits: number
+  enabled: number
+  created_at: string
+  updated_at: string
+}
+
+export interface RiskIntelRun {
+  id: string
+  run_type: string
+  keyword_id?: string
+  keyword: string
+  user_id?: string
+  status: 'pending' | 'running' | 'done' | 'failed'
+  items_found: number
+  items_new: number
+  alerts_created: number
+  error_msg?: string
+  started_at?: string
+  finished_at?: string
+  created_at: string
+}
+
+export interface RiskIntelSearchResult {
+  run_id: string
+  keyword: string
+  total_found: number
+  items_new: number
+  alerts_triggered: number
+  duration_ms?: number
+  items: RiskIntelItem[]
+  error?: string
+}
+
+export interface RiskHeatmap {
+  by_domain: Record<string, { count: number; critical: number; high: number; avg_score: number }>
+  trend: Array<{ date: string; tariff?: number; conflict?: number; financial?: number }>
+  top_markets: Array<{ market: string; count: number }>
+  latest_critical: RiskIntelItem[]
+  generated_at: string
+}
+
+export const riskIntelApi = {
+  // 主动关键词检索
+  search: (keyword: string, domain?: string, save = true) =>
+    request<RiskIntelSearchResult>(`${API}/risk-intel/search`, {
+      method: 'POST',
+      body: JSON.stringify({ keyword, domain: domain || undefined, save }),
+    }),
+
+  // 历史情报流
+  getFeed: (params?: {
+    q?: string; domain?: string; severity?: string
+    min_score?: number; hours?: number; source_name?: string
+    jin10_only?: boolean; important_only?: boolean
+    page?: number; size?: number
+  }) => {
+    const p = new URLSearchParams()
+    if (params?.q)             p.set('q', params.q)
+    if (params?.domain)        p.set('domain', params.domain)
+    if (params?.severity)      p.set('severity', params.severity)
+    if (params?.min_score)     p.set('min_score', String(params.min_score))
+    if (params?.hours)         p.set('hours', String(params.hours))
+    if (params?.source_name)   p.set('source_name', params.source_name)
+    if (params?.jin10_only)    p.set('jin10_only', 'true')
+    if (params?.important_only) p.set('important_only', 'true')
+    if (params?.page)          p.set('page', String(params.page))
+    if (params?.size)          p.set('size', String(params.size))
+    return request<{ items: RiskIntelItem[]; total: number; page: number; has_next: boolean }>(
+      `${API}/risk-intel/feed?${p.toString()}`
+    )
+  },
+
+  // 热力图
+  getHeatmap: (hours = 168) =>
+    request<RiskHeatmap>(`${API}/risk-intel/heatmap?hours=${hours}`),
+
+  // 关键词 CRUD
+  listKeywords: (domain?: string) => {
+    const p = domain ? `?domain=${domain}` : ''
+    return request<RiskIntelKeyword[]>(`${API}/risk-intel/keywords${p}`)
+  },
+  addKeyword: (data: {
+    keyword: string; label?: string; domain?: string
+    periodic_enabled?: boolean; cron_expr?: string
+  }) =>
+    request<RiskIntelKeyword>(`${API}/risk-intel/keywords`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+  updateKeyword: (id: string, data: Partial<RiskIntelKeyword>) =>
+    request<RiskIntelKeyword>(`${API}/risk-intel/keywords/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    }),
+  deleteKeyword: (id: string) =>
+    fetch(`${API}/risk-intel/keywords/${id}`, {
+      method: 'DELETE',
+      headers: authHeaders(),
+    }),
+  suggestKeywords: (markets?: string[], domains?: string[]) =>
+    request<{ suggestions: Array<{ keyword: string; domain: string; source_hint: string; already_tracked: boolean }> }>(
+      `${API}/risk-intel/keywords/suggest`,
+      { method: 'POST', body: JSON.stringify({ markets, domains }) }
+    ),
+  runKeyword: (id: string) =>
+    request<{ run_id: string; keyword: string; status: string }>(`${API}/risk-intel/keywords/${id}/run`, {
+      method: 'POST',
+    }),
+
+  // 执行记录
+  getRuns: (keyword_id?: string) => {
+    const p = keyword_id ? `?keyword_id=${keyword_id}` : ''
+    return request<RiskIntelRun[]>(`${API}/risk-intel/runs${p}`)
+  },
+  getRun: (runId: string) =>
+    request<RiskIntelRun>(`${API}/risk-intel/runs/${runId}`),
+
+  // LLM 分析管理
+  getAnalyzeStatus: () =>
+    request<{ total: number; done: number; pending: number; errors: number }>(
+      `${API}/risk-intel/analyze/status`
+    ),
+  triggerAnalyze: (batchSize = 20, minScore = 0) =>
+    request<{ status: string; batch_size: number; queue_before: number }>(
+      `${API}/risk-intel/analyze/trigger?batch_size=${batchSize}&min_score=${minScore}`,
+      { method: 'POST' }
+    ),
+  analyzeItem: (itemId: string) =>
+    request<{ status: string; item_id: string; message: string }>(
+      `${API}/risk-intel/analyze/item/${itemId}`,
+      { method: 'POST' }
+    ),
+}

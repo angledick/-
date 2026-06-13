@@ -195,6 +195,17 @@ def _import_task_func(task_name: str) -> Callable:
         engine = get_proactive_engine()
         return getattr(engine, PROACTIVE_METHODS[task_name])
 
+    # RiskIntelEngine 实例方法（直接 Python 调用，无需 Worker）
+    RISK_INTEL_METHODS = {
+        "risk_intel_global_scan":   "run_global_scan",
+        "risk_intel_keyword_scan":  "run_all_periodic_keywords",
+        "risk_intel_analyze":       "analyze_pending_items",
+    }
+    if task_name in RISK_INTEL_METHODS:
+        from app.core.risk_intel_engine import get_risk_intel_engine
+        engine = get_risk_intel_engine()
+        return getattr(engine, RISK_INTEL_METHODS[task_name])
+
     # 如果绑定禁用，但仍有 Worker 配置，也尝试 Worker 分发
     if binding:
         async def _worker_fallback():
@@ -277,6 +288,26 @@ async def start_scheduler():
         _execute_via_worker_wrapper("aggregate_global_metrics"),
         'interval', hours=12,
         id='proactive_global_metrics',
+        replace_existing=True,
+    )
+
+    # ── 风险情报引擎任务 ──────────────────────────────────────
+    _scheduler.add_job(
+        _execute_via_worker_wrapper("risk_intel_analyze"),
+        'interval', minutes=15,
+        id='risk_intel_analyze',
+        replace_existing=True,
+    )
+    _scheduler.add_job(
+        _execute_via_worker_wrapper("risk_intel_global_scan"),
+        'interval', hours=2,
+        id='risk_intel_global_scan',
+        replace_existing=True,
+    )
+    _scheduler.add_job(
+        _execute_via_worker_wrapper("risk_intel_keyword_scan"),
+        'interval', hours=6,
+        id='risk_intel_keyword_scan',
         replace_existing=True,
     )
 
