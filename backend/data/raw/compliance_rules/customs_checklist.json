@@ -1,0 +1,27 @@
+{
+  "base_documents": [
+    "商业发票（Commercial Invoice）",
+    "装箱单（Packing List）",
+    "运输单据（提单/Air Waybill/快递面单）",
+    "产品规格书与材质说明",
+    "HS 编码归类依据"
+  ],
+  "conditional_documents": [
+    {
+      "countries": ["德国", "法国", "意大利", "西班牙", "荷兰", "比利时", "英国"],
+      "documents": [
+        "符合性声明（DoC，如适用）",
+        "CE/UKCA 技术文件摘要（如适用）",
+        "包装法/EPR 注册信息（如适用）"
+      ]
+    },
+    {
+      "product_keywords": ["电池", "锂", "蓄电池"],
+      "documents": ["MSDS", "UN38.3 测试报告", "危险品/非危鉴定书"]
+    },
+    {
+      "product_keywords": ["玩具", "儿童"],
+      "documents": ["玩具安全测试报告（EN71/CPSIA 等，按市场适用）"]
+    }
+  ]
+}

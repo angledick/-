@@ -178,26 +178,20 @@ class ProactiveEngine:
         }
 
         # 统计产品数量
-        try:
-            from app.core.product_storage import get_product_storage
-            storage = get_product_storage()
-            products = storage.list_products()
-            brief["summary"]["active_products"] = len([
-                p for p in products
-                if hasattr(p, 'lifecycle_stage') and p.lifecycle_stage in ("active", "fulfilling")
-            ])
-        except Exception:
-            pass
+        from app.core.product_storage import get_product_storage
+        storage = get_product_storage()
+        products = storage.list_products()
+        brief["summary"]["active_products"] = len([
+            p for p in products
+            if hasattr(p, 'lifecycle_stage') and p.lifecycle_stage in ("active", "fulfilling")
+        ])
 
         # 统计待处理预警
-        try:
-            alerts_path = self._global_events_path / "bus.json"
-            if alerts_path.exists():
-                data = json.loads(alerts_path.read_text(encoding="utf-8"))
-                pending = [e for e in data if isinstance(e, dict) and e.get("severity") in ("high", "critical")]
-                brief["summary"]["pending_alerts"] = len(pending)
-        except Exception:
-            pass
+        alerts_path = self._global_events_path / "bus.json"
+        if alerts_path.exists():
+            data = json.loads(alerts_path.read_text(encoding="utf-8"))
+            pending = [e for e in data if isinstance(e, dict) and e.get("severity") in ("high", "critical")]
+            brief["summary"]["pending_alerts"] = len(pending)
 
         # SDK 智能分析：Claude 生成合规简报叙事报告
         sdk_report = await self._generate_with_claude("daily_compliance_brief", {
@@ -219,20 +213,17 @@ class ProactiveEngine:
             )
 
         # 推送通知
-        try:
-            from app.core.notification_engine import get_notification_engine
-            engine = get_notification_engine()
-            await engine.send(
-                NotificationPayload(
-                    type="daily_brief",
-                    title=f"每日合规简报 — {date.today().isoformat()}",
-                    message=json.dumps(brief, ensure_ascii=False, default=str),
-                    severity="low",
-                ),
-                channels=["dashboard"],
-            )
-        except Exception:
-            pass
+        from app.core.notification_engine import get_notification_engine
+        engine = get_notification_engine()
+        await engine.send(
+            NotificationPayload(
+                type="daily_brief",
+                title=f"每日合规简报 — {date.today().isoformat()}",
+                message=json.dumps(brief, ensure_ascii=False, default=str),
+                severity="low",
+            ),
+            channels=["dashboard"],
+        )
 
         # 记录历史
         self._brief_history.append(brief)
@@ -280,7 +271,8 @@ class ProactiveEngine:
 
                 try:
                     metadata = json.loads(meta_path.read_text(encoding="utf-8"))
-                except Exception:
+                except (json.JSONDecodeError, OSError) as e:
+                    logger.warning("产品 %s 元数据解析失败: %s", product_id, e)
                     continue
 
                 certs = metadata.get("certifications", [])
@@ -343,10 +335,8 @@ class ProactiveEngine:
                         "data": item,
                         "severity": "high",
                     })
-            except Exception:
-                pass
-
-            # 推送通知
+            except Exception as e:
+                logger.error("认证到期事件发布失败: %s", e)
             try:
                 from app.core.notification_engine import get_notification_engine
                 engine = get_notification_engine()
@@ -372,8 +362,8 @@ class ProactiveEngine:
                         ),
                         channels=["dashboard"],
                     )
-            except Exception:
-                pass
+            except Exception as e:
+                logger.error("认证到期通知推送失败: %s", e)
 
         self._alert_history.append(result)
         if len(self._alert_history) > 90:
@@ -384,10 +374,10 @@ class ProactiveEngine:
     # ── 法规变更扫描 ──────────────────────────────────
 
     async def scan_regulation_changes(self) -> Dict[str, Any]:
-        """扫描法规变更
+        """扫描法规变更 — 委托 Claude SDK 执行。
 
-        集成MarketMonitor进行法规变更检测，
-        发现变更后自动匹配受影响产品并发布全局事件。
+        使用 _generate_with_claude("regulation_scan") 让 Claude 联网搜索
+        法规变更，解析结果后匹配受影响产品并发布全局事件。
 
         参考指南§6.12.2: 全局知识库更新
         """
@@ -398,61 +388,60 @@ class ProactiveEngine:
             "affected_products": {},
         }
 
-        try:
-            from app.core.market_monitor import MarketMonitor
-            monitor = MarketMonitor()
-
-            # 调用MarketMonitor扫描变更
-            changes = await monitor.scan_changes() if hasattr(monitor, 'scan_changes') else []
-
-            for change in changes:
-                if isinstance(change, dict):
-                    result["changes"].append(change)
-
-                    # 匹配受影响产品
-                    market = change.get("market", "")
-                    if market:
-                        try:
-                            from app.core.product_storage import get_product_storage
-                            storage = get_product_storage()
-                            affected = storage.list_products(market=market)
-                            result["affected_products"][market] = [
-                                getattr(p, 'product_id', str(p)) for p in affected
-                            ]
-                        except Exception:
-                            pass
-
-        except Exception:
-            pass
-
-        # SDK 联网搜索：Claude 使用 WebSearch 扫描法规变更
-        sdk_changes_raw = await self._generate_with_claude("regulation_scan", {
-            "local_changes_count": len(result["changes"]),
+        # 委托 SDK 联网扫描法规变更
+        sdk_result = await self._generate_with_claude("regulation_scan", {
             "scanned_at": result["scanned_at"],
         })
-        if sdk_changes_raw:
-            result["sdk_scan_report"] = sdk_changes_raw
+
+        if not sdk_result:
+            return result
+
+        # 解析 SDK 返回的变更列表
+        changes = self._parse_regulation_changes(sdk_result)
+        result["changes"] = changes
+
+        # 匹配受影响产品
+        for change in changes:
+            market = change.get("market", "")
+            if market:
+                try:
+                    from app.core.product_storage import get_product_storage
+                    storage = get_product_storage()
+                    affected = storage.list_products(market=market)
+                    result["affected_products"][market] = [
+                        getattr(p, 'product_id', str(p)) for p in affected
+                    ]
+                except Exception as e:
+                    logger.error("法规变更产品匹配失败 market=%s: %s", market, e)
 
         # 发布全局事件
-        if result["changes"]:
+        if changes:
             try:
                 from app.core.event_bus import get_event_bus
                 bus = get_event_bus()
 
-                for change in result["changes"]:
+                for change in changes:
                     await bus.publish_raw({
                         "type": "regulation:updated",
                         "source": "proactive_engine",
                         "data": change,
-                        "severity": "high" if change.get("impact_level") == "high" else "medium",
+                        "severity": "high" if change.get("severity") == "critical" else "medium",
                     })
-            except Exception:
-                pass
-
-            # 更新全局记忆
-            self._update_global_memory_regulations(result["changes"])
+            except Exception as e:
+                logger.error("法规变更事件发布失败: %s", e)
+            self._update_global_memory_regulations(changes)
 
         return result
+
+    def _parse_regulation_changes(self, sdk_result: str) -> list[dict]:
+        """解析 SDK 返回的法规变更结果。"""
+        if isinstance(sdk_result, list):
+            return [c for c in sdk_result if isinstance(c, dict)]
+        if isinstance(sdk_result, dict):
+            if "changes" in sdk_result:
+                return [c for c in sdk_result["changes"] if isinstance(c, dict)]
+            return [sdk_result] if sdk_result.get("market") else []
+        return []
 
     # ── 心跳自检 ──────────────────────────────────
 
@@ -477,16 +466,18 @@ class ProactiveEngine:
             from app.core.event_bus import get_event_bus
             bus = get_event_bus()
             components["event_bus"] = "healthy" if bus else "degraded"
-        except Exception:
+        except Exception as e:
+            logger.warning("心跳检查 event_bus 不可用: %s", e)
             components["event_bus"] = "unavailable"
 
         # 检查产品存储
         try:
             from app.core.product_storage import get_product_storage
             storage = get_product_storage()
-            products = storage.list_products(limit=1)
+            storage.list_products(limit=1)
             components["product_storage"] = "healthy"
-        except Exception:
+        except Exception as e:
+            logger.warning("心跳检查 product_storage 不可用: %s", e)
             components["product_storage"] = "degraded"
 
         # 检查Worker注册表
@@ -495,7 +486,8 @@ class ProactiveEngine:
             reg = get_worker_registry()
             workers = reg.get_all_workers()
             components["worker_registry"] = "healthy" if workers else "degraded"
-        except Exception:
+        except Exception as e:
+            logger.warning("心跳检查 worker_registry 不可用: %s", e)
             components["worker_registry"] = "unavailable"
 
         # 检查通知引擎
@@ -503,7 +495,8 @@ class ProactiveEngine:
             from app.core.notification_engine import get_notification_engine
             ne = get_notification_engine()
             components["notification_engine"] = "healthy" if ne else "degraded"
-        except Exception:
+        except Exception as e:
+            logger.warning("心跳检查 notification_engine 不可用: %s", e)
             components["notification_engine"] = "unavailable"
 
         # 检查调度器
@@ -511,7 +504,8 @@ class ProactiveEngine:
             from app.core.scheduler import get_scheduler
             scheduler = get_scheduler()
             components["scheduler"] = "healthy" if scheduler else "degraded"
-        except Exception:
+        except Exception as e:
+            logger.warning("心跳检查 scheduler 不可用: %s", e)
             components["scheduler"] = "unavailable"
 
         # 计算整体健康
@@ -545,8 +539,8 @@ class ProactiveEngine:
                     ),
                     channels=["dashboard"],
                 )
-            except Exception:
-                pass
+            except Exception as e:
+                logger.error("心跳告警通知推送失败: %s", e)
 
         # 更新全局记忆系统健康
         self._update_global_memory_health(self._heartbeat)
@@ -621,8 +615,8 @@ class ProactiveEngine:
                         suggestion=f"建议批量办理{cert_name}续期，降低重复操作成本",
                     ))
 
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error("跨产品洞察生成失败: %s", e)
 
         # SDK 深入分析：Claude 基于产品数据生成深层洞察
         if insights:
@@ -713,18 +707,15 @@ class ProactiveEngine:
                     sum(health_scores) / len(health_scores), 1
                 )
 
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error("全局指标聚合产品数据获取失败: %s", e)
 
         # 持久化
         agg_path = self._global_metrics_path / "agg_metrics.json"
-        try:
-            agg_path.write_text(
-                json.dumps(agg, ensure_ascii=False, indent=2, default=str),
-                encoding="utf-8",
-            )
-        except Exception:
-            pass
+        agg_path.write_text(
+            json.dumps(agg, ensure_ascii=False, indent=2, default=str),
+            encoding="utf-8",
+        )
 
         return agg
 
@@ -845,8 +836,8 @@ class ProactiveEngine:
                 json.dumps(memory, ensure_ascii=False, indent=2, default=str),
                 encoding="utf-8",
             )
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error("全局记忆法规变更更新失败: %s", e)
 
     def _update_global_memory_health(self, heartbeat: HeartbeatStatus):
         """更新全局记忆中的系统健康"""
@@ -867,8 +858,8 @@ class ProactiveEngine:
                 json.dumps(memory, ensure_ascii=False, indent=2, default=str),
                 encoding="utf-8",
             )
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error("全局记忆系统健康更新失败: %s", e)
 
     def _persist_insights(self, insights: List[Insight]):
         """持久化洞察到全局记忆"""
@@ -893,8 +884,8 @@ class ProactiveEngine:
                 json.dumps(memory, ensure_ascii=False, indent=2, default=str),
                 encoding="utf-8",
             )
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error("全局记忆洞察持久化失败: %s", e)
 
 
 # ── 单例管理 ──────────────────────────────────

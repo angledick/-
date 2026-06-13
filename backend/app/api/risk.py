@@ -3,6 +3,8 @@
 所有端点前缀: /api/v1/risk/..., /api/v1/metrics/..., /api/v1/prompts/...
 """
 
+import json
+from datetime import datetime, timezone
 from fastapi import APIRouter, Query, Path, HTTPException
 from typing import Optional
 from app.core.risk_alert import (
@@ -13,11 +15,54 @@ from app.core.risk_alert import (
     get_last_scan_time,
     save_last_scan_time,
 )
-from app.core.market_monitor import MarketMonitor
+from app.services.astra_assistant import AstraAssistant
 from app.core.metrics import get_dashboard
 from app.services.prompt_loader import reload_all, list_prompts
 
 router = APIRouter(prefix="/api/v1", tags=["risk"])
+
+
+# ── SDK 结果解析辅助 ──────────────────────────────
+
+def _parse_market_events(result: dict) -> list[dict]:
+    """解析 SDK 返回的市场事件。"""
+    if not isinstance(result, dict):
+        return []
+    if "events" in result:
+        events = result["events"]
+    elif "market" in result:
+        events = [result]
+    else:
+        events = [
+            result[k] for k in result
+            if isinstance(result.get(k), dict) and "market" in result[k]
+        ]
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return [
+        {
+            "event_id": e.get("event_id", f"me_{now}"),
+            "market": e.get("market", "unknown"),
+            "has_change": e.get("has_change", False),
+            "summary": e.get("summary", ""),
+            "severity": e.get("severity", "medium"),
+            "source": e.get("source", "SDK Market Scan"),
+            "source_url": e.get("source_url", ""),
+        }
+        for e in events if isinstance(e, dict)
+    ]
+
+
+def _parse_impacts(result: dict) -> list[dict]:
+    """解析 SDK 返回的影响分析结果。"""
+    if isinstance(result, list):
+        return result
+    if isinstance(result, dict):
+        for key in ("impacts", "affected_products"):
+            if key in result:
+                return result[key]
+        if result.get("product_id"):
+            return [result]
+    return []
 
 
 # ── 风险预警 ─────────────────────────────────────
@@ -64,22 +109,31 @@ async def dismiss(
 async def trigger_scan(
     user_id: str = Query("default", description="用户ID"),
 ):
-    """手动触发一次完整的市场扫描（AstraAssistant 联网搜索 → 影响分析 → 预警）。"""
+    """手动触发一次完整的市场扫描（SDK 联网搜索 → 影响分析 → 预警）。"""
     from app.services.ws_manager import ws_manager
 
-    monitor = MarketMonitor()
+    assistant = AstraAssistant()
 
     # 通知前端扫描开始
     await ws_manager.send_scan_update(user_id, "scanning")
 
     try:
-        # AstraAssistant 联网搜索市场变更
-        events = await monitor.poll_markets()
+        # SDK 联网搜索市场变更
+        raw_result = await assistant.run_task(prompt_name="market_monitor")
+        events = _parse_market_events(raw_result)
+
         alerts_created = []
         for event in events:
             if not event.get("has_change"):
                 continue
-            impacts = await monitor.analyze_impact(event)
+
+            # SDK 分析影响
+            impacts_raw = await assistant.run_task(
+                prompt_name="impact_analysis",
+                context={"market_event": json.dumps(event, ensure_ascii=False)},
+            )
+            impacts = _parse_impacts(impacts_raw)
+
             alert = create_alert(
                 alert_type="regulation_change" if event.get("severity") in ("critical", "high") else "market_hotspot",
                 severity=event.get("severity", "medium"),
@@ -87,7 +141,7 @@ async def trigger_scan(
                 description=event.get("summary", ""),
                 affected_markets=[event.get("market", "")],
                 affected_products=[i.get("product_id", "") for i in impacts if i.get("product_id")],
-                source=event.get("source", "Astra Market Monitor"),
+                source=event.get("source", "SDK Market Scan"),
                 source_url=event.get("source_url", ""),
                 user_ids=[user_id],
             )

@@ -750,11 +750,11 @@ channels:
 
 | 现有模块 | 路径 | OS级架构中对应 | 改造说明 |
 |----------|------|---------------|----------|
-| RuleEngine | `backend/app/core/rule_engine.py` | 规则引擎层 | 保持不变，增加QAAgent可配置接口 |
+| RuleEngine | `backend/app/core/compliance_rules.py` | 规则引擎层 | 保持不变，增加QAAgent可配置接口 |
 | EventChain | `backend/app/core/event_chain.py` | 事件总线层 | 扩展为全局事件总线 |
 | Scheduler | `backend/app/core/scheduler.py` | 主动引擎 | 增加心跳和洞察挖掘 |
-| NLU | `backend/app/core/nlu.py` | Manager Agent | 升级为多Agent NLU路由 |
-| RAG | `backend/app/core/rag.py` | 记忆树查询层 | 接入记忆树 + Obsidian Wiki |
+| NLU | 已内联至 `chat_stream.py` | Manager Agent | 意图解析逻辑已内联，NLU路由由ManagerAgent统一处理 |
+| RAG | `backend/app/knowledge/store.py` | 记忆树查询层 | 原core/rag.py已迁入knowledge/store.py，接入记忆树 + Obsidian Wiki |
 | MarketMonitor | `backend/app/core/market_monitor.py` | 自动拉取引擎 | 接入OAuth集成层 |
 | RiskAlert | `backend/app/core/risk_alert.py` | Worker Agent | 合规检查Worker |
 | AstraAssistant | `backend/app/services/astra_assistant.py` | Manager Agent | 升级为协调者角色 |

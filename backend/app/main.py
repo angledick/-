@@ -45,78 +45,61 @@ from app.services.astra_assistant import AstraAssistant
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """启动时初始化：配置加载器 → 事件预绑定 → Worker → Agent → SDK/组件"""
+    """启动时初始化：基础设施 → 核心组件 → 扩展组件 → 调度器"""
     _log = logging.getLogger("uvicorn")
 
-    # ── 1. 基础设施 ────────────────────────────
-    _log.info("[启动] Phase 1: 基础设施初始化")
+    # ── 1. 基础设施 + 配置预绑定 ──────────────
+    _log.info("[启动] Phase 1: 基础设施 + 配置预绑定")
     from app.storage.user_store import init_admin_if_empty
     init_admin_if_empty()
 
-    # ── 2. 配置文件加载器 ────────────────────────
-    _log.info("[启动] Phase 2: 配置加载器 (文件系统)")
-    _log.info("  Agent 配置: data/agents/*.md")
-    _log.info("  Skills 配置: data/skills/_registry.yaml")
-    _log.info("  Tools 配置: data/tools/_registry.yaml")
-    _log.info("  Events 配置: data/events/builtin/*.md")
-    _log.info("  Workers 配置: data/workers/builtin/builtin_workers.md")
-    _log.info("  Scheduler 绑定: data/scheduler/bindings.yaml")
-    _log.info("  Stages 参考: data/stages/*.yaml (文档参考，事件定义由 events/builtin/*.md 驱动)")
-    _log.info("  OAuth Provider 配置: data/oauth/providers.yaml")
-    _log.info("  Model 路由配置: data/models/routes.yaml")
-
-    # ── 3. 事件-配置预绑定 ────────────────────────
-    _log.info("[启动] Phase 3: 事件-配置预绑定")
     from app.core.event_bus import get_event_bus, get_event_registry
     from app.core.worker_registry import get_worker_registry
     registry = get_event_registry()
     worker_reg = get_worker_registry()
-    _log.info("  事件注册表: %d 个事件定义", len(registry.get_all_events()))
-    _log.info("  Worker 注册表: %d 个 Worker", len(worker_reg.get_all_workers()))
+    _log.info("  事件注册表: %d 个事件定义, Worker 注册表: %d 个 Worker",
+             len(registry.get_all_events()), len(worker_reg.get_all_workers()))
 
-    # ── 4. Agent 初始化 ──────────────────────────
-    _log.info("[启动] Phase 4: Agent 初始化 (文件驱动)")
+    # Agent 初始化（文件驱动）
     from app.core.agent_initializer import get_agent_initializer
     from app.storage.agent_config_store import init_default_agents
     agent_init = get_agent_initializer()
     agent_count = agent_init.scan_and_load()
-    init_default_agents()  # 空操作（兼容旧流程）
+    init_default_agents()
     _log.info("  Agent 初始化完成: %d 个 Agent", agent_count)
 
-    # ── 5. 预加载 Claude Agent SDK ────────────────
-    from app.services.astra_assistant import check_sdk, settings as astra_settings
-    if check_sdk():
-        try:
-            import claude_agent_sdk  # noqa: F401
-            _log.info("Claude Agent SDK 已预加载 (v%s)", getattr(claude_agent_sdk, '__version__', 'unknown'))
-        except Exception as e:
-            _log.warning("Claude Agent SDK 预加载失败: %s", e)
-
-    # ── 6. 核心组件初始化 ──────────────────────────
+    # ── 2. 核心组件 ──────────────────────────────
+    _log.info("[启动] Phase 2: 核心组件初始化")
     from app.core.qa_agent import get_qa_agent
+    from app.core.manager_agent import get_manager_agent
+
     qa = get_qa_agent()
     qa.set_registries(registry, worker_reg)
 
-    # ── 7. Phase 2 组件 ─────────────────────────
-    from app.core.manager_agent import get_manager_agent
-    from app.core.proactive_engine import get_proactive_engine
     manager = get_manager_agent()
-    proactive = get_proactive_engine()
-
-    # 绑定 ManagerAgent 到事件总线（全局监听，事件驱动调度）
     bus = get_event_bus()
     bus.on_all(manager.on_event)
     _log.info("  ManagerAgent 已绑定到事件总线 (on_all)")
 
-    # ── 8. Phase 3 组件 ─────────────────────────
+    # 预加载 Claude Agent SDK
+    from app.services.astra_assistant import check_sdk
+    if check_sdk():
+        try:
+            import claude_agent_sdk  # noqa: F401
+            _log.info("  Claude Agent SDK 已预加载 (v%s)", getattr(claude_agent_sdk, '__version__', 'unknown'))
+        except Exception as e:
+            _log.warning("  Claude Agent SDK 预加载失败: %s", e)
+
+    # ── 3. 扩展组件 ──────────────────────────────
+    _log.info("[启动] Phase 3: 扩展组件初始化")
     from app.core.oauth_manager import get_oauth_manager
     from app.core.auto_pull_engine import get_auto_pull_engine
     from app.core.channel_adapter import get_channel_registry
     from app.core.security_sandbox import get_security_sandbox
     from app.core.skill_registry import get_skill_registry, get_skill_executor, get_skill_recommender
     from app.core.plugin_manager import get_plugin_manager, get_code_capability
-    # Phase 4 组件
     from app.core.rbac import get_rbac_manager, get_approval_engine, get_operation_guard
+    from app.core.proactive_engine import get_proactive_engine
 
     oauth = get_oauth_manager()
     auto_pull = get_auto_pull_engine()
@@ -128,13 +111,13 @@ async def lifespan(app: FastAPI):
     skill_rec = get_skill_recommender()
     plugin_mgr = get_plugin_manager()
     code_cap = get_code_capability()
-
-    # Phase 4 初始化
     rbac = get_rbac_manager()
     approval = get_approval_engine()
     op_guard = get_operation_guard()
+    proactive = get_proactive_engine()
 
-    # ── 9. 调度器（最后启动） ──────────────────────
+    # ── 4. 调度器（最后启动） ──────────────────────
+    _log.info("[启动] Phase 4: 调度器启动")
     await start_scheduler()
 
     _log.info("=" * 50)
@@ -148,7 +131,6 @@ async def lifespan(app: FastAPI):
     from app.core.auto_pull_engine import get_auto_pull_engine
     auto_pull = get_auto_pull_engine()
     await auto_pull.stop()
-    # 关闭 session_store 全局 SQLite 连接
     from app.storage.session_store import close_conn
     close_conn()
 

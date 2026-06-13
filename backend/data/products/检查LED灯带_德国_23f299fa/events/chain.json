@@ -69,12 +69,1188 @@
       "severity": "low",
       "error": null,
       "created_at": "2026-06-08T08:12:27.925137+00:00"
+    },
+    {
+      "id": "eb98f8ce080f",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "c102663e-1396-40f9-8f56-76b4b60dafa0"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:03:58.868911+00:00"
+    },
+    {
+      "id": "9915903a9a76",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "45bad1e0-4b77-41b7-a956-e423472d49f4"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:04:43.979324+00:00"
+    },
+    {
+      "id": "c5d277e36ad4",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "28fd32be-f3e9-4fe7-9edc-079ba3a4a4b1"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:06:30.616448+00:00"
+    },
+    {
+      "id": "c8ad7aee6b3c",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "625c0169-a6de-44a1-86c8-8435f81a2d3d"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:07:36.022308+00:00"
+    },
+    {
+      "id": "3f03068f09e4",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "66e074a8-9269-417f-8b87-9d5a5b759c1c"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:09:02.785741+00:00"
+    },
+    {
+      "id": "e676f2ce7060",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "30a1ceee-a836-497a-8df1-1e45572f99d6"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:09:25.145152+00:00"
+    },
+    {
+      "id": "8690318d33f4",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "323a45fa-171e-44fc-92aa-d5519fc54592"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:09:56.008492+00:00"
+    },
+    {
+      "id": "9bd532f3741a",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "82046d51-d9f8-4ba5-9915-6e746dc81cc3"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:10:43.353557+00:00"
+    },
+    {
+      "id": "5480536dfa61",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "5c15f279-f2b2-49de-a176-267da2a3453e"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:11:19.047678+00:00"
+    },
+    {
+      "id": "bbe045198ed8",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "1a592329-47c1-4721-80ba-c1a9ded4825b"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:12:00.945565+00:00"
+    },
+    {
+      "id": "1af3a462689d",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "d2b768a4-5414-4584-bd14-9ceeb2ed4081"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:13:02.066126+00:00"
+    },
+    {
+      "id": "592bb62fd734",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "564b1ab6-3d54-41ce-b662-f6166dcb94ee"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:14:08.067994+00:00"
+    },
+    {
+      "id": "5bf4c25cb792",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "4181c4aa-add2-41e8-a5b3-9fae758e28ad"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:14:29.172857+00:00"
+    },
+    {
+      "id": "b6d21ce9848f",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "d36d38cd-289c-4199-b9bb-023ade716025"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:15:38.314881+00:00"
+    },
+    {
+      "id": "b74ee26c615c",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "2d0ed4c7-080b-4d7c-b07c-fbfc0c30ed28"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:16:12.466773+00:00"
+    },
+    {
+      "id": "9bca354e1265",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "926a39d0-377a-4ccc-99c4-da6f66fa4c94"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:17:54.658117+00:00"
+    },
+    {
+      "id": "adcec3afdc79",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "3bab4853-ade4-4226-b4c5-5d021b1bcf52"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:18:51.053227+00:00"
+    },
+    {
+      "id": "211f75d17f79",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "0800a10b-1e24-49f5-a4c6-a91ce9eeac6b"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:29:46.180977+00:00"
+    },
+    {
+      "id": "dca2e64fa5ac",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "0e6be3ae-98e8-4d88-8845-5aaaebed755d"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:30:34.987280+00:00"
+    },
+    {
+      "id": "cb71a28e09e8",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "060da77c-b807-43a8-bb06-a918560dce13"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:32:49.208990+00:00"
+    },
+    {
+      "id": "3d1f9c6e94ec",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "4583b7e1-b55a-4ecc-a802-16dba5e86a70"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:33:16.685923+00:00"
+    },
+    {
+      "id": "592f72cf6334",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "3bd77a62-19ed-4508-9454-f36e30e7db5b"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:33:38.181382+00:00"
+    },
+    {
+      "id": "2744ddf6a403",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "bb468a0d-0142-48da-9492-0a67563c2b9b"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:33:56.025588+00:00"
+    },
+    {
+      "id": "b937f8695be6",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "a6cc6166-3276-4bc7-8917-01a84fb8983f"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:36:19.803481+00:00"
+    },
+    {
+      "id": "348af58d7d4d",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "9f606436-6911-4bba-88d7-26ad4bae2534"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:36:40.735313+00:00"
+    },
+    {
+      "id": "f2e0ddb077c7",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "6ef180c4-cb18-4005-a525-419240e56e56"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:37:03.765106+00:00"
+    },
+    {
+      "id": "aae34db5c638",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "a73bf5ac-a3cb-4a9a-9ce2-22808d7602c0"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:37:34.596975+00:00"
+    },
+    {
+      "id": "143b5d68cda6",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "d1b9da90-c5cb-4f30-958b-8a132d3cb4b5"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:37:55.793234+00:00"
+    },
+    {
+      "id": "2fcaa0a1abd9",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "6bd46cea-d229-4792-b7f8-b4deb43e6a58"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:38:24.055526+00:00"
+    },
+    {
+      "id": "c1a1d817740f",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "bfe48f3c-3f11-4daa-8343-ea2b367ee8e5"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:38:50.804907+00:00"
+    },
+    {
+      "id": "fefd2cbb9f81",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "c6aa7f77-2f98-4904-8f05-c8efd260d4f7"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:39:22.130993+00:00"
+    },
+    {
+      "id": "4a25f81c058a",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "639bb067-3263-4bcb-a0cc-2df4f067ad7a"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:39:34.917265+00:00"
+    },
+    {
+      "id": "42bb95958a8e",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "ef39bec2-e263-49d0-8d4c-00d89f7cc0b3"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:40:06.112075+00:00"
+    },
+    {
+      "id": "6e194cb70b04",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "9cd7d255-2d43-4769-ac98-5152beb9775c"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:40:30.306212+00:00"
+    },
+    {
+      "id": "8e11f0dffa89",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "66a796c3-e779-4bca-8a76-be3f36fd0558"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:41:10.249200+00:00"
+    },
+    {
+      "id": "116839c56970",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "70d01a66-6ffc-4876-80ee-31742a7e5acd"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:41:25.175756+00:00"
+    },
+    {
+      "id": "23de5d43c5a4",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "e5fc54ce-bfbc-4bdd-a1da-6025884ded4a"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:41:44.036356+00:00"
+    },
+    {
+      "id": "06607ed0a3f6",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "7c241dc8-566d-484a-97b7-0c88b321dae8"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-11T10:04:23.886795+00:00"
+    },
+    {
+      "id": "d300fd950a02",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "de0ff806-25d7-40af-9cef-b1403d7f5618"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-11T10:18:00.387481+00:00"
+    },
+    {
+      "id": "04e0f41276a6",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "9671cec7-93ca-4330-8869-d2913e98ea8f"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-12T04:08:53.596937+00:00"
+    },
+    {
+      "id": "72831c601ad9",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "1aeedc60-cdc1-433d-99da-29bb723355c3"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-12T04:12:01.265809+00:00"
+    },
+    {
+      "id": "698a9265aea7",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "164768cd-7770-4ae3-8575-09597eb2854b"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-12T04:21:32.667593+00:00"
+    },
+    {
+      "id": "3cf643cd3316",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "73703d60-5011-467f-afec-24ed8990eecb"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-12T04:23:54.534048+00:00"
+    },
+    {
+      "id": "0cd0248ace55",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "625e8815-27a3-4d97-afd7-921b29fedf53"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-12T04:25:50.265210+00:00"
+    },
+    {
+      "id": "d5621a0223e2",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "3b9bdee1-9fc2-4fe2-99e9-a787348d6d82"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-12T06:40:59.966503+00:00"
+    },
+    {
+      "id": "ef9e37c92b60",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "30ba8c51-7ee3-4b49-8448-6e0c3a10f50b"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-12T06:44:44.858871+00:00"
+    },
+    {
+      "id": "aad1499e9368",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "bf9e7d9d-1262-43c4-b2d0-61c6bf923728"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-12T06:50:28.947871+00:00"
+    },
+    {
+      "id": "31e6d2ef9742",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "cbca1427-efbd-4d6b-9e10-4ca210f407a2"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-12T09:02:09.950919+00:00"
+    },
+    {
+      "id": "52c78c6d19ff",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "检查LED灯带_德国_23f299fa",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "检查LED灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "c6e64e44-4330-4cd9-9558-3d5a01c4ad8a"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-12T09:03:16.241725+00:00"
     }
   ],
   "timeline": [
+    "🟢 [Low] 2026-06-12T09:03:16 compliance:check_passed",
+    "🟢 [Low] 2026-06-12T09:02:09 compliance:check_passed",
+    "🟢 [Low] 2026-06-12T06:50:28 compliance:check_passed",
+    "🟢 [Low] 2026-06-12T06:44:44 compliance:check_passed",
+    "🟢 [Low] 2026-06-12T06:40:59 compliance:check_passed",
+    "🟢 [Low] 2026-06-12T04:25:50 compliance:check_passed",
+    "🟢 [Low] 2026-06-12T04:23:54 compliance:check_passed",
+    "🟢 [Low] 2026-06-12T04:21:32 compliance:check_passed",
+    "🟢 [Low] 2026-06-12T04:12:01 compliance:check_passed",
+    "🟢 [Low] 2026-06-12T04:08:53 compliance:check_passed",
+    "🟢 [Low] 2026-06-11T10:18:00 compliance:check_passed",
+    "🟢 [Low] 2026-06-11T10:04:23 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:41:44 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:41:25 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:41:10 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:40:30 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:40:06 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:39:34 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:39:22 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:38:50 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:38:24 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:37:55 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:37:34 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:37:03 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:36:40 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:36:19 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:33:56 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:33:38 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:33:16 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:32:49 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:30:34 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:29:46 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:18:51 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:17:54 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:16:12 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:15:38 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:14:29 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:14:08 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:13:02 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:12:00 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:11:19 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:10:43 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:09:56 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:09:25 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:09:02 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:07:36 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:06:30 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:04:43 compliance:check_passed",
+    "🟢 [Low] 2026-06-10T01:03:58 compliance:check_passed",
     "🟢 [Low] 2026-06-08T08:12:27 compliance:check_passed",
     "🟢 [Low] 2026-06-08T08:11:34 compliance:check_passed",
     "🟢 [Low] 2026-06-08T08:09:41 compliance:check_passed"
   ],
-  "total_events": 3
+  "total_events": 52
 }

@@ -24,9 +24,9 @@
       "action_id": "act_f43ef5e7",
       "chain_id": "chain_9876ab1b62b1",
       "parent_id": "act_40636db9",
-      "type": "nlu_parse",
+      "type": "intent_parse",
       "description_nl": "解析用户输入 → 产品='LED灯具', 目标市场='德国'",
-      "agent": "NLU",
+      "agent": "ChatStream",
       "input": {
         "message": "LED灯具出口德国"
       },
@@ -44,9 +44,9 @@
       "action_id": "act_637a8423",
       "chain_id": "chain_9876ab1b62b1",
       "parent_id": "act_f43ef5e7",
-      "type": "rule_engine_check",
+      "type": "compliance_check",
       "description_nl": "规则引擎执行合规检查 → HS编码=9405.40, VAT=19.0%, 认证5项, 风险⚠️medium",
-      "agent": "RuleEngine",
+      "agent": "ComplianceRules",
       "input": {
         "product": "LED灯具",
         "country": "德国"
@@ -115,8 +115,8 @@
   ],
   "trail": [
     "✅ 第1步: [User] 用户输入查询: LED灯具出口德国",
-    "✅ 第2步: [NLU] 解析用户输入 → 产品='LED灯具', 目标市场='德国'",
-    "✅ 第3步: [RuleEngine] 规则引擎执行合规检查 → HS编码=9405.40, VAT=19.0%, 认证5项, 风险⚠️medium (1ms)",
+    "✅ 第2步: [ChatStream] 解析用户输入 → 产品='LED灯具', 目标市场='德国'",
+    "✅ 第3步: [ComplianceRules] 合规规则检查 → HS编码=9405.40, VAT=19.0%, 认证5项, 风险⚠️medium (1ms)",
     "✅ 第4步: [RAG] RAG 检索法规知识库 → 匹配到 0 条相关法规 (无匹配) (1189ms)",
     "✅ 第5步: [System] 生成合规报告并返回给用户"
   ]

@@ -14,3 +14,6 @@ async def client():
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as c:
         yield c
+    # 每个测试结束后清理 session_store 全局 SQLite 连接
+    from app.storage.session_store import close_conn
+    close_conn()

@@ -37,6 +37,7 @@ logger = logging.getLogger("test_flow")
 
 class TestReportCollector:
     """测试报告收集器"""
+    __test__ = False  # 阻止 pytest 将其收集为测试类
     
     def __init__(self):
         self.test_cases = []

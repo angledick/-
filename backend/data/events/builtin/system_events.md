@@ -111,6 +111,16 @@ events:
     notify_strategy: ["dashboard"]
     trigger_condition: "向量索引重建或增量更新完成"
     agent_action: "确认索引构建完成状态。更新RAG服务状态。验证索引查询响应正常。"
+  - event_code: "metric:threshold_exceeded"
+    event_name: "指标阈值超限"
+    business_stage: "全阶段"
+    severity: high
+    worker: risk_worker
+    skills: ["risk_score", "anomaly_detect"]
+    tools: []
+    notify_strategy: ["dashboard", "websocket", "email"]
+    trigger_condition: "自定义指标超过预设阈值（critical/warning）"
+    agent_action: "识别触发阈值的指标名称、当前值和阈值。生成风险报告，列出影响范围和可能原因。通过所有配置渠道推送预警。触发自动整改或通知运营人员处理。"
 ---
 # 系统运维事件定义
 

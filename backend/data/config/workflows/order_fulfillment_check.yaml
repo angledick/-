@@ -1,0 +1,25 @@
+# 订单履约检查（阶段6-8）
+templates:
+  order_fulfillment_check:
+    - task_type: three_way_match
+      description: 三单一致性校验（订单/支付/物流）
+      business_stage: 阶段6
+      required_skills: [shopify-admin, shopify-custom-data]
+      priority: 1
+    - task_type: hs_code_verify
+      description: HS编码与申报要素核对
+      business_stage: 阶段7
+      required_skills: [shopify-custom-data]
+      priority: 1
+      depends_on_index: [0]
+    - task_type: customs_docs
+      description: 报关单证生成（发票/箱单/提单）
+      business_stage: 阶段7
+      required_skills: [shopify-admin]
+      priority: 2
+      depends_on_index: [0, 1]
+    - task_type: vat_iss_check
+      description: IOSS/VAT合规检查（欧盟市场）
+      business_stage: 阶段8
+      required_skills: [shopify-admin, shopify-functions]
+      priority: 1

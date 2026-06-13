@@ -1,0 +1,10 @@
+{
+  "base_score": 15,
+  "no_hs_penalty": 20,
+  "cert_weight": 4,
+  "cert_max_count": 6,
+  "risk_flag_weight": 12,
+  "logistics_flag_weight": 5,
+  "high_risk_product_bonus": 15,
+  "high_risk_keywords": ["医疗", "电池", "锂", "食品", "药品", "化妆品", "儿童", "玩具"]
+}

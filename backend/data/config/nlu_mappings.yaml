@@ -1,0 +1,158 @@
+# 意图解析静态映射配置 — 原 nlu.py 硬编码外置，nlu.py 已内联至 chat_stream.py
+# 修改映射只需编辑此文件，无需改源码
+
+compliance_keywords:
+  - "出口"
+  - "卖到"
+  - "发给"
+  - "合规"
+  - "认证"
+  - "清关"
+  - "海关"
+  - "HS编码"
+  - "VAT"
+  - "税率"
+  - "进口税"
+  - "报关"
+  - "合规检查"
+
+known_countries:
+  - "德国"
+  - "法国"
+  - "意大利"
+  - "西班牙"
+  - "荷兰"
+  - "比利时"
+  - "英国"
+  - "日本"
+  - "韩国"
+  - "美国"
+  - "新加坡"
+  - "澳大利亚"
+  - "欧盟"
+  - "欧洲"
+  - "东南亚"
+  - "中东"
+
+action_patterns:
+  export_check:
+    - "出口"
+    - "卖到"
+    - "发给"
+    - "合规"
+    - "清关"
+    - "合规检查"
+  cert_query:
+    - "认证"
+    - "证书"
+    - "CE"
+    - "FDA"
+    - "FCC"
+    - "UKCA"
+    - "ROHS"
+    - "WEEE"
+    - "REACH"
+    - "GPSR"
+  tax_query:
+    - "税"
+    - "VAT"
+    - "关税"
+    - "税率"
+    - "进口税"
+    - "Sales Tax"
+  logistics_query:
+    - "物流"
+    - "运输"
+    - "发货"
+    - "快递"
+    - "17TRACK"
+    - "追踪"
+  order_query:
+    - "订单"
+    - "退货"
+    - "退款"
+    - "售后"
+    - "拒付"
+  regulation_query:
+    - "法规"
+    - "法律"
+    - "条例"
+    - "新规"
+    - "政策"
+    - "DPP"
+    - "EPR"
+  product_manage:
+    - "产品"
+    - "上架"
+    - "下架"
+    - "添加产品"
+    - "导入"
+  system_query:
+    - "状态"
+    - "健康"
+    - "系统"
+    - "配置"
+    - "设置"
+
+intent_event_map:
+  export_check: "user:compliance_check"
+  cert_query: "user:cert_query"
+  tax_query: "user:tax_query"
+  logistics_query: "user:logistics_query"
+  order_query: "user:order_query"
+  regulation_query: "user:regulation_query"
+  product_manage: "user:product_manage"
+  system_query: "user:system_query"
+  general: "user:query"
+
+intent_stage_map:
+  export_check: "阶段7"
+  cert_query: "阶段2"
+  tax_query: "阶段7"
+  logistics_query: "阶段6"
+  order_query: "阶段9"
+  regulation_query: "阶段2"
+  product_manage: "阶段4"
+  system_query: "阶段1"
+  general: null
+
+product_separators:
+  - "出口"
+  - "卖到"
+  - "发给"
+  - "运到"
+  - "销往"
+
+# SkillRecommender 不可用时的静态推荐映射
+static_skill_map:
+  export_check:
+    - "shopify-admin"
+    - "shopify-custom-data"
+  cert_query:
+    - "shopify-custom-data"
+    - "shopify-dev"
+  tax_query:
+    - "shopify-admin"
+    - "shopify-functions"
+  logistics_query:
+    - "shopify-admin"
+    - "shopify-custom-data"
+  order_query:
+    - "shopify-admin"
+    - "shopify-customer"
+  regulation_query:
+    - "shopify-dev"
+    - "web-search"
+  product_manage:
+    - "shopify-admin"
+    - "shopify-onboarding-merchant"
+  system_query:
+    - "shopify-use-shopify-cli"
+
+# 安全检查 — 注入攻击检测模式（正则）
+danger_patterns:
+  - "(?i)ignore\\s+(all\\s+)?previous\\s+instructions"
+  - "(?i)you\\s+are\\s+now\\s+(a|an)\\s+"
+  - "(?i)system\\s*:\\s*you\\s+must"
+  - "<script[^>]*>"
+  - "(?i)DROP\\s+TABLE"

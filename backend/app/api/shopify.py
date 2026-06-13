@@ -31,8 +31,8 @@ from app.services.shopify import (
     verify_webhook,
     product_to_compliance_request,
 )
-from app.core.rule_engine import check_compliance
-from app.core.rag import retrieve_context, format_context_for_assistant
+from app.core.compliance_rules import check_compliance
+from app.knowledge.store import retrieve_context, format_context_for_assistant
 from app.core.action_chain import ActionChain
 
 router = APIRouter(prefix="/api/v1", tags=["shopify"])
@@ -162,11 +162,11 @@ async def check_shopify_product(
         input_data={"shop": shop, "product_id": product_id},
     )
 
-    # 4. 规则引擎检查
+    # 4. 合规数据检查
     rule_action = chain.add_action(
-        action_type="rule_engine_check",
-        description_nl=f"规则引擎执行合规检查: 产品={product_name}, 国家={target_market}",
-        agent="RuleEngine",
+        action_type="compliance_check",
+        description_nl=f"合规数据层执行合规检查: 产品={product_name}, 国家={target_market}",
+        agent="ComplianceRules",
     )
     rule_action.start()
     compliance_dict = check_compliance(product_name, target_market)

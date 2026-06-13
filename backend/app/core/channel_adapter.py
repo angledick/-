@@ -20,6 +20,7 @@ from __future__ import annotations
 import hashlib
 import hmac
 import json
+import logging
 import time
 import uuid
 from abc import ABC, abstractmethod
@@ -28,6 +29,8 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from app.config import settings
+
+logger = logging.getLogger(__name__)
 
 
 # ── 数据结构 ────────────────────────────────────────
@@ -90,6 +93,33 @@ class ChannelAdapter(ABC):
         """发送交互式卡片消息"""
         pass
 
+    async def _http_post(
+        self,
+        url: str,
+        payload: dict,
+        headers: Dict[str, str] = None,
+        auth=None,
+        timeout: int = 15,
+    ) -> tuple:
+        """公共 HTTP POST 请求辅助方法。
+
+        Returns:
+            (data_dict, error_string) — 成功时 error 为 None
+        """
+        import httpx
+        try:
+            kwargs: Dict[str, Any] = {"json": payload, "timeout": timeout}
+            if headers:
+                kwargs["headers"] = headers
+            if auth:
+                kwargs["auth"] = auth
+            async with httpx.AsyncClient() as client:
+                resp = await client.post(url, **kwargs)
+                data = resp.json()
+                return data, None
+        except Exception as e:
+            return {}, str(e)
+
     async def send_notification(self, target: str, notification: Dict) -> ChannelMessage:
         """发送通知（含 product_id 深度链接）"""
         card = NotificationCard(
@@ -133,8 +163,6 @@ class FeishuAdapter(ChannelAdapter):
 
     async def send_message(self, target: str, content: str,
                           attachments: List[Dict] = None) -> ChannelMessage:
-        import httpx
-
         msg = ChannelMessage(channel=self.channel_name, target=target, content=content, msg_type="text")
 
         webhook_url = self.config.get("webhook_url", "")
@@ -144,40 +172,35 @@ class FeishuAdapter(ChannelAdapter):
             self._log_message(msg)
             return msg
 
-        try:
-            payload = {
-                "msg_type": "text",
-                "content": {"text": content},
-            }
+        payload = {
+            "msg_type": "text",
+            "content": {"text": content},
+        }
 
-            # 签名校验（如配置了encrypt_key）
-            encrypt_key = self.config.get("encrypt_key", "")
-            if encrypt_key:
-                timestamp = str(int(time.time()))
-                string_to_sign = f"{timestamp}\n{encrypt_key}"
-                hmac_code = hmac.new(encrypt_key.encode("utf-8"), string_to_sign.encode("utf-8"), digestmod=hashlib.sha256).digest()
-                import base64
-                payload["timestamp"] = timestamp
-                payload["sign"] = base64.b64encode(hmac_code).decode("utf-8")
+        # 签名校验（如配置了encrypt_key）
+        encrypt_key = self.config.get("encrypt_key", "")
+        if encrypt_key:
+            timestamp = str(int(time.time()))
+            string_to_sign = f"{timestamp}\n{encrypt_key}"
+            hmac_code = hmac.new(encrypt_key.encode("utf-8"), string_to_sign.encode("utf-8"), digestmod=hashlib.sha256).digest()
+            import base64
+            payload["timestamp"] = timestamp
+            payload["sign"] = base64.b64encode(hmac_code).decode("utf-8")
 
-            async with httpx.AsyncClient() as client:
-                resp = await client.post(webhook_url, json=payload, timeout=15)
-                data = resp.json()
-                if data.get("code") == 0 or data.get("StatusCode") == 0:
-                    msg.status = "sent"
-                else:
-                    msg.status = "failed"
-                    msg.error = data.get("msg", str(data))
-        except Exception as e:
+        data, err = await self._http_post(webhook_url, payload)
+        if err:
             msg.status = "failed"
-            msg.error = str(e)
+            msg.error = err
+        elif data.get("code") == 0 or data.get("StatusCode") == 0:
+            msg.status = "sent"
+        else:
+            msg.status = "failed"
+            msg.error = data.get("msg", str(data))
 
         self._log_message(msg)
         return msg
 
     async def send_card(self, target: str, card: NotificationCard) -> ChannelMessage:
-        import httpx
-
         msg = ChannelMessage(channel=self.channel_name, target=target,
                             content=card.title, msg_type="card")
 
@@ -239,16 +262,14 @@ class FeishuAdapter(ChannelAdapter):
                 })
             card_body["card"]["elements"].append({"tag": "action", "actions": action_elements})
 
-        try:
-            async with httpx.AsyncClient() as client:
-                resp = await client.post(webhook_url, json=card_body, timeout=15)
-                data = resp.json()
-                msg.status = "sent" if (data.get("code") == 0 or data.get("StatusCode") == 0) else "failed"
-                if msg.status == "failed":
-                    msg.error = data.get("msg", str(data))
-        except Exception as e:
+        data, err = await self._http_post(webhook_url, card_body)
+        if err:
             msg.status = "failed"
-            msg.error = str(e)
+            msg.error = err
+        else:
+            msg.status = "sent" if (data.get("code") == 0 or data.get("StatusCode") == 0) else "failed"
+            if msg.status == "failed":
+                msg.error = data.get("msg", str(data))
 
         self._log_message(msg)
         return msg
@@ -269,8 +290,6 @@ class DingTalkAdapter(ChannelAdapter):
 
     async def send_message(self, target: str, content: str,
                           attachments: List[Dict] = None) -> ChannelMessage:
-        import httpx
-
         msg = ChannelMessage(channel=self.channel_name, target=target, content=content, msg_type="text")
 
         webhook_url = self._build_webhook_url()
@@ -280,28 +299,24 @@ class DingTalkAdapter(ChannelAdapter):
             self._log_message(msg)
             return msg
 
-        try:
-            payload = {
-                "msgtype": "text",
-                "text": {"content": content},
-            }
+        payload = {
+            "msgtype": "text",
+            "text": {"content": content},
+        }
 
-            async with httpx.AsyncClient() as client:
-                resp = await client.post(webhook_url, json=payload, timeout=15)
-                data = resp.json()
-                msg.status = "sent" if data.get("errcode") == 0 else "failed"
-                if msg.status == "failed":
-                    msg.error = data.get("errmsg", str(data))
-        except Exception as e:
+        data, err = await self._http_post(webhook_url, payload)
+        if err:
             msg.status = "failed"
-            msg.error = str(e)
+            msg.error = err
+        else:
+            msg.status = "sent" if data.get("errcode") == 0 else "failed"
+            if msg.status == "failed":
+                msg.error = data.get("errmsg", str(data))
 
         self._log_message(msg)
         return msg
 
     async def send_card(self, target: str, card: NotificationCard) -> ChannelMessage:
-        import httpx
-
         msg = ChannelMessage(channel=self.channel_name, target=target,
                             content=card.title, msg_type="card")
 
@@ -346,16 +361,14 @@ class DingTalkAdapter(ChannelAdapter):
             payload["markdown"] = {"title": card.title, "text": "\n".join(markdown_lines)}
             del payload["actionCard"]
 
-        try:
-            async with httpx.AsyncClient() as client:
-                resp = await client.post(webhook_url, json=payload, timeout=15)
-                data = resp.json()
-                msg.status = "sent" if data.get("errcode") == 0 else "failed"
-                if msg.status == "failed":
-                    msg.error = data.get("errmsg", str(data))
-        except Exception as e:
+        data, err = await self._http_post(webhook_url, payload)
+        if err:
             msg.status = "failed"
-            msg.error = str(e)
+            msg.error = err
+        else:
+            msg.status = "sent" if data.get("errcode") == 0 else "failed"
+            if msg.status == "failed":
+                msg.error = data.get("errmsg", str(data))
 
         self._log_message(msg)
         return msg
@@ -394,33 +407,26 @@ class SlackAdapter(ChannelAdapter):
 
     async def send_message(self, target: str, content: str,
                           attachments: List[Dict] = None) -> ChannelMessage:
-        import httpx
-
         msg = ChannelMessage(channel=self.channel_name, target=target, content=content, msg_type="text")
         bot_token = self.config.get("bot_token", "")
 
-        try:
-            async with httpx.AsyncClient() as client:
-                resp = await client.post(
-                    "https://slack.com/api/chat.postMessage",
-                    headers={"Authorization": f"Bearer {bot_token}"},
-                    json={"channel": target, "text": content},
-                    timeout=15,
-                )
-                data = resp.json()
-                msg.status = "sent" if data.get("ok") else "failed"
-                if not data.get("ok"):
-                    msg.error = data.get("error", "Unknown error")
-        except Exception as e:
+        data, err = await self._http_post(
+            "https://slack.com/api/chat.postMessage",
+            {"channel": target, "text": content},
+            headers={"Authorization": f"Bearer {bot_token}"},
+        )
+        if err:
             msg.status = "failed"
-            msg.error = str(e)
+            msg.error = err
+        else:
+            msg.status = "sent" if data.get("ok") else "failed"
+            if not data.get("ok"):
+                msg.error = data.get("error", "Unknown error")
 
         self._log_message(msg)
         return msg
 
     async def send_card(self, target: str, card: NotificationCard) -> ChannelMessage:
-        import httpx
-
         msg = ChannelMessage(channel=self.channel_name, target=target,
                             content=card.title, msg_type="card")
         bot_token = self.config.get("bot_token", "")
@@ -453,25 +459,18 @@ class SlackAdapter(ChannelAdapter):
                 })
             blocks.append({"type": "actions", "elements": elements})
 
-        try:
-            async with httpx.AsyncClient() as client:
-                resp = await client.post(
-                    "https://slack.com/api/chat.postMessage",
-                    headers={"Authorization": f"Bearer {bot_token}"},
-                    json={
-                        "channel": target,
-                        "text": card.title,
-                        "blocks": blocks,
-                    },
-                    timeout=15,
-                )
-                data = resp.json()
-                msg.status = "sent" if data.get("ok") else "failed"
-                if not data.get("ok"):
-                    msg.error = data.get("error", "Unknown error")
-        except Exception as e:
+        data, err = await self._http_post(
+            "https://slack.com/api/chat.postMessage",
+            {"channel": target, "text": card.title, "blocks": blocks},
+            headers={"Authorization": f"Bearer {bot_token}"},
+        )
+        if err:
             msg.status = "failed"
-            msg.error = str(e)
+            msg.error = err
+        else:
+            msg.status = "sent" if data.get("ok") else "failed"
+            if not data.get("ok"):
+                msg.error = data.get("error", "Unknown error")
 
         self._log_message(msg)
         return msg
@@ -492,8 +491,6 @@ class EmailAdapter(ChannelAdapter):
 
     async def send_message(self, target: str, content: str,
                           attachments: List[Dict] = None) -> ChannelMessage:
-        import httpx
-
         msg = ChannelMessage(channel=self.channel_name, target=target, content=content, msg_type="text")
 
         base_url = self.config.get("base_url", "")
@@ -503,26 +500,23 @@ class EmailAdapter(ChannelAdapter):
             self._log_message(msg)
             return msg
 
-        try:
-            async with httpx.AsyncClient() as client:
-                resp = await client.post(
-                    f"{base_url}/api/tx",
-                    auth=(self.config.get("username", ""), self.config.get("password", "")),
-                    json={
-                        "subscriber_email": target,
-                        "template_id": self.config.get("template_id", 1),
-                        "from_email": self.config.get("from_email", "noreply@astra.local"),
-                        "data": {"content": content, "title": "Astra Notification"},
-                    },
-                    timeout=15,
-                )
-                data = resp.json()
-                msg.status = "sent" if data.get("data", {}).get("id") else "failed"
-                if msg.status == "failed":
-                    msg.error = data.get("message", str(data))
-        except Exception as e:
+        data, err = await self._http_post(
+            f"{base_url}/api/tx",
+            {
+                "subscriber_email": target,
+                "template_id": self.config.get("template_id", 1),
+                "from_email": self.config.get("from_email", "noreply@astra.local"),
+                "data": {"content": content, "title": "Astra Notification"},
+            },
+            auth=(self.config.get("username", ""), self.config.get("password", "")),
+        )
+        if err:
             msg.status = "failed"
-            msg.error = str(e)
+            msg.error = err
+        else:
+            msg.status = "sent" if data.get("data", {}).get("id") else "failed"
+            if msg.status == "failed":
+                msg.error = data.get("message", str(data))
 
         self._log_message(msg)
         return msg
@@ -561,8 +555,6 @@ class WeComAdapter(ChannelAdapter):
 
     async def send_message(self, target: str, content: str,
                           attachments: List[Dict] = None) -> ChannelMessage:
-        import httpx
-
         msg = ChannelMessage(channel=self.channel_name, target=target, content=content, msg_type="text")
 
         webhook_url = self.config.get("webhook_url", "")
@@ -572,28 +564,24 @@ class WeComAdapter(ChannelAdapter):
             self._log_message(msg)
             return msg
 
-        try:
-            payload = {
-                "msgtype": "text",
-                "text": {"content": content},
-            }
+        payload = {
+            "msgtype": "text",
+            "text": {"content": content},
+        }
 
-            async with httpx.AsyncClient() as client:
-                resp = await client.post(webhook_url, json=payload, timeout=15)
-                data = resp.json()
-                msg.status = "sent" if data.get("errcode") == 0 else "failed"
-                if msg.status == "failed":
-                    msg.error = data.get("errmsg", str(data))
-        except Exception as e:
+        data, err = await self._http_post(webhook_url, payload)
+        if err:
             msg.status = "failed"
-            msg.error = str(e)
+            msg.error = err
+        else:
+            msg.status = "sent" if data.get("errcode") == 0 else "failed"
+            if msg.status == "failed":
+                msg.error = data.get("errmsg", str(data))
 
         self._log_message(msg)
         return msg
 
     async def send_card(self, target: str, card: NotificationCard) -> ChannelMessage:
-        import httpx
-
         msg = ChannelMessage(channel=self.channel_name, target=target,
                             content=card.title, msg_type="markdown")
 
@@ -635,16 +623,14 @@ class WeComAdapter(ChannelAdapter):
             "markdown": {"content": "\n".join(md_lines)},
         }
 
-        try:
-            async with httpx.AsyncClient() as client:
-                resp = await client.post(webhook_url, json=payload, timeout=15)
-                data = resp.json()
-                msg.status = "sent" if data.get("errcode") == 0 else "failed"
-                if msg.status == "failed":
-                    msg.error = data.get("errmsg", str(data))
-        except Exception as e:
+        data, err = await self._http_post(webhook_url, payload)
+        if err:
             msg.status = "failed"
-            msg.error = str(e)
+            msg.error = err
+        else:
+            msg.status = "sent" if data.get("errcode") == 0 else "failed"
+            if msg.status == "failed":
+                msg.error = data.get("errmsg", str(data))
 
         self._log_message(msg)
         return msg
@@ -660,42 +646,28 @@ class WebhookAdapter(ChannelAdapter):
 
     async def send_message(self, target: str, content: str,
                           attachments: List[Dict] = None) -> ChannelMessage:
-        import httpx
-
         msg = ChannelMessage(channel=self.channel_name, target=target, content=content, msg_type="text")
 
-        try:
-            async with httpx.AsyncClient() as client:
-                resp = await client.post(
-                    target,
-                    json={"content": content, "attachments": attachments or []},
-                    timeout=15,
-                )
-                msg.status = "sent" if resp.status_code < 400 else "failed"
-                if msg.status == "failed":
-                    msg.error = f"HTTP {resp.status_code}"
-        except Exception as e:
+        data, err = await self._http_post(target, {"content": content, "attachments": attachments or []})
+        if err:
             msg.status = "failed"
-            msg.error = str(e)
+            msg.error = err
+        else:
+            msg.status = "sent"
 
         self._log_message(msg)
         return msg
 
     async def send_card(self, target: str, card: NotificationCard) -> ChannelMessage:
-        import httpx
-
         msg = ChannelMessage(channel=self.channel_name, target=target,
                             content=card.title, msg_type="card")
 
-        try:
-            async with httpx.AsyncClient() as client:
-                resp = await client.post(target, json=card.to_dict(), timeout=15)
-                msg.status = "sent" if resp.status_code < 400 else "failed"
-                if msg.status == "failed":
-                    msg.error = f"HTTP {resp.status_code}"
-        except Exception as e:
+        data, err = await self._http_post(target, card.to_dict())
+        if err:
             msg.status = "failed"
-            msg.error = str(e)
+            msg.error = err
+        else:
+            msg.status = "sent"
 
         self._log_message(msg)
         return msg
@@ -706,6 +678,16 @@ class WebhookAdapter(ChannelAdapter):
 
 class ChannelRegistry:
     """频道注册表 — 管理所有已配置的频道适配器"""
+
+    # 类级别适配器注册表: channel_type → AdapterClass
+    ADAPTER_REGISTRY: Dict[str, type] = {
+        "feishu": FeishuAdapter,
+        "dingtalk": DingTalkAdapter,
+        "wecom": WeComAdapter,
+        "slack": SlackAdapter,
+        "email": EmailAdapter,
+        "webhook": WebhookAdapter,
+    }
 
     def __init__(self):
         self._adapters: Dict[str, ChannelAdapter] = {}
@@ -719,8 +701,8 @@ class ChannelRegistry:
                     configs = json.load(f)
                 for ch_name, ch_config in configs.items():
                     self._create_adapter(ch_name, ch_config)
-            except Exception:
-                pass
+            except (json.JSONDecodeError, OSError) as e:
+                logger.error("频道配置文件加载失败 %s: %s", self._config_file, e)
 
     def _save_config(self):
         self._config_file.parent.mkdir(parents=True, exist_ok=True)
@@ -733,15 +715,7 @@ class ChannelRegistry:
     def _create_adapter(self, name: str, config: Dict[str, Any]):
         channel_type = config.get("channel", name)
         adapter_config = config.get("config", {})
-        adapter_map = {
-            "feishu": FeishuAdapter,
-            "dingtalk": DingTalkAdapter,
-            "wecom": WeComAdapter,
-            "slack": SlackAdapter,
-            "email": EmailAdapter,
-            "webhook": WebhookAdapter,
-        }
-        cls = adapter_map.get(channel_type)
+        cls = self.ADAPTER_REGISTRY.get(channel_type)
         if cls:
             self._adapters[name] = cls(adapter_config)
 

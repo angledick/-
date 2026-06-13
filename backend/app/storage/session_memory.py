@@ -43,7 +43,7 @@ class SessionMemory:
         数据流时序:
           1. 用户发送消息
           2. NLU 解析（读取 L4 上下文）
-          3. RuleEngine + RAG 执行
+          3. ComplianceRules + RAG 执行
           4. 回复组装完成 → 写入 L4 (本方法，保存问答对)
           5. 同时写入 L2 (合规档案) 和 L5 (事件链)
 

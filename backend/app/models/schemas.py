@@ -138,9 +138,9 @@ class ActionNodeSchema(BaseModel):
     action_id: str = Field(description="操作节点唯一ID", examples=["act_a1b2c3d4"])
     chain_id: str = Field(description="所属操作链ID", examples=["chain_session_xxx"])
     parent_id: Optional[str] = Field(default=None, description="父操作节点ID，用于构建树状链路", examples=["act_00000001"])
-    type: str = Field(description="操作类型，如 nlu_parse / rule_engine_check / rag_retrieval", examples=["nlu_parse"])
+    type: str = Field(description="操作类型，如 nlu_parse / compliance_check / rag_retrieval", examples=["nlu_parse"])
     description_nl: str = Field(description="操作的自然语言描述，人可读", examples=["NLU 解析用户输入 → 产品=电子产品, 目标市场=德国"])
-    agent: str = Field(description="执行操作的Agent名称", examples=["NLU", "RuleEngine", "RAG"])
+    agent: str = Field(description="执行操作的Agent名称", examples=["NLU", "ComplianceRules", "RAG"])
     input: dict = Field(default_factory=dict, description="操作输入数据")
     output: dict = Field(default_factory=dict, description="操作输出数据")
     status: str = Field(default="pending", description="操作状态: pending / running / success / failed", examples=["success"])
@@ -154,7 +154,7 @@ class ActionChainSchema(BaseModel):
     total_actions: int = Field(default=0, description="操作节点总数")
     status: str = Field(default="empty", description="整体状态: empty / running / completed / failed / partial", examples=["completed"])
     actions: list[ActionNodeSchema] = Field(default_factory=list, description="按时间排序的操作节点列表")
-    trail: list[str] = Field(default_factory=list, description="自然语言描述的操作链路（用于直接展示）", examples=[["✅ 第1步: [NLU] 解析用户输入...", "✅ 第2步: [RuleEngine] 执行合规检查..."]])
+    trail: list[str] = Field(default_factory=list, description="自然语言描述的操作链路（用于直接展示）", examples=[["✅ 第1步: [NLU] 解析用户输入...", "✅ 第2步: [ComplianceRules] 执行合规检查..."]])
 
 
 class ActionChainSummary(BaseModel):
@@ -395,18 +395,7 @@ class WorkerStatus(BaseModel):
     tasks_failed: int = 0
 
 
-class SchedulerBinding(BaseModel):
-    """定时任务-Worker 绑定配置
 
-    定义哪个定时任务由哪个 Worker 执行。
-    可通过 API 动态修改，实现任务配置运行灵活性。
-    """
-    task_name: str = Field(description="任务名称（对应 TASK_REGISTRY 的 key）")
-    worker_code: str = Field(description="绑定的 Worker 编码")
-    enabled: bool = Field(default=True, description="是否启用 SDK 执行（false 则走传统 Python 回调）")
-    params_override: Optional[Dict[str, Any]] = Field(default=None, description="覆盖触发器参数")
-    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
-    updated_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 # ── OS级智能体：产品模型 ──────────────────────────────
@@ -511,38 +500,7 @@ class ProductInfo(BaseModel):
 
 # ── OS级智能体：合规流水线 ──────────────────────────────
 
-class RecommendAction(BaseModel):
-    """推荐操作（六阶段流水线Step3输出）"""
-    action: str = Field(description="操作描述，如'续期WEEE认证'")
-    confidence: float = Field(ge=0.0, le=1.0, description="置信度")
-    skill: str = Field(default="", description="执行Skill名称")
-    expected_result: str = Field(default="", description="预期结果")
-    alternatives: List["RecommendAction"] = Field(default_factory=list, description="替代方案")
-    risk_level: Optional[str] = Field(default=None, description="执行风险: low/medium/high")
-
-
-class CheckResult(BaseModel):
-    """合规检查结果（六阶段流水线Step2输出）"""
-    passed: bool = Field(default=False)
-    rule_results: List[Dict[str, Any]] = Field(default_factory=list)
-    regulations: List[str] = Field(default_factory=list)
-    risk_level: str = Field(default="low")
-    risk_score: int = Field(default=0, ge=0, le=100)
-    recommendations: List[RecommendAction] = Field(default_factory=list)
-
-
-class CompliancePipelineResult(BaseModel):
-    """六阶段合规流水线完整结果"""
-    event: EventRecord
-    check_result: Optional[CheckResult] = None
-    recommendations: List[RecommendAction] = Field(default_factory=list)
-    notifications_sent: List[str] = Field(default_factory=list)
-    user_action: Optional[str] = None
-    process_result: Optional[Dict[str, Any]] = None
-    pipeline_mode: str = Field(default="6step", description="流水线模式: 5step/6step")
-    status: str = Field(default="pending", description="流水线状态")
-    started_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
-    completed_at: Optional[str] = None
+# ── OS级智能体：合规流水线（CheckResult/RecommendAction/CompliancePipelineResult 已移除，对应 compliance_flow.py 已删除）──
 
 
 # ── OS级智能体：事件订阅 ──────────────────────────────
@@ -701,47 +659,12 @@ class PipelineHealthResponse(BaseModel):
 
 # ── OS级智能体：自定义指标 ──────────────────────────────
 
-class CustomMetricDefinition(BaseModel):
-    """自定义指标定义"""
-    id: str = Field(default_factory=lambda: uuid.uuid4().hex[:8])
-    name: str = Field(description="指标名称")
-    formula: str = Field(description="指标公式")
-    description: str = Field(default="")
-    refresh_interval: str = Field(default="realtime", description="刷新频率")
-    unit: str = Field(default="", description="单位")
-    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
-
-
-class MetricValue(BaseModel):
-    """指标值"""
-    metric_id: str
-    value: float = 0.0
-    timestamp: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
-    metadata: Dict[str, Any] = Field(default_factory=dict)
+# ── OS级智能体：自定义指标（CustomMetricDefinition/MetricValue 已移除，无外部引用）──
 
 
 # ── OS级智能体：Workflow ──────────────────────────────
 
-class WorkflowStep(BaseModel):
-    """工作流步骤"""
-    id: str = Field(default_factory=lambda: uuid.uuid4().hex[:8])
-    action: str = Field(description="操作描述")
-    skill: Optional[str] = Field(default=None, description="执行Skill")
-    expected_result: str = Field(default="")
-    status: str = Field(default="pending", description="pending/running/done/failed")
-    duration_ms: int = 0
-
-
-class WorkflowDefinition(BaseModel):
-    """工作流定义"""
-    id: str = Field(default_factory=lambda: uuid.uuid4().hex[:12])
-    name: str = Field(description="工作流名称")
-    trigger_event: str = Field(description="触发事件类型")
-    steps: List[WorkflowStep] = Field(default_factory=list)
-    status: str = Field(default="idle", description="idle/running/completed/failed")
-    current_step: int = Field(default=0)
-    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
-    completed_at: Optional[str] = None
+# ── OS级智能体：Workflow（WorkflowStep/WorkflowDefinition 已移除，无外部引用）──
 
 
 # ── OS级智能体：Agent通信 ──────────────────────────────
@@ -766,9 +689,4 @@ class GuardResult(BaseModel):
     need_confirm: bool = False
 
 
-class SkillScanResult(BaseModel):
-    """技能安全扫描结果"""
-    skill_name: str
-    passed: bool = True
-    issues: List[str] = Field(default_factory=list)
-    risk_level: str = "low"
+

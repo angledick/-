@@ -6,7 +6,6 @@ from typing import Optional, List
 from app.models.schemas import (
     ProductInfo, ProductCreateRequest, ProductUpdateRequest,
     ProductLifecycleStage, ProductLifecycleUpdate,
-    EventRecord, EventCategory,
 )
 from app.core.product_storage import get_product_storage
 
@@ -150,23 +149,19 @@ async def get_product_events(product_id: str, limit: int = Query(50)):
 
 @router.post("/{product_id}/compliance-check")
 async def trigger_compliance_check(product_id: str, target_market: str = Query("欧盟")):
-    """触发产品合规检查"""
+    """触发产品合规检查（通过 EventBus 发布事件，由 Worker 体系异步执行）"""
     storage = get_product_storage()
     product = storage.get_product(product_id)
     if not product:
         raise HTTPException(status_code=404, detail=f"产品 {product_id} 不存在")
 
-    from app.core.compliance_flow import get_compliance_flow
-    flow = get_compliance_flow()
-
-    event = EventRecord(
-        type="compliance:check_started",
-        category=EventCategory.compliance,
-        source="api",
-        product_id=product_id,
-        business_stage=product.business_stage,
-        data={"target_market": target_market},
-    )
-
-    result = await flow.execute(event)
-    return result
+    from app.core.event_bus import get_event_bus
+    bus = get_event_bus()
+    event = await bus.publish_raw({
+        "type": "compliance:check_started",
+        "source": "api",
+        "product_id": product_id,
+        "business_stage": product.business_stage,
+        "target_market": target_market,
+    })
+    return {"event_id": event.id, "status": "published"}

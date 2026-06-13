@@ -785,5 +785,2997 @@
     "compliance_status": "pending",
     "risk_level": "low",
     "updated_at": "2026-06-03T04:31:48.707482"
+  },
+  "p_LED灯_5f55acfd": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "end",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T09:03:18.438198+00:00"
+  },
+  "p_LED灯_19fbc772": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-08T08:09:37.662604"
+  },
+  "p_LED灯_e2b114da": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-08T08:09:37.673570"
+  },
+  "p_E2E测_67a72920": {
+    "name": "E2E测试产品_1780906181",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-08T08:09:41.715421"
+  },
+  "p_LED灯_bf36101d": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-08T08:09:42.017847"
+  },
+  "p_LED灯_394e8b66": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-08T08:11:30.197655"
+  },
+  "p_LED灯_b20fdcf3": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-08T08:11:30.218235"
+  },
+  "p_LED灯_81c160f5": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-08T08:11:30.232160"
+  },
+  "p_E2E测_4098e670": {
+    "name": "E2E测试产品_1780906294",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-08T08:11:34.900433"
+  },
+  "p_LED灯_efd3fef6": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-08T08:11:35.143601"
+  },
+  "p_LED灯_a4368bf4": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-08T08:12:24.631044"
+  },
+  "p_LED灯_43e4e0e7": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-08T08:12:24.649300"
+  },
+  "p_LED灯_418d391c": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-08T08:12:24.663582"
+  },
+  "p_E2E测_3fd5093e": {
+    "name": "E2E测试产品_1780906348",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-08T08:12:28.053860"
+  },
+  "p_LED灯_457df0b8": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-08T08:12:28.337675"
+  },
+  "p_LED灯_ae5279da": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:03:49.749506"
+  },
+  "p_LED灯_c8436f39": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:03:49.787120"
+  },
+  "p_LED灯_add9a268": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:03:49.818414"
+  },
+  "p_E2E测_ac1bd664": {
+    "name": "E2E测试产品_1781053439",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:03:59.383109"
+  },
+  "p_LED灯_8dfd769e": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:04:00.107944"
+  },
+  "p_LED灯_a5a2600a": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:04:34.513171"
+  },
+  "p_LED灯_65b6c6ba": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:04:34.530598"
+  },
+  "p_LED灯_657d1cd9": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:04:34.543141"
+  },
+  "p_E2E测_b18396d9": {
+    "name": "E2E测试产品_1781053484",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:04:44.330531"
+  },
+  "p_LED灯_a11798af": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:04:44.947322"
+  },
+  "p_LED灯_78eff2ba": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:06:22.174571"
+  },
+  "p_LED灯_8367f254": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:06:22.231459"
+  },
+  "p_LED灯_de501e1e": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:06:22.271877"
+  },
+  "p_E2E测_51691a7a": {
+    "name": "E2E测试产品_1781053591",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:06:31.253266"
+  },
+  "p_LED灯_7f184b3f": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:06:31.932120"
+  },
+  "p_LED灯_32dd0a09": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:07:28.427029"
+  },
+  "p_LED灯_e10af73f": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:07:28.489379"
+  },
+  "p_LED灯_b47ddd0b": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:07:28.533636"
+  },
+  "p_E2E测_ce0c9169": {
+    "name": "E2E测试产品_1781053656",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:07:36.625543"
+  },
+  "p_LED灯_b1233eaa": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:07:37.514929"
+  },
+  "p_LED灯_c50d08da": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:08:57.725698"
+  },
+  "p_LED灯_51acb90f": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:08:57.789055"
+  },
+  "p_LED灯_5818516f": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:08:57.802905"
+  },
+  "p_E2E测_95d05087": {
+    "name": "E2E测试产品_1781053743",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:09:03.193958"
+  },
+  "p_LED灯_720b0f81": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:09:03.711997"
+  },
+  "p_LED灯_debbdd11": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:09:20.174390"
+  },
+  "p_LED灯_4414cff0": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:09:20.237493"
+  },
+  "p_LED灯_1cebc59e": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:09:20.251521"
+  },
+  "p_E2E测_296de95e": {
+    "name": "E2E测试产品_1781053765",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:09:25.628491"
+  },
+  "p_LED灯_feb41393": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:09:26.267680"
+  },
+  "p_LED灯_58c8a06b": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:09:45.954664"
+  },
+  "p_LED灯_2f5666e7": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:09:46.075830"
+  },
+  "p_LED灯_55041815": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:09:46.100995"
+  },
+  "p_E2E测_d9938ed2": {
+    "name": "E2E测试产品_1781053796",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:09:56.626597"
+  },
+  "p_LED灯_da531945": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:09:57.553570"
+  },
+  "p_LED灯_851b9ce7": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:10:38.095769"
+  },
+  "p_LED灯_26164b2d": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:10:38.202171"
+  },
+  "p_LED灯_0f6cc57b": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:10:38.218310"
+  },
+  "p_E2E测_899c75dc": {
+    "name": "E2E测试产品_1781053843",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:10:43.923799"
+  },
+  "p_LED灯_2380c602": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:10:44.598720"
+  },
+  "p_LED灯_a7fbde35": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:11:07.790019"
+  },
+  "p_LED灯_635f5cf4": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:11:07.977726"
+  },
+  "p_LED灯_2f05b4f5": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:11:08.007315"
+  },
+  "p_E2E测_e2829309": {
+    "name": "E2E测试产品_1781053880",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:11:20.094740"
+  },
+  "p_LED灯_57b760f6": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:11:21.980974"
+  },
+  "p_LED灯_8ccb0396": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:11:55.904522"
+  },
+  "p_LED灯_556c7348": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:11:55.975207"
+  },
+  "p_LED灯_9601e347": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:11:55.990858"
+  },
+  "p_E2E测_41349e66": {
+    "name": "E2E测试产品_1781053921",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:12:01.518247"
+  },
+  "p_LED灯_9e242d97": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:12:02.120475"
+  },
+  "p_LED灯_7711fa93": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:12:55.188152"
+  },
+  "p_LED灯_7577d2e6": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:12:55.308693"
+  },
+  "p_LED灯_54a7686f": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:12:55.336982"
+  },
+  "p_E2E测_df9db33e": {
+    "name": "E2E测试产品_1781053982",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:13:02.967485"
+  },
+  "p_LED灯_b5e152b8": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:13:04.246722"
+  },
+  "p_LED灯_46a8fed9": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:13:57.438531"
+  },
+  "p_LED灯_87c33647": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:13:57.698789"
+  },
+  "p_LED灯_7f8f4964": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:13:57.752698"
+  },
+  "p_E2E测_c234e63b": {
+    "name": "E2E测试产品_1781054049",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:14:09.843728"
+  },
+  "p_LED灯_62f994b6": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:14:11.337751"
+  },
+  "p_LED灯_dd37a936": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:14:18.415619"
+  },
+  "p_LED灯_fadd060d": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:14:18.640391"
+  },
+  "p_LED灯_b6e495a2": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:14:18.678209"
+  },
+  "p_E2E测_102a2e81": {
+    "name": "E2E测试产品_1781054070",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:14:30.169479"
+  },
+  "p_LED灯_8b4dde21": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:14:31.578458"
+  },
+  "p_LED灯_332e19eb": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:15:31.567652"
+  },
+  "p_LED灯_5362b2a5": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:15:31.675715"
+  },
+  "p_LED灯_0c043b65": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:15:31.695710"
+  },
+  "p_E2E测_9cdc0395": {
+    "name": "E2E测试产品_1781054138",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:15:38.947569"
+  },
+  "p_LED灯_7cb033b6": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:15:39.918848"
+  },
+  "p_LED灯_fa364272": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:16:07.777615"
+  },
+  "p_LED灯_5c9b7b62": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:16:07.845773"
+  },
+  "p_LED灯_13d92857": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:16:07.864422"
+  },
+  "p_E2E测_895ae7ae": {
+    "name": "E2E测试产品_1781054172",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:16:12.875428"
+  },
+  "p_LED灯_6cd8f46c": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:16:13.487449"
+  },
+  "p_LED灯_4427debd": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:17:48.807576"
+  },
+  "p_LED灯_0612e127": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:17:48.956550"
+  },
+  "p_LED灯_ead68600": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:17:48.991063"
+  },
+  "p_E2E测_eebf827e": {
+    "name": "E2E测试产品_1781054275",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:17:55.149173"
+  },
+  "p_LED灯_5472191e": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:17:55.819979"
+  },
+  "p_LED灯_bad62abc": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:18:45.098380"
+  },
+  "p_LED灯_9f7d61ab": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:18:45.216777"
+  },
+  "p_LED灯_f8fb0f72": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:18:45.249955"
+  },
+  "p_E2E测_b5ae3582": {
+    "name": "E2E测试产品_1781054331",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:18:51.569938"
+  },
+  "p_LED灯_80c58bdf": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:18:52.307257"
+  },
+  "p_LED灯_a28b8311": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:29:36.551470+00:00"
+  },
+  "p_LED灯_1bb99954": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:29:36.685872+00:00"
+  },
+  "p_LED灯_58f6222b": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:29:36.719266+00:00"
+  },
+  "p_E2E测_cd708d4f": {
+    "name": "E2E测试产品_1781054987",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:29:47.201978+00:00"
+  },
+  "p_LED灯_f0af6279": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:29:47.925893+00:00"
+  },
+  "p_LED灯_d145c910": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:30:29.252689+00:00"
+  },
+  "p_LED灯_23613a40": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:30:29.313049+00:00"
+  },
+  "p_LED灯_69c36dba": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:30:29.329276+00:00"
+  },
+  "p_E2E测_16912ec7": {
+    "name": "E2E测试产品_1781055035",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:30:35.476340+00:00"
+  },
+  "p_LED灯_b9296cff": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:30:36.098354+00:00"
+  },
+  "p_LED灯_f0879670": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:32:41.691252+00:00"
+  },
+  "p_LED灯_4124006a": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:32:41.777922+00:00"
+  },
+  "p_LED灯_bd64a240": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:32:41.797784+00:00"
+  },
+  "p_E2E测_810fc65d": {
+    "name": "E2E测试产品_1781055169",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:32:49.865155+00:00"
+  },
+  "p_LED灯_b1031fc6": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:32:50.814837+00:00"
+  },
+  "p_LED灯_a10315f8": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:33:08.155585+00:00"
+  },
+  "p_LED灯_66fd24ce": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:33:08.238100+00:00"
+  },
+  "p_LED灯_2d30a097": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:33:08.259967+00:00"
+  },
+  "p_E2E测_b0a9fd1b": {
+    "name": "E2E测试产品_1781055197",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:33:17.402050+00:00"
+  },
+  "p_LED灯_20564c77": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:33:18.372526+00:00"
+  },
+  "p_LED灯_c827d404": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:33:31.211166+00:00"
+  },
+  "p_LED灯_f56dc4dc": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:33:31.340602+00:00"
+  },
+  "p_LED灯_df95fc8d": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:33:31.378490+00:00"
+  },
+  "p_E2E测_93bb3f5a": {
+    "name": "E2E测试产品_1781055218",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:33:38.921490+00:00"
+  },
+  "p_LED灯_3fc5d369": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:33:39.902923+00:00"
+  },
+  "p_LED灯_55ba14ed": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:33:46.941003+00:00"
+  },
+  "p_LED灯_f7187e86": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:33:47.072522+00:00"
+  },
+  "p_LED灯_99cda0b5": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:33:47.101808+00:00"
+  },
+  "p_E2E测_4b08a3df": {
+    "name": "E2E测试产品_1781055236",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:33:56.793654+00:00"
+  },
+  "p_LED灯_39ad384d": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:33:58.044245+00:00"
+  },
+  "p_LED灯_026283cc": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:36:10.773831+00:00"
+  },
+  "p_LED灯_e36acce6": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:36:10.882454+00:00"
+  },
+  "p_LED灯_2080aece": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:36:10.915615+00:00"
+  },
+  "p_E2E测_644ca51f": {
+    "name": "E2E测试产品_1781055380",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:36:20.604488+00:00"
+  },
+  "p_LED灯_58f9663e": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:36:21.992271+00:00"
+  },
+  "p_LED灯_b3d0fd65": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:36:33.446663+00:00"
+  },
+  "p_LED灯_51cd9e4c": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:36:33.575112+00:00"
+  },
+  "p_LED灯_35e7b01b": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:36:33.609833+00:00"
+  },
+  "p_E2E测_a2ca1a46": {
+    "name": "E2E测试产品_1781055401",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:36:41.183085+00:00"
+  },
+  "p_LED灯_a287359e": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:36:42.137409+00:00"
+  },
+  "p_LED灯_da336677": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:36:56.598955+00:00"
+  },
+  "p_LED灯_327b38b3": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:36:56.710090+00:00"
+  },
+  "p_LED灯_305315cd": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:36:56.737523+00:00"
+  },
+  "p_E2E测_c69ddfca": {
+    "name": "E2E测试产品_1781055424",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:37:04.460937+00:00"
+  },
+  "p_LED灯_cf8a8f8e": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:37:05.962083+00:00"
+  },
+  "p_LED灯_ba717428": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:37:26.428651+00:00"
+  },
+  "p_LED灯_89ca23b9": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:37:26.579702+00:00"
+  },
+  "p_LED灯_2490c9a8": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:37:26.610249+00:00"
+  },
+  "p_E2E测_547b2187": {
+    "name": "E2E测试产品_1781055455",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:37:35.354569+00:00"
+  },
+  "p_LED灯_1924137d": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:37:36.528882+00:00"
+  },
+  "p_LED灯_c733cb99": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:37:49.327105+00:00"
+  },
+  "p_LED灯_53c796f7": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:37:49.460682+00:00"
+  },
+  "p_LED灯_157747b7": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:37:49.510520+00:00"
+  },
+  "p_E2E测_b0d2ac39": {
+    "name": "E2E测试产品_1781055476",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:37:56.481586+00:00"
+  },
+  "p_LED灯_b3d868b9": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:37:57.627274+00:00"
+  },
+  "p_LED灯_f5392dc4": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:38:12.789808+00:00"
+  },
+  "p_LED灯_e18869d7": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:38:12.907826+00:00"
+  },
+  "p_LED灯_d5d37963": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:38:12.937241+00:00"
+  },
+  "p_E2E测_d79f5ec8": {
+    "name": "E2E测试产品_1781055504",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:38:24.548695+00:00"
+  },
+  "p_LED灯_da474cb1": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:38:25.379176+00:00"
+  },
+  "p_LED灯_56ebbe57": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:38:39.805909+00:00"
+  },
+  "p_LED灯_f26c2f2d": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:38:40.069017+00:00"
+  },
+  "p_LED灯_8acdf79f": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:38:40.151591+00:00"
+  },
+  "p_E2E测_047628a6": {
+    "name": "E2E测试产品_1781055532",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:38:52.563083+00:00"
+  },
+  "p_LED灯_5d62a028": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:38:54.722074+00:00"
+  },
+  "p_LED灯_90de7cb4": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:39:09.541177+00:00"
+  },
+  "p_LED灯_5c17d05f": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:39:09.696336+00:00"
+  },
+  "p_LED灯_57f37640": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:39:09.739839+00:00"
+  },
+  "p_E2E测_e9360d64": {
+    "name": "E2E测试产品_1781055563",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:39:23.015915+00:00"
+  },
+  "p_LED灯_d1aacc75": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:39:24.385526+00:00"
+  },
+  "p_LED灯_3f8a50c3": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:39:26.376139+00:00"
+  },
+  "p_LED灯_a4f4d1a6": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:39:26.539109+00:00"
+  },
+  "p_LED灯_bc797810": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:39:26.595145+00:00"
+  },
+  "p_E2E测_4970a7ee": {
+    "name": "E2E测试产品_1781055576",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:39:36.066470+00:00"
+  },
+  "p_LED灯_09491603": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:39:37.767034+00:00"
+  },
+  "p_LED灯_4f8c26fd": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:39:55.647453+00:00"
+  },
+  "p_LED灯_a0720be7": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:39:55.783379+00:00"
+  },
+  "p_LED灯_82cac896": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:39:55.833328+00:00"
+  },
+  "p_E2E测_d9fbeef4": {
+    "name": "E2E测试产品_1781055607",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:40:07.319288+00:00"
+  },
+  "p_LED灯_4107341c": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:40:09.637183+00:00"
+  },
+  "p_LED灯_5d8ffe39": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:40:17.415133+00:00"
+  },
+  "p_LED灯_d3674d53": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:40:17.586256+00:00"
+  },
+  "p_LED灯_66df96ce": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:40:17.635353+00:00"
+  },
+  "p_E2E测_db572f84": {
+    "name": "E2E测试产品_1781055631",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:40:31.857093+00:00"
+  },
+  "p_LED灯_a31391b2": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:40:35.109703+00:00"
+  },
+  "p_LED灯_fa4a7aaa": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:40:58.260009+00:00"
+  },
+  "p_LED灯_82441d3b": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:40:58.374095+00:00"
+  },
+  "p_LED灯_139c6213": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:40:58.406236+00:00"
+  },
+  "p_E2E测_732fb6a1": {
+    "name": "E2E测试产品_1781055671",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:41:11.369138+00:00"
+  },
+  "p_LED灯_d6b3ce98": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:41:13.281660+00:00"
+  },
+  "p_LED灯_4eab10b2": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:41:17.793520+00:00"
+  },
+  "p_LED灯_9ab26ae4": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:41:17.894933+00:00"
+  },
+  "p_LED灯_2f0640bb": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:41:17.924499+00:00"
+  },
+  "p_E2E测_c2c9088d": {
+    "name": "E2E测试产品_1781055686",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:41:26.610180+00:00"
+  },
+  "p_LED灯_2281f6e8": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:41:28.992838+00:00"
+  },
+  "p_LED灯_c4fdb0d5": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:41:35.114845+00:00"
+  },
+  "p_LED灯_49064428": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:41:35.211084+00:00"
+  },
+  "p_LED灯_4d2f950e": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:41:35.242270+00:00"
+  },
+  "p_E2E测_0ef4f95d": {
+    "name": "E2E测试产品_1781055705",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:41:45.413400+00:00"
+  },
+  "p_LED灯_86e336fa": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-10T01:41:46.914709+00:00"
+  },
+  "p_LED灯_2d9fc11a": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-11T10:04:16.297573+00:00"
+  },
+  "p_LED灯_4336d3c1": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-11T10:04:16.395867+00:00"
+  },
+  "p_LED灯_e6b43268": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-11T10:04:16.420635+00:00"
+  },
+  "p_E2E测_a6f5176b": {
+    "name": "E2E测试产品_1781172264",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-11T10:04:24.492421+00:00"
+  },
+  "p_LED灯_b45bc0a0": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-11T10:04:25.809521+00:00"
+  },
+  "p_LED灯_e668edcc": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-11T10:17:55.550600+00:00"
+  },
+  "p_LED灯_71e2226c": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-11T10:17:55.625188+00:00"
+  },
+  "p_LED灯_5e729443": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-11T10:17:55.645392+00:00"
+  },
+  "p_E2E测_80841923": {
+    "name": "E2E测试产品_1781173080",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-11T10:18:00.911822+00:00"
+  },
+  "p_LED灯_44123c11": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-11T10:18:01.784775+00:00"
+  },
+  "p_LED灯_f1851a69": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:08:48.554192+00:00"
+  },
+  "p_LED灯_ba96bf80": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:08:48.620876+00:00"
+  },
+  "p_LED灯_b0709c50": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:08:48.641655+00:00"
+  },
+  "p_E2E测_2aff6569": {
+    "name": "E2E测试产品_1781237334",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:08:54.109003+00:00"
+  },
+  "p_LED灯_6c6300d9": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:08:54.941524+00:00"
+  },
+  "p_LED灯_e2e8cc0a": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:11:56.218941+00:00"
+  },
+  "p_LED灯_6bde5c48": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:11:56.299024+00:00"
+  },
+  "p_LED灯_dfc4bb1f": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:11:56.322689+00:00"
+  },
+  "p_E2E测_af7fd2d9": {
+    "name": "E2E测试产品_1781237521",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:12:01.832856+00:00"
+  },
+  "p_LED灯_8280ff1d": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:12:02.841726+00:00"
+  },
+  "p_LED灯_d58a7534": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:21:28.029730+00:00"
+  },
+  "p_LED灯_49e11d5b": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:21:28.102886+00:00"
+  },
+  "p_LED灯_264e88d3": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:21:28.121791+00:00"
+  },
+  "p_E2E测_7b4940c0": {
+    "name": "E2E测试产品_1781238093",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:21:33.144026+00:00"
+  },
+  "p_LED灯_13afeb55": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:21:33.990081+00:00"
+  },
+  "p_LED灯_87523232": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:23:49.125199+00:00"
+  },
+  "p_LED灯_7bb65aeb": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:23:49.216284+00:00"
+  },
+  "p_LED灯_d670a803": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:23:49.241900+00:00"
+  },
+  "p_E2E测_c960ff0d": {
+    "name": "E2E测试产品_1781238235",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:23:55.245145+00:00"
+  },
+  "p_LED灯_a0337f43": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:23:56.465610+00:00"
+  },
+  "p_LED灯_c1ec2cb9": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:25:45.703200+00:00"
+  },
+  "p_LED灯_3fdf8c9c": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:25:45.772780+00:00"
+  },
+  "p_LED灯_a98ae5aa": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:25:45.793298+00:00"
+  },
+  "p_E2E测_fe4e08fc": {
+    "name": "E2E测试产品_1781238350",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:25:50.720032+00:00"
+  },
+  "p_LED灯_967777c8": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T04:25:51.544948+00:00"
+  },
+  "p_LED灯_d71604b3": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T06:40:54.658314+00:00"
+  },
+  "p_LED灯_03a08a8c": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T06:40:54.731477+00:00"
+  },
+  "p_LED灯_d9cea1c2": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T06:40:54.753855+00:00"
+  },
+  "p_E2E测_2573ab97": {
+    "name": "E2E测试产品_1781246460",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T06:41:00.526647+00:00"
+  },
+  "p_LED灯_4c038759": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T06:41:01.392477+00:00"
+  },
+  "p_LED灯_e81a089f": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T06:44:39.505680+00:00"
+  },
+  "p_LED灯_953a1c98": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T06:44:39.583821+00:00"
+  },
+  "p_LED灯_21437ab2": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T06:44:39.606438+00:00"
+  },
+  "p_E2E测_0a548012": {
+    "name": "E2E测试产品_1781246685",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T06:44:45.457295+00:00"
+  },
+  "p_LED灯_4ca70a31": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T06:44:46.547342+00:00"
+  },
+  "p_LED灯_26859c25": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T06:48:54.568872+00:00"
+  },
+  "p_LED灯_cf4f3450": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T06:48:54.638768+00:00"
+  },
+  "p_LED灯_53a667d6": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T06:48:54.660867+00:00"
+  },
+  "p_E2E测_4ca34bee": {
+    "name": "E2E测试产品_1781247029",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T06:50:29.469733+00:00"
+  },
+  "p_LED灯_32963aa9": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T06:50:30.299109+00:00"
+  },
+  "p_LED灯_f9a2e8aa": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T09:00:24.893108+00:00"
+  },
+  "p_LED灯_16e1a8a0": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T09:00:24.959764+00:00"
+  },
+  "p_LED灯_b0781ea4": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T09:00:24.980288+00:00"
+  },
+  "p_LED灯_0fbb24e5": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T09:01:30.790228+00:00"
+  },
+  "p_LED灯_88ec88e4": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T09:01:30.872350+00:00"
+  },
+  "p_LED灯_b44a5dd2": {
+    "name": "LED灯带-德国测试",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T09:01:30.896935+00:00"
+  },
+  "p_E2E测_ab3b1aa4": {
+    "name": "E2E测试产品_1781254996",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "法国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T09:03:16.808161+00:00"
+  },
+  "p_LED灯_467c93c7": {
+    "name": "LED灯带-德国",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "德国",
+      "欧盟"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-12T09:03:17.673002+00:00"
   }
 }

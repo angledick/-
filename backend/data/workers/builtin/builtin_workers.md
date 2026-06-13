@@ -89,6 +89,14 @@ workers:
     priority: 1
     timeout: 600
     sdk_enabled: true
+  - worker_code: browser_worker
+    worker_name: "浏览器控制Worker"
+    business_stage: "全阶段"
+    description: "OpenCLI浏览器自动化：站点数据抓取/导航/快照"
+    available_skills: ["browser-control"]
+    priority: 4
+    timeout: 120
+    sdk_enabled: true
 ---
 # 内置 Worker 定义
 

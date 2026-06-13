@@ -18,6 +18,7 @@
 """
 
 import json
+import logging
 import uuid
 from pathlib import Path
 from datetime import datetime, timezone
@@ -25,6 +26,8 @@ from typing import Optional, List, Dict, Any
 
 from app.config import settings
 from app.models.schemas import NotificationPayload
+
+logger = logging.getLogger(__name__)
 
 DATA_DIR = Path(settings.data_dir)
 NOTIFICATIONS_DIR = DATA_DIR / "global" / "notifications"
@@ -63,9 +66,11 @@ class NotificationEngine:
         if self._config_file.exists():
             try:
                 return json.loads(self._config_file.read_text(encoding="utf-8"))
-            except Exception:
-                pass
+            except (json.JSONDecodeError, OSError) as e:
+                logger.error("通知配置文件加载失败 %s: %s", self._config_file, e)
+                raise FileNotFoundError(f"通知配置文件损坏: {self._config_file}") from e
 
+        # 配置文件不存在时返回默认配置（首次运行）
         return {
             "channels": {
                 "dashboard": {"enabled": True},
@@ -134,7 +139,8 @@ class NotificationEngine:
                     results[channel] = await self._send_webhook(notification, channel_config)
                 else:
                     results[channel] = False
-            except Exception:
+            except Exception as e:
+                logger.error("通知渠道 %s 发送失败: %s", channel, e)
                 results[channel] = False
 
         # 持久化通知记录
@@ -235,7 +241,8 @@ class NotificationEngine:
                 },
             })
             return True
-        except Exception:
+        except Exception as e:
+            logger.error("WebSocket 通知推送失败: %s", e)
             return False
 
     async def _send_email(self, notification: NotificationPayload, config: Dict) -> bool:
@@ -284,8 +291,8 @@ class NotificationEngine:
                 history = history[:500]
 
             self._save_notification_history(history)
-        except Exception:
-            pass
+        except Exception as e:
+            logger.error("通知持久化失败: %s", e)
 
     def _load_notification_history(self) -> List[NotificationPayload]:
         """加载通知历史"""
@@ -295,7 +302,8 @@ class NotificationEngine:
         try:
             data = json.loads(history_file.read_text(encoding="utf-8"))
             return [NotificationPayload(**item) for item in data]
-        except Exception:
+        except (json.JSONDecodeError, OSError) as e:
+            logger.error("通知历史加载失败: %s", e)
             return []
 
     def _save_notification_history(self, history: List[NotificationPayload]):

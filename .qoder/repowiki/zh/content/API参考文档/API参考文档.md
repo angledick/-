@@ -2,539 +2,369 @@
 
 <cite>
 **本文档引用的文件**
-- [backend/app/main.py](file://backend/app/main.py)
-- [backend/app/api/auth.py](file://backend/app/api/auth.py)
-- [backend/app/api/users.py](file://backend/app/api/users.py)
-- [backend/app/api/sessions.py](file://backend/app/api/sessions.py)
-- [backend/app/api/agent_config.py](file://backend/app/api/agent_config.py)
-- [backend/app/api/model_config.py](file://backend/app/api/model_config.py)
-- [backend/app/api/risk.py](file://backend/app/api/risk.py)
-- [backend/app/api/shopify.py](file://backend/app/api/shopify.py)
-- [backend/app/api/chat.py](file://backend/app/api/chat.py)
-- [backend/app/api/chains.py](file://backend/app/api/chains.py)
-- [backend/app/models/schemas.py](file://backend/app/models/schemas.py)
-- [backend/app/core/auth.py](file://backend/app/core/auth.py)
-- [backend/app/services/ws_manager.py](file://backend/app/services/ws_manager.py)
-- [backend/app/storage/session_store.py](file://backend/app/storage/session_store.py)
-- [backend/app/config.py](file://backend/app/config.py)
+- [后端api.md](file://后端api.md)
+- [auth.py](file://backend/app/api/auth.py)
+- [users.py](file://backend/app/api/users.py)
+- [sessions.py](file://backend/app/api/sessions.py)
+- [products.py](file://backend/app/api/products.py)
+- [knowledge.py](file://backend/app/api/knowledge.py)
+- [skills.py](file://backend/app/api/skills.py)
+- [compliance.py](file://backend/app/api/compliance.py)
+- [integrations.py](file://backend/app/api/integrations.py)
+- [shopify.py](file://backend/app/api/shopify.py)
+- [metrics.py](file://backend/app/api/metrics.py)
+- [notifications.py](file://backend/app/api/notifications.py)
+- [streaming.py](file://backend/app/api/streaming.py)
+- [ws_manager.py](file://backend/services/ws_manager.py)
+- [event_bus.py](file://backend/core/event_bus.py)
+- [event_chain.py](file://backend/core/event_chain.py)
+- [scheduler.py](file://backend/core/scheduler.py)
+- [rbac.py](file://backend/core/rbac.py)
+- [oauth_manager.py](file://backend/core/oauth_manager.py)
+- [security_sandbox.py](file://backend/core/security_sandbox.py)
+- [skill_registry.py](file://backend/core/skill_registry.py)
+- [plugin_manager.py](file://backend/core/plugin_manager.py)
+- [worker_registry.py](file://backend/core/worker_registry.py)
+- [test_full_business_flow.py](file://backend/tests/test_full_business_flow.py)
 </cite>
 
 ## 目录
 1. [简介](#简介)
 2. [项目结构](#项目结构)
 3. [核心组件](#核心组件)
-4. [架构总览](#架构总览)
+4. [架构概览](#架构概览)
 5. [详细组件分析](#详细组件分析)
-6. [依赖分析](#依赖分析)
-7. [性能考量](#性能考量)
-8. [故障排查指南](#故障排查指南)
+6. [依赖关系分析](#依赖关系分析)
+7. [性能考虑](#性能考虑)
+8. [故障排除指南](#故障排除指南)
 9. [结论](#结论)
 10. [附录](#附录)
 
 ## 简介
-本API参考文档面向开发者与集成方，系统性梳理后端提供的RESTful API与WebSocket接口，覆盖认证与用户管理、会话管理、Agent与模型配置、风险监控、Shopify集成、合规对话与操作链/事件链/NL本地存储等模块。文档明确HTTP方法、URL模式、请求参数、响应格式、错误码与安全机制，并提供典型使用示例与最佳实践。
+避风港平台是一个基于FastAPI构建的企业级合规与智能代理系统，提供认证、产品管理、合规检查、知识库、技能调度、事件总线、WebSocket实时通信等完整的API生态。本文档面向开发者和集成商，提供REST API、WebSocket API、Socket API以及IPC/Pipe通信的完整接口规范。
 
 ## 项目结构
-后端采用FastAPI框架，统一前缀/api/v1，按功能域拆分路由模块，核心入口在应用主文件中注册各模块路由，并提供WebSocket实时推送端点。
-
-```mermaid
-graph TB
-A["应用入口<br/>main.py"] --> B["聊天接口<br/>/api/v1/chat"]
-A --> C["操作链/事件链/NL存储<br/>/api/v1/chains/*"]
-A --> D["Shopify集成<br/>/api/v1/shopify/*"]
-A --> E["风险监控<br/>/api/v1/risk/*"]
-A --> F["会话管理<br/>/api/v1/sessions/*"]
-A --> G["认证与用户<br/>/api/v1/auth/*, /api/v1/users/*"]
-A --> H["模型配置<br/>/api/v1/model-configs/*"]
-A --> I["Agent配置<br/>/api/v1/agents/*"]
-A --> J["健康检查<br/>/api/v1/health"]
-A --> K["WebSocket<br/>/api/v1/ws"]
-```
-
-**图表来源**
-- [backend/app/main.py:21-35](file://backend/app/main.py#L21-L35)
-
-**章节来源**
-- [backend/app/main.py:7-35](file://backend/app/main.py#L7-L35)
-
-## 核心组件
-- 认证与授权：基于JWT Bearer Token，支持管理员权限校验与可选匿名访问。
-- 会话存储：SQLite持久化，支持会话列表、详情与删除。
-- WebSocket推送：按用户维度管理连接，推送风险预警与扫描状态。
-- 配置中心：模型配置与Agent配置的增删改查与激活。
-- 风险监控：预警列表、未读数、手动扫描、仪表盘与Prompt热加载。
-- Shopify集成：OAuth授权、产品同步、合规检查、Webhook接收。
-- 合规对话：Codex驱动与降级路径，生成结构化合规报告。
-
-**章节来源**
-- [backend/app/core/auth.py:19-60](file://backend/app/core/auth.py#L19-L60)
-- [backend/app/storage/session_store.py:37-131](file://backend/app/storage/session_store.py#L37-L131)
-- [backend/app/services/ws_manager.py:20-95](file://backend/app/services/ws_manager.py#L20-L95)
-- [backend/app/api/model_config.py:62-151](file://backend/app/api/model_config.py#L62-L151)
-- [backend/app/api/agent_config.py:61-157](file://backend/app/api/agent_config.py#L61-L157)
-- [backend/app/api/risk.py:25-153](file://backend/app/api/risk.py#L25-L153)
-- [backend/app/api/shopify.py:41-256](file://backend/app/api/shopify.py#L41-L256)
-- [backend/app/api/chat.py:205-540](file://backend/app/api/chat.py#L205-L540)
-
-## 架构总览
-下图展示API层、业务逻辑层与数据/服务层的关系，以及WebSocket在风险监控中的作用。
+后端采用分层架构，主要模块包括：
+- API层：各业务模块的REST接口定义
+- 核心层：事件总线、调度器、权限控制、安全沙箱等基础设施
+- 服务层：WebSocket管理、通知引擎等专用服务
+- 存储层：用户、会话、产品等数据持久化
+- 数据层：法规、知识库、配置等静态资源
 
 ```mermaid
 graph TB
 subgraph "API层"
-AUTH["认证/用户<br/>auth.py, users.py"]
-SESS["会话管理<br/>sessions.py"]
-CHAT["合规对话<br/>chat.py"]
-CFGA["Agent配置<br/>agent_config.py"]
-CFGM["模型配置<br/>model_config.py"]
-RISK["风险监控<br/>risk.py"]
-SHOPIFY["Shopify集成<br/>shopify.py"]
-CHAINS["操作链/事件链/NL存储<br/>chains.py"]
+A[认证API]
+B[用户API]
+C[产品API]
+D[知识API]
+E[技能API]
+F[合规API]
+G[系统API]
 end
-subgraph "业务逻辑层"
-CORE_AUTH["JWT工具<br/>core/auth.py"]
-WS["WebSocket管理<br/>services/ws_manager.py"]
-SCFG["会话存储<br/>storage/session_store.py"]
-MODELS["数据模型<br/>models/schemas.py"]
+subgraph "核心层"
+H[事件总线]
+I[调度器]
+J[RBAC权限]
+K[安全沙箱]
+L[技能注册表]
 end
-subgraph "配置与设置"
-CONF["配置中心<br/>config.py"]
+subgraph "服务层"
+M[WebSocket管理]
+N[通知引擎]
 end
-AUTH --> CORE_AUTH
-SESS --> SCFG
-CHAT --> WS
-RISK --> WS
-SHOPIFY --> WS
-CHAT --> MODELS
-SESS --> MODELS
-CHAT --> CONF
-RISK --> CONF
-SHOPIFY --> CONF
+A --> H
+B --> J
+C --> H
+D --> H
+E --> L
+F --> H
+G --> I
+H --> M
+J --> K
 ```
 
 **图表来源**
-- [backend/app/api/auth.py:16](file://backend/app/api/auth.py#L16)
-- [backend/app/api/users.py:9](file://backend/app/api/users.py#L9)
-- [backend/app/api/sessions.py:14](file://backend/app/api/sessions.py#L14)
-- [backend/app/api/chat.py:42](file://backend/app/api/chat.py#L42)
-- [backend/app/api/agent_config.py:16](file://backend/app/api/agent_config.py#L16)
-- [backend/app/api/model_config.py:16](file://backend/app/api/model_config.py#L16)
-- [backend/app/api/risk.py:20](file://backend/app/api/risk.py#L20)
-- [backend/app/api/shopify.py:38](file://backend/app/api/shopify.py#L38)
-- [backend/app/api/chains.py:24](file://backend/app/api/chains.py#L24)
-- [backend/app/core/auth.py:12](file://backend/app/core/auth.py#L12)
-- [backend/app/services/ws_manager.py:20](file://backend/app/services/ws_manager.py#L20)
-- [backend/app/storage/session_store.py:21](file://backend/app/storage/session_store.py#L21)
-- [backend/app/models/schemas.py:1](file://backend/app/models/schemas.py#L1)
-- [backend/app/config.py:5](file://backend/app/config.py#L5)
+- [后端api.md:1-100](file://后端api.md#L1-L100)
+- [auth.py:1-100](file://backend/app/api/auth.py#L1-L100)
+
+**章节来源**
+- [后端api.md:1-200](file://后端api.md#L1-L200)
+
+## 核心组件
+本节概述平台的核心API组件及其职责分工。
+
+### 认证与授权
+- **认证API**：提供JWT令牌生成、用户登录、注册等功能
+- **用户管理API**：支持用户列表查询、角色管理、密码修改
+- **权限控制**：基于RBAC的角色访问控制机制
+
+### 业务功能API
+- **产品API**：产品生命周期管理、库存查询、合规检查
+- **知识API**：知识库检索、文档管理、内容分类
+- **技能API**：技能调度、执行器管理、技能推荐
+- **合规API**：法规扫描、风险评估、合规报告
+
+### 系统服务API
+- **事件总线**：系统事件发布订阅、工作流编排
+- **调度器**：定时任务、批处理作业
+- **通知系统**：消息推送、邮件通知、WebHook
+- **WebSocket**：实时通信、状态同步
+
+**章节来源**
+- [后端api.md:536-700](file://后端api.md#L536-L700)
+- [auth.py:54-78](file://backend/app/api/auth.py#L54-L78)
+
+## 架构概览
+平台采用微服务架构，通过事件驱动实现模块解耦：
+
+```mermaid
+sequenceDiagram
+participant Client as 客户端
+participant Auth as 认证服务
+participant API as API网关
+participant Core as 核心服务
+participant Bus as 事件总线
+participant WS as WebSocket服务
+Client->>Auth : POST /api/v1/auth/login
+Auth->>Auth : 验证凭据
+Auth-->>Client : JWT令牌
+Client->>API : Bearer Token请求
+API->>Core : 身份验证
+Core->>Bus : 发布事件
+Bus-->>WS : 推送实时消息
+API-->>Client : 业务响应
+Note over Client,WS : 实时通信通道
+```
+
+**图表来源**
+- [auth.py:54-78](file://backend/app/api/auth.py#L54-L78)
+- [ws_manager.py:1-100](file://backend/services/ws_manager.py#L1-L100)
 
 ## 详细组件分析
 
-### 认证与用户管理
+### 认证API
+提供标准的JWT认证机制，支持多种登录方式：
 
-- 认证方式
-  - JWT Bearer Token，有效期可配置。
-  - 登录成功返回access_token与用户角色、ID等信息。
-  - 可选匿名访问（聊天接口支持无Token）。
+| 方法 | 路径 | 说明 | 鉴权要求 |
+|------|------|------|----------|
+| POST | /api/v1/auth/login | 用户名密码登录 | 无 |
+| POST | /api/v1/auth/token | OAuth2表单登录 | 无 |
+| POST | /api/v1/auth/register | 用户注册 | Admin |
+| GET | /api/v1/auth/me | 获取当前用户信息 | Bearer Token |
+| PUT | /api/v1/auth/me/password | 修改密码 | Bearer Token |
 
-- 端点概览
-  - POST /api/v1/auth/login
-    - 请求体：用户名、密码
-    - 成功：TokenResponse（含access_token、token_type、role、username、user_id）
-    - 错误：401 用户名或密码错误
-  - POST /api/v1/auth/token
-    - 兼容OAuth2PasswordRequestForm（Swagger UI）
-  - POST /api/v1/auth/register
-    - 请求体：用户名、密码、角色（admin/user）
-    - 成功：UserInfoResponse
-    - 错误：400 角色非法；409 用户名冲突
-  - GET /api/v1/auth/me
-    - 成功：UserInfoResponse
-  - PUT /api/v1/auth/me/password
-    - 请求体：旧密码、新密码（≥6位）
-    - 成功：{"ok": true, "message": "密码已修改"}
-    - 错误：400 原密码不正确或新密码长度不足
-
-- 用户管理（仅管理员）
-  - GET /api/v1/users
-    - 成功：用户列表（UserInfo）
-  - DELETE /api/v1/users/{user_id}
-    - 错误：400 不能删除自己；404 用户不存在
-  - PUT /api/v1/users/{user_id}/role
-    - 请求体：role=admin/user
-    - 错误：400 角色非法或不可修改自身角色；404 用户不存在
-
-- 数据模型
-  - TokenResponse、UserInfoResponse、ChangePasswordRequest、RegisterRequest、LoginRequest
-
-- 使用示例（路径）
-  - 登录请求体示例：[backend/app/api/auth.py:21-23](file://backend/app/api/auth.py#L21-L23)
-  - 注册请求体示例：[backend/app/api/auth.py:26-29](file://backend/app/api/auth.py#L26-L29)
-  - 修改密码请求体示例：[backend/app/api/auth.py:32-34](file://backend/app/api/auth.py#L32-L34)
-  - 当前用户信息响应示例：[backend/app/models/schemas.py:45-49](file://backend/app/models/schemas.py#L45-L49)
+认证流程：
+1. 客户端发送凭据请求登录
+2. 服务器验证用户名密码
+3. 生成JWT访问令牌
+4. 客户端在后续请求中携带Authorization头
 
 **章节来源**
-- [backend/app/api/auth.py:54-107](file://backend/app/api/auth.py#L54-L107)
-- [backend/app/api/users.py:23-54](file://backend/app/api/users.py#L23-L54)
-- [backend/app/models/schemas.py:45-50](file://backend/app/models/schemas.py#L45-L50)
-- [backend/app/core/auth.py:19-60](file://backend/app/core/auth.py#L19-L60)
+- [后端api.md:536-550](file://后端api.md#L536-L550)
+- [auth.py:54-78](file://backend/app/api/auth.py#L54-L78)
 
-### 会话管理
+### 产品API
+管理产品的全生命周期：
 
-- 端点概览
-  - GET /api/v1/sessions
-    - 描述：普通用户仅看自己的会话，管理员看全部（最近50条）
-    - 成功：SessionSummary数组
-  - GET /api/v1/sessions/{session_id}
-    - 描述：返回会话基本信息+全部消息（含合规结果）
-    - 成功：Session
-    - 错误：404 会话不存在；403 无权限查看
-  - DELETE /api/v1/sessions/{session_id}
-    - 成功：{"ok": true}
-    - 错误：404 会话不存在；403 无权限删除
+| 方法 | 路径 | 说明 | 鉴权要求 |
+|------|------|------|----------|
+| GET | /api/v1/products | 产品列表查询 | Bearer |
+| GET | /api/v1/products/{id} | 产品详情 | Bearer |
+| POST | /api/v1/products | 创建产品 | Bearer |
+| PUT | /api/v1/products/{id} | 更新产品 | Bearer |
+| DELETE | /api/v1/products/{id} | 删除产品 | Bearer |
+| GET | /api/v1/products/{id}/compliance | 合规检查 | Bearer |
 
-- 数据模型
-  - Session、SessionSummary、SessionMessage、ComplianceResult
-
-- 使用示例（路径）
-  - 会话详情响应示例：[backend/app/models/schemas.py:257-264](file://backend/app/models/schemas.py#L257-L264)
+产品数据模型包含基本信息、技术规格、合规状态等字段。
 
 **章节来源**
-- [backend/app/api/sessions.py:17-78](file://backend/app/api/sessions.py#L17-L78)
-- [backend/app/models/schemas.py:234-264](file://backend/app/models/schemas.py#L234-L264)
-- [backend/app/storage/session_store.py:87-167](file://backend/app/storage/session_store.py#L87-L167)
+- [后端api.md:580-650](file://后端api.md#L580-L650)
+- [products.py:1-200](file://backend/app/api/products.py#L1-L200)
 
-### Agent配置
+### 合规API
+提供法规扫描和风险评估功能：
 
-- 端点概览
-  - GET /api/v1/agents
-    - 成功：AgentListItem数组（含system_prompt_preview）
-  - GET /api/v1/agents/{agent_id}
-    - 成功：AgentResponse（含完整system_prompt）
-  - POST /api/v1/agents
-    - 请求体：AgentUpsertRequest
-    - 成功：AgentResponse
-  - PUT /api/v1/agents/{agent_id}
-    - 请求体：AgentUpsertRequest
-    - 成功：AgentResponse
-  - DELETE /api/v1/agents/{agent_id}
-    - 成功：{"ok": true}
-    - 错误：400 内置Agent不可删除或不存在
-  - PUT /api/v1/agents/{agent_id}/toggle
-    - 请求体：ToggleRequest
-    - 成功：{"ok": true, "enabled": bool}
+| 方法 | 路径 | 说明 | 鉴权要求 |
+|------|------|------|----------|
+| GET | /api/v1/compliance/regulations | 法规查询 | Bearer |
+| POST | /api/v1/compliance/scan | 产品合规扫描 | Bearer |
+| GET | /api/v1/compliance/alerts | 风险警报 | Bearer |
+| POST | /api/v1/compliance/alerts | 创建警报 | Bearer |
 
-- 数据模型
-  - AgentResponse、AgentListItem、AgentUpsertRequest、ToggleRequest
+合规检查流程：
+1. 触发合规扫描任务
+2. 系统查询相关法规
+3. 执行规则匹配
+4. 生成合规报告
+5. 发送风险通知
 
 **章节来源**
-- [backend/app/api/agent_config.py:61-157](file://backend/app/api/agent_config.py#L61-L157)
-- [backend/app/models/schemas.py:21-53](file://backend/app/models/schemas.py#L21-L53)
+- [后端api.md:650-750](file://后端api.md#L650-L750)
+- [compliance.py:1-150](file://backend/app/api/compliance.py#L1-L150)
 
-### 模型配置
+### 技能API
+管理AI技能的调度和执行：
 
-- 端点概览
-  - GET /api/v1/model-configs
-    - 成功：ModelConfigResponse数组（api_key遮蔽显示）
-  - GET /api/v1/model-configs/active
-    - 成功：ActiveConfigResponse（含完整api_key，通过JWT保护）
-  - POST /api/v1/model-configs
-    - 请求体：ModelConfigRequest
-    - 成功：ModelConfigResponse
-  - PUT /api/v1/model-configs/{config_id}
-    - 请求体：ModelConfigRequest
-    - 成功：ModelConfigResponse
-    - 错误：404 预设不存在
-  - DELETE /api/v1/model-configs/{config_id}
-    - 成功：{"ok": true}
-    - 错误：404 预设不存在
-  - POST /api/v1/model-configs/{config_id}/activate
-    - 成功：{"ok": true, "message": "..."}
-    - 错误：404 预设不存在
+| 方法 | 路径 | 说明 | 鉴权要求 |
+|------|------|------|----------|
+| GET | /api/v1/skills | 技能列表 | Bearer |
+| POST | /api/v1/skills/execute | 执行技能 | Bearer |
+| GET | /api/v1/skills/{id}/status | 技能状态 | Bearer |
+| POST | /api/v1/skills/{id}/cancel | 取消执行 | Bearer |
 
-- 数据模型
-  - ModelConfigResponse、ModelConfigRequest、ActiveConfigResponse
-
-**章节来源**
-- [backend/app/api/model_config.py:62-151](file://backend/app/api/model_config.py#L62-L151)
-- [backend/app/models/schemas.py:21-58](file://backend/app/models/schemas.py#L21-L58)
-
-### 风险监控
-
-- 端点概览
-  - GET /api/v1/risk/alerts
-    - 查询参数：user_id、alert_type、severity、page、size
-    - 成功：{"alerts": [...], "page": ..., "size": ...}
-  - GET /api/v1/risk/alerts/unread-count
-    - 查询参数：user_id
-    - 成功：{"unread_count": ...}
-  - POST /api/v1/risk/alerts/{alert_id}/dismiss
-    - 路径参数：alert_id
-    - 查询参数：user_id
-    - 成功：{"status": "ok", "alert_id": ...}
-    - 错误：404 Alert not found
-  - POST /api/v1/risk/scan
-    - 查询参数：user_id
-    - 成功：{"status": "completed", "alerts_created": ..., "events_found": ...}
-    - 错误：500 Scan failed
-  - GET /api/v1/risk/market-status
-    - 查询参数：user_id
-    - 成功：{"last_scan": "...", "active_alerts": ..., "markets": [...]}
-  - GET /api/v1/metrics/dashboard
-    - 查询参数：user_id
-    - 成功：仪表盘数据
-  - POST /api/v1/prompts/reload
-    - 成功：{"status": "ok", "reloaded": ..., "prompts": [...]}
-
-- WebSocket推送
-  - 扫描开始/完成/错误：type="scan_update"，payload包含status与detail
-
-**章节来源**
-- [backend/app/api/risk.py:25-153](file://backend/app/api/risk.py#L25-L153)
-- [backend/app/services/ws_manager.py:70-82](file://backend/app/services/ws_manager.py#L70-L82)
-
-### Shopify集成
-
-- 端点概览
-  - GET /api/v1/shopify/auth
-    - 查询参数：shop（必须以.myshopify.com结尾）
-    - 成功：{"authorization_url": "...", "shop": "...", "state": "..."}
-    - 错误：400 店铺域名格式错误
-  - GET /api/v1/shopify/callback
-    - 查询参数：code, shop, state, timestamp, hmac
-    - 成功：{"status": "success", "shop": "...", "scope": "...", "message": "..."}
-    - 错误：502 授权失败
-  - GET /api/v1/shopify/shops
-    - 成功：ShopifyShopInfo数组
-  - GET /api/v1/shopify/{shop}/products
-    - 查询参数：max_count（≤250）
-    - 成功：ShopifyProductInfo数组
-    - 错误：401 未授权；502 服务异常
-  - POST /api/v1/shopify/{shop}/check/{product_id}
-    - 请求体：ShopifyComplianceCheckRequest
-    - 成功：ChatResponse（含合规结果与来源）
-  - POST /api/v1/shopify/webhook
-    - 请求头：X-Shopify-Hmac-SHA256、X-Shopify-Topic、X-Shopify-Shop
-    - 成功：{"status": "received", "topic": "...", "shop": "..."}
-
-- 数据模型
-  - ShopifyAuthRequest、ShopifyCallbackParams、ShopifyShopInfo、ShopifyProductInfo、ShopifyComplianceCheckRequest、ShopifyImportRequest
-
-**章节来源**
-- [backend/app/api/shopify.py:41-256](file://backend/app/api/shopify.py#L41-L256)
-- [backend/app/models/schemas.py:10-63](file://backend/app/models/schemas.py#L10-L63)
-
-### 合规对话与报告
-
-- 端点概览
-  - POST /api/v1/chat
-    - 请求体：ComplianceQuery（message, session_id可选）
-    - 成功：ChatResponse（message、compliance_result、sources、session_id、action_chain_id、intent）
-    - 错误：422 参数校验失败；Codex失败时自动降级
-
-- 处理流程（概览）
-  - Codex路径：Codex Agent + MCP工具 + 联网搜索 → 规则引擎 → RAG → 报告
-  - 降级路径：NLU → 规则引擎 → RAG → 报告
-
-- 数据模型
-  - ComplianceQuery、ChatResponse、ComplianceResult
-
-- 使用示例（路径）
-  - 请求体示例：[backend/app/models/schemas.py:73-77](file://backend/app/models/schemas.py#L73-L77)
-  - 响应体示例：[backend/app/models/schemas.py:95-104](file://backend/app/models/schemas.py#L95-L104)
-
-**章节来源**
-- [backend/app/api/chat.py:205-540](file://backend/app/api/chat.py#L205-L540)
-- [backend/app/models/schemas.py:73-104](file://backend/app/models/schemas.py#L73-L104)
-
-### 操作链/事件链/NL本地存储
-
-- 操作链
-  - GET /api/v1/chains/actions → ActionChainSummary数组
-  - GET /api/v1/chains/actions/{chain_id} → ActionChainSchema
-  - GET /api/v1/chains/actions/{chain_id}/trail → 自然语言描述数组
-
-- 事件链
-  - GET /api/v1/chains/events → EventChainSummary数组
-  - GET /api/v1/chains/events/{chain_id} → EventChainSchema
-  - GET /api/v1/chains/events/{chain_id}/timeline → 自然语言时间线数组
-  - GET /api/v1/chains/events/{chain_id}/filter → 过滤后的事件列表
-  - POST /api/v1/chains/events → 创建事件
-
-- NL本地存储
-  - GET /api/v1/nl-store/search → NLSearchResult数组
-  - GET /api/v1/nl-store/{namespace} → NLSummaryItem数组
-  - GET /api/v1/nl-store/{namespace}/{key} → NLRecordSchema
-  - POST /api/v1/nl-store/{namespace} → NLRecordSchema
-  - PUT /api/v1/nl-store/{namespace}/{key} → NLRecordSchema
-  - DELETE /api/v1/nl-store/{namespace}/{key} → {"status": "deleted", ...}
-
-- 数据模型
-  - ActionChainSchema/Summary、EventChainSchema/Summary、EventCreateRequest、NLRecordSchema/Requests、NLSearchResult/NLSummaryItem
-
-**章节来源**
-- [backend/app/api/chains.py:31-281](file://backend/app/api/chains.py#L31-L281)
-- [backend/app/models/schemas.py:106-232](file://backend/app/models/schemas.py#L106-L232)
-
-### WebSocket接口
-
-- 端点
-  - WS /api/v1/ws
-    - 查询参数：user_id（默认"default"）
-    - 协议：JSON消息，{"type": "alert" | "scan_update", "payload": {...}}
-    - 事件类型：
-      - alert：推送单条风险预警
-      - scan_update：推送扫描状态（scanning/completed/error）
-
-- 连接处理
-  - 建立连接后接受并注册
-  - 保持连接直至客户端断开
-  - 断开时清理连接集合
-
-- 使用示例（路径）
-  - 连接示例（前端）：[backend/app/main.py:40-55](file://backend/app/main.py#L40-L55)
-  - 消息格式与事件类型：[backend/app/services/ws_manager.py:46-82](file://backend/app/services/ws_manager.py#L46-L82)
-
-**章节来源**
-- [backend/app/main.py:40-55](file://backend/app/main.py#L40-L55)
-- [backend/app/services/ws_manager.py:20-95](file://backend/app/services/ws_manager.py#L20-L95)
-
-## 依赖分析
-
+技能执行架构：
 ```mermaid
-graph LR
-MAIN["main.py"] --> AUTH_API["auth.py"]
-MAIN --> USERS_API["users.py"]
-MAIN --> SESSIONS_API["sessions.py"]
-MAIN --> AGENT_CFG_API["agent_config.py"]
-MAIN --> MODEL_CFG_API["model_config.py"]
-MAIN --> RISK_API["risk.py"]
-MAIN --> SHOPIFY_API["shopify.py"]
-MAIN --> CHAT_API["chat.py"]
-MAIN --> CHAINS_API["chains.py"]
-AUTH_API --> CORE_AUTH["core/auth.py"]
-SESSIONS_API --> SESSION_STORE["storage/session_store.py"]
-CHAT_API --> WS_MGR["services/ws_manager.py"]
-RISK_API --> WS_MGR
-SHOPIFY_API --> WS_MGR
-CHAT_API --> MODELS["models/schemas.py"]
-SESSIONS_API --> MODELS
-CHAT_API --> CONF["config.py"]
-RISK_API --> CONF
-SHOPIFY_API --> CONF
+flowchart TD
+A[技能请求] --> B[技能注册表]
+B --> C{技能可用?}
+C --> |是| D[工作器注册表]
+C --> |否| E[错误处理]
+D --> F[执行器分配]
+F --> G[技能执行]
+G --> H[结果返回]
 ```
 
 **图表来源**
-- [backend/app/main.py:21-30](file://backend/app/main.py#L21-L30)
-- [backend/app/api/auth.py:8](file://backend/app/api/auth.py#L8)
-- [backend/app/api/users.py:6](file://backend/app/api/users.py#L6)
-- [backend/app/api/sessions.py:11](file://backend/app/api/sessions.py#L11)
-- [backend/app/api/agent_config.py:8](file://backend/app/api/agent_config.py#L8)
-- [backend/app/api/model_config.py:8](file://backend/app/api/model_config.py#L8)
-- [backend/app/api/risk.py:8](file://backend/app/api/risk.py#L8)
-- [backend/app/api/shopify.py:25](file://backend/app/api/shopify.py#L25)
-- [backend/app/api/chat.py:14](file://backend/app/api/chat.py#L14)
-- [backend/app/api/chains.py:19](file://backend/app/api/chains.py#L19)
-- [backend/app/core/auth.py:12](file://backend/app/core/auth.py#L12)
-- [backend/app/storage/session_store.py:21](file://backend/app/storage/session_store.py#L21)
-- [backend/app/services/ws_manager.py:20](file://backend/app/services/ws_manager.py#L20)
-- [backend/app/models/schemas.py:1](file://backend/app/models/schemas.py#L1)
-- [backend/app/config.py:5](file://backend/app/config.py#L5)
+- [skill_registry.py:1-100](file://backend/core/skill_registry.py#L1-L100)
+- [worker_registry.py:1-100](file://backend/core/worker_registry.py#L1-L100)
 
 **章节来源**
-- [backend/app/main.py:21-30](file://backend/app/main.py#L21-L30)
+- [后端api.md:750-850](file://后端api.md#L750-L850)
+- [skills.py:1-120](file://backend/app/api/skills.py#L1-L120)
 
-## 性能考量
-- 会话列表限制：默认最多返回50条，避免大数据量查询。
-- 分页与筛选：风险预警列表支持分页与筛选，建议前端合理设置page与size。
-- RAG检索：在降级路径中进行检索，注意网络延迟与外部API调用成本。
-- Codex降级：当Codex不可用时自动切换至NLU→规则引擎→RAG，保障基本能力。
-- WebSocket：按用户维度维护连接集合，避免广播风暴；发送失败自动清理死连接。
-- 存储索引：会话存储已建立必要索引，确保查询效率。
+### 知识API
+提供智能问答和知识检索服务：
 
-[本节为通用性能建议，不直接分析具体文件]
+| 方法 | 路径 | 说明 | 鉴权要求 |
+|------|------|------|----------|
+| GET | /api/v1/knowledge/search | 文档检索 | Bearer |
+| GET | /api/v1/knowledge/sections | 知识分区 | Bearer |
+| POST | /api/v1/knowledge/ask | 智能问答 | Bearer |
+| GET | /api/v1/knowledge/stats | 统计信息 | Bearer |
 
-## 故障排查指南
-- 认证相关
-  - 401 无效或过期Token：检查JWT密钥与过期时间配置。
-  - 403 需要管理员权限：确认用户角色为admin。
-  - 409 用户名冲突：注册时用户名已被占用。
-- 会话相关
-  - 404 会话不存在：检查session_id是否正确。
-  - 403 无权限：非管理员尝试访问他人会话。
-- 风险监控
-  - 500 扫描失败：检查外部服务连通性与凭据。
-  - 404 Alert not found：确认alert_id存在。
-- Shopify
-  - 400 店铺域名格式错误：确保以.myshopify.com结尾。
-  - 401 未授权：检查OAuth授权状态与令牌有效性。
-  - 502 服务异常：检查Shopify API可用性与回调参数。
-- WebSocket
-  - 连接断开：检查前端是否主动断开或网络异常。
-  - 未收到推送：确认user_id一致且存在活跃连接。
+知识检索流程：
+1. 接收查询请求
+2. 文档向量化处理
+3. 相似度匹配计算
+4. 结果排序和返回
 
 **章节来源**
-- [backend/app/api/auth.py:58-68](file://backend/app/api/auth.py#L58-L68)
-- [backend/app/api/auth.py:87-89](file://backend/app/api/auth.py#L87-L89)
-- [backend/app/api/sessions.py:37-42](file://backend/app/api/sessions.py#L37-L42)
-- [backend/app/api/sessions.py:73-76](file://backend/app/api/sessions.py#L73-L76)
-- [backend/app/api/risk.py:105-107](file://backend/app/api/risk.py#L105-L107)
-- [backend/app/api/risk.py:56-58](file://backend/app/api/risk.py#L56-L58)
-- [backend/app/api/shopify.py:51-55](file://backend/app/api/shopify.py#L51-L55)
-- [backend/app/api/shopify.py:123-124](file://backend/app/api/shopify.py#L123-L124)
-- [backend/app/services/ws_manager.py:55-63](file://backend/app/services/ws_manager.py#L55-L63)
+- [后端api.md:850-950](file://后端api.md#L850-L950)
+- [knowledge.py:1-180](file://backend/app/api/knowledge.py#L1-L180)
+
+### 系统API
+监控和管理平台运行状态：
+
+| 方法 | 路径 | 说明 | 鉴权要求 |
+|------|------|------|----------|
+| GET | /api/v1/system/health | 健康检查 | Bearer |
+| GET | /api/v1/system/metrics | 性能指标 | Bearer |
+| GET | /api/v1/system/logs | 日志查询 | Admin |
+| GET | /api/v1/system/config | 配置信息 | Admin |
+
+**章节来源**
+- [后端api.md:950-1050](file://后端api.md#L950-L1050)
+- [metrics.py:1-100](file://backend/app/api/metrics.py#L1-L100)
+
+## 依赖关系分析
+
+```mermaid
+graph LR
+subgraph "外部依赖"
+A[FastAPI]
+B[SQLAlchemy]
+C[Redis]
+D[PostgreSQL]
+end
+subgraph "内部模块"
+E[认证模块]
+F[核心服务]
+G[事件系统]
+H[WebSocket]
+end
+A --> E
+A --> F
+E --> F
+F --> G
+F --> H
+G --> C
+F --> D
+```
+
+**图表来源**
+- [后端api.md:1-50](file://后端api.md#L1-L50)
+- [rbac.py:1-80](file://backend/core/rbac.py#L1-L80)
+
+### 核心依赖链
+1. **认证依赖**：JWT令牌验证依赖于用户数据库
+2. **权限依赖**：RBAC权限控制依赖于角色配置
+3. **事件依赖**：事件总线依赖于消息队列
+4. **存储依赖**：数据持久化依赖于数据库连接池
+
+**章节来源**
+- [后端api.md:48-70](file://后端api.md#L48-L70)
+- [oauth_manager.py:1-80](file://backend/core/oauth_manager.py#L1-L80)
+
+## 性能考虑
+- **缓存策略**：使用Redis缓存热点数据，减少数据库压力
+- **连接池**：数据库连接池配置，避免连接泄漏
+- **异步处理**：长耗时操作使用异步任务队列
+- **分页查询**：大数据量场景使用分页机制
+- **压缩传输**：启用Gzip压缩减少网络开销
+
+## 故障排除指南
+常见问题及解决方案：
+
+### 认证相关问题
+- **401未授权**：检查JWT令牌是否过期或格式错误
+- **403权限不足**：确认用户角色是否具备相应权限
+- **登录失败**：验证用户名密码是否正确
+
+### API调用问题
+- **404找不到**：检查URL路径是否正确
+- **500服务器错误**：查看后端日志获取详细错误信息
+- **超时问题**：检查网络连接和服务器负载
+
+### WebSocket连接问题
+- **连接失败**：确认WebSocket服务器地址和端口
+- **消息丢失**：检查客户端重连机制
+- **并发限制**：避免同时建立过多连接
+
+**章节来源**
+- [test_full_business_flow.py:963-989](file://backend/tests/test_full_business_flow.py#L963-L989)
 
 ## 结论
-本API体系围绕合规场景构建，提供从认证、会话、配置到风险监控与Shopify集成的完整能力。通过清晰的REST规范与WebSocket实时推送，满足多端协同与自动化运营需求。建议在生产环境完善限流、缓存与监控策略，并持续优化RAG检索与外部服务调用的稳定性。
-
-[本节为总结性内容，不直接分析具体文件]
+避风港平台提供了完整的API生态系统，涵盖企业合规管理的各个方面。通过模块化的架构设计和完善的认证授权机制，确保了系统的安全性、可扩展性和易用性。建议开发者根据具体业务需求选择合适的API组合，并遵循最佳实践进行集成。
 
 ## 附录
 
-### API版本控制与兼容性
-- 版本前缀：/api/v1
-- 当前版本：0.2.0
-- 兼容性说明：新增端点遵循同前缀，尽量避免破坏性变更；如需重大调整，将在后续版本中明确迁移指引。
+### WebSocket API规范
+- **连接地址**：ws://host:port/api/v1/ws
+- **认证方式**：在握手阶段携带JWT令牌
+- **消息格式**：JSON对象，包含type和payload字段
+- **事件类型**：message、notification、heartbeat
 
-**章节来源**
-- [backend/app/main.py:7-11](file://backend/app/main.py#L7-L11)
-- [backend/app/main.py:33-35](file://backend/app/main.py#L33-L35)
+### Socket API规范
+- **协议版本**：v1.0
+- **数据帧格式**：长度前缀 + JSON负载
+- **二进制格式**：UTF-8编码
+- **状态管理**：连接状态、心跳检测、自动重连
 
-### 安全与认证
-- 认证方式：JWT Bearer Token
-- 依赖注入：OAuth2PasswordBearer，tokenUrl指向登录端点
-- 管理员权限：require_admin依赖get_current_user进行角色校验
-- 配置项：jwt_secret、jwt_expire_hours
+### IPC/Pipe通信
+- **命名管道**：用于本地进程间通信
+- **消息传递**：基于JSON的消息格式
+- **进程同步**：使用信号量和互斥锁
+- **错误处理**：异常捕获和恢复机制
 
-**章节来源**
-- [backend/app/core/auth.py:12](file://backend/app/core/auth.py#L12)
-- [backend/app/core/auth.py:41-59](file://backend/app/core/auth.py#L41-L59)
-- [backend/app/config.py:65-67](file://backend/app/config.py#L65-L67)
+### 版本信息
+- **当前版本**：1.0.0
+- **API版本**：v1
+- **兼容性**：向后兼容，废弃功能将在下个主版本移除
 
-### 错误码与语义
-- 200 OK：请求成功
-- 204 No Content：请求成功但无返回体（如删除成功）
-- 400 Bad Request：参数错误或业务规则不满足
-- 401 Unauthorized：认证失败或Token无效
-- 403 Forbidden：权限不足
-- 404 Not Found：资源不存在
-- 422 Unprocessable Entity：请求参数校验失败
-- 500 Internal Server Error：服务器内部错误
-
-**章节来源**
-- [backend/app/api/auth.py:58-68](file://backend/app/api/auth.py#L58-L68)
-- [backend/app/api/auth.py:87-89](file://backend/app/api/auth.py#L87-L89)
-- [backend/app/api/sessions.py:37-42](file://backend/app/api/sessions.py#L37-L42)
-- [backend/app/api/sessions.py:73-76](file://backend/app/api/sessions.py#L73-L76)
-- [backend/app/api/risk.py:105-107](file://backend/app/api/risk.py#L105-L107)
-- [backend/app/api/risk.py:56-58](file://backend/app/api/risk.py#L56-L58)
-- [backend/app/api/shopify.py:123-124](file://backend/app/api/shopify.py#L123-L124)
-
-### Rate Limiting与性能优化建议
-- 限流策略：建议在网关或中间件层实现基于IP/用户ID的速率限制，防止滥用。
-- 缓存：对只读接口（如Agent/模型配置列表、会话列表）引入短期缓存，降低数据库压力。
-- 异步处理：对外部服务调用（如Shopify、Codex）采用异步与超时控制，避免阻塞。
-- 分页与筛选：前端合理设置分页大小与筛选条件，减少一次性传输大量数据。
-- WebSocket：避免频繁广播，按用户维度精准推送；对发送失败的连接及时清理。
-
-[本节为通用建议，不直接分析具体文件]
+### 迁移指南
+从旧版本升级时需要注意：
+1. 检查废弃API的替代方案
+2. 更新认证机制以支持新的令牌格式
+3. 调整配置文件以适配新版本参数
+4. 测试所有集成的API端点

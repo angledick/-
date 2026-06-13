@@ -174,7 +174,6 @@ def _import_task_func(task_name: str) -> Callable:
 
     # 模块级函数映射（module:function）
     MODULE_FUNCS = {
-        "poll_all_markets": ("app.core.scheduler", "poll_all_markets"),
         "collect_metrics": ("app.core.scheduler", "collect_metrics"),
     }
     if task_name in MODULE_FUNCS:
@@ -438,68 +437,6 @@ async def stop_scheduler():
 
 
 # ── 定时任务函数 ──────────────────────────────────
-
-async def poll_all_markets():
-    """定时市场轮询 → AstraAssistant 联网搜索 → 影响分析 → 预警推送。
-
-    对所有活跃用户执行一轮完整的风险扫描。
-    """
-    logger.info("Scheduler job: poll_all_markets started")
-    try:
-        from app.core.market_monitor import MarketMonitor
-        from app.core.risk_alert import (
-            create_alert, get_alerts, save_last_scan_time,
-        )
-        from app.services.ws_manager import ws_manager
-
-        monitor = MarketMonitor()
-
-        # 1. 获取所有活跃用户列表（简化：扫描 risk_alerts 目录）
-        alerts_path = Path(settings.data_dir).resolve() / "risk_alerts"
-        user_ids = []
-        if alerts_path.exists():
-            user_ids = [d.name for d in alerts_path.iterdir() if d.is_dir()]
-
-        if not user_ids:
-            # 默认用户
-            user_ids = ["default"]
-
-        for user_id in user_ids:
-            # 2. AstraAssistant 联网搜索市场变更
-            events = await monitor.poll_markets()
-
-            for event in events:
-                if not event.get("has_change"):
-                    continue
-
-                # 3. AstraAssistant 分析影响
-                impacts = await monitor.analyze_impact(event)
-
-                # 4. 生成预警
-                alert = create_alert(
-                    alert_type="regulation_change" if event.get("severity") in ("critical", "high") else "market_hotspot",
-                    severity=event.get("severity", "medium"),
-                    title=f"[{event.get('market', '?').upper()}] {event.get('summary', '法规变更')[:80]}",
-                    description=event.get("summary", ""),
-                    affected_markets=[event.get("market", "")],
-                    affected_products=[i.get("product_id", "") for i in impacts if i.get("product_id")],
-                    source=event.get("source", "Astra Market Monitor"),
-                    source_url=event.get("source_url", ""),
-                    user_ids=[user_id],
-                )
-
-                # 5. WebSocket 推送（如果用户在线）
-                if ws_manager.is_connected(user_id):
-                    await ws_manager.send_alert(user_id, alert)
-
-            # 6. 更新扫描时间
-            save_last_scan_time(user_id)
-
-        logger.info(f"Scheduler job: poll_all_markets completed ({len(user_ids)} users)")
-
-    except Exception as e:
-        logger.error(f"Scheduler job: poll_all_markets failed: {e}", exc_info=True)
-
 
 async def collect_metrics():
     """定时聚合指标（仅触发记录，数据实时读取）。"""

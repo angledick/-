@@ -1,0 +1,21 @@
+{
+  "id": "p_E2E测_0a548012",
+  "name": "E2E测试产品_1781246685",
+  "product_type": "electronics",
+  "target_markets": [
+    "德国",
+    "法国"
+  ],
+  "hs_code": "8541.4100",
+  "vendor": "",
+  "tags": [],
+  "lifecycle_stage": "concept",
+  "business_stage": "阶段2",
+  "compliance_status": "pending",
+  "risk_level": "low",
+  "created_at": "2026-06-12T06:44:45.457280+00:00",
+  "updated_at": "2026-06-12T06:44:45.457295+00:00",
+  "metadata": {},
+  "health_score": 30,
+  "certifications": []
+}

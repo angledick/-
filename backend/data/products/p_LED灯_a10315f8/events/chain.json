@@ -1,0 +1,28 @@
+{
+  "product_id": "p_LED灯_a10315f8",
+  "events": [
+    {
+      "id": "00aaa2b3a795",
+      "type": "product:created",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_a10315f8",
+      "business_stage": "阶段2",
+      "data": {
+        "name": "LED灯带-德国测试",
+        "product_type": "electronics"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-10T01:33:08.218995+00:00"
+    }
+  ],
+  "timeline": [
+    "🟢 [Low] 2026-06-10T01:33:08 product:created"
+  ],
+  "total_events": 1
+}

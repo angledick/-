@@ -1,0 +1,25 @@
+# 新品上架合规检查（阶段4）
+templates:
+  product_listing_compliance:
+    - task_type: metadata_check
+      description: 检查产品合规元数据完整性（HS编码、认证、原产地）
+      business_stage: 阶段4
+      required_skills: [shopify-custom-data]
+      priority: 1
+    - task_type: content_compliance
+      description: 审查标题/描述广告法合规（禁用词、夸大宣传）
+      business_stage: 阶段4
+      required_skills: [shopify-dev, shopify-liquid]
+      priority: 2
+      depends_on_index: [0]
+    - task_type: cert_validation
+      description: 验证产品认证有效性（CE/FDA/FCC等）
+      business_stage: 阶段4
+      required_skills: [shopify-custom-data, shopify-admin]
+      priority: 1
+    - task_type: publish_product
+      description: 通过合规检查后发布产品
+      business_stage: 阶段4
+      required_skills: [shopify-admin]
+      priority: 3
+      depends_on_index: [0, 1, 2]

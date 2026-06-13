@@ -1,0 +1,26 @@
+# 认证到期处理
+templates:
+  cert_expiry_handling:
+    - task_type: cert_status_check
+      description: 确认认证到期状态和受影响产品
+      business_stage: 全阶段
+      required_skills: [shopify-custom-data]
+      priority: 1
+    - task_type: impact_analysis
+      description: 分析认证过期对产品销售的影响
+      business_stage: 全阶段
+      required_skills: [shopify-admin]
+      priority: 1
+      depends_on_index: [0]
+    - task_type: renewal_guide
+      description: 生成认证续期指南和步骤
+      business_stage: 全阶段
+      required_skills: [shopify-dev]
+      priority: 2
+      depends_on_index: [1]
+    - task_type: notify_stakeholders
+      description: 通知相关人员处理认证续期
+      business_stage: 全阶段
+      required_skills: []
+      priority: 2
+      depends_on_index: [1]

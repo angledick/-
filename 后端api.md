@@ -3,7 +3,7 @@
 > 版本: v1.1 | 更新: 2026-06-08
 > 技术栈: FastAPI + Pydantic v2 | 系统版本: 4.0.0
 > 基础路径: `/api/v1` | API 文档: 启动后访问 `/docs` (Swagger UI)
-> 架构变更: API 文件按领域拆分重构（Phase 1+P3.6），启动流程9阶段化
+> 架构变更: API 文件按领域拆分重构（Phase 1+P3.6），启动流程4阶段精简
 > 详见: 今日开发文档 (2026-06-08) — API文件按领域拆分重构 + Phase 3.6新增
 
 ---
@@ -30,50 +30,28 @@ API 路由按阶段/功能分组注册在 `backend/app/main.py`中：
 
 ```
 main.py:on_startup()
-  ├─ Phase 1: 基础设施 ──────────────────────────────
+  ├─ Phase 1: 基础设施 + 配置预绑定 ──────────────
   │   ├─ init_admin_if_empty() → 创建默认管理员
-  │   └─ SQLite / Chroma 初始化
-  │
-  ├─ Phase 2: 配置加载器（文件系统）──────────────────
-  │   ├─ data/agents/*.md       → Agent 配置
-  │   ├─ data/skills/_registry.yaml + _stage_matrix.yaml → Skills 注册
-  │   ├─ data/tools/_registry.yaml + impl/ → Tools 注册
-  │   ├─ data/events/builtin/*.md → 事件定义
-  │   ├─ data/workers/builtin/*.md → Worker 定义
-  │   ├─ data/scheduler/bindings.yaml → 定时绑定
-  │   ├─ data/oauth/providers.yaml   → OAuth 提供者
-  │   └─ data/models/routes.yaml     → 模型路由
-  │
-  ├─ Phase 3: 事件-配置预绑定 ──────────────────────
   │   ├─ get_event_registry() → 加载事件注册表
-  │   └─ get_worker_registry() → 加载 Worker 注册表
+  │   ├─ get_worker_registry() → 加载 Worker 注册表
+  │   └─ get_agent_initializer().scan_and_load() → Agent 文件驱动初始化
   │
-  ├─ Phase 4: Agent 初始化（文件驱动）───────────────
-  │   ├─ get_agent_initializer().scan_and_load()
-  │   │   → 扫描 data/agents/*.md，为每个 Agent 加载
-  │   │      front-matter（SDK配置、Skills、Tools、OAuth）
-  │   └─ init_default_agents() → 空操作（兼容旧流程）
-  │
-  ├─ Phase 5: SDK 预加载 ──────────────────────────
-  │   └─ check_sdk() → 预加载 Claude Agent SDK
-  │
-  ├─ Phase 6: 核心组件 ────────────────────────────
+  ├─ Phase 2: 核心组件 ──────────────────────────
   │   ├─ get_qa_agent().set_registries()
   │   ├─ get_manager_agent()
   │   └─ bus.on_all(manager.on_event)  # 事件驱动中枢
   │
-  ├─ Phase 7: Phase 3 组件 ────────────────────────
+  ├─ Phase 3: 扩展组件 ──────────────────────────
   │   ├─ get_oauth_manager() → OAuth 管理器
   │   ├─ get_auto_pull_engine().start() → 自动拉取引擎
   │   ├─ get_channel_registry() → 频道注册表
   │   ├─ get_security_sandbox() → 安全沙箱
   │   ├─ get_skill_registry/executor/recommender()
-  │   └─ get_plugin_manager() → 插件管理器
+  │   ├─ get_plugin_manager() → 插件管理器
+  │   ├─ get_rbac_manager/approval_engine/operation_guard()
+  │   └─ get_proactive_engine() → 主动引擎
   │
-  ├─ Phase 8: Phase 4 组件 ────────────────────────
-  │   └─ get_rbac_manager/approval_engine/operation_guard()
-  │
-  └─ Phase 9: 调度器（最后启动）───────────────────
+  └─ Phase 4: 调度器（最后启动）──────────────────
       └─ start_scheduler() → 启动 APScheduler
 ```
 
@@ -196,7 +174,7 @@ class SDKAgentConfig:
 
 **处理管线（10 阶段）:**
 1. RBAC 权限检查
-2. Thinking — NLU 意图解析 (`core/nlu.py`) + 发布意图事件到 EventBus
+2. Thinking — 意图解析（已内联至chat_stream） + 发布意图事件到 EventBus
 3. Plan — 构建执行计划（general/compliance 分支）
 4. 分支路由：
    - **通用问题 / 指定 agent_id** → `_handle_general_stream()` → AstraAssistant SDK / 降级回复

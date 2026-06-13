@@ -749,95 +749,116 @@ class QAAgent:
         except Exception as e:
             return {"success": False, "error": str(e)}
 
+    # ── CLI命令路由表 ────────────────────────────────
+
+    async def _cmd_status(self, args: Dict[str, Any]) -> dict:
+        health = await self.health_check()
+        return {"output": json.dumps(health, ensure_ascii=False, indent=2)}
+
+    async def _cmd_events(self, args: Dict[str, Any]) -> dict:
+        events = await self.list_event_types()
+        output = f"已注册事件: {len(events)}\n"
+        for e in events[:20]:
+            output += f"  [{e.severity}] {e.event_code}: {e.event_name}\n"
+        return {"output": output}
+
+    async def _cmd_workers(self, args: Dict[str, Any]) -> dict:
+        workers = await self.list_worker_types()
+        output = f"已注册Worker: {len(workers)}\n"
+        for w in workers:
+            output += f"  [P{w.priority}] {w.worker_code}: {w.worker_name}\n"
+        return {"output": output}
+
+    async def _cmd_debug(self, args: Dict[str, Any]) -> dict:
+        event_type = args.get("event_type", "")
+        result = await self.debug_pipeline(event_type)
+        return {"output": json.dumps(result, ensure_ascii=False, indent=2)}
+
+    async def _cmd_products(self, args: Dict[str, Any]) -> dict:
+        from app.core.product_storage import get_product_storage
+        storage = get_product_storage()
+        products = storage.list_products(limit=20)
+        output = f"产品总数: {storage.count_products()}\n"
+        for p in products:
+            output += f"  [{p.lifecycle_stage.value}] {p.id}: {p.name}\n"
+        return {"output": output}
+
+    async def _cmd_scheduler(self, args: Dict[str, Any]) -> dict:
+        result = await self.query_scheduler()
+        if not result.get("enabled"):
+            return {"output": "调度器未运行\n"}
+        output = f"调度器状态: 运行中\n定时任务总数: {result['total']}\n\n"
+        for j in result["jobs"]:
+            status = "⏸ 暂停" if j["pending"] else "▶ 运行"
+            next_run = j["next_run_time"] or "—"
+            output += f"  {status} [{j['id']}] {j['name']}\n"
+            output += f"       触发器: {j['trigger']} | 下次执行: {next_run}\n"
+        return {"output": output}
+
+    async def _cmd_schedule(self, args: Dict[str, Any]) -> dict:
+        task = args.get("task", "")
+        action = args.get("action", "list")
+        if action == "list":
+            tasks = await self.query_available_tasks()
+            output = f"可调度任务模板: {tasks['total']}\n"
+            for name, info in tasks["tasks"].items():
+                output += f"  • {name}: {info['description']}\n"
+                output += f"    默认触发器: {info['default_trigger']} | 默认参数: {info['default_args']}\n"
+            return {"output": output}
+        elif action == "create" and task:
+            result = await self.schedule_job(
+                task=task,
+                trigger_type=args.get("trigger_type", "interval"),
+                trigger_args=args.get("trigger_args", {}),
+                job_id=args.get("job_id"),
+            )
+            return {
+                "output": result.get("message", "") if result["success"] else "",
+                "success": result["success"],
+                "error": result.get("error", "") if not result["success"] else "",
+            }
+        else:
+            return {
+                "success": False,
+                "error": "用法: astra schedule action=list|create task=<任务名> trigger_type=interval|cron",
+            }
+
+    # 命令路由表: 命令名 → 处理方法
+    CLI_COMMANDS: Dict[str, str] = {
+        "astra status": "_cmd_status",
+        "astra events": "_cmd_events",
+        "astra workers": "_cmd_workers",
+        "astra debug": "_cmd_debug",
+        "astra products": "_cmd_products",
+        "astra scheduler": "_cmd_scheduler",
+        "astra schedule": "_cmd_schedule",
+    }
+
     # ── CLI命令执行 ──────────────────────────────────
 
     async def execute_cli_command(self, command: str, args: Dict[str, Any] = None) -> CLICommandResult:
-        """执行CLI命令"""
+        """执行CLI命令 — 通过路由表分发，新增命令只需注册到 CLI_COMMANDS"""
         args = args or {}
         start_time = datetime.now(timezone.utc)
 
         try:
-            # 命令路由
-            if command == "astra status":
-                health = await self.health_check()
-                return CLICommandResult(
-                    command=command,
-                    success=True,
-                    output=json.dumps(health, ensure_ascii=False, indent=2),
-                )
-            elif command == "astra events":
-                events = await self.list_event_types()
-                output = f"已注册事件: {len(events)}\n"
-                for e in events[:20]:
-                    output += f"  [{e.severity}] {e.event_code}: {e.event_name}\n"
-                return CLICommandResult(command=command, success=True, output=output)
-            elif command == "astra workers":
-                workers = await self.list_worker_types()
-                output = f"已注册Worker: {len(workers)}\n"
-                for w in workers:
-                    output += f"  [P{w.priority}] {w.worker_code}: {w.worker_name}\n"
-                return CLICommandResult(command=command, success=True, output=output)
-            elif command == "astra debug":
-                event_type = args.get("event_type", "")
-                result = await self.debug_pipeline(event_type)
-                return CLICommandResult(
-                    command=command,
-                    success=True,
-                    output=json.dumps(result, ensure_ascii=False, indent=2),
-                )
-            elif command == "astra products":
-                from app.core.product_storage import get_product_storage
-                storage = get_product_storage()
-                products = storage.list_products(limit=20)
-                output = f"产品总数: {storage.count_products()}\n"
-                for p in products:
-                    output += f"  [{p.lifecycle_stage.value}] {p.id}: {p.name}\n"
-                return CLICommandResult(command=command, success=True, output=output)
-            elif command == "astra scheduler":
-                result = await self.query_scheduler()
-                if not result.get("enabled"):
-                    return CLICommandResult(command=command, success=True, output="调度器未运行\n")
-                output = f"调度器状态: 运行中\n定时任务总数: {result['total']}\n\n"
-                for j in result["jobs"]:
-                    status = "⏸ 暂停" if j["pending"] else "▶ 运行"
-                    next_run = j["next_run_time"] or "—"
-                    output += f"  {status} [{j['id']}] {j['name']}\n"
-                    output += f"       触发器: {j['trigger']} | 下次执行: {next_run}\n"
-                return CLICommandResult(command=command, success=True, output=output)
-            elif command == "astra schedule":
-                task = args.get("task", "")
-                action = args.get("action", "list")
-                if action == "list":
-                    tasks = await self.query_available_tasks()
-                    output = f"可调度任务模板: {tasks['total']}\n"
-                    for name, info in tasks["tasks"].items():
-                        output += f"  • {name}: {info['description']}\n"
-                        output += f"    默认触发器: {info['default_trigger']} | 默认参数: {info['default_args']}\n"
-                    return CLICommandResult(command=command, success=True, output=output)
-                elif action == "create" and task:
-                    result = await self.schedule_job(
-                        task=task,
-                        trigger_type=args.get("trigger_type", "interval"),
-                        trigger_args=args.get("trigger_args", {}),
-                        job_id=args.get("job_id"),
-                    )
-                    return CLICommandResult(
-                        command=command,
-                        success=result["success"],
-                        output=result.get("message", "") if result["success"] else "",
-                        error=result.get("error", "") if not result["success"] else "",
-                    )
-                else:
-                    return CLICommandResult(
-                        command=command, success=False,
-                        error="用法: astra schedule action=list|create task=<任务名> trigger_type=interval|cron",
-                    )
-            else:
+            handler_name = self.CLI_COMMANDS.get(command)
+            if not handler_name:
                 return CLICommandResult(
                     command=command,
                     success=False,
                     error=f"未知命令: {command}",
                 )
+
+            handler = getattr(self, handler_name)
+            result = await handler(args)
+
+            return CLICommandResult(
+                command=command,
+                success=result.get("success", True),
+                output=result.get("output", ""),
+                error=result.get("error", ""),
+            )
         except Exception as e:
             return CLICommandResult(
                 command=command,

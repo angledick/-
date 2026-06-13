@@ -1,0 +1,20 @@
+{
+  "id": "p_LED灯_add9a268",
+  "name": "LED灯带-德国测试",
+  "product_type": "electronics",
+  "target_markets": [
+    "德国"
+  ],
+  "hs_code": "",
+  "vendor": "",
+  "tags": [],
+  "lifecycle_stage": "concept",
+  "business_stage": "阶段2",
+  "compliance_status": "pending",
+  "risk_level": "low",
+  "created_at": "2026-06-10T01:03:49.818385",
+  "updated_at": "2026-06-10T01:03:49.818414",
+  "metadata": {},
+  "health_score": 30,
+  "certifications": []
+}

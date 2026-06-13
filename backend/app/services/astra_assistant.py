@@ -211,6 +211,96 @@ class AstraAssistant:
 
     # ── ClaudeAgentOptions 构建 ────────────────────
 
+    def _build_tools_config(
+        self,
+        mcp_server: Any,
+        extra_tools: Optional[list[str]] = None,
+    ) -> tuple[Any, list[str], list[str]]:
+        """构建工具配置: tools_conf / allowed / disallowed"""
+        tools_conf: Any = {"type": "preset", "preset": "claude_code"}
+
+        allowed = []
+        if settings.sdk_allowed_tools:
+            allowed = [t.strip() for t in settings.sdk_allowed_tools.split(",") if t.strip()]
+        else:
+            allowed = ["Read", "Write", "Edit", "Bash", "Glob", "Grep", "WebSearch", "WebFetch"]
+        if extra_tools:
+            allowed.extend(extra_tools)
+        if mcp_server:
+            allowed.extend(COMPLIANCE_TOOL_NAMES)
+
+        disallowed = []
+        if settings.sdk_disallowed_tools:
+            disallowed = [t.strip() for t in settings.sdk_disallowed_tools.split(",") if t.strip()]
+
+        return tools_conf, allowed, disallowed
+
+    def _build_session_config(
+        self,
+        session_id: Optional[str] = None,
+    ) -> tuple[Optional[str], Optional[bool], Optional[bool], Optional[bool]]:
+        """构建会话参数: session_id / resume / continue / fork"""
+        raw_session_id = session_id or settings.sdk_session_id or None
+        session_id_val = (
+            raw_session_id
+            if (raw_session_id and _is_valid_uuid(raw_session_id))
+            else None
+        )
+        resume_val = settings.sdk_resume_session or None
+        continue_val = settings.sdk_continue_conversation
+        fork_val = settings.sdk_fork_session
+        if session_id_val and not fork_val:
+            if not resume_val and not continue_val:
+                resume_val = True
+        return session_id_val, resume_val, continue_val, fork_val
+
+    def _build_mcp_servers(
+        self,
+        mcp_server: Any,
+        agent_id: Optional[str] = None,
+    ) -> dict[str, Any]:
+        """构建 MCP Server 字典: compliance + qa_agent + Agent关联工具"""
+        mcp_servers: dict[str, Any] = {}
+        if mcp_server:
+            mcp_servers["compliance"] = mcp_server
+
+        # QAAgent 专属：注入系统管理 MCP Server
+        if agent_id == "agent_qa":
+            try:
+                from app.core.qa_tools import get_qa_mcp_server
+                qa_mcp = get_qa_mcp_server()
+                if qa_mcp:
+                    mcp_servers["qa_agent"] = qa_mcp
+                    logger.info("QAAgent 系统管理 MCP Server 已注入")
+            except Exception as e:
+                logger.debug("QAAgent MCP Server 注入失败: %s", e)
+
+        # Agent关联工具 → MCP Server 注入
+        if agent_id:
+            try:
+                import json as _json
+                from pathlib import Path as _Path
+                _ext_file = _Path(settings.data_dir) / "agents" / "extensions.json"
+                if _ext_file.exists():
+                    _ext_data = _json.loads(_ext_file.read_text(encoding="utf-8"))
+                    _agent_ext = _ext_data.get(agent_id, {})
+                    _tool_ids = _agent_ext.get("tool_ids", [])
+                    for _tool_id in _tool_ids:
+                        if _tool_id in _AGENT_TOOL_MCP_REGISTRY:
+                            _mod_path, _factory_name = _AGENT_TOOL_MCP_REGISTRY[_tool_id]
+                            import importlib
+                            _mod = importlib.import_module(_mod_path)
+                            _factory = getattr(_mod, _factory_name)
+                            _mcp = _factory()
+                            if _mcp:
+                                _key = _tool_id.replace("tool_", "")
+                                mcp_servers[_key] = _mcp
+                                logger.info("Agent关联工具 MCP Server 已注入: %s", _tool_id)
+            except Exception as e:
+                logger.debug("Agent关联工具 MCP 注入失败: %s", e)
+
+        return mcp_servers
+
     def build_options(
         self,
         session_id: Optional[str] = None,
@@ -243,24 +333,8 @@ class AstraAssistant:
 
         mcp_server = self._get_mcp_server()
 
-        # ── 基础工具集 ─────────────────
-        tools_conf: Any = {"type": "preset", "preset": "claude_code"}
-
-        # ── 自动批准的工具 ─────────────────
-        allowed = []
-        if settings.sdk_allowed_tools:
-            allowed = [t.strip() for t in settings.sdk_allowed_tools.split(",") if t.strip()]
-        else:
-            allowed = ["Read", "Write", "Edit", "Bash", "Glob", "Grep", "WebSearch", "WebFetch"]
-        if extra_tools:
-            allowed.extend(extra_tools)
-        if mcp_server:
-            allowed.extend(COMPLIANCE_TOOL_NAMES)
-
-        # ── 禁用工具 ─────────────────
-        disallowed = []
-        if settings.sdk_disallowed_tools:
-            disallowed = [t.strip() for t in settings.sdk_disallowed_tools.split(",") if t.strip()]
+        # ── 工具配置 ─────────────────
+        tools_conf, allowed, disallowed = self._build_tools_config(mcp_server, extra_tools)
 
         # ── 环境变量 ─────────────────
         env = {"ANTHROPIC_API_KEY": settings.anthropic_api_key}
@@ -271,22 +345,7 @@ class AstraAssistant:
             env.update(extra_env)
 
         # ── 会话参数 ─────────────────
-        raw_session_id = session_id or settings.sdk_session_id or None
-        # CLI --session-id 参数要求严格 UUID 格式，非 UUID 的 session_id
-        # 只用于内部会话追踪（_clients dict），不传给 CLI
-        session_id_val = (
-            raw_session_id
-            if (raw_session_id and _is_valid_uuid(raw_session_id))
-            else None
-        )
-        resume_val = settings.sdk_resume_session or None
-        continue_val = settings.sdk_continue_conversation
-        fork_val = settings.sdk_fork_session
-        # SDK CLI 约束: --session-id 必须搭配 --continue/--resume 或 --fork-session
-        # 当提供了 session_id 但未 fork 时，自动启用 resume
-        if session_id_val and not fork_val:
-            if not resume_val and not continue_val:
-                resume_val = True
+        session_id_val, resume_val, continue_val, fork_val = self._build_session_config(session_id)
 
         # ── 子代理定义 ─────────────────
         agents_val: Optional[dict[str, Any]] = None
@@ -374,23 +433,8 @@ class AstraAssistant:
         if not system_prompt:
             system_prompt = ASTRA_SYSTEM_PROMPT
 
-        # ── MCP Server ─────────────────
-        mcp_servers: dict[str, Any] = {}
-        if mcp_server:
-            mcp_servers["compliance"] = mcp_server
-
-        # QAAgent 专属：注入系统管理 MCP Server
-        if agent_id == "agent_qa":
-            try:
-                from app.core.qa_tools import get_qa_mcp_server
-                qa_mcp = get_qa_mcp_server()
-                if qa_mcp:
-                    mcp_servers["qa_agent"] = qa_mcp
-                    logger.info("QAAgent 系统管理 MCP Server 已注入")
-            except Exception as e:
-                logger.debug("QAAgent MCP Server 注入失败: %s", e)
-
-
+        # ── MCP Servers ─────────────────
+        mcp_servers = self._build_mcp_servers(mcp_server, agent_id)
 
         # ── 钩子（整合记忆系统） ─────────────────
         hooks = self._build_memory_hooks()
@@ -440,30 +484,6 @@ class AstraAssistant:
                                         )
             except Exception as e:
                 logger.debug("加载 Agent SDK 配置失败: %s", e)
-
-        # ── Agent关联工具 → MCP Server 注入 ─────────────────
-        if agent_id:
-            try:
-                import json as _json
-                from pathlib import Path as _Path
-                _ext_file = _Path(settings.data_dir) / "agents" / "extensions.json"
-                if _ext_file.exists():
-                    _ext_data = _json.loads(_ext_file.read_text(encoding="utf-8"))
-                    _agent_ext = _ext_data.get(agent_id, {})
-                    _tool_ids = _agent_ext.get("tool_ids", [])
-                    for _tool_id in _tool_ids:
-                        if _tool_id in _AGENT_TOOL_MCP_REGISTRY:
-                            _mod_path, _factory_name = _AGENT_TOOL_MCP_REGISTRY[_tool_id]
-                            import importlib
-                            _mod = importlib.import_module(_mod_path)
-                            _factory = getattr(_mod, _factory_name)
-                            _mcp = _factory()
-                            if _mcp:
-                                _key = _tool_id.replace("tool_", "")
-                                mcp_servers[_key] = _mcp
-                                logger.info("Agent关联工具 MCP Server 已注入: %s", _tool_id)
-            except Exception as e:
-                logger.debug("Agent关联工具 MCP 注入失败: %s", e)
 
         # ── 构建 Options ─────────────────
         return ClaudeAgentOptions(

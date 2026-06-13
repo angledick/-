@@ -15,6 +15,7 @@ SSE 消息协议（对齐前端）:
 """
 
 import json
+import re
 import asyncio
 from datetime import datetime, timezone
 from pathlib import Path
@@ -25,12 +26,310 @@ from pydantic import BaseModel
 from typing import Optional, List, Dict, Any
 import logging
 
+import yaml
+
 from app.config import settings
 from app.models.schemas import ComplianceQuery, ChatResponse, ComplianceResult
+from app.services.prompt_loader import render_prompt
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(tags=["chat-stream"])
+
+
+# ═════════════════════════════════════════════════════════n# NLU 意图解析 — 内联预处理层（原 nlu.py）
+# ═════════════════════════════════════════════════════════n
+_NLU_CFG_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "config" / "nlu_mappings.yaml"
+
+
+def _load_nlu_config() -> dict:
+    """加载 NLU 映射配置，失败时返回空字典"""
+    if _NLU_CFG_PATH.exists():
+        return yaml.safe_load(_NLU_CFG_PATH.read_text(encoding="utf-8")) or {}
+    return {}
+
+
+_nlu_cfg = _load_nlu_config()
+
+# 统一关键词库
+COMPLIANCE_KEYWORDS: List[str] = _nlu_cfg.get("compliance_keywords", [
+    "出口", "卖到", "发给", "合规", "认证", "清关", "海关",
+    "HS编码", "VAT", "税率", "进口税", "报关", "合规检查",
+])
+
+KNOWN_COUNTRIES: List[str] = _nlu_cfg.get("known_countries", [
+    "德国", "法国", "意大利", "西班牙", "荷兰", "比利时",
+    "英国", "日本", "韩国", "美国", "新加坡", "澳大利亚",
+    "欧盟", "欧洲", "东南亚", "中东",
+])
+
+ACTION_PATTERNS: Dict[str, List[str]] = _nlu_cfg.get("action_patterns", {
+    "export_check": ["出口", "卖到", "发给", "合规", "清关", "合规检查"],
+    "cert_query": ["认证", "证书", "CE", "FDA", "FCC", "UKCA", "ROHS", "WEEE", "REACH", "GPSR"],
+    "tax_query": ["税", "VAT", "关税", "税率", "进口税", "Sales Tax"],
+    "logistics_query": ["物流", "运输", "发货", "快递", "17TRACK", "追踪"],
+    "order_query": ["订单", "退货", "退款", "售后", "拒付"],
+    "regulation_query": ["法规", "法律", "条例", "新规", "政策", "DPP", "EPR"],
+    "product_manage": ["产品", "上架", "下架", "添加产品", "导入"],
+    "system_query": ["状态", "健康", "系统", "配置", "设置"],
+})
+
+INTENT_EVENT_MAP: Dict[str, str] = _nlu_cfg.get("intent_event_map", {
+    "export_check": "user:compliance_check",
+    "cert_query": "user:cert_query",
+    "tax_query": "user:tax_query",
+    "logistics_query": "user:logistics_query",
+    "order_query": "user:order_query",
+    "regulation_query": "user:regulation_query",
+    "product_manage": "user:product_manage",
+    "system_query": "user:system_query",
+    "general": "user:query",
+})
+
+INTENT_STAGE_MAP: Dict[str, Optional[str]] = _nlu_cfg.get("intent_stage_map", {
+    "export_check": "阶段7",
+    "cert_query": "阶段2",
+    "tax_query": "阶段7",
+    "logistics_query": "阶段6",
+    "order_query": "阶段9",
+    "regulation_query": "阶段2",
+    "product_manage": "阶段4",
+    "system_query": "阶段1",
+    "general": None,
+})
+
+_PRODUCT_SEPARATORS: List[str] = _nlu_cfg.get("product_separators", [
+    "出口", "卖到", "发给", "运到", "销往",
+])
+
+_DANGER_PATTERNS: List[str] = _nlu_cfg.get("danger_patterns", [
+    r"(?i)ignore\s+(all\s+)?previous\s+instructions",
+    r"(?i)you\s+are\s+now\s+(a|an)\s+",
+    r"(?i)system\s*:\s*you\s+must",
+    r"<script[^>]*>",
+    r"(?i)DROP\s+TABLE",
+])
+
+_STATIC_SKILL_MAP: Dict[str, List[str]] = _nlu_cfg.get("static_skill_map", {
+    "export_check": ["shopify-admin", "shopify-custom-data"],
+    "cert_query": ["shopify-custom-data", "shopify-dev"],
+    "tax_query": ["shopify-admin", "shopify-functions"],
+    "logistics_query": ["shopify-admin", "shopify-custom-data"],
+    "order_query": ["shopify-admin", "shopify-customer"],
+    "regulation_query": ["shopify-dev", "web-search"],
+    "product_manage": ["shopify-admin", "shopify-onboarding-merchant"],
+    "system_query": ["shopify-use-shopify-cli"],
+})
+
+
+# ── NLU 核心函数 ──────────────────────────────────
+
+
+def parse_intent(
+    user_input: str,
+    history: Optional[List[Dict]] = None,
+    user_id: Optional[str] = None,
+) -> dict:
+    """意图解析 — 聊天入口预处理步骤。
+
+    从用户消息中提取结构化意图: action类型、产品名、目标国家、
+    业务阶段映射、事件类型、推荐Skills、记忆树上下文提示。
+    """
+    msg = user_input.strip()
+    _check_input_safety(msg)
+    action, confidence = _classify_action(msg)
+    product, country = _extract_entities(msg, action)
+
+    if history and action == "general":
+        product, country, action = _enrich_from_history(history, product, country, action)
+        if action != "general":
+            confidence = max(confidence, 0.55)
+
+    business_stage = INTENT_STAGE_MAP.get(action)
+    event_type = INTENT_EVENT_MAP.get(action, "user:query")
+    recommended_skills = _get_recommended_skills(action, business_stage)
+    context_hints = _get_context_hints(product, country, user_id)
+
+    return {
+        "product": product,
+        "target_country": country,
+        "action": action,
+        "confidence": confidence,
+        "business_stage": business_stage,
+        "event_type": event_type,
+        "recommended_skills": recommended_skills,
+        "context_hints": context_hints,
+    }
+
+
+async def publish_intent_event(
+    intent: dict,
+    user_id: Optional[str] = None,
+) -> Optional[Any]:
+    """将意图解析结果发布为事件到全局事件总线。"""
+    try:
+        from app.core.event_bus import get_event_bus
+        bus = get_event_bus()
+        event_type = intent.get("event_type", "user:query")
+        event = await bus.publish_raw({
+            "type": event_type,
+            "source": "chat_stream",
+            "product_id": None,
+            "business_stage": intent.get("business_stage"),
+            "severity": "low",
+            "data": {
+                "user_id": user_id or "anonymous",
+                "action": intent.get("action", "general"),
+                "product": intent.get("product", ""),
+                "target_country": intent.get("target_country", ""),
+                "confidence": intent.get("confidence", 0),
+                "recommended_skills": intent.get("recommended_skills", []),
+            },
+        })
+        return event
+    except Exception:
+        return None
+
+
+def get_system_prompt() -> str:
+    """获取 system prompt。
+
+    优先级:
+      1. Agent 配置数据库中 general 类型的 Agent 的 system_prompt
+      2. YAML 文件 data/prompts/nlu_fallback.yaml
+      3. 硬编码兆底
+    """
+    try:
+        from app.storage.agent_config_store import get_general_system_prompt
+        return get_general_system_prompt()
+    except Exception:
+        pass
+    try:
+        return render_prompt("nlu_fallback")
+    except FileNotFoundError:
+        return (
+            "你是一个出口合规意图解析器。分析用户消息，提取结构化信息。\n\n"
+            "返回严格JSON:\n{\n  \"product\": \"产品中文名称\",\n"
+            "  \"target_country\": \"目标出口国家中文名\",\n"
+            "  \"action\": \"export_check | cert_query | tax_query | general\",\n"
+            "  \"confidence\": 0.0~1.0\n}"
+        )
+
+
+# ── NLU 内部辅助 ──────────────────────────────────
+
+
+def _classify_action(msg: str) -> tuple:
+    """分类用户动作为 action 类型。"""
+    has_any_keyword = any(kw in msg for kw in COMPLIANCE_KEYWORDS)
+    if not has_any_keyword:
+        for action_type, patterns in ACTION_PATTERNS.items():
+            if action_type == "export_check":
+                continue
+            if any(p in msg for p in patterns):
+                return action_type, 0.6
+        return "general", 0.4
+    for action_type, patterns in ACTION_PATTERNS.items():
+        if any(p in msg for p in patterns):
+            return action_type, 0.7
+    return "export_check", 0.5
+
+
+def _extract_entities(msg: str, action: str) -> tuple:
+    """从消息中提取产品名或目标国家。"""
+    country = ""
+    for c in KNOWN_COUNTRIES:
+        if c in msg:
+            country = c
+            break
+    product = msg
+    for sep in _PRODUCT_SEPARATORS:
+        if sep in product:
+            product = product.split(sep)[0]
+            break
+    if country and country in product:
+        product = product.replace(country, "")
+    product = product.strip().rstrip("，。,. ")
+    if action == "general":
+        return "", ""
+    return product or msg, country or "欧盟"
+
+
+def _enrich_from_history(
+    history: List[Dict], product: str, country: str, action: str
+) -> tuple:
+    """从多轮历史消息中增强意图。"""
+    for msg in reversed(history):
+        role = msg.get("role", "")
+        content = msg.get("content", "")
+        if role == "assistant":
+            intent_data = msg.get("intent")
+            if isinstance(intent_data, dict):
+                if not product and intent_data.get("product"):
+                    product = intent_data["product"]
+                if not country and intent_data.get("target_country"):
+                    country = intent_data["target_country"]
+                if action == "general" and intent_data.get("action") != "general":
+                    action = intent_data["action"]
+    return product, country, action
+
+
+def _get_recommended_skills(action: str, business_stage: Optional[str]) -> List[str]:
+    """获取推荐Skills，降级使用静态映射。"""
+    try:
+        from app.core.skill_registry import get_skill_recommender
+        recommender = get_skill_recommender()
+        context = {"action": action, "business_stage": business_stage}
+        recommendations = recommender.recommend_by_event(context)
+        if recommendations:
+            return [r.get("name", r) if isinstance(r, dict) else str(r)
+                    for r in recommendations[:5]]
+    except Exception:
+        pass
+    return _STATIC_SKILL_MAP.get(action, ["shopify-dev"])
+
+
+def _get_context_hints(
+    product: str, country: str, user_id: Optional[str]
+) -> List[str]:
+    """从记忆树获取上下文提示。"""
+    hints = []
+    if not product and not country:
+        return hints
+    try:
+        from app.core.memory_tree import MemoryTree
+        product_key = re.sub(r"[^0-9A-Za-z\u4e00-\u9fff]+", "_", f"{product}_{country}").strip("_")
+        tree = MemoryTree(product_key)
+        l3_list = tree.get_summaries(level=3)
+        l3 = l3_list[0] if l3_list else None
+        if l3 and l3.get("content"):
+            hints.append(f"历史概况: {l3['content'][:100]}")
+        l2_list = tree.get_summaries(level=2)
+        if isinstance(l2_list, list):
+            for item in l2_list[:3]:
+                if isinstance(item, dict) and item.get("title"):
+                    hints.append(f"{item['title']}")
+    except Exception:
+        pass
+    return hints
+
+
+def _check_input_safety(msg: str):
+    """轻量安全检查 — 检测明显的注入攻击（非阻断式）。"""
+    for pattern in _DANGER_PATTERNS:
+        if re.search(pattern, msg):
+            try:
+                from app.core.event_bus import get_event_bus
+                bus = get_event_bus()
+                asyncio.ensure_future(bus.publish_raw({
+                    "type": "risk:security_alert",
+                    "source": "chat_stream",
+                    "severity": "medium",
+                    "data": {"alert": "potential_prompt_injection", "input_preview": msg[:100]},
+                }))
+            except Exception:
+                pass
+            break
 
 
 # ── 请求模型 ──────────────────────────────────
@@ -166,7 +465,6 @@ async def chat_stream(req: ChatStreamRequest, current_user: dict = Depends(_opti
                 "depth": 1,
             })
 
-            from app.core.nlu import parse_intent, publish_intent_event
             from app.storage import session_store
 
             # 加载多轮历史
@@ -255,7 +553,7 @@ async def _handle_compliance_stream(
 ):
     """合规查询的完整SSE事件流。"""
 
-    # ── Step 4: 规则引擎检查 ─────────────────
+    # ── Step 4: 合规数据检查 ─────────────────
     plan_steps[1]["status"] = "running"
     yield _sse_event("plan", {"steps": plan_steps, "current": 1})
 
@@ -299,7 +597,7 @@ async def _handle_compliance_stream(
 
     rag_results = []
     try:
-        from app.core.rag import retrieve_context, format_context_for_assistant
+        from app.knowledge.store import retrieve_context, format_context_for_assistant
         rag_results = retrieve_context(f"{product} 出口 {country} 合规要求")
         if rag_results:
             report += f"\n\n---\n{format_context_for_assistant(rag_results)}"
@@ -538,7 +836,6 @@ async def _check_rbac(
             return True, ""
         user_role = user_info.get("role", "admin")
         if user_role == "viewer":
-            from app.core.nlu import COMPLIANCE_KEYWORDS
             if any(kw in message for kw in ["执行", "批量", "删除", "修改", "上架"]):
                 return False, "viewer角色不允许执行写操作，请联系管理员升级权限"
     except Exception:
@@ -555,7 +852,7 @@ def _build_plan(action: str, product: str, country: str) -> List[Dict]:
         ]
     return [
         {"id": "nlu", "action": f"意图解析: {product}→{country}" if product else "意图解析", "status": "done"},
-        {"id": "rule", "action": "规则引擎检查", "status": "pending"},
+        {"id": "rule", "action": "合规数据检查", "status": "pending"},
         {"id": "skill", "action": "Skills推荐", "status": "pending"},
         {"id": "rag", "action": "RAG法规检索", "status": "pending"},
         {"id": "report", "action": "生成合规报告", "status": "pending"},

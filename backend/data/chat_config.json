@@ -6,7 +6,8 @@
     "tool_hs_lookup",
     "tool_vat_query",
     "tool_regulation_scan",
-    "tool_tracking_query"
+    "tool_tracking_query",
+    "tool_metaso_search"
   ],
   "skills": [
     "ae45124f7f58",

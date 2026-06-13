@@ -1,0 +1,13 @@
+# 事件类型 → 分解模板映射
+event_template_map:
+  "certification:expiring": cert_expiry_handling
+  "certification:expired": cert_expiry_handling
+  "compliance:check_started": compliance_pipeline
+  "compliance:check_failed": compliance_pipeline
+  "regulation:updated": regulation_change_analysis
+  "regulation:new": regulation_change_analysis
+  "order:created": order_fulfillment_check
+  "order:shipped": order_fulfillment_check
+  "gdpr:dsar": gdpr_dsar_handling
+  "product:listing": product_listing_compliance
+  "product:created": product_listing_compliance

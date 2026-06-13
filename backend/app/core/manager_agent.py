@@ -540,7 +540,14 @@ class ManagerAgent:
         from app.core.skill_registry import get_skill_executor
         executor = get_skill_executor()
 
-        skill_name = self._map_task_to_skill(subtask)
+        # 优先从子任务的 required_skills / event_skills 中获取技能名
+        event_skills = (subtask.context or {}).get("event_skills", [])
+        if event_skills:
+            skill_name = event_skills[0]
+        elif subtask.required_skills:
+            skill_name = subtask.required_skills[0]
+        else:
+            skill_name = self._map_task_to_skill(subtask)
         args = dict(subtask.context or {})
         args["task_id"] = subtask.task_id
         args["action"] = subtask.task_type
@@ -754,22 +761,22 @@ class ManagerAgent:
         try:
             await self._route_to_websocket(event)
         except Exception as e:
-            logger.debug("ManagerAgent._route_to_websocket 失败: %s", e)
+            logger.error("ManagerAgent._route_to_websocket 失败: event=%s err=%s", event.type, e)
 
         try:
             await self._route_to_worker(event)
         except Exception as e:
-            logger.debug("ManagerAgent._route_to_worker 失败: %s", e)
+            logger.error("ManagerAgent._route_to_worker 失败: event=%s err=%s", event.type, e)
 
         try:
             await self._route_to_product_metrics(event)
         except Exception as e:
-            logger.debug("ManagerAgent._route_to_product_metrics 失败: %s", e)
+            logger.error("ManagerAgent._route_to_product_metrics 失败: event=%s err=%s", event.type, e)
 
         try:
             await self._route_to_custom_metrics(event)
         except Exception as e:
-            logger.debug("ManagerAgent._route_to_custom_metrics 失败: %s", e)
+            logger.error("ManagerAgent._route_to_custom_metrics 失败: event=%s err=%s", event.type, e)
 
     async def _route_to_websocket(self, event):
         """事件 → WS 消息推送
@@ -856,8 +863,11 @@ class ManagerAgent:
         # 通过 submit_event_task 拆解为子任务
         group = await self.submit_event_task(event.type, event.data or {})
 
-        # 为每个子任务注入事件定义中的 tools/skills/agent_action
+        # 为每个子任务注入事件定义中的 worker/skills/tools/agent_action
+        # （覆盖 submit_event_task 中的自动分配，强制使用事件定义指定的 Worker）
         for st in group.subtasks:
+            st.assigned_worker = event_def.related_worker
+            st.required_skills = event_def.skills or st.required_skills
             st.context["event_tools"] = event_def.tools or []
             st.context["event_skills"] = event_def.skills or []
             st.context["agent_action"] = event_def.agent_action or ""
@@ -882,8 +892,8 @@ class ManagerAgent:
         if metrics_path.exists():
             try:
                 metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
-            except Exception:
-                pass
+            except (json.JSONDecodeError, OSError) as e:
+                logger.error("产品指标文件加载失败 product=%s: %s", event.product_id, e)
 
         # 更新指标
         event_count = metrics.get("event_count", 0) + 1
@@ -918,7 +928,8 @@ class ManagerAgent:
 
         try:
             data = json.loads(custom_path.read_text(encoding="utf-8"))
-        except Exception:
+        except (json.JSONDecodeError, OSError) as e:
+            logger.error("自定义指标文件加载失败: %s", e)
             return
 
         metrics = data.get("metrics", [])
@@ -950,6 +961,25 @@ class ManagerAgent:
                             "created_at": event.created_at,
                         },
                     })
+                # 阈值超限 → 发布事件触发 Worker 调度（事件-指标-Worker闭环）
+                try:
+                    from app.core.event_bus import get_event_bus
+                    bus = get_event_bus()
+                    await bus.publish_raw({
+                        "type": "metric:threshold_exceeded",
+                        "source": "manager_agent",
+                        "data": {
+                            "metric_key": metric.get("key", ""),
+                            "metric_name": metric.get("name", ""),
+                            "current_value": current_value,
+                            "threshold_critical": threshold_critical,
+                            "severity": "critical",
+                        },
+                        "severity": "critical",
+                        "product_id": event.product_id,
+                    })
+                except Exception as e:
+                    logger.error("指标阈值事件发布失败: %s", e)
 
             elif threshold_warning and current_value >= threshold_warning:
                 if metric.get("notify_on_warning", True):
@@ -963,6 +993,25 @@ class ManagerAgent:
                             "created_at": event.created_at,
                         },
                     })
+                # 警告阈值超限 → 发布事件
+                try:
+                    from app.core.event_bus import get_event_bus
+                    bus = get_event_bus()
+                    await bus.publish_raw({
+                        "type": "metric:threshold_exceeded",
+                        "source": "manager_agent",
+                        "data": {
+                            "metric_key": metric.get("key", ""),
+                            "metric_name": metric.get("name", ""),
+                            "current_value": current_value,
+                            "threshold_warning": threshold_warning,
+                            "severity": "warning",
+                        },
+                        "severity": "medium",
+                        "product_id": event.product_id,
+                    })
+                except Exception as e:
+                    logger.error("指标阈值事件发布失败: %s", e)
 
         # 写回文件
         data["metrics"] = metrics
@@ -1032,7 +1081,8 @@ class ManagerAgent:
                 return current + float(event_data.get(field, 0))
 
             return current + 1
-        except Exception:
+        except Exception as e:
+            logger.error("指标公式求值失败 formula=%s: %s", formula, e)
             return current
 
 

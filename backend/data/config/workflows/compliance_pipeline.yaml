@@ -1,0 +1,38 @@
+# 合规检查流水线（全阶段通用）
+templates:
+  compliance_pipeline:
+    - task_type: event_perceive
+      description: 事件感知 — 接收并标准化事件
+      business_stage: 全阶段
+      required_skills: []
+      priority: 1
+    - task_type: rule_check
+      description: 规则检查 — RuleEngine执行规则匹配
+      business_stage: 全阶段
+      required_skills: []
+      priority: 1
+      depends_on_index: [0]
+    - task_type: rag_lookup
+      description: 法规检索 — RAG搜索相关法规知识
+      business_stage: 全阶段
+      required_skills: []
+      priority: 2
+      depends_on_index: [0]
+    - task_type: risk_assessment
+      description: 风险评估 — 计算风险等级
+      business_stage: 全阶段
+      required_skills: []
+      priority: 1
+      depends_on_index: [1, 2]
+    - task_type: recommend_actions
+      description: 推荐操作 — 生成结构化Action推荐
+      business_stage: 全阶段
+      required_skills: []
+      priority: 2
+      depends_on_index: [3]
+    - task_type: notify_user
+      description: 用户通知 — 多渠道推送结果
+      business_stage: 全阶段
+      required_skills: []
+      priority: 2
+      depends_on_index: [3]

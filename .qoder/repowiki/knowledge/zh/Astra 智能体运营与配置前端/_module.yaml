@@ -1,0 +1,9 @@
+schema_version: 1
+module_path: frontend
+title: Astra 智能体运营与配置前端
+scope:
+    - frontend/
+source_files: []
+depends_on: []
+related_to:
+    - path: backend

@@ -188,6 +188,16 @@ class SkillRegistry:
                     file_path = md_path
 
             name = builtin["name"]
+
+            # 构建 config: 包含 prompt / script / script_args（新旧技能共用）
+            skill_config = {}
+            if builtin.get("prompt"):
+                skill_config["prompt"] = builtin["prompt"]
+            if builtin.get("script"):
+                skill_config["script"] = builtin["script"]
+            if builtin.get("script_args"):
+                skill_config["script_args"] = builtin["script_args"]
+
             if name not in existing:
                 # 新技能: 创建并注册
                 skill = SkillInfo(
@@ -198,12 +208,22 @@ class SkillRegistry:
                     status=SkillStatus.installed,
                     business_stages=builtin["stages"],
                     file_path=file_path,
-                    config={"prompt": builtin["prompt"]} if builtin.get("prompt") else {},
+                    config=skill_config,
                 )
                 self._skills[skill.id] = skill
             elif file_path and not existing[name].file_path:
                 # 已存在但 file_path 为空: 更新之
                 existing[name].file_path = file_path
+
+            # 已存在技能: 补全 config 中缺失的 script/prompt 字段
+            if name in existing and existing[name].config is not None:
+                updated = False
+                for key in ("prompt", "script", "script_args"):
+                    if key in skill_config and key not in existing[name].config:
+                        existing[name].config[key] = skill_config[key]
+                        updated = True
+                if updated:
+                    existing[name].source = builtin.get("source", existing[name].source)
         self._persist()
 
     @staticmethod
@@ -501,19 +521,19 @@ class SkillExecutor:
 
         根据 skill_name 路由到对应的真实执行逻辑。
         支持:
-          - shopify系列: 通过 Shopify GraphQL API
-          - web-search / summarize / brandkit / skill-vetter: 内置逻辑
           - prompt 类型: 通过 AstraAssistant.run_task() 执行 prompt 模板
+          - script 类型: 通过 subprocess 执行独立脚本
+          - 其他: 返回配置提示（需迁移到 script/prompt 配置化路径）
         """
-        import asyncio
 
         # 先查注册表，判断 skill 类型
         skill_info = self.registry.get_skill_by_name(skill_name)
         if isinstance(skill_info, dict):
             source = skill_info.get("source", "")
-            prompt_name = ((skill_info.get("config", {}) or {})).get("prompt", "")
-            script = skill_info.get("script", "")
-            script_args = skill_info.get("script_args", [])
+            config = skill_info.get("config", {}) or {}
+            prompt_name = config.get("prompt", "")
+            script = config.get("script", "")
+            script_args = config.get("script_args", [])
         else:
             source = prompt_name = script = ""
             script_args = []
@@ -526,21 +546,13 @@ class SkillExecutor:
         if source == "script" and script:
             return await self._execute_script_skill(script, script_args, skill_name, args, timeout)
 
-        async def _inner():
-            if skill_name.startswith("shopify-"):
-                return await self._execute_shopify_skill(skill_name, args)
-            elif skill_name == "web-search":
-                return await self._execute_web_search(args)
-            elif skill_name == "summarize":
-                return await self._execute_summarize(args)
-            elif skill_name == "brandkit":
-                return await self._execute_brandkit(args)
-            elif skill_name == "skill-vetter":
-                return await self._execute_vetter(args)
-            else:
-                return {"message": f"Skill '{skill_name}' executed", "args": args}
-
-        return await asyncio.wait_for(_inner(), timeout=timeout)
+        # 兜底: 无 source 配置的 builtin Skill
+        return {
+            "skill": skill_name,
+            "status": "not_configured",
+            "message": f"Skill '{skill_name}' 未配置执行路径。请在 _registry.yaml 中设置 source: script 或 source: prompt。",
+            "args": args,
+        }
 
     async def _execute_script_skill(
         self,
@@ -555,6 +567,8 @@ class SkillExecutor:
         将 skill_info 中的 script_args 模板与调用参数绑定后，
         使用 subprocess.run([sys.executable, script_path, ...]) 执行。
         """
+        import asyncio
+
         script_path = SKILLS_DATA_DIR / script
         if not script_path.exists():
             return {
@@ -564,17 +578,25 @@ class SkillExecutor:
             }
 
         # 绑定模板参数: {key} → args["key"]
+        # 对 "--flag" "{value}" 配对处理：如果 value 未绑定则同时跳过 flag
         cmd = [sys.executable, str(script_path)]
-        for arg_tpl in script_args:
+        i = 0
+        while i < len(script_args):
+            arg_tpl = script_args[i]
             bound = arg_tpl
             for key, val in (args or {}).items():
                 placeholder = "{" + key + "}"
                 if placeholder in bound:
                     bound = bound.replace(placeholder, str(val))
             if "{" in bound or "}" in bound:
-                # 有未绑定的占位符，跳过该参数
+                # 有未绑定的占位符
+                if i > 0 and cmd[-1].startswith("-"):
+                    # 如果前一个是 flag，同时移除
+                    cmd.pop()
+                i += 1
                 continue
             cmd.append(bound)
+            i += 1
 
         try:
             loop = asyncio.get_event_loop()
@@ -587,6 +609,7 @@ class SkillExecutor:
                         text=True,
                         timeout=timeout // 1000 if timeout > 1000 else timeout,
                         encoding="utf-8",
+                        errors="replace",
                     ),
                 ),
                 timeout=timeout if timeout < 300 else 300,
@@ -645,354 +668,6 @@ class SkillExecutor:
                 "status": "error",
                 "error": str(e),
             }
-
-    async def _execute_web_search(self, args: Dict[str, Any]) -> Dict:
-        """真实 Web 搜索
-
-        优先使用配置的搜索 API（如 Tavily/SearXNG），
-        回退到 DuckDuckGo 零点击 API。
-        """
-        query = args.get("query", args.get("q", ""))
-        if not query:
-            return {"error": "未提供搜索关键词", "query": query, "results": []}
-
-        # 尝试使用配置的搜索引擎
-        import os
-        tavily_key = os.environ.get("TAVILY_API_KEY", "")
-        if tavily_key:
-            try:
-                import httpx
-                async with httpx.AsyncClient() as client:
-                    resp = await client.post(
-                        "https://api.tavily.com/search",
-                        json={"api_key": tavily_key, "query": query, "search_depth": "basic"},
-                        timeout=15,
-                    )
-                    if resp.status_code == 200:
-                        data = resp.json()
-                        return {"query": query, "results": data.get("results", []), "source": "tavily"}
-            except Exception:
-                pass
-
-        # 回退到 DuckDuckGo
-        try:
-            import httpx
-            from urllib.parse import quote
-            # DuckDuckGo 即时回答 API
-            ddg_url = f"https://api.duckduckgo.com/?q={quote(query)}&format=json&no_html=1&skip_disambig=1"
-            async with httpx.AsyncClient() as client:
-                resp = await client.get(ddg_url, timeout=10, follow_redirects=True)
-                data = resp.json()
-                results = []
-                # 解析 AbstractText
-                abstract = data.get("AbstractText", "")
-                if abstract:
-                    results.append({
-                        "title": data.get("Heading", "摘要"),
-                        "content": abstract,
-                        "url": data.get("AbstractURL", ""),
-                    })
-                # 解析 RelatedTopics
-                for topic in data.get("RelatedTopics", [])[:5]:
-                    if "Text" in topic:
-                        results.append({
-                            "title": topic.get("Text", "")[:80],
-                            "content": topic.get("Text", ""),
-                            "url": topic.get("FirstURL", ""),
-                        })
-                    elif "Topics" in topic:
-                        for sub in topic["Topics"][:3]:
-                            results.append({
-                                "title": sub.get("Text", "")[:80],
-                                "content": sub.get("Text", ""),
-                                "url": sub.get("FirstURL", ""),
-                            })
-                return {"query": query, "results": results, "source": "duckduckgo"}
-        except Exception as e:
-            return {"query": query, "results": [], "error": str(e), "source": "fallback"}
-
-    async def _execute_shopify_skill(self, skill_name: str, args: Dict[str, Any]) -> Dict:
-        """执行 Shopify 系列 Skill
-
-        从 OAuth 管理器获取已配置的 Shopify 凭证，
-        调用真实的 Admin GraphQL API。
-        """
-        from app.core.oauth_manager import get_oauth_manager
-        oauth = get_oauth_manager()
-        shopify_conns = oauth.list_connections(provider="shopify")
-        shopify_config = shopify_conns[0] if shopify_conns else None
-
-        if not shopify_config:
-            return {
-                "skill": skill_name,
-                "status": "config_required",
-                "message": "Shopify OAuth 凭证未配置。请在 配置中心 -> OAuth 页面配置 Shopify 集成后重试。",
-            }
-
-        shop_domain = shopify_config.get("shop_domain", "")
-        access_token = shopify_config.get("access_token", "")
-        if not shop_domain or not access_token:
-            return {
-                "skill": skill_name,
-                "status": "config_required",
-                "message": "Shopify 凭证不完整，需要 shop_domain 和 access_token。",
-            }
-
-        return await self._call_shopify_graphql(skill_name, args, shop_domain, access_token)
-
-    async def _call_shopify_graphql(self, skill_name: str, args: Dict, domain: str, token: str) -> Dict:
-        """调用 Shopify Admin GraphQL API"""
-        import httpx
-
-        # 按 Skill 类型构建 GraphQL 查询
-        query_map = {
-            "shopify-admin": """{
-  products(first: 10) {
-    edges { node { id title handle status } }
-  }
-}""",
-            "shopify-customer": """{
-  customers(first: 10) {
-    edges { node { id email displayName } }
-  }
-}""",
-            "shopify-custom-data": """{
-  metaobjects(first: 10) { edges { node { id type } } }
-}""",
-            "shopify-payments-apps": """{
-  shop { name email } paymentsApps { name }
-}""",
-            "shopify-functions": """{
-  shop { name }
-}""",
-            "shopify-storefront-graphql": """{
-  shop { name } products(first: 5) { edges { node { id title } } }
-}""",
-        }
-        query = query_map.get(skill_name, "{ shop { name } }")[:2000]
-
-        api_version = args.get("api_version", "2024-10")
-        endpoint = f"https://{domain}/admin/api/{api_version}/graphql.json"
-
-        try:
-            async with httpx.AsyncClient() as client:
-                resp = await client.post(
-                    endpoint,
-                    headers={
-                        "X-Shopify-Access-Token": token,
-                        "Content-Type": "application/json",
-                    },
-                    json={"query": query},
-                    timeout=15,
-                )
-                data = resp.json()
-
-                if "errors" in data:
-                    return {
-                        "skill": skill_name,
-                        "status": "api_error",
-                        "error": data["errors"][0].get("message", str(data["errors"])),
-                    }
-
-                return {
-                    "skill": skill_name,
-                    "status": "success",
-                    "shop": domain,
-                    "data": data.get("data", {}),
-                }
-        except httpx.TimeoutException:
-            return {"skill": skill_name, "status": "timeout", "error": f"Shopify API 请求超时 ({endpoint})"}
-        except Exception as e:
-            return {"skill": skill_name, "status": "error", "error": str(e)}
-
-    async def _execute_summarize(self, args: Dict[str, Any]) -> Dict:
-        """URL 内容摘要"""
-        url = args.get("url", "")
-        text = args.get("text", "")
-
-        if not url and not text:
-            return {"error": "请提供 url 或 text 参数"}
-
-        if url:
-            try:
-                import httpx
-                from urllib.parse import urlparse
-                parsed = urlparse(url)
-                if not parsed.scheme:
-                    url = "https://" + url
-
-                async with httpx.AsyncClient() as client:
-                    resp = await client.get(url, timeout=15, follow_redirects=True)
-                    content_type = resp.headers.get("content-type", "")
-                    body = resp.text
-
-                    # HTML 提取纯文本
-                    if "text/html" in content_type:
-                        import re
-                        body = re.sub(r"<[^>]+>", " ", body)
-                        body = re.sub(r"\s+", " ", body).strip()
-
-                    summary = body[:2000] if len(body) > 2000 else body
-                    return {
-                        "url": url,
-                        "status": "success",
-                        "content_length": len(body),
-                        "summary": summary[:500] + "..." if len(summary) > 500 else summary,
-                    }
-            except Exception as e:
-                return {"url": url, "status": "error", "error": str(e)}
-
-        return {"status": "success", "summary": text[:500]}
-
-    async def _execute_brandkit(self, args: Dict[str, Any]) -> Dict:
-        """品牌工具包 — 基于品牌名称哈希生成定制化品牌指南"""
-        brand_type = args.get("type", "report")
-        name = args.get("name", args.get("brand", "未命名"))
-
-        # 从品牌名称哈希生成确定性色板
-        import hashlib
-        seed = int(hashlib.md5(name.encode("utf-8")).hexdigest()[:8], 16)
-
-        def _hue_offset(idx: int) -> str:
-            # 生成6位HSL色值
-            h = (seed + idx * 47) % 360
-            s = 50 + (seed + idx) % 30  # 50-79%
-            l = 35 + (seed * 3 + idx * 11) % 25  # 35-59%
-            return f"hsl({h},{s}%,{l}%)"
-
-        palette = {
-            "primary": _hue_offset(0),
-            "secondary": _hue_offset(1),
-            "accent": _hue_offset(2),
-            "neutral": _hue_offset(3),
-            "background": f"hsl({(seed + 180) % 360},10%,96%)",
-        }
-
-        # 根据品牌类型推荐字体
-        type_fonts = {
-            "tech":      ["Inter", "SF Pro Display", "JetBrains Mono"],
-            "retail":    ["Noto Sans SC", "Playfair Display", "DM Sans"],
-            "logistics": ["IBM Plex Sans", "Space Grotesk", "Roboto Mono"],
-            "finance":   ["Source Sans 3", "Merriweather", "Fira Code"],
-            "report":    ["Noto Sans SC", "Noto Serif SC", "JetBrains Mono"],
-        }
-        typography = type_fonts.get(brand_type, type_fonts["report"])
-
-        suggestions = [
-            f"基于{_hue_offset(0)}主色构建品牌色板系统",
-            "输出品牌Logo在不同背景下的适配方案",
-            "准备品牌图标库（24px/32px/48px三档）",
-            f"输出{name}的字体排版规范（标题/正文/代码）",
-            "制作品牌展示板（Brand Guidelines Board）",
-        ]
-        if brand_type in ("tech", "finance"):
-            suggestions.append("输出暗色模式品牌适配指南")
-
-        return {
-            "type": brand_type,
-            "brand": name,
-            "status": "generated",
-            "palette": palette,
-            "typography": typography,
-            "suggestions": suggestions,
-            "seed_hash": hex(seed)[:10],
-        }
-
-    async def _execute_vetter(self, args: Dict[str, Any]) -> Dict:
-        """Skill 安全审查 — 检查 SKILL.md 源码中是否存在高危模式"""
-        target = args.get("skill_name", "")
-        source = args.get("source_url", args.get("source", ""))
-
-        checks = []
-        content_found = True
-        raw_content = ""
-
-        # 尝试读取 SKILL.md 文件
-        skill_path = Path(".agents/skills") / target if target else None
-        if skill_path and skill_path.exists():
-            raw_content = skill_path.read_text(encoding="utf-8", errors="replace")
-        elif skill_path and (skill_path / "SKILL.md").exists():
-            raw_content = (skill_path / "SKILL.md").read_text(encoding="utf-8", errors="replace")
-        else:
-            # 尝试在项目根目录搜索
-            candidates = list(Path(".").rglob(f"**/{target}/SKILL.md")) if target else []
-            if candidates:
-                raw_content = candidates[0].read_text(encoding="utf-8", errors="replace")
-            else:
-                content_found = False
-
-        DANGEROUS_PATTERNS = [
-            ("eval/exec", r"\b(eval|exec)\s*\(", "危险代码执行"),
-            ("subprocess", r"\b(subprocess\.(call|Popen|run)|os\.system|os\.popen)\b", "系统命令执行"),
-            ("file_write", r"\bopen\s*\(.*['\"][rwab]\+?['\"]\)", "文件写入操作"),
-            ("network_req", r"\b(requests\.(get|post|put|delete)|httpx\.|urllib\.request|aiohttp\.ClientSession)\b", "外部网络请求"),
-            ("env_read", r"\bos\.environ\b|\bgetenv\b", "环境变量读取"),
-            ("tempfile", r"\btempfile\.|\bmkdtemp\b", "临时文件创建"),
-            ("base64_decode", r"\bbase64\.(b64decode|urlsafe_b64decode)\b", "Base64解码"),
-            ("pickle_load", r"\bpickle\.(load|loads|Unpickler)\b", "不安全反序列化"),
-            ("sql_inject", r"\bexecute\(?\s*['\"]\s*(SELECT|INSERT|UPDATE|DELETE|DROP|ALTER)", "SQL语句执行"),
-            ("shell_escape", r"\bshlex\.quote\b", "Shell转义处理"),
-        ]
-
-        if content_found and raw_content:
-            import re
-            found_issues = []
-            for check_id, pattern, description in DANGEROUS_PATTERNS:
-                matches = re.findall(pattern, raw_content, re.IGNORECASE)
-                if matches:
-                    status = "warn" if check_id in ("eval/exec", "subprocess", "pickle_load") else "info"
-                    found_issues.append({
-                        "check": description,
-                        "status": status,
-                        "detail": f"发现 {len(matches)} 处匹配",
-                    })
-                else:
-                    found_issues.append({
-                        "check": description,
-                        "status": "pass",
-                    })
-            checks = found_issues
-        else:
-            # 未找到实际内容时，基于参数做静态推断
-            checks = [
-                {"check": "权限声明", "status": "warn" if not target else "pass"},
-                {"check": "外部网络请求", "status": "warn" if source else "info", "detail": f"来源: {source}" if source else ""},
-                {"check": "文件系统访问", "status": "info"},
-                {"check": "环境变量读取", "status": "info"},
-                {"check": "危险代码模式", "status": "info"},
-            ]
-
-        if source:
-            checks.append({"check": "来源可信度", "status": "info", "detail": source})
-
-        # 计算综合风险
-        warn_count = sum(1 for c in checks if c["status"] == "warn")
-        if warn_count >= 2:
-            risk_level = "high"
-            approved = False
-            summary = f"技能 '{target}' 发现 {warn_count} 个高危模式，建议暂停安装并人工审查"
-        elif warn_count == 1:
-            risk_level = "medium"
-            approved = False
-            summary = f"技能 '{target}' 存在 {warn_count} 个潜在风险，建议人工确认后再安装"
-        elif "unknown" in source.lower() or "unverified" in source.lower():
-            risk_level = "medium"
-            approved = False
-            summary = f"技能 '{target}' 来源未经验证，建议人工审核后再安装"
-        else:
-            risk_level = "low"
-            approved = True
-            summary = f"技能 '{target}' 安全审查通过，风险等级：低"
-
-        return {
-            "skill": target or "unknown",
-            "status": "reviewed",
-            "approved": approved,
-            "risk_level": risk_level,
-            "checks": checks,
-            "summary": summary,
-            "content_scanned": content_found and bool(raw_content),
-        }
 
     def _update_skill_stats(self, skill_id: str, success: bool, duration_ms: int):
         """更新Skill执行统计"""

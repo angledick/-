@@ -253,9 +253,2067 @@
       "severity": "medium",
       "error": null,
       "created_at": "2026-06-08T08:12:32.026399+00:00"
+    },
+    {
+      "id": "b9537f17de24",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:04:00.359009+00:00"
+    },
+    {
+      "id": "a1935929e23d",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:04:05.897150+00:00"
+    },
+    {
+      "id": "228034fc3fcd",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:04:45.202988+00:00"
+    },
+    {
+      "id": "e15e68f7a9f7",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:04:50.235229+00:00"
+    },
+    {
+      "id": "998ead17012f",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:06:32.289687+00:00"
+    },
+    {
+      "id": "93e39dd7393d",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:06:38.356348+00:00"
+    },
+    {
+      "id": "ff6cfc079de8",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:07:37.906270+00:00"
+    },
+    {
+      "id": "fb460ecca99d",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:07:45.025655+00:00"
+    },
+    {
+      "id": "d46280facc87",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:09:04.017718+00:00"
+    },
+    {
+      "id": "ac1c26f49033",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:09:08.819870+00:00"
+    },
+    {
+      "id": "a278161b53ac",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:09:26.555143+00:00"
+    },
+    {
+      "id": "972bbc93da59",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:09:31.331643+00:00"
+    },
+    {
+      "id": "159f6dad9a55",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:09:58.397835+00:00"
+    },
+    {
+      "id": "cb747f2b69a0",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:10:05.238365+00:00"
+    },
+    {
+      "id": "37a525ee30e1",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:10:44.996015+00:00"
+    },
+    {
+      "id": "5ec04142f474",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:10:49.627668+00:00"
+    },
+    {
+      "id": "40a21857174c",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:11:22.915385+00:00"
+    },
+    {
+      "id": "176685aa58bb",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:11:29.639544+00:00"
+    },
+    {
+      "id": "6b91cd6c11f1",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:12:02.565044+00:00"
+    },
+    {
+      "id": "409ce463ee27",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:12:06.725940+00:00"
+    },
+    {
+      "id": "4da1bb7241bf",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:13:05.098485+00:00"
+    },
+    {
+      "id": "4bbf6066a92e",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:13:11.400046+00:00"
+    },
+    {
+      "id": "033386b5cd6a",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:14:12.375207+00:00"
+    },
+    {
+      "id": "6e59bba39c1b",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:14:24.939412+00:00"
+    },
+    {
+      "id": "bcd732f6dac9",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:14:32.714214+00:00"
+    },
+    {
+      "id": "a888a44cd109",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:14:41.312313+00:00"
+    },
+    {
+      "id": "df092d997d4e",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:15:40.695213+00:00"
+    },
+    {
+      "id": "837ce996d7cb",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:15:45.952054+00:00"
+    },
+    {
+      "id": "0018c6b469d3",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:16:13.870106+00:00"
+    },
+    {
+      "id": "2497478a263a",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:16:17.339426+00:00"
+    },
+    {
+      "id": "9bbe21c14f02",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:17:56.244659+00:00"
+    },
+    {
+      "id": "868f5f5fb4fe",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:18:01.373047+00:00"
+    },
+    {
+      "id": "567d34605608",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:18:52.807694+00:00"
+    },
+    {
+      "id": "d52c66216891",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:18:58.609176+00:00"
+    },
+    {
+      "id": "0dbe98728b1d",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:29:48.400523+00:00"
+    },
+    {
+      "id": "0d3cdb25dc85",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:29:53.024109+00:00"
+    },
+    {
+      "id": "56dd4cd22885",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:30:36.686920+00:00"
+    },
+    {
+      "id": "a112ddb47571",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:30:41.106004+00:00"
+    },
+    {
+      "id": "005de8beb47c",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:32:51.419221+00:00"
+    },
+    {
+      "id": "ee289ae5efeb",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:32:57.102960+00:00"
+    },
+    {
+      "id": "6f7742b7fe99",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:33:19.137104+00:00"
+    },
+    {
+      "id": "eb2f55141cfe",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:33:24.888090+00:00"
+    },
+    {
+      "id": "189608656782",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:33:40.528350+00:00"
+    },
+    {
+      "id": "dea4fa2d1a75",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:33:47.340747+00:00"
+    },
+    {
+      "id": "dc210890a396",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:33:58.856624+00:00"
+    },
+    {
+      "id": "3e7b807353e1",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:34:05.192348+00:00"
+    },
+    {
+      "id": "81120752dfa3",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:36:23.016804+00:00"
+    },
+    {
+      "id": "227f363d1c20",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:36:32.003457+00:00"
+    },
+    {
+      "id": "966da4913172",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:36:42.870721+00:00"
+    },
+    {
+      "id": "14b59b40a98c",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:36:49.230392+00:00"
+    },
+    {
+      "id": "f0d75c3e5f80",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:37:07.397471+00:00"
+    },
+    {
+      "id": "975aa126b041",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:37:16.299168+00:00"
+    },
+    {
+      "id": "b96b033e51f9",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:37:37.173038+00:00"
+    },
+    {
+      "id": "82d32de3ac6e",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:37:41.927415+00:00"
+    },
+    {
+      "id": "df0d77efc7c4",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:37:58.381686+00:00"
+    },
+    {
+      "id": "e0e56f43905f",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:38:03.872837+00:00"
+    },
+    {
+      "id": "9242798f472f",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:38:26.129804+00:00"
+    },
+    {
+      "id": "a3aeb68d5cb6",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:38:33.066096+00:00"
+    },
+    {
+      "id": "09888e9fe691",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:38:57.022056+00:00"
+    },
+    {
+      "id": "2e8e7dfc05d6",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:39:11.548668+00:00"
+    },
+    {
+      "id": "a9861345d560",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:39:25.677312+00:00"
+    },
+    {
+      "id": "e0d83df51e0e",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:39:33.848510+00:00"
+    },
+    {
+      "id": "798175b6446d",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:39:39.219490+00:00"
+    },
+    {
+      "id": "b0d5dc22d8a8",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:39:48.433500+00:00"
+    },
+    {
+      "id": "4f0f9941a980",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:40:11.937594+00:00"
+    },
+    {
+      "id": "67181098e0f9",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:40:21.728032+00:00"
+    },
+    {
+      "id": "fdd67064a3c5",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:40:37.173701+00:00"
+    },
+    {
+      "id": "b2e198f77d85",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:40:51.358402+00:00"
+    },
+    {
+      "id": "6612812ca5f2",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:41:14.927822+00:00"
+    },
+    {
+      "id": "1de4e035259d",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:41:23.651156+00:00"
+    },
+    {
+      "id": "d34b33324270",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:41:30.734613+00:00"
+    },
+    {
+      "id": "e11b9c5fc5b7",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:41:40.332431+00:00"
+    },
+    {
+      "id": "80c06530674f",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:41:48.984310+00:00"
+    },
+    {
+      "id": "03993ba4871e",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-10T01:41:58.996306+00:00"
+    },
+    {
+      "id": "144a8a4739bc",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-11T10:04:27.101356+00:00"
+    },
+    {
+      "id": "3f8aff0c84da",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-11T10:04:31.400348+00:00"
+    },
+    {
+      "id": "fa2183344561",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-11T10:18:02.471346+00:00"
+    },
+    {
+      "id": "1253adab7810",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-11T10:18:06.803133+00:00"
+    },
+    {
+      "id": "3cd81d5cd623",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T04:08:55.510517+00:00"
+    },
+    {
+      "id": "fdbb7eb59f4c",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T04:08:59.696678+00:00"
+    },
+    {
+      "id": "5be57b81fc8f",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T04:12:03.612305+00:00"
+    },
+    {
+      "id": "a3219bf320a1",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T04:12:08.734141+00:00"
+    },
+    {
+      "id": "71b766701bb1",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T04:21:34.663226+00:00"
+    },
+    {
+      "id": "62724f45da42",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T04:22:03.796134+00:00"
+    },
+    {
+      "id": "93680624e1c1",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T04:23:57.409302+00:00"
+    },
+    {
+      "id": "b73bf205d9b2",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T04:24:17.439946+00:00"
+    },
+    {
+      "id": "1cb9a9063701",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T04:25:52.248410+00:00"
+    },
+    {
+      "id": "87b676532559",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T04:30:16.191687+00:00"
+    },
+    {
+      "id": "f8f6b836848e",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T06:41:02.052541+00:00"
+    },
+    {
+      "id": "a60aa1c41379",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T06:42:20.423145+00:00"
+    },
+    {
+      "id": "6ea200555158",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T06:44:47.468735+00:00"
+    },
+    {
+      "id": "24632bec1f7f",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T06:45:20.824541+00:00"
+    },
+    {
+      "id": "91d897829391",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T06:50:31.031023+00:00"
+    },
+    {
+      "id": "614556283c2a",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T06:52:31.256756+00:00"
+    },
+    {
+      "id": "c318c9eda082",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T09:02:12.959092+00:00"
+    },
+    {
+      "id": "23ab6a04a869",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": null,
+      "data": {
+        "new_stage": "end",
+        "reason": "产品退市,库存已清空,财务结算完成"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T09:03:18.441105+00:00"
+    },
+    {
+      "id": "67dedbe356fb",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T09:04:10.994657+00:00"
+    },
+    {
+      "id": "23a1b4debbe4",
+      "type": "compliance:pipeline_completed",
+      "category": "compliance",
+      "source": "compliance_flow",
+      "product_id": "p_LED灯_5f55acfd",
+      "business_stage": "阶段10",
+      "data": {
+        "status": "awaiting_interaction",
+        "pipeline_mode": "6step",
+        "risk_level": "low",
+        "recommendations_count": 1
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-12T09:05:35.311294+00:00"
     }
   ],
   "timeline": [
+    "🟡 [Medium] 2026-06-12T09:05:35 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-12T09:04:10 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-12T09:03:18 product:status_changed",
+    "🟡 [Medium] 2026-06-12T09:02:12 product:status_changed",
+    "🟡 [Medium] 2026-06-12T06:52:31 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-12T06:50:31 product:status_changed",
+    "🟡 [Medium] 2026-06-12T06:45:20 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-12T06:44:47 product:status_changed",
+    "🟡 [Medium] 2026-06-12T06:42:20 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-12T06:41:02 product:status_changed",
+    "🟡 [Medium] 2026-06-12T04:30:16 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-12T04:25:52 product:status_changed",
+    "🟡 [Medium] 2026-06-12T04:24:17 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-12T04:23:57 product:status_changed",
+    "🟡 [Medium] 2026-06-12T04:22:03 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-12T04:21:34 product:status_changed",
+    "🟡 [Medium] 2026-06-12T04:12:08 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-12T04:12:03 product:status_changed",
+    "🟡 [Medium] 2026-06-12T04:08:59 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-12T04:08:55 product:status_changed",
+    "🟡 [Medium] 2026-06-11T10:18:06 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-11T10:18:02 product:status_changed",
+    "🟡 [Medium] 2026-06-11T10:04:31 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-11T10:04:27 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:41:58 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:41:48 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:41:40 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:41:30 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:41:23 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:41:14 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:40:51 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:40:37 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:40:21 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:40:11 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:39:48 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:39:39 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:39:33 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:39:25 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:39:11 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:38:57 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:38:33 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:38:26 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:38:03 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:37:58 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:37:41 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:37:37 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:37:16 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:37:07 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:36:49 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:36:42 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:36:32 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:36:23 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:34:05 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:33:58 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:33:47 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:33:40 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:33:24 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:33:19 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:32:57 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:32:51 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:30:41 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:30:36 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:29:53 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:29:48 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:18:58 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:18:52 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:18:01 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:17:56 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:16:17 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:16:13 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:15:45 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:15:40 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:14:41 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:14:32 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:14:24 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:14:12 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:13:11 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:13:05 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:12:06 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:12:02 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:11:29 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:11:22 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:10:49 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:10:44 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:10:05 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:09:58 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:09:31 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:09:26 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:09:08 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:09:04 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:07:45 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:07:37 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:06:38 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:06:32 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:04:50 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:04:45 product:status_changed",
+    "🟡 [Medium] 2026-06-10T01:04:05 compliance:pipeline_completed",
+    "🟡 [Medium] 2026-06-10T01:04:00 product:status_changed",
     "🟡 [Medium] 2026-06-08T08:12:32 compliance:pipeline_completed",
     "🟡 [Medium] 2026-06-08T08:12:28 product:status_changed",
     "🟡 [Medium] 2026-06-08T08:11:38 compliance:pipeline_completed",
@@ -270,5 +2328,5 @@
     "🟡 [Medium] 2026-06-08T08:09:42 product:status_changed",
     "🟢 [Low] 2026-06-08T08:09:37 product:created"
   ],
-  "total_events": 13
+  "total_events": 111
 }

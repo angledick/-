@@ -1,17 +1,17 @@
 """合规工具定义 — 基于 Claude Agent SDK @tool 装饰器。
 
 每个工具注册为 MCP 工具，通过 create_sdk_mcp_server() 提供给 Claude Agent SDK。
-工具内部调用 rule_engine 函数，使用 L0 数据（通过 registry.raw）。
+工具内部调用 compliance_rules 函数，使用 L0 数据（通过 registry.raw）。
 
 数据流转:
-  - Claude Agent SDK → MCP 协议 → in-process MCP Server → 工具函数 → rule_engine
+  - Claude Agent SDK → MCP 协议 → in-process MCP Server → 工具函数 → compliance_rules
   - 所有工具同步执行，由 SDK 自动管理
 """
 
 import json
 from typing import Any
 
-from app.core.rule_engine import (
+from app.core.compliance_rules import (
     lookup_hs,
     lookup_vat,
     get_certifications,
@@ -21,7 +21,7 @@ from app.core.rule_engine import (
     get_cultural_notes,
     check_compliance,
 )
-from app.core.rag import retrieve_context
+from app.knowledge.store import retrieve_context
 
 # 延迟导入 claude_agent_sdk（允许在不安装 SDK 时降级）
 _tool = None

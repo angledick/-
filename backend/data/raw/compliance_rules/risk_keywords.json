@@ -1,0 +1,18 @@
+{
+  "high_risk_keywords": ["医疗", "电池", "锂", "食品", "药品", "化妆品"],
+  "high_risk_message": "⚠️ 「{product}」属高合规风险品类，建议额外进行安全检测",
+  "country_risks": {
+    "EU": {
+      "countries": ["德国", "法国", "意大利", "西班牙", "荷兰", "比利时"],
+      "message": "⚠️ 欧盟GPSR通用产品安全法规(2024年12月生效)正在替换原GPSD，请提前准备"
+    },
+    "英国": {
+      "message": "⚠️ 英国脱欧后UKCA认证与CE认证不互认，需单独申请"
+    },
+    "美国": {
+      "message": "⚠️ 美国各州Sales Tax税率不同，建议按州独立核算"
+    }
+  },
+  "battery_keywords": ["电池", "锂"],
+  "battery_message": "⚠️ 含锂电池产品需额外提供MSDS和UN38.3检测报告"
+}

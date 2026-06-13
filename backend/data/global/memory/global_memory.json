@@ -2,7 +2,7 @@
   "shared_context": {
     "system_health": {
       "status": "degraded",
-      "last_check": "2026-06-03T04:31:47.811801+00:00",
+      "last_check": "2026-06-12T09:03:16.310736+00:00",
       "components": {
         "event_bus": "healthy",
         "product_storage": "healthy",
@@ -12,9 +12,9 @@
       }
     }
   },
-  "last_updated": "2026-06-03T04:31:47.837034+00:00",
+  "last_updated": "2026-06-12T09:03:16.443102+00:00",
   "cross_product_insights": {
     "common_risks": [],
-    "generated_at": "2026-06-03T02:04:00.638294+00:00"
+    "generated_at": "2026-06-08T06:18:10.438024+00:00"
   }
 }

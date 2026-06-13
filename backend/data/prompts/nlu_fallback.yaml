@@ -1,5 +1,5 @@
-# NLU 兜底 — 意图解析 prompt
-# 修改此文件可调整 NLU 解析策略，无需改代码
+# 意图解析兜底 prompt — NLU 已内联至 chat_stream.py
+# 修改此文件可调整意图解析策略，无需改代码（配置路径: data/config/nlu_mappings.yaml）
 system_prompt: |
   你是一个出口合规意图解析器。分析用户消息，提取结构化信息。
 

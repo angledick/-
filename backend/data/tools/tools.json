@@ -10,8 +10,8 @@
         "pipeline_mode": "6step",
         "auto_notify": true
       },
-      "enabled": false,
-      "updated_at": "2026-06-08T08:12:24.776013+00:00"
+      "enabled": true,
+      "updated_at": "2026-06-12T09:01:32.510936+00:00"
     },
     {
       "id": "tool_hs_lookup",
@@ -88,6 +88,496 @@
       "config": {},
       "enabled": true,
       "created_at": "2026-06-08T08:12:24.766431+00:00"
+    },
+    {
+      "id": "tool_a27d488e",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:03:51.297685+00:00"
+    },
+    {
+      "id": "tool_c225ef81",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:04:35.752006+00:00"
+    },
+    {
+      "id": "tool_9e96a1b8",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:06:24.427198+00:00"
+    },
+    {
+      "id": "tool_e99a280b",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:07:30.301574+00:00"
+    },
+    {
+      "id": "tool_93ebd48f",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:08:58.928314+00:00"
+    },
+    {
+      "id": "tool_8868db72",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:09:21.500899+00:00"
+    },
+    {
+      "id": "tool_4fe332a7",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:09:47.662660+00:00"
+    },
+    {
+      "id": "tool_6beefa7a",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:10:39.660385+00:00"
+    },
+    {
+      "id": "tool_10410ec1",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:11:10.631251+00:00"
+    },
+    {
+      "id": "tool_5542e972",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:11:57.236714+00:00"
+    },
+    {
+      "id": "tool_71b8bbaa",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:12:56.830584+00:00"
+    },
+    {
+      "id": "tool_ed683da1",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:14:00.082918+00:00"
+    },
+    {
+      "id": "tool_0bc8bb82",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:14:21.111200+00:00"
+    },
+    {
+      "id": "tool_7ed9a44f",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:15:33.182989+00:00"
+    },
+    {
+      "id": "tool_e199c46f",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:16:09.029207+00:00"
+    },
+    {
+      "id": "tool_63519250",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:17:50.438872+00:00"
+    },
+    {
+      "id": "tool_fa8b617b",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:18:46.728473+00:00"
+    },
+    {
+      "id": "tool_f687d559",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:29:38.884528+00:00"
+    },
+    {
+      "id": "tool_b6d942e4",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:30:30.332806+00:00"
+    },
+    {
+      "id": "tool_301ac030",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:32:43.147756+00:00"
+    },
+    {
+      "id": "tool_7a9b045d",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:33:09.662091+00:00"
+    },
+    {
+      "id": "tool_52ef6a74",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:33:33.067234+00:00"
+    },
+    {
+      "id": "tool_d59e13a8",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:33:49.140616+00:00"
+    },
+    {
+      "id": "tool_3f2dbef1",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:36:12.357457+00:00"
+    },
+    {
+      "id": "tool_f7f67adc",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:36:35.645862+00:00"
+    },
+    {
+      "id": "tool_d7da3db7",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:36:58.432971+00:00"
+    },
+    {
+      "id": "tool_d2616b4a",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:37:28.427935+00:00"
+    },
+    {
+      "id": "tool_9fff0933",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:37:51.284510+00:00"
+    },
+    {
+      "id": "tool_f0e906ae",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:38:14.387636+00:00"
+    },
+    {
+      "id": "tool_4e3835e2",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:38:42.971310+00:00"
+    },
+    {
+      "id": "tool_aac97bec",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:39:12.296549+00:00"
+    },
+    {
+      "id": "tool_7982b3bc",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:39:28.648669+00:00"
+    },
+    {
+      "id": "tool_420e0c47",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:39:57.852745+00:00"
+    },
+    {
+      "id": "tool_af4651dc",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:40:20.523966+00:00"
+    },
+    {
+      "id": "tool_efaaeb70",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:41:00.864750+00:00"
+    },
+    {
+      "id": "tool_384c51cf",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:41:19.439546+00:00"
+    },
+    {
+      "id": "tool_7e3c5556",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-10T01:41:37.688778+00:00"
+    },
+    {
+      "id": "tool_966c5aa3",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-11T10:04:18.268101+00:00"
+    },
+    {
+      "id": "tool_6bdf81cc",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-11T10:17:56.880932+00:00"
+    },
+    {
+      "id": "tool_62a8cc43",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-12T04:08:49.750467+00:00"
+    },
+    {
+      "id": "tool_c8cbb203",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-12T04:11:57.737896+00:00"
+    },
+    {
+      "id": "tool_1eaca337",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-12T04:21:29.255199+00:00"
+    },
+    {
+      "id": "tool_b0b6cd00",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-12T04:23:50.661646+00:00"
+    },
+    {
+      "id": "tool_41369ef1",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-12T04:25:46.914716+00:00"
+    },
+    {
+      "id": "tool_68e884ed",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-12T06:40:55.954312+00:00"
+    },
+    {
+      "id": "tool_846f7671",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-12T06:44:40.987195+00:00"
+    },
+    {
+      "id": "tool_0a9ccfa3",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-12T06:48:55.787286+00:00"
+    },
+    {
+      "id": "tool_63087066",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-12T09:00:26.121908+00:00"
+    },
+    {
+      "id": "tool_ecb23c20",
+      "name": "test_compliance_tool",
+      "description": "测试合规检查工具",
+      "tool_type": "custom",
+      "category": "compliance",
+      "config": {},
+      "enabled": true,
+      "created_at": "2026-06-12T09:01:32.499927+00:00"
     }
   ]
 }

@@ -76,7 +76,7 @@
 │  │                                                          │    │
 │  │  EventBus  WorkerRegistry  SkillRegistry  ModelRouter    │    │
 │  │  QAAgent  ManagerAgent  OAuthManager  RBAC              │    │
-│  │  ProactiveEngine  AutoPullEngine  RuleEngine             │    │
+│  │  ProactiveEngine  AutoPullEngine  ComplianceRules       │    │
 │  └────────────────────────┬─────────────────────────────────┘   │
 │                           ▼                                     │
 │  ┌─────────────────────────────────────────────────────────┐    │

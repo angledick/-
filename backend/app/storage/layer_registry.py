@@ -5,7 +5,7 @@
 新增存储层时，在此注册即可。
 
 数据流转规则（详见 data/数据流转.md）：
-  L0 (Raw)      → RuleEngine 读取，用于确定性合规检查
+  L0 (Raw)      → ComplianceRules 读取，用于确定性合规检查
   L1 (Knowledge) → RAG 检索，用于开放问答和法规引用
   L2 (Project)  → 合规报告写入/读取，产品历史追溯
   L3 (User)     → AstraAssistant/NLU 读取用户偏好，个性化回复

@@ -1,0 +1,26 @@
+# 法规变更影响分析
+templates:
+  regulation_change_analysis:
+    - task_type: change_identify
+      description: 识别法规变更内容和范围
+      business_stage: 全阶段
+      required_skills: []
+      priority: 1
+    - task_type: affected_products
+      description: 匹配受影响的在售产品
+      business_stage: 全阶段
+      required_skills: [shopify-admin]
+      priority: 1
+      depends_on_index: [0]
+    - task_type: impact_report
+      description: 生成影响评估报告
+      business_stage: 全阶段
+      required_skills: []
+      priority: 2
+      depends_on_index: [0, 1]
+    - task_type: recheck_compliance
+      description: 触发受影响产品合规重检
+      business_stage: 全阶段
+      required_skills: []
+      priority: 1
+      depends_on_index: [1]

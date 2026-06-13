@@ -23,6 +23,7 @@ import re
 import uuid
 import asyncio
 import yaml
+import logging
 from pathlib import Path
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any, Callable, Awaitable
@@ -33,6 +34,8 @@ from app.models.schemas import (
     EventRecord, EventCategory, DataSourceInfo,
     EventDefinition, SubscriptionFilter
 )
+
+logger = logging.getLogger(__name__)
 
 # ── 存储目录 ──
 DATA_DIR = Path(settings.data_dir)
@@ -58,6 +61,7 @@ class EventStandardizer:
         "regulation:": EventCategory.regulation,
         "market:": EventCategory.regulation,
         "risk:": EventCategory.risk_alert,
+        "metric:": EventCategory.risk_alert,
         "system:": EventCategory.system,
         "sync:": EventCategory.system,
         "user:": EventCategory.user_action,
@@ -126,7 +130,7 @@ class GlobalEventBus:
         # 发布事件
         await bus.publish(EventRecord(
             type="compliance:check_passed",
-            source="rule_engine",
+            source="compliance_rules",
             product_id="p_led_de_001",
             data={"risk_level": "low"}
         ))
@@ -329,8 +333,8 @@ class GlobalEventBus:
                 existing = remaining
 
             bus_file.write_text(json.dumps(existing, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
-        except Exception:
-            pass  # 持久化失败不影响事件分发
+        except Exception as e:
+            logger.warning("全局事件持久化失败: %s", e)
 
     async def _persist_product_event(self, event: EventRecord):
         """持久化到产品级事件链"""
@@ -370,8 +374,8 @@ class GlobalEventBus:
                 chain_data["timeline"] = chain_data["timeline"][:500]
 
             chain_file.write_text(json.dumps(chain_data, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
-        except Exception:
-            pass
+        except Exception as e:
+            logger.warning("产品事件持久化失败 product=%s: %s", event.product_id, e)
 
     # ── 内部方法: 分发 ──────────────────────────────
 
@@ -388,8 +392,8 @@ class GlobalEventBus:
         for handler in handlers_to_call:
             try:
                 await handler(event)
-            except Exception:
-                pass  # 处理器异常不影响其他处理器
+            except Exception as e:
+                logger.warning("事件处理器执行失败: event=%s handler=%s err=%s", event.type, getattr(handler, '__name__', repr(handler)), e)
 
     async def _dispatch_to_subscribers(self, event: EventRecord):
         """分发事件到匹配的订阅者
@@ -441,7 +445,8 @@ class GlobalEventBus:
                             event_dict, ensure_ascii=False, default=str
                         ))
 
-                except Exception:
+                except Exception as e:
+                    logger.warning("订阅分发失败: channel=%s subscriber=%s err=%s", channel, subscriber, e)
                     continue  # 单通道失败不影响其他通道
 
     def _matches_subscription(self, event: EventRecord, sub: Dict) -> bool:

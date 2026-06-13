@@ -1,0 +1,26 @@
+# GDPR DSAR请求处理（阶段9）
+templates:
+  gdpr_dsar_handling:
+    - task_type: dsar_validate
+      description: 验证DSAR请求合法性和范围
+      business_stage: 阶段9
+      required_skills: [shopify-customer]
+      priority: 1
+    - task_type: data_export
+      description: 导出客户全量数据
+      business_stage: 阶段9
+      required_skills: [shopify-customer, shopify-admin]
+      priority: 1
+      depends_on_index: [0]
+    - task_type: data_review
+      description: 审核导出数据，标记需保留的法律依据数据
+      business_stage: 阶段9
+      required_skills: []
+      priority: 2
+      depends_on_index: [1]
+    - task_type: respond_dsar
+      description: 在24-48h内响应DSAR请求
+      business_stage: 阶段9
+      required_skills: [shopify-customer]
+      priority: 1
+      depends_on_index: [2]

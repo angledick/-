@@ -1,14 +1,13 @@
 """
-Compliance Service — 合规编排服务（完整管线编排 + 报告生成）。
+Compliance Service — 合规报告生成与记忆持久化。
 
 职责:
-  1. 迁入 chat.py 的 format_compliance_report / _empty_compliance_dict / _product_id
-  2. 升级 full_compliance_pipeline: 集成事件总线 + 合规流水线 + 记忆树
-  3. build_compliance_report: 统一报告生成（供 SSE / shopify.py / 导出共用）
-  4. persist_compliance_memory: 合规结果持久化到记忆树
+  1. format_compliance_report: 合规报告 Markdown 格式化
+  2. build_compliance_report: 统一报告生成（供 SSE / shopify.py / 导出共用）
+  3. persist_compliance_memory: 合规结果持久化到记忆树
 
 数据流转:
-  用户消息 → NLU意图 → ComplianceService → RuleEngine → RAG → 记忆树 → 报告
+  用户消息 → NLU意图 → ComplianceRules(Tool) → RAG → 报告 → 记忆树
 """
 
 import hashlib
@@ -16,8 +15,8 @@ import re
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Any
 
-from app.core.rule_engine import check_compliance, lookup_hs, lookup_vat, get_certifications
-from app.core.nlu import parse_intent
+from app.core.compliance_rules import check_compliance
+from app.api.chat_stream import parse_intent
 from app.models.schemas import ComplianceResult
 
 
@@ -81,24 +80,6 @@ def format_compliance_report(product: str, country: str, result: dict) -> str:
     return "\n".join(lines)
 
 
-def empty_compliance_dict() -> dict:
-    """Return a schema-valid empty compliance result for graceful fallback."""
-    return {
-        "hs_code": "",
-        "hs_description": "（解析失败，建议补充产品材质、用途、型号后重试）",
-        "vat_rate": 0.0,
-        "certifications": [],
-        "risk_level": "low",
-        "risk_score": 0,
-        "risk_flags": [],
-        "logistics_flags": [],
-        "customs_documents": [],
-        "cultural_notes": [],
-        "remediation_steps": ["补充产品用途、材质、是否带电/带无线功能后重新发起检查"],
-        "checklist": [],
-    }
-
-
 def build_product_id(product: str, country: str) -> str:
     """Build a stable local product id for project memory."""
     slug = re.sub(r"[^0-9A-Za-z\u4e00-\u9fff]+", "_", f"{product}_{country}").strip("_")
@@ -106,64 +87,45 @@ def build_product_id(product: str, country: str) -> str:
     return f"{slug[:40] or 'product'}_{digest}"
 
 
-# ═══════════════════════════════════════════════════════
-# 完整合规管线
-# ═══════════════════════════════════════════════════════
-
-async def full_compliance_pipeline(message: str) -> dict:
-    """End-to-end compliance check pipeline.
-
-    1. Parse intent (NLU)
-    2. Run rule engine (deterministic)
-    3. Enrich with RAG context
-    4. Persist to memory tree
-
-    Returns:
-        {
-            intent: dict,
-            compliance: dict | None,
-            report: str | None,
-            error: str | None,
-        }
-    """
-    intent = parse_intent(message)
-    product = intent.get("product", "")
-    country = intent.get("target_country", "")
-
-    if not product:
-        return {
-            "intent": intent,
-            "error": "未能识别产品名称，请描述更具体一些",
-            "compliance": None,
-            "report": None,
-        }
-
-    # 规则引擎检查
-    try:
-        compliance_dict = check_compliance(product, country)
-    except Exception:
-        compliance_dict = empty_compliance_dict()
-
-    # 生成报告
-    report = format_compliance_report(product, country, compliance_dict)
-
-    # RAG 补充
-    rag_context = ""
-    try:
-        from app.core.rag import retrieve_context, format_context_for_assistant
-        rag_results = retrieve_context(f"{product} 出口 {country} 合规要求")
-        if rag_results:
-            rag_context = format_context_for_assistant(rag_results)
-            report += f"\n\n---\n{rag_context}"
-    except Exception:
-        pass
-
-    return {
-        "intent": intent,
-        "compliance": compliance_dict,
-        "report": report,
-        "error": None,
-    }
+async def _sdk_enhance_report(
+    product: str, country: str, compliance_dict: dict, report: str
+) -> str:
+    """委托 SDK 对确定性检查结果做补充分析和风险提示。"""
+    from app.services.astra_assistant import AstraAssistant
+    assistant = AstraAssistant()
+    sdk_result = await assistant.run_task(
+        prompt_name="compliance_report_enhance",
+        context={
+            "product": product,
+            "country": country,
+            "hs_code": compliance_dict.get("hs_code", "未知"),
+            "risk_level": compliance_dict.get("risk_level", "unknown"),
+            "risk_score": str(compliance_dict.get("risk_score", 0)),
+            "certifications": ", ".join(compliance_dict.get("certifications", [])) or "无",
+            "risk_flags": ", ".join(compliance_dict.get("risk_flags", [])) or "无",
+        },
+    )
+    if isinstance(sdk_result, dict):
+        enhance_lines = ["\n---\n", "### 🤖 AI 深度分析\n"]
+        if sdk_result.get("risk_interpretation"):
+            enhance_lines.append(f"**风险解读:** {sdk_result['risk_interpretation']}\n")
+        if sdk_result.get("cert_gaps"):
+            enhance_lines.append("**认证缺口:**")
+            for gap in sdk_result["cert_gaps"]:
+                enhance_lines.append(f"- {gap}")
+        if sdk_result.get("hidden_risks"):
+            enhance_lines.append("\n**隐藏风险:**")
+            for risk in sdk_result["hidden_risks"]:
+                enhance_lines.append(f"- {risk}")
+        if sdk_result.get("priority_actions"):
+            enhance_lines.append("\n**优先行动:**")
+            for i, action in enumerate(sdk_result["priority_actions"], 1):
+                enhance_lines.append(f"{i}. {action}")
+        if sdk_result.get("overall_advice"):
+            enhance_lines.append(f"\n**综合建议:** {sdk_result['overall_advice']}")
+        if len(enhance_lines) > 3:
+            return report + "\n".join(enhance_lines)
+    return report
 
 
 async def build_compliance_report(
@@ -193,12 +155,8 @@ async def build_compliance_report(
         intent = parse_intent(f"{product}出口{country}")
 
     # 规则引擎
-    try:
-        compliance_dict = check_compliance(product, country)
-        compliance_result = ComplianceResult(**compliance_dict)
-    except Exception:
-        compliance_dict = empty_compliance_dict()
-        compliance_result = ComplianceResult(**compliance_dict)
+    compliance_dict = check_compliance(product, country)
+    compliance_result = ComplianceResult(**compliance_dict)
 
     # 格式化报告
     report = format_compliance_report(product, country, compliance_dict)
@@ -206,13 +164,13 @@ async def build_compliance_report(
     # RAG 补充
     rag_results = []
     if include_rag:
-        try:
-            from app.core.rag import retrieve_context, format_context_for_assistant
-            rag_results = retrieve_context(f"{product} 出口 {country} 合规要求")
-            if rag_results:
-                report += f"\n\n---\n{format_context_for_assistant(rag_results)}"
-        except Exception:
-            pass
+        from app.knowledge.store import retrieve_context, format_context_for_assistant
+        rag_results = retrieve_context(f"{product} 出口 {country} 合规要求")
+        if rag_results:
+            report += f"\n\n---\n{format_context_for_assistant(rag_results)}"
+
+    # SDK 增强分析
+    report = await _sdk_enhance_report(product, country, compliance_dict, report)
 
     product_id = build_product_id(product, country)
 
@@ -238,58 +196,44 @@ async def persist_compliance_memory(
     user_id: str = "default",
     product_id: Optional[str] = None,
 ) -> None:
-    """合规结果持久化 — 写入记忆树 + 会话存储 + 项目记忆。
+    """合规结果持久化 — 写入记忆树 + 会话存储 + 项目记忆。"""
+    # 1. 会话存储（L4）
+    from app.storage.layer_registry import registry
+    sid = session_id or f"session_{hashlib.sha1(report[:50].encode()).hexdigest()[:8]}"
+    registry.session.save_message(user_id, sid, "user", f"{product}出口{country}合规检查")
+    registry.session.save_message(user_id, sid, "assistant", report, compliance_dict)
+    registry.session.save_context(user_id, sid, "current_product", product)
+    registry.session.save_context(user_id, sid, "current_market", country)
 
-    非阻断: 任何存储失败不影响主流程。
-    """
-    try:
-        # 1. 会话存储（L4）
-        from app.storage.layer_registry import registry
-        sid = session_id or f"session_{hashlib.sha1(report[:50].encode()).hexdigest()[:8]}"
-        registry.session.save_message(user_id, sid, "user", f"{product}出口{country}合规检查")
-        registry.session.save_message(user_id, sid, "assistant", report, compliance_dict)
-        registry.session.save_context(user_id, sid, "current_product", product)
-        registry.session.save_context(user_id, sid, "current_market", country)
-    except Exception:
-        pass
+    # 2. 项目记忆（L2）
+    pid = product_id or build_product_id(product, country)
+    registry.project.save_compliance_record(
+        product_id=pid,
+        product_name=product,
+        target_market=country,
+        result=compliance_dict,
+        session_id=session_id or "",
+    )
 
-    try:
-        # 2. 项目记忆（L2）
-        from app.storage.layer_registry import registry
-        pid = product_id or build_product_id(product, country)
-        registry.project.save_compliance_record(
-            product_id=pid,
-            product_name=product,
-            target_market=country,
-            result=compliance_dict,
-            session_id=session_id or "",
-        )
-    except Exception:
-        pass
-
-    try:
-        # 3. 记忆树（L0-L3）
-        from app.core.memory_tree import MemoryTree
-        pid = product_id or build_product_id(product, country)
-        tree = MemoryTree(pid)
-        risk_level = compliance_dict.get("risk_level", "unknown")
-        risk_score = compliance_dict.get("risk_score", 0)
-        await tree.append_fragment(
-            source="compliance",
-            content=(
-                f"合规检查: {product}→{country}, "
-                f"HS={compliance_dict.get('hs_code', 'N/A')}, "
-                f"VAT={compliance_dict.get('vat_rate', 0)}%, "
-                f"风险={risk_level}({risk_score}/100), "
-                f"认证{len(compliance_dict.get('certifications', []))}项"
-            ),
-            metadata={
-                "event_type": f"compliance:check_{'passed' if risk_level != 'high' else 'failed'}",
-                "risk_level": risk_level,
-                "risk_score": risk_score,
-                "hs_code": compliance_dict.get("hs_code", ""),
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-            },
-        )
-    except Exception:
-        pass
+    # 3. 记忆树（L0-L3）
+    from app.core.memory_tree import MemoryTree
+    tree = MemoryTree(pid)
+    risk_level = compliance_dict.get("risk_level", "unknown")
+    risk_score = compliance_dict.get("risk_score", 0)
+    await tree.append_fragment(
+        source="compliance",
+        content=(
+            f"合规检查: {product}→{country}, "
+            f"HS={compliance_dict.get('hs_code', 'N/A')}, "
+            f"VAT={compliance_dict.get('vat_rate', 0)}%, "
+            f"风险={risk_level}({risk_score}/100), "
+            f"认证{len(compliance_dict.get('certifications', []))}项"
+        ),
+        metadata={
+            "event_type": f"compliance:check_{'passed' if risk_level != 'high' else 'failed'}",
+            "risk_level": risk_level,
+            "risk_score": risk_score,
+            "hs_code": compliance_dict.get("hs_code", ""),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        },
+    )

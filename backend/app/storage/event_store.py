@@ -2,7 +2,7 @@
 L5 事件链层 (Event Store) — 系统事件 + 操作链，合并原有 event_chain + action_chain。
 
 数据流转：
-  - 写入者: 全部组件 — chat.py / rule_engine.py / shopify webhook / scheduler
+  - 写入者: 全部组件 — chat.py / compliance_rules.py / shopify webhook / scheduler
   - 读取者: 审计追踪 · Dashboard 事件时间线 · 决策回溯
   - 使用条件: 审计 / 事件监控 / 决策链路展示
   - 隔离粒度: 系统事件（全局）+ 操作链（按用户）

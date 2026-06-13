@@ -44,7 +44,7 @@ class ProjectMemory:
         """保存一次合规检查结果到产品档案。
 
         数据流时序:
-          1. RuleEngine + RAG 完成检查
+          1. ComplianceRules + RAG 完成检查
           2. 组装 ComplianceResult
           3. → 写入 L2 (本方法)
           4. → 写入 L4 session_memory

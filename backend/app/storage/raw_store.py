@@ -2,7 +2,7 @@
 L0 原始数据存储层 (Raw Store) — 读取 data/raw/ 下的静态数据文件。
 
 数据流转：
-  - 读取者: RuleEngine (rule_engine.py)
+  - 读取者: ComplianceRules (compliance_rules.py)
   - 使用条件: 确定性合规检查时需要匹配 HS 编码 / VAT / 认证矩阵
   - 读取时机: 模块加载时缓存到内存，后续不走磁盘
   - 来源文件: data/raw/hs_codes/*.json, vat_rates/*.json, certifications/*.json
@@ -129,5 +129,5 @@ class RawStore:
         return matrix.get(country, matrix.get("德国", []))
 
     def _resolve_path(self, category: str, filename: str) -> Path:
-        # 用于 rule_engine.py 迁移
+        # 用于 compliance_rules.py 数据路径解析
         return self._base / category / filename
