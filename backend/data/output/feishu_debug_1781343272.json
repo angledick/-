@@ -1,0 +1,24 @@
+{
+  "query": "取消",
+  "response_text": "好的，已取消。有其他需要随时告诉我。",
+  "response_len": 18,
+  "tools_used": [],
+  "progress_messages": [
+    "好的，已取消。有其他需要随时告诉我。"
+  ],
+  "progress_count": 1,
+  "tool_calls": [],
+  "result_keys": [
+    "response",
+    "structured_result",
+    "tools_used",
+    "session_id",
+    "usage"
+  ],
+  "usage": {
+    "cost_usd": 0.09011725000000001,
+    "input_tokens": null,
+    "output_tokens": null
+  },
+  "session_id": null
+}

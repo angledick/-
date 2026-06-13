@@ -21749,5 +21749,40 @@
     "severity": "low",
     "error": null,
     "created_at": "2026-06-13T09:30:31.483958+00:00"
+  },
+  {
+    "id": "d874354db5d2",
+    "type": "risk:fraud_detected",
+    "category": "risk_alert",
+    "source": "test",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "chat_id": "oc_c0a0a056f96abaf03cc6605b9fc26e4b",
+      "risk_score": 95
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "critical",
+    "error": null,
+    "created_at": "2026-06-13T09:33:53.253433+00:00"
+  },
+  {
+    "id": "f5d1ef771d49",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:34:14.769224+00:00"
   }
 ]
