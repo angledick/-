@@ -697,7 +697,7 @@ class AstraAssistant:
                 system = f"{system}\n\n{extra}"
         full_prompt = f"{system}\n\n用户消息: {message}"
 
-        return await self._chat_with_session(sid, full_prompt, model, agent_id=agent_id)
+        return await self._chat_with_session_inner(sid, full_prompt, model, agent_id=agent_id)
 
     async def chat_with_progress(
         self,
@@ -853,23 +853,51 @@ class AstraAssistant:
         if options is None:
             return self._mock_response(prompt_name)
 
-        from claude_agent_sdk import query
-        from claude_agent_sdk.types import ResultMessage, AssistantMessage, TextBlock
+        # Windows 兼容：在独立的 ProactorEventLoop 线程中运行 SDK
+        # uvicorn --reload 模式可能使用 SelectorEventLoop，不支持 subprocess
+        def _run_query_sync():
+            import subprocess as _sp
+            loop = asyncio.new_event_loop()
+            try:
+                asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+                asyncio.set_event_loop(loop)
+                return loop.run_until_complete(
+                    self._execute_query_in_loop(task, options)
+                )
+            finally:
+                try:
+                    loop.run_until_complete(loop.shutdown_asyncgens())
+                except Exception:
+                    pass
+                loop.close()
 
-        result_text = ""
         try:
-            logger.info("SDK query 启动: cli_path=%s, model=%s, cwd=%s", options.cli_path, options.model, options.cwd)
-            async for msg in query(prompt=task, options=options):
-                if isinstance(msg, ResultMessage) and msg.result:
-                    result_text = msg.result or ""
-                elif isinstance(msg, AssistantMessage):
-                    for block in msg.content:
-                        if isinstance(block, TextBlock):
-                            result_text += block.text
+            result = await asyncio.to_thread(_run_query_sync)
+            return result
         except Exception as e:
             import traceback as _tb
             logger.error("SDK query 失败详情:\n%s", _tb.format_exc())
             raise AstraAssistantError(f"Claude Agent SDK query 失败: {e}") from e
+
+    async def _execute_query_in_loop(
+        self,
+        task: str,
+        options: Any,
+    ) -> dict[str, Any]:
+        """在新的 ProactorEventLoop 中执行 SDK query。"""
+        from claude_agent_sdk import query
+        from claude_agent_sdk.types import ResultMessage, AssistantMessage, TextBlock
+
+        logger.info("SDK query 启动: cli_path=%s, model=%s, cwd=%s", options.cli_path, options.model, options.cwd)
+
+        result_text = ""
+        async for msg in query(prompt=task, options=options):
+            if isinstance(msg, ResultMessage) and msg.result:
+                result_text = msg.result or ""
+            elif isinstance(msg, AssistantMessage):
+                for block in msg.content:
+                    if isinstance(block, TextBlock):
+                        result_text += block.text
 
         return self._parse_result(result_text, task)
 

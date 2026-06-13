@@ -21923,5 +21923,24 @@
     "severity": "low",
     "error": null,
     "created_at": "2026-06-13T09:57:20.538366+00:00"
+  },
+  {
+    "id": "43796aa825e8",
+    "type": "risk:fraud_detected",
+    "category": "risk_alert",
+    "source": "test",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "chat_id": "oc_c0a0a056f96abaf03cc6605b9fc26e4b",
+      "risk_score": 95
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "critical",
+    "error": null,
+    "created_at": "2026-06-13T10:03:58.749986+00:00"
   }
 ]
