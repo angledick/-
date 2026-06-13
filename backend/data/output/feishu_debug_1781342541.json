@@ -1,0 +1,35 @@
+{
+  "query": "系统内运行什么任务在",
+  "response_text": "# 🔄 系统当前运行任务\n\n**总计: 666 个活跃定时任务** · 同步引擎: ✅ 运行中\n\n## 全局任务（8 个）\n\n| 任务 | 频率 | 下次执行 |\n|------|------|---------|\n| 🫀 心跳自检 | 每 5 分钟 | 17:25 |\n| 🔄 市场轮询 | 每 1 小时 | 18:20 |\n| 🔍 法规变更扫描 | 每 1 小时 | 18:20 |\n| 💡 跨产品洞察 | 每 4 小时 | 21:20 |\n| 📊 指标收集 | 每 6 小时 | 23:20 |\n| 📈 全局指标聚合 | 每 12 小时 | 明日 05:20 |\n| 📋 每日合规简报 | 每天 09:00 | 明日 09:00 |\n| ⏳ 认证到期预警 | 每天 10:00 | 明日 10:00 |\n\n## 产品级任务（658 个）\n\n每个产品自动注册 `check_cert_expiry` + `scan_regulation_changes` 两个任务。\n\n> ⚠️ 其中大部分为已删除测试产品的残留任务（索引未同步），实际有效产品仅 52 个（约 104 个任务）。\n\n## 同步引擎\n\n| Provider | 类型 | 频率 | 状态 |\n|----------|------|------|------|\n| Shopify | products/orders/inventory | 每 20 分钟 | ✅ 0 条同步 |\n| ERPNext | purchase_orders/stock | 每 1 小时 | ✅ |\n| 17TRACK | tracking | 每 30 分钟 | ✅ |\n\n当前无任务正在执行（`running_jobs: 0`），所有任务处于等待下次触发状态。",
+  "response_len": 756,
+  "tools_used": [
+    "Bash",
+    "Bash",
+    "Bash"
+  ],
+  "progress_messages": [
+    "🔧 执行: Get global scheduler jobs",
+    "🔧 执行: Count jobs by scope",
+    "🔧 执行: Sync engine status",
+    "# 🔄 系统当前运行任务\n\n**总计: 666 个活跃定时任务** · 同步引擎: ✅ 运行中\n\n## 全局任务（8 个）\n\n| 任务 | 频率 | 下次执行 |\n|------|------|---------|\n| 🫀 心跳自检 | 每 5 分钟 | 17:25 |\n| 🔄 市场轮询 | 每 1 小时 | 18:20 |\n| 🔍 法规变更扫描 | 每 1 小时 | 18:20 |\n| 💡 跨产品洞察 | 每 4 小时 | 21:20 |\n| 📊 指标收集 | 每 6 小时 | 23:20 |\n| 📈 全局指标聚合 | 每 12 小时 | 明日 05:20 |\n| 📋 每日合规简报 | 每天 09:00 | 明日 09:00 |\n| ⏳ 认证到期预警 | 每天 10:00 | 明日 10:00 |\n\n## 产品级任务（658 个）\n\n每个产品自动注册 `check_cert_expiry` + `scan_regulation_changes` 两个任务。\n\n> ⚠️ 其中大部分为已删除测试产品的残留任务（索引未同步），实际有效产品仅 52 个（约 104 个任务）。\n\n## 同步引擎\n\n| Provider | 类型 | 频率 | 状态 |\n|----------|------|------|------|\n| Shopify | products/orders/inventory | 每 20 分钟 | ✅ 0 条同步 |\n| ERPNext | purchase_orders/stock | 每 1 小时 | ✅ |\n| 17TRACK | tracking | 每 30 分钟 | ✅ |\n\n当前无任务正在执行（`running_jobs: 0`），所有任务处于等待下次触发状态。"
+  ],
+  "progress_count": 4,
+  "tool_calls": [
+    "🔧 执行: Get global scheduler jobs",
+    "🔧 执行: Count jobs by scope",
+    "🔧 执行: Sync engine status"
+  ],
+  "result_keys": [
+    "response",
+    "structured_result",
+    "tools_used",
+    "session_id",
+    "usage"
+  ],
+  "usage": {
+    "cost_usd": 0.2001745,
+    "input_tokens": null,
+    "output_tokens": null
+  },
+  "session_id": null
+}

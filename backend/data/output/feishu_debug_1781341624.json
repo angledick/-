@@ -1,0 +1,39 @@
+{
+  "query": "现有在执行任务",
+  "response_text": "API 已恢复！正在查询运行中的任务。\n\n# ⏰ 当前执行中的定时任务\n\n**APScheduler**: ✅ 运行中 · **666 个活跃任务**\n\n## 全局任务（8 个）\n\n| 任务 | 频率 | 绑定 Worker | 下次执行 |\n|------|------|------------|---------|\n| 🫀 心跳自检 | 每 5 分钟 | `system_worker` | 17:10 |\n| 🔄 市场轮询 | 每 1 小时 | `regulation_worker` | 18:05 |\n| 🔍 法规变更扫描 | 每 1 小时 | `regulation_worker` | 18:05 |\n| 📋 每日合规简报 | 每天 09:00 | `compliance_worker` | 明日 09:00 |\n| ⏳ 认证到期预警 | 每天 10:00 | `cert_worker` | 明日 10:00 |\n| 💡 跨产品洞察 | 每 4 小时 | `compliance_worker` | — |\n| 📊 指标收集 | 每 6 小时 | `system_worker` | — |\n| 📈 全局指标聚合 | 每 12 小时 | `system_worker` | — |\n\n## 产品级任务（~658 个）\n\n每个产品自动注册 2 个任务：`check_cert_expiry` + `scan_regulation_changes`\n\n> ⚠️ **注意**: 当前调度器仍为已删除的测试产品保留了任务（索引 329 条 vs 实际目录 52 个）。建议重启服务后自动清理，或通过 QAAgent 手动触发索引同步。\n\n## 同步引擎\n\n| Provider | 同步类型 | 频率 | 状态 |\n|----------|---------|------|------|\n| Shopify | products / orders / inventory | 每 20 分钟 | ✅ 运行中（0 条同步） |\n| ERPNext | purchase_orders / stock | 每 1 小时 | ✅ 运行中 |\n| 17TRACK | tracking | 每 30 分钟 | ✅ 运行中 |",
+  "response_len": 966,
+  "tools_used": [
+    "Bash",
+    "Bash",
+    "Bash",
+    "Bash"
+  ],
+  "progress_messages": [
+    "🔧 执行: Check if API is running",
+    "API 已恢复！正在查询运行中的任务。\n\n",
+    "🔧 执行: Count active scheduler jobs",
+    "🔧 执行: Get job details",
+    "🔧 执行: Check sync engine status",
+    "# ⏰ 当前执行中的定时任务\n\n**APScheduler**: ✅ 运行中 · **666 个活跃任务**\n\n## 全局任务（8 个）\n\n| 任务 | 频率 | 绑定 Worker | 下次执行 |\n|------|------|------------|---------|\n| 🫀 心跳自检 | 每 5 分钟 | `system_worker` | 17:10 |\n| 🔄 市场轮询 | 每 1 小时 | `regulation_worker` | 18:05 |\n| 🔍 法规变更扫描 | 每 1 小时 | `regulation_worker` | 18:05 |\n| 📋 每日合规简报 | 每天 09:00 | `compliance_worker` | 明日 09:00 |\n| ⏳ 认证到期预警 | 每天 10:00 | `cert_worker` | 明日 10:00 |\n| 💡 跨产品洞察 | 每 4 小时 | `compliance_worker` | — |\n| 📊 指标收集 | 每 6 小时 | `system_worker` | — |\n| 📈 全局指标聚合 | 每 12 小时 | `system_worker` | — |\n\n## 产品级任务（~658 个）\n\n每个产品自动注册 2 个任务：`check_cert_expiry` + `scan_regulation_changes`\n\n> ⚠️ **注意**: 当前调度器仍为已删除的测试产品保留了任务（索引 329 条 vs 实际目录 52 个）。建议重启服务后自动清理，或通过 QAAgent 手动触发索引同步。\n\n## 同步引擎\n\n| Provider | 同步类型 | 频率 | 状态 |\n|----------|---------|------|------|\n| Shopify | products / orders / inventory | 每 20 分钟 | ✅ 运行中（0 条同步） |\n| ERPNext | purchase_orders / stock | 每 1 小时 | ✅ 运行中 |\n| 17TRACK | tracking | 每 30 分钟 | ✅ 运行中 |"
+  ],
+  "progress_count": 6,
+  "tool_calls": [
+    "🔧 执行: Check if API is running",
+    "🔧 执行: Count active scheduler jobs",
+    "🔧 执行: Get job details",
+    "🔧 执行: Check sync engine status"
+  ],
+  "result_keys": [
+    "response",
+    "structured_result",
+    "tools_used",
+    "session_id",
+    "usage"
+  ],
+  "usage": {
+    "cost_usd": 0.28881274999999995,
+    "input_tokens": null,
+    "output_tokens": null
+  },
+  "session_id": null
+}

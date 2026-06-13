@@ -1088,10 +1088,25 @@ class AstraAssistant:
                     self._run_sdk_in_loop(client, full_prompt, on_progress)
                 )
             finally:
+                # 先断开 client 连接，停止 SDK 子进程传输层
+                try:
+                    if hasattr(client, 'disconnect'):
+                        loop.run_until_complete(client.disconnect())
+                except Exception:
+                    pass
+                # 静默关闭异步生成器（SDK 内部 SubprocessCLITransport._read_messages_impl
+                # 可能在子进程未完全退出时仍处于 running 状态，导致 aclose 报 RuntimeError。
+                # 这是 Windows + Claude Agent SDK 已知问题，不影响实际结果。）
+                import logging as _logging
+                _asyncio_logger = _logging.getLogger('asyncio')
+                _old_level = _asyncio_logger.level
+                _asyncio_logger.setLevel(_logging.CRITICAL)
                 try:
                     loop.run_until_complete(loop.shutdown_asyncgens())
                 except Exception:
                     pass
+                finally:
+                    _asyncio_logger.setLevel(_old_level)
                 loop.close()
 
         try:
@@ -1123,34 +1138,49 @@ class AstraAssistant:
         usage: Optional[dict] = None
         last_tool_result: str = ""
 
-        async for msg in client.receive_response():
-            if isinstance(msg, ResultMessage):
-                usage = {
-                    "cost_usd": getattr(msg, "total_cost_usd", None),
-                    "input_tokens": getattr(msg, "input_tokens", None),
-                    "output_tokens": getattr(msg, "output_tokens", None),
-                }
-                continue
+        # 安全消费 receive_response 流
+        # Windows 下 aclose 可能抛 RuntimeError，需要捕获
+        gen = client.receive_response()
+        try:
+            async for msg in gen:
+                if isinstance(msg, ResultMessage):
+                    usage = {
+                        "cost_usd": getattr(msg, "total_cost_usd", None),
+                        "input_tokens": getattr(msg, "input_tokens", None),
+                        "output_tokens": getattr(msg, "output_tokens", None),
+                    }
+                    continue
 
-            if isinstance(msg, AssistantMessage):
-                for block in msg.content:
-                    if isinstance(block, TextBlock):
-                        text = block.text or ""
-                        result_text += text
-                        if on_progress and text.strip():
-                            on_progress(text)
-                    elif isinstance(block, ToolUseBlock):
-                        tool_name = block.name or ""
-                        tools_used.append(tool_name)
-                        if on_progress:
-                            progress_text = self._format_tool_progress(block)
-                            on_progress(progress_text)
-                    elif isinstance(block, ToolResultBlock):
-                        content = self._format_tool_result(block)
-                        if content:
-                            last_tool_result = content
+                if isinstance(msg, AssistantMessage):
+                    for block in msg.content:
+                        if isinstance(block, TextBlock):
+                            text = block.text or ""
+                            result_text += text
+                            if on_progress and text.strip():
+                                on_progress(text)
+                        elif isinstance(block, ToolUseBlock):
+                            tool_name = block.name or ""
+                            tools_used.append(tool_name)
                             if on_progress:
-                                on_progress(f"📋 {content[:300]}")
+                                progress_text = self._format_tool_progress(block)
+                                on_progress(progress_text)
+                        elif isinstance(block, ToolResultBlock):
+                            content = self._format_tool_result(block)
+                            if content:
+                                last_tool_result = content
+                                if on_progress:
+                                    on_progress(f"📋 {content[:300]}")
+        except RuntimeError as e:
+            if "aclose" in str(e) or "already running" in str(e):
+                logger.debug("SDK receive_response 关闭异常 (Windows 已知问题，已忽略): %s", e)
+            else:
+                raise
+        finally:
+            # 尝试安全关闭生成器
+            try:
+                await gen.aclose()
+            except Exception:
+                pass
 
         # 兜底：SDK 无 TextBlock 时用最后一条工具结果
         if not result_text and last_tool_result:
@@ -1225,53 +1255,66 @@ class AstraAssistant:
             ToolResultBlock, ThinkingBlock, Message,
         )
 
-        async for msg in client.receive_response():
-            if isinstance(msg, ResultMessage):
-                yield {"type": "usage", "data": {
-                    "cost_usd": getattr(msg, "total_cost_usd", None),
-                    "input_tokens": getattr(msg, "input_tokens", None),
-                    "output_tokens": getattr(msg, "output_tokens", None),
-                }}
-                return
+        # 安全消费 receive_response，捕获 Windows aclose 异常
+        gen = client.receive_response()
+        try:
+            async for msg in gen:
+                if isinstance(msg, ResultMessage):
+                    yield {"type": "usage", "data": {
+                        "cost_usd": getattr(msg, "total_cost_usd", None),
+                        "input_tokens": getattr(msg, "input_tokens", None),
+                        "output_tokens": getattr(msg, "output_tokens", None),
+                    }}
+                    return
 
-            elif isinstance(msg, AssistantMessage):
-                for block in msg.content:
-                    if isinstance(block, TextBlock):
-                        yield {"type": "text", "content": block.text}
-                    elif isinstance(block, ToolUseBlock):
-                        yield {
-                            "type": "tool_use",
-                            "tool_name": block.name,
-                            "tool_input": block.input,
-                        }
-                    elif isinstance(block, ToolResultBlock):
-                        yield {
-                            "type": "tool_result",
-                            "tool_name": getattr(block, "tool_use_id", ""),
-                            "content": block.content if hasattr(block, "content") else None,
-                        }
-                    elif isinstance(block, ThinkingBlock):
-                        yield {"type": "thinking", "content": block.thinking}
+                elif isinstance(msg, AssistantMessage):
+                    for block in msg.content:
+                        if isinstance(block, TextBlock):
+                            yield {"type": "text", "content": block.text}
+                        elif isinstance(block, ToolUseBlock):
+                            yield {
+                                "type": "tool_use",
+                                "tool_name": block.name,
+                                "tool_input": block.input,
+                            }
+                        elif isinstance(block, ToolResultBlock):
+                            yield {
+                                "type": "tool_result",
+                                "tool_name": getattr(block, "tool_use_id", ""),
+                                "content": block.content if hasattr(block, "content") else None,
+                            }
+                        elif isinstance(block, ThinkingBlock):
+                            yield {"type": "thinking", "content": block.thinking}
 
-            elif isinstance(msg, SystemMessage):
-                subtype = getattr(msg, "subtype", None) or getattr(msg, "type", "")
-                if subtype == "init":
-                    data = getattr(msg, "data", {}) or {}
+                elif isinstance(msg, SystemMessage):
+                    subtype = getattr(msg, "subtype", None) or getattr(msg, "type", "")
+                    if subtype == "init":
+                        data = getattr(msg, "data", {}) or {}
+                        yield {
+                            "type": "system_init",
+                            "session_id": data.get("session_id", ""),
+                        }
+
+                elif isinstance(msg, TaskStartedMessage):
+                    yield {"type": "task_start", "description": getattr(msg, "description", "")}
+                elif isinstance(msg, TaskProgressMessage):
+                    yield {"type": "task_progress", "description": getattr(msg, "description", "")}
+                elif isinstance(msg, TaskNotificationMessage):
                     yield {
-                        "type": "system_init",
-                        "session_id": data.get("session_id", ""),
+                        "type": "task_end",
+                        "status": getattr(msg, "status", ""),
+                        "summary": getattr(msg, "summary", ""),
                     }
-
-            elif isinstance(msg, TaskStartedMessage):
-                yield {"type": "task_start", "description": getattr(msg, "description", "")}
-            elif isinstance(msg, TaskProgressMessage):
-                yield {"type": "task_progress", "description": getattr(msg, "description", "")}
-            elif isinstance(msg, TaskNotificationMessage):
-                yield {
-                    "type": "task_end",
-                    "status": getattr(msg, "status", ""),
-                    "summary": getattr(msg, "summary", ""),
-                }
+        except RuntimeError as e:
+            if "aclose" in str(e) or "already running" in str(e):
+                logger.debug("SDK stream 关闭异常 (Windows 已知问题): %s", e)
+            else:
+                raise
+        finally:
+            try:
+                await gen.aclose()
+            except Exception:
+                pass
 
     # ── 工具方法 ────────────────────────────────
 

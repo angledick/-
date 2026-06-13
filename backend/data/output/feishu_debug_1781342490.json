@@ -1,0 +1,24 @@
+{
+  "query": "test",
+  "response_text": "收到！系统正常，随时可以开始。请告诉我需要什么帮助 😊",
+  "response_len": 27,
+  "tools_used": [],
+  "progress_messages": [
+    "收到！系统正常，随时可以开始。请告诉我需要什么帮助 😊"
+  ],
+  "progress_count": 1,
+  "tool_calls": [],
+  "result_keys": [
+    "response",
+    "structured_result",
+    "tools_used",
+    "session_id",
+    "usage"
+  ],
+  "usage": {
+    "cost_usd": 0.08857575000000001,
+    "input_tokens": null,
+    "output_tokens": null
+  },
+  "session_id": null
+}

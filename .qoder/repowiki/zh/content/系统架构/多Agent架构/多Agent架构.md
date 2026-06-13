@@ -54,32 +54,14 @@
 - [backend/app/api/event_config.py](file://backend/app/api/event_config.py)
 - [backend/app/api/model_config.py](file://backend/app/api/model_config.py)
 - [backend/app/api/chains.py](file://backend/app/api/chains.py)
-- [backend/app/api/admin.py](file://backend/app/api/admin.py)
-- [backend/app/api/auth.py](file://backend/app/api/auth.py)
-- [backend/app/api/users.py](file://backend/app/api/users.py)
-- [backend/app/api/products.py](file://backend/app/api/products.py)
-- [backend/app/api/skills.py](file://backend/app/api/skills.py)
-- [backend/app/api/tools.py](file://backend/app/api/tools.py)
-- [backend/app/api/memory.py](file://backend/app/api/memory.py)
-- [backend/app/api/knowledge.py](file://backend/app/api/knowledge.py)
-- [backend/app/api/risk.py](file://backend/app/api/risk.py)
-- [backend/app/api/notifications.py](file://backend/app/api/notifications.py)
-- [backend/app/api/metrics.py](file://backend/app/api/metrics.py)
-- [backend/app/api/events.py](file://backend/app/api/events.py)
-- [backend/app/api/pipeline.py](file://backend/app/api/pipeline.py)
-- [backend/app/api/streaming.py](file://backend/app/api/streaming.py)
-- [backend/app/api/sdk_sessions.py](file://backend/app/api/sdk_sessions.py)
-- [backend/app/api/sessions.py](file://backend/app/api/sessions.py)
-- [backend/app/api/integrations.py](file://backend/app/api/integrations.py)
-- [backend/app/api/rag.py](file://backend/app/api/rag.py)
-- [backend/app/api/code_security.py](file://backend/app/api/code_security.py)
-- [backend/app/api/cli.py](file://backend/app/api/cli.py)
-- [backend/app/api/worker_config.py](file://backend/app/api/worker_config.py)
-- [backend/app/api/scheduler_config.py](file://backend/app/api/scheduler_config.py)
-- [backend/app/api/event_config.py](file://backend/app/api/event_config.py)
-- [backend/app/api/model_config.py](file://backend/app/api/model_config.py)
-- [backend/app/api/chains.py](file://backend/app/api/chains.py)
 </cite>
+
+## 更新摘要
+**所做更改**
+- 移除了原有的合规流程引擎模块相关章节
+- 更新了服务导向处理方式的描述
+- 增强了错误处理和日志记录的说明
+- 更新了架构图以反映新的简化处理流程
 
 ## 目录
 1. [引言](#引言)
@@ -95,6 +77,8 @@
 
 ## 引言
 本文件面向避风港平台的多Agent系统，系统性梳理其整体设计思路、Agent角色分工与协作机制、通信协议与状态同步、冲突解决策略、学习与自适应能力、生命周期管理、配置与监控、以及典型应用场景与落地实践。文档以仓库中的后端核心模块与API层为依据，结合数据配置与技能扩展，形成可操作的架构说明与实施建议。
+
+**更新** 本次更新反映了合规流程引擎模块的移除，采用更简洁的服务导向处理方式，并改进了错误处理和日志记录机制。
 
 ## 项目结构
 后端采用分层架构：入口与API层负责对外服务与路由；核心模块层承载Agent编排、事件总线、规则引擎、模型路由、安全沙箱、记忆与指标等基础设施；存储层提供配置、会话、事件与用户/项目记忆持久化；前端提供可视化监控与配置界面。
@@ -308,6 +292,9 @@ CFG_AGENTEXT --> CORE_SKILLREG
 - NLU与RAG：自然语言理解与检索增强，支撑智能问答与知识检索。
 - 指标与度量（Metrics）：采集Agent行为与系统性能指标，驱动优化闭环。
 - 配置存储（Agent Config Store）：持久化Agent配置与扩展参数。
+- 主动引擎（Proactive Engine）：负责定时任务、心跳自检和洞察挖掘，提供主动式合规管理。
+
+**更新** 移除了原有的合规流程引擎模块，采用更简洁的服务导向处理方式，同时增强了主动引擎的功能。
 
 **章节来源**
 - [backend/app/core/manager_agent.py](file://backend/app/core/manager_agent.py)
@@ -326,9 +313,10 @@ CFG_AGENTEXT --> CORE_SKILLREG
 - [backend/app/core/nlu.py](file://backend/app/core/nlu.py)
 - [backend/app/core/metrics.py](file://backend/app/core/metrics.py)
 - [backend/app/storage/agent_config_store.py](file://backend/app/storage/agent_config_store.py)
+- [backend/app/core/proactive_engine.py](file://backend/app/core/proactive_engine.py)
 
 ## 架构总览
-多Agent系统以“管理Agent为中心”的分层编排架构：管理Agent作为中枢，向上承接API请求与业务意图，向下协调QA Agent、任务分解Agent及其他执行单元；事件总线贯穿各Agent，实现松耦合通信；规则引擎与安全沙箱提供治理与风控；记忆树与NLU/RAG提供上下文与知识支撑；指标与通知引擎提供可观测性与反馈闭环。
+多Agent系统以"管理Agent为中心"的分层编排架构：管理Agent作为中枢，向上承接API请求与业务意图，向下协调QA Agent、任务分解Agent及其他执行单元；事件总线贯穿各Agent，实现松耦合通信；规则引擎与安全沙箱提供治理与风控；记忆树与NLU/RAG提供上下文与知识支撑；指标与通知引擎提供可观测性与反馈闭环；主动引擎提供定时任务和洞察挖掘功能。
 
 ```mermaid
 graph TB
@@ -357,6 +345,10 @@ SANDBOX --- WORKERS
 NLU["NLU/RAG"] --- MANAGER
 NLU --- DECOMP
 NLU --- QA
+PROACTIVE["主动引擎"] --> SCHED["调度器"]
+PROACTIVE --> HEARTBEAT["心跳自检"]
+PROACTIVE --> INSIGHTS["洞察挖掘"]
+PROACTIVE --> NOTIF
 ```
 
 **图表来源**
@@ -374,6 +366,7 @@ NLU --- QA
 - [backend/app/core/metrics.py](file://backend/app/core/metrics.py)
 - [backend/app/core/risk_alert.py](file://backend/app/core/risk_alert.py)
 - [backend/app/core/worker_registry.py](file://backend/app/core/worker_registry.py)
+- [backend/app/core/proactive_engine.py](file://backend/app/core/proactive_engine.py)
 
 ## 详细组件分析
 
@@ -645,11 +638,45 @@ Notif-->>Agent : "送达确认"
 - [backend/app/core/metrics.py](file://backend/app/core/metrics.py)
 - [backend/app/core/notification_engine.py](file://backend/app/core/notification_engine.py)
 
+### 主动引擎（Proactive Engine）
+- 职责
+  - 负责定时任务、心跳自检和洞察挖掘，提供主动式合规管理。
+  - 基于QwenPaw心跳机制，实现系统健康监控。
+  - 从对话和业务数据中挖掘潜在需求和风险。
+- 关键交互
+  - 与调度器：设置和管理定时任务。
+  - 与通知引擎：主动推送洞察和预警信息。
+  - 与事件总线：触发系统自检和业务事件。
+
+```mermaid
+flowchart TD
+Start["系统启动"] --> Heartbeat["心跳自检(每5分钟)"]
+Heartbeat --> Scheduled["定时任务执行"]
+Scheduled --> Insights["洞察挖掘"]
+Insights --> Notify["主动推送"]
+Notify --> End["完成一轮主动管理"]
+Heartbeat --> Events["生成系统事件"]
+Events --> EventBus["事件总线"]
+Scheduled --> Events
+Insights --> Events
+```
+
+**图表来源**
+- [backend/app/core/proactive_engine.py](file://backend/app/core/proactive_engine.py)
+- [backend/app/core/scheduler.py](file://backend/app/core/scheduler.py)
+- [backend/app/core/notification_engine.py](file://backend/app/core/notification_engine.py)
+- [backend/app/core/event_bus.py](file://backend/app/core/event_bus.py)
+
+**章节来源**
+- [backend/app/core/proactive_engine.py](file://backend/app/core/proactive_engine.py)
+- [backend/app/core/scheduler.py](file://backend/app/core/scheduler.py)
+
 ## 依赖关系分析
 - 组件耦合
   - 管理Agent是中枢，与任务分解、工作器、事件总线、模型路由、通知与指标均有强耦合。
   - QA Agent与规则引擎、风险告警存在紧密耦合，共同构成质量与合规防线。
   - 记忆树与NLU/RAG为多Agent共享基础设施，降低重复实现与提升一致性。
+  - 主动引擎与调度器、通知引擎形成新的耦合关系，提供主动式管理能力。
 - 外部依赖
   - API层依赖核心模块提供的能力；存储层与数据配置提供持久化与扩展点。
   - 事件总线与通知引擎为横切关注点，贯穿各Agent，避免重复实现。
@@ -673,6 +700,10 @@ Mem --> QA
 NLU["NLU/RAG"] --> Manager
 NLU --> Decomposer
 NLU --> QA
+Proactive["主动引擎"] --> Scheduler["调度器"]
+Proactive --> Heartbeat["心跳自检"]
+Proactive --> Insights["洞察挖掘"]
+Proactive --> Notif
 ```
 
 **图表来源**
@@ -687,6 +718,8 @@ NLU --> QA
 - [backend/app/core/notification_engine.py](file://backend/app/core/notification_engine.py)
 - [backend/app/core/metrics.py](file://backend/app/core/metrics.py)
 - [backend/app/core/worker_registry.py](file://backend/app/core/worker_registry.py)
+- [backend/app/core/proactive_engine.py](file://backend/app/core/proactive_engine.py)
+- [backend/app/core/scheduler.py](file://backend/app/core/scheduler.py)
 
 **章节来源**
 - [backend/app/core/manager_agent.py](file://backend/app/core/manager_agent.py)
@@ -700,6 +733,7 @@ NLU --> QA
 - [backend/app/core/notification_engine.py](file://backend/app/core/notification_engine.py)
 - [backend/app/core/metrics.py](file://backend/app/core/metrics.py)
 - [backend/app/core/worker_registry.py](file://backend/app/core/worker_registry.py)
+- [backend/app/core/proactive_engine.py](file://backend/app/core/proactive_engine.py)
 
 ## 性能考量
 - 并行与流水线
@@ -709,6 +743,8 @@ NLU --> QA
   - 记忆树与NLU/RAG的缓存命中率直接影响响应速度，应定期评估与优化。
 - 指标与压测
   - 指标系统应覆盖吞吐、P95/P99、错误率与资源利用率，配合压测验证扩容策略。
+- 主动引擎性能
+  - 定时任务和心跳自检应合理配置执行频率，避免过度消耗系统资源。
 
 ## 故障排查指南
 - 事件丢失与延迟
@@ -719,6 +755,8 @@ NLU --> QA
   - 审查安全沙箱日志与模型路由决策；核对规则引擎阈值与白名单。
 - 通知失败
   - 检查通知引擎配置与下游渠道可用性；核对告警模板与接收人列表。
+- 主动引擎故障
+  - 检查调度器配置与定时任务状态；核对心跳自检日志与洞察挖掘结果。
 
 **章节来源**
 - [backend/app/core/event_bus.py](file://backend/app/core/event_bus.py)
@@ -727,9 +765,12 @@ NLU --> QA
 - [backend/app/core/security_sandbox.py](file://backend/app/core/security_sandbox.py)
 - [backend/app/core/notification_engine.py](file://backend/app/core/notification_engine.py)
 - [backend/app/core/rule_engine.py](file://backend/app/core/rule_engine.py)
+- [backend/app/core/proactive_engine.py](file://backend/app/core/proactive_engine.py)
 
 ## 结论
-避风港平台的多Agent架构以管理Agent为核心，通过事件总线实现松耦合协作，借助规则引擎与安全沙箱保障合规与安全，利用记忆树与NLU/RAG提升智能水平，配合通知与指标系统形成闭环。该架构具备良好的扩展性与自适应能力，适合在复杂的合规与产品治理场景中演进。
+避风港平台的多Agent架构以管理Agent为核心，通过事件总线实现松耦合协作，借助规则引擎与安全沙箱保障合规与安全，利用记忆树与NLU/RAG提升智能水平，配合通知与指标系统形成闭环。新增的主动引擎进一步增强了系统的智能化程度，能够主动发现和处理合规风险。该架构具备良好的扩展性与自适应能力，适合在复杂的合规与产品治理场景中演进。
+
+**更新** 本次更新反映了架构的简化和智能化升级，移除了复杂的合规流程引擎，采用更直接的服务导向处理方式，同时增强了主动管理和错误处理能力。
 
 ## 附录
 
@@ -737,6 +778,7 @@ NLU --> QA
 - 管理Agent：中枢编排、资源协调、状态同步、通知与指标。
 - QA Agent：质量与合规守门人，规则与风险联动。
 - 任务分解Agent：目标到任务的桥梁，产出可执行图谱。
+- 主动引擎：定时任务、心跳自检、洞察挖掘，提供主动式管理。
 - 共享基础：事件总线、记忆树、NLU/RAG、通知与指标。
 
 **章节来源**
@@ -748,6 +790,7 @@ NLU --> QA
 - [backend/app/core/nlu.py](file://backend/app/core/nlu.py)
 - [backend/app/core/notification_engine.py](file://backend/app/core/notification_engine.py)
 - [backend/app/core/metrics.py](file://backend/app/core/metrics.py)
+- [backend/app/core/proactive_engine.py](file://backend/app/core/proactive_engine.py)
 
 ### 通信协议与状态同步
 - 事件协议：统一事件格式与路由键，支持广播与点对点分发。
@@ -762,12 +805,14 @@ NLU --> QA
 - 规则自适应：基于历史校验与误报统计调整规则权重与阈值。
 - 模型路由优化：根据任务类型与成本效果动态调整路由策略。
 - 记忆树优化：通过检索命中率与相关性评估改进索引与嵌入策略。
+- 主动引擎自适应：基于系统运行状态和业务反馈调整主动检测策略。
 
 **章节来源**
 - [backend/app/core/qa_agent.py](file://backend/app/core/qa_agent.py)
 - [backend/app/core/rule_engine.py](file://backend/app/core/rule_engine.py)
 - [backend/app/core/model_router.py](file://backend/app/core/model_router.py)
 - [backend/app/core/memory_tree.py](file://backend/app/core/memory_tree.py)
+- [backend/app/core/proactive_engine.py](file://backend/app/core/proactive_engine.py)
 
 ### 生命周期管理
 - 创建：加载配置、注册事件监听、初始化存储与指标。
@@ -783,6 +828,7 @@ NLU --> QA
 - 配置管理：Agent配置存储与扩展清单，支持热更新与灰度。
 - 性能监控：指标采集与可视化，支持告警与趋势分析。
 - 故障恢复：自动重试、降级策略与手动干预接口。
+- 错误处理与日志记录：统一的日志格式和错误分类，支持分布式追踪。
 
 **章节来源**
 - [backend/app/storage/agent_config_store.py](file://backend/app/storage/agent_config_store.py)
@@ -794,6 +840,7 @@ NLU --> QA
 - 合规扫描与报告生成：管理Agent接收合规目标，任务分解Agent拆解为扫描与生成子任务，QA Agent进行规则校验，最终由通知引擎推送报告。
 - 产品信息治理：结合知识与记忆树，NLU理解用户问题，RAG检索相关产品与法规，行动链执行查询与更新，指标系统评估效果。
 - 风险阻断与回退：规则引擎与风险告警识别高危行为，安全沙箱隔离执行，必要时回滚并通知管理员。
+- 主动合规管理：主动引擎定时检查认证状态、法规变更和系统健康状况，提前发现和处理潜在问题。
 
 **章节来源**
 - [backend/app/services/compliance.py](file://backend/app/services/compliance.py)
@@ -803,3 +850,4 @@ NLU --> QA
 - [backend/app/core/risk_alert.py](file://backend/app/core/risk_alert.py)
 - [backend/app/core/security_sandbox.py](file://backend/app/core/security_sandbox.py)
 - [backend/app/core/notification_engine.py](file://backend/app/core/notification_engine.py)
+- [backend/app/core/proactive_engine.py](file://backend/app/core/proactive_engine.py)

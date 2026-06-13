@@ -309,10 +309,21 @@ class UnifiedEventDispatcher:
             elif isinstance(result, str):
                 response_text = result
 
-            # 发送最终回复
+            # 发送最终回复（去重：如果已在进度中发送过则跳过）
             if source == "feishu" and chat_id:
                 if response_text:
-                    await self._send_feishu_direct(chat_id, response_text)
+                    # 检查最终回复是否已通过进度回调发送过
+                    already_sent = False
+                    for sent in self._progress_sent:
+                        if _is_similar(response_text, sent) or (
+                            len(response_text) > 50 and response_text.strip() in "".join(self._progress_sent)
+                        ):
+                            already_sent = True
+                            break
+                    if already_sent:
+                        logger.info("最终回复已通过进度回调发送，跳过重复发送")
+                    else:
+                        await self._send_feishu_direct(chat_id, response_text)
                 elif self._tool_calls:
                     await self._send_feishu_direct(
                         chat_id,

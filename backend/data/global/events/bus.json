@@ -21520,5 +21520,234 @@
     "severity": "low",
     "error": null,
     "created_at": "2026-06-13T08:41:25.863241+00:00"
+  },
+  {
+    "id": "3584ccb25bca",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.004011631011962891
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:03:08.034745+00:00"
+  },
+  {
+    "id": "a0bc21cb4a91",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0012080669403076172
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:03:08.058962+00:00"
+  },
+  {
+    "id": "e05e963173ca",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.002560138702392578
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:03:08.074578+00:00"
+  },
+  {
+    "id": "136c904aeee9",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:05:43.728773+00:00"
+  },
+  {
+    "id": "543019376024",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:06:22.829813+00:00"
+  },
+  {
+    "id": "9d1102312b2c",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:08:51.983349+00:00"
+  },
+  {
+    "id": "f98343103c45",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:09:00.426730+00:00"
+  },
+  {
+    "id": "5f3455f7fe8b",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:13:42.545157+00:00"
+  },
+  {
+    "id": "e5571e7cbb11",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:13:57.875888+00:00"
+  },
+  {
+    "id": "12581f2f3713",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:21:00.228675+00:00"
+  },
+  {
+    "id": "c9ca552db6b3",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:21:20.048911+00:00"
+  },
+  {
+    "id": "77e5c85bc151",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:21:45.670411+00:00"
+  },
+  {
+    "id": "e67a9fb5f611",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:30:31.483958+00:00"
   }
 ]

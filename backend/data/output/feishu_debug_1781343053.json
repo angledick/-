@@ -1,0 +1,24 @@
+{
+  "query": "你好",
+  "response_text": "你好！请问需要什么帮助？😊",
+  "response_len": 13,
+  "tools_used": [],
+  "progress_messages": [
+    "你好！请问需要什么帮助？😊"
+  ],
+  "progress_count": 1,
+  "tool_calls": [],
+  "result_keys": [
+    "response",
+    "structured_result",
+    "tools_used",
+    "session_id",
+    "usage"
+  ],
+  "usage": {
+    "cost_usd": 1.08148625,
+    "input_tokens": null,
+    "output_tokens": null
+  },
+  "session_id": null
+}

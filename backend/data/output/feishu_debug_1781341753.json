@@ -1,0 +1,24 @@
+{
+  "query": "f6b8d15ec8be43aaaf5038284f2be4d2.8GEVBgszUo3WE9wE",
+  "response_text": "你好！这看起来像是一个 ID 或令牌。请问你需要我做什么？",
+  "response_len": 29,
+  "tools_used": [],
+  "progress_messages": [
+    "你好！这看起来像是一个 ID 或令牌。请问你需要我做什么？"
+  ],
+  "progress_count": 1,
+  "tool_calls": [],
+  "result_keys": [
+    "response",
+    "structured_result",
+    "tools_used",
+    "session_id",
+    "usage"
+  ],
+  "usage": {
+    "cost_usd": 0.08982575000000001,
+    "input_tokens": null,
+    "output_tokens": null
+  },
+  "session_id": null
+}

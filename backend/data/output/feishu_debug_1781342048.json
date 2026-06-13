@@ -1,0 +1,25 @@
+{
+  "query": "你好",
+  "response_text": "你好！请问需要什么帮助？😊",
+  "response_len": 13,
+  "tools_used": [],
+  "progress_messages": [
+    "你好！我是**避风港**跨境合规助手 🛡️\n\n可以帮你做：\n- 📦 **合规检查** — 产品出口某国需要什么认证/HS编码/VAT\n- 📊 **系统管理** — 查看商品、定时任务、健康状态\n- 📋 **生成报告** — 出口合规分析报告\n\n请告诉我需要什么帮助？",
+    "你好！请问需要什么帮助？😊"
+  ],
+  "progress_count": 2,
+  "tool_calls": [],
+  "result_keys": [
+    "response",
+    "structured_result",
+    "tools_used",
+    "session_id",
+    "usage"
+  ],
+  "usage": {
+    "cost_usd": 0.0884275,
+    "input_tokens": null,
+    "output_tokens": null
+  },
+  "session_id": null
+}
