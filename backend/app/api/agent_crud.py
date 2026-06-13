@@ -103,6 +103,9 @@ async def get_agents(_user: dict = Depends(get_current_user)):
     summary="获取 Agent 完整配置（含 system_prompt）",
 )
 async def get_agent_detail(agent_id: str, _user: dict = Depends(get_current_user)):
+    # 排除保留字，避免吞噬 /agents/tasks 等子路由
+    if agent_id in ("tasks", "workers", "templates"):
+        raise HTTPException(status_code=404, detail=f"Agent '{agent_id}' 不存在")
     agent = get_agent(agent_id)
     if not agent:
         raise HTTPException(status_code=404, detail="Agent 不存在")

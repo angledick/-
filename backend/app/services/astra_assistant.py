@@ -24,12 +24,13 @@
     agents = await assistant.list_subagents()
 """
 
+import asyncio
 import json
 import logging
 import re
 import uuid
 from pathlib import Path
-from typing import Any, AsyncIterator, Optional, Dict
+from typing import Any, AsyncIterator, Callable, Optional, Dict
 
 from app.config import settings
 from app.services.prompt_loader import render_prompt
@@ -698,6 +699,39 @@ class AstraAssistant:
 
         return await self._chat_with_session(sid, full_prompt, model, agent_id=agent_id)
 
+    async def chat_with_progress(
+        self,
+        message: str,
+        session_id: Optional[str] = None,
+        context: Optional[dict] = None,
+        model: Optional[str] = None,
+        system_prompt: Optional[str] = None,
+        agent_id: Optional[str] = None,
+        on_progress: Optional[Callable[[str], None]] = None,
+    ) -> dict[str, Any]:
+        """带进度回调的对话 — 用于飞书消息的流式处理。
+
+        SDK 每产生一条中间消息（工具调用、任务进度），
+        通过 on_progress 回调实时通知。
+        """
+        if not self._sdk_available():
+            return self._mock_chat_result(message)
+
+        sid = session_id
+        if not sid:
+            sid = str(uuid.uuid4())
+
+        system = system_prompt or ASTRA_SYSTEM_PROMPT
+        if context:
+            extra = render_prompt("chat_compliance", **(context or {}))
+            if extra:
+                system = f"{system}\n\n{extra}"
+        full_prompt = f"{system}\n\n用户消息: {message}"
+
+        return await self._chat_with_session_inner(
+            sid, full_prompt, model, agent_id=agent_id, on_progress=on_progress,
+        )
+
     async def chat_stream(
         self,
         message: str,
@@ -1020,6 +1054,165 @@ class AstraAssistant:
         except Exception as e:
             await self.close_session(session_id)
             raise AstraAssistantError(f"Claude 对话失败: {e}") from e
+
+    async def _chat_with_session_inner(
+        self,
+        session_id: str,
+        full_prompt: str,
+        model: Optional[str] = None,
+        agent_id: Optional[str] = None,
+        on_progress: Optional[Callable[[str], None]] = None,
+    ) -> dict[str, Any]:
+        """带进度回调的内部对话方法。
+
+        直接消费 receive_response() 流，每收到一条消息就通过 on_progress 回调。
+        在 ProactorEventLoop 中运行（Windows 兼容）。
+        """
+        from claude_agent_sdk.types import (
+            ResultMessage, AssistantMessage, TextBlock,
+            ToolUseBlock, ToolResultBlock, ThinkingBlock,
+        )
+
+        client = self._get_or_create_client(session_id, model=model, agent_id=agent_id)
+        if client is None:
+            return self._mock_chat_result(full_prompt[:100])
+
+        # 在 ProactorEventLoop 中运行 SDK
+        def _run_sync():
+            import subprocess as _sp
+            loop = asyncio.new_event_loop()
+            try:
+                asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+                asyncio.set_event_loop(loop)
+                return loop.run_until_complete(
+                    self._run_sdk_in_loop(client, full_prompt, on_progress)
+                )
+            finally:
+                try:
+                    loop.run_until_complete(loop.shutdown_asyncgens())
+                except Exception:
+                    pass
+                loop.close()
+
+        try:
+            result = await asyncio.to_thread(_run_sync)
+            return result
+        except Exception as e:
+            await self.close_session(session_id)
+            raise AstraAssistantError(f"SDK 执行失败: {e}") from e
+
+    async def _run_sdk_in_loop(
+        self,
+        client: Any,
+        full_prompt: str,
+        on_progress: Optional[Callable[[str], None]] = None,
+    ) -> dict[str, Any]:
+        """在事件循环中运行 SDK 并收集结果。"""
+        from claude_agent_sdk.types import (
+            ResultMessage, AssistantMessage, TextBlock,
+            ToolUseBlock, ToolResultBlock,
+        )
+
+        if not hasattr(client, '_transport') or client._transport is None:
+            await client.connect()
+
+        await client.query(full_prompt)
+
+        result_text = ""
+        tools_used: list[str] = []
+        usage: Optional[dict] = None
+        last_tool_result: str = ""
+
+        async for msg in client.receive_response():
+            if isinstance(msg, ResultMessage):
+                usage = {
+                    "cost_usd": getattr(msg, "total_cost_usd", None),
+                    "input_tokens": getattr(msg, "input_tokens", None),
+                    "output_tokens": getattr(msg, "output_tokens", None),
+                }
+                continue
+
+            if isinstance(msg, AssistantMessage):
+                for block in msg.content:
+                    if isinstance(block, TextBlock):
+                        text = block.text or ""
+                        result_text += text
+                        if on_progress and text.strip():
+                            on_progress(text)
+                    elif isinstance(block, ToolUseBlock):
+                        tool_name = block.name or ""
+                        tools_used.append(tool_name)
+                        if on_progress:
+                            progress_text = self._format_tool_progress(block)
+                            on_progress(progress_text)
+                    elif isinstance(block, ToolResultBlock):
+                        content = self._format_tool_result(block)
+                        if content:
+                            last_tool_result = content
+                            if on_progress:
+                                on_progress(f"📋 {content[:300]}")
+
+        # 兜底：SDK 无 TextBlock 时用最后一条工具结果
+        if not result_text and last_tool_result:
+            result_text = last_tool_result
+
+        return {
+            "response": result_text,
+            "structured_result": None,
+            "tools_used": tools_used,
+            "session_id": None,
+            "usage": usage,
+        }
+
+    @staticmethod
+    def _format_tool_progress(block) -> str:
+        """将工具调用格式化为可读的进度消息。"""
+        name = getattr(block, 'name', '') or ''
+        inp = getattr(block, 'input', {}) or {}
+
+        if name == 'Bash':
+            desc = inp.get('description', '') or inp.get('command', '')
+            if desc:
+                return f"🔧 执行: {desc}"
+            return f"🔧 执行命令"
+        elif name in ('Read', 'Write', 'Edit'):
+            path = inp.get('file_path', '') or inp.get('path', '')
+            if path:
+                return f"🔧 {name}: {path}"
+            return f"🔧 {name}"
+        elif name == 'Glob':
+            pattern = inp.get('pattern', '') or inp.get('query', '')
+            return f"🔧 Glob: {pattern}"
+        elif name in ('WebSearch', 'WebFetch'):
+            query = inp.get('query', '') or inp.get('url', '')
+            return f"🔧 {name}: {query}"
+        elif name == 'Grep':
+            return f"🔧 搜索: {inp.get('pattern', '')}"
+        else:
+            return f"🔧 {name}"
+
+    @staticmethod
+    def _format_tool_result(block) -> str:
+        """将工具结果格式化为可读文本。"""
+        content = getattr(block, 'content', None)
+        if content is None:
+            return ""
+        if isinstance(content, str):
+            if content in ("tool ran successfully", "Tool ran successfully"):
+                return ""
+            return content[:300]
+        if isinstance(content, list):
+            parts = []
+            for item in content:
+                if isinstance(item, str):
+                    if item not in ("tool ran successfully",):
+                        parts.append(item[:200])
+                elif isinstance(item, dict):
+                    text = item.get('text', '')
+                    if text:
+                        parts.append(text[:200])
+            return " | ".join(parts)[:300]
+        return str(content)[:300]
 
     async def _stream_client_messages(
         self, client: Any

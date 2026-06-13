@@ -21319,5 +21319,206 @@
     "severity": "low",
     "error": null,
     "created_at": "2026-06-12T09:05:39.866360+00:00"
+  },
+  {
+    "id": "1b8bbdfa93f7",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T08:18:20.328456+00:00"
+  },
+  {
+    "id": "468bf71674e1",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T08:19:11.260272+00:00"
+  },
+  {
+    "id": "a06569a8d1a7",
+    "type": "risk:fraud_detected",
+    "category": "risk_alert",
+    "source": "test_script",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "chat_id": "oc_c0a0a056f96abaf03cc6605b9fc26e4b",
+      "product_id": "test_001",
+      "risk_score": 95,
+      "description": "[模拟测试] 欺诈风险检测触发",
+      "affected_markets": [
+        "德国",
+        "欧盟"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "critical",
+    "error": null,
+    "created_at": "2026-06-13T08:23:52.981251+00:00"
+  },
+  {
+    "id": "c46c190d716c",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T08:24:17.371326+00:00"
+  },
+  {
+    "id": "dfb5b4f1bf55",
+    "type": "risk:fraud_detected",
+    "category": "risk_alert",
+    "source": "test",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "chat_id": "oc_c0a0a056f96abaf03cc6605b9fc26e4b",
+      "risk_score": 95
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "critical",
+    "error": null,
+    "created_at": "2026-06-13T08:30:38.659821+00:00"
+  },
+  {
+    "id": "6999ad7a0d41",
+    "type": "risk:fraud_detected",
+    "category": "risk_alert",
+    "source": "test",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "chat_id": "oc_c0a0a056f96abaf03cc6605b9fc26e4b",
+      "risk_score": 95
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "critical",
+    "error": null,
+    "created_at": "2026-06-13T08:30:44.948277+00:00"
+  },
+  {
+    "id": "a3e1a2164192",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T08:30:48.538495+00:00"
+  },
+  {
+    "id": "83a51ce3356c",
+    "type": "risk:fraud_detected",
+    "category": "risk_alert",
+    "source": "test_script",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "chat_id": "oc_c0a0a056f96abaf03cc6605b9fc26e4b",
+      "product_id": "test_001",
+      "risk_score": 95,
+      "description": "[模拟] 欺诈风险检测触发"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "critical",
+    "error": null,
+    "created_at": "2026-06-13T08:31:33.356085+00:00"
+  },
+  {
+    "id": "c94c24e4feb0",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T08:31:47.558335+00:00"
+  },
+  {
+    "id": "4f2b0f7f5d49",
+    "type": "risk:fraud_detected",
+    "category": "risk_alert",
+    "source": "test_script",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "chat_id": "oc_c0a0a056f96abaf03cc6605b9fc26e4b",
+      "product_id": "test_001",
+      "risk_score": 95,
+      "description": "[模拟] 欺诈风险检测触发，需要人工审批"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "critical",
+    "error": null,
+    "created_at": "2026-06-13T08:41:15.250011+00:00"
+  },
+  {
+    "id": "fa39e0e52706",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T08:41:25.863241+00:00"
   }
 ]

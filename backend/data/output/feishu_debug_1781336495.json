@@ -1,0 +1,32 @@
+{
+  "query": "现有定时任务",
+  "response_text": "# ⏰ 现有定时任务\n\n共 **9 个任务**，全部绑定 Worker 且启用。\n\n| # | 任务名称 | 触发方式 | 频率 | 绑定 Worker |\n|---|---------|---------|------|------------|\n| 1 | 🔄 **市场轮询** | interval | 每 60 分钟 | `regulation_worker` |\n| 2 | 📊 **指标收集** | interval | 每 6 小时 | `system_worker` |\n| 3 | 📋 **每日合规简报** | cron | 每天 09:00 | `compliance_worker` |\n| 4 | ⏰ **认证到期预警** | cron | 每天 10:00 | `cert_worker` |\n| 5 | 🔍 **法规变更扫描** | interval | 每 1 小时 | `regulation_worker` |\n| 6 | 🫀 **心跳自检** | interval | 每 5 分钟 | `system_worker` |\n| 7 | 💡 **跨产品洞察** | interval | 每 4 小时 | `compliance_worker` |\n| 8 | 📈 **全局指标聚合** | interval | 每 12 小时 | `system_worker` |\n| 9 | 📰 **新闻采集与分析** | interval | 每 1 小时 | `regulation_worker` |\n\n### Worker 分布\n```\nregulation_worker  3 个任务（市场轮询、法规扫描、新闻采集）\nsystem_worker      3 个任务（指标收集、心跳自检、全局指标）\ncompliance_worker  2 个任务（每日简报、跨产品洞察）\ncert_worker        1 个任务（认证到期预警）\n```\n\n> ⚠️ 当前服务未运行，定时任务处于暂停状态。启动服务后自动恢复调度。",
+  "response_len": 878,
+  "tools_used": [
+    "Read",
+    "Read"
+  ],
+  "progress_messages": [
+    "🔧 Read: C:\\Users\\22859\\Desktop\\astra-main\\backend\\data\\scheduler\\tasks.yaml",
+    "🔧 Read: C:\\Users\\22859\\Desktop\\astra-main\\backend\\data\\scheduler\\bindings.yaml",
+    "# ⏰ 现有定时任务\n\n共 **9 个任务**，全部绑定 Worker 且启用。\n\n| # | 任务名称 | 触发方式 | 频率 | 绑定 Worker |\n|---|---------|---------|------|------------|\n| 1 | 🔄 **市场轮询** | interval | 每 60 分钟 | `regulation_worker` |\n| 2 | 📊 **指标收集** | interval | 每 6 小时 | `system_worker` |\n| 3 | 📋 **每日合规简报** | cron | 每天 09:00 | `compliance_worker` |\n| 4 | ⏰ **认证到期预警** | cron | 每天 10:00 | `cert_worker` |\n| 5 | 🔍 **法规变更扫描** | interval | 每 1 小时 | `regulation_worker` |\n| 6 | 🫀 **心跳自检** | interval | 每 5 分钟 | `system_worker` |\n| 7 | 💡 **跨产品洞察** | interval | 每 4 小时 | `compliance_worker` |\n| 8 | 📈 **全局指标聚合** | interval | 每 12 小时 | `system_worker` |\n| 9 | 📰 **新闻采集与分析** | interval | 每 1 小时 | `regulation_worker` |\n\n### Worker 分布\n```\nregulation_worker  3 个任务（市场轮询、法规扫描、新闻采集）\nsystem_worker      3 个任务（指标收集、心跳自检、全局指标）\ncompliance_worker  2 个任务（每日简报、跨产品洞察）\ncert_worker        1 个任务（认证到期预警）\n```\n\n> ⚠️ 当前服务未运行，定时任务处于暂停状态。启动服务后自动恢复调度。"
+  ],
+  "progress_count": 3,
+  "tool_calls": [
+    "🔧 Read: C:\\Users\\22859\\Desktop\\astra-main\\backend\\data\\scheduler\\tasks.yaml",
+    "🔧 Read: C:\\Users\\22859\\Desktop\\astra-main\\backend\\data\\scheduler\\bindings.yaml"
+  ],
+  "result_keys": [
+    "response",
+    "structured_result",
+    "tools_used",
+    "session_id",
+    "usage"
+  ],
+  "usage": {
+    "cost_usd": 0.2736065,
+    "input_tokens": null,
+    "output_tokens": null
+  },
+  "session_id": null
+}
