@@ -2302,5 +2302,53 @@
     "finished_at": 1781341388.0744047,
     "error": "",
     "config": {}
+  },
+  {
+    "id": "abb71e89da02",
+    "provider": "shopify",
+    "sync_type": "products",
+    "connection_id": "",
+    "status": "success",
+    "items_synced": 0,
+    "items_created": 0,
+    "items_updated": 0,
+    "items_failed": 0,
+    "last_cursor": "",
+    "started_at": 1781344159.204225,
+    "finished_at": 1781344159.3421445,
+    "error": "",
+    "config": {}
+  },
+  {
+    "id": "587f7fb2a07a",
+    "provider": "shopify",
+    "sync_type": "orders",
+    "connection_id": "",
+    "status": "success",
+    "items_synced": 0,
+    "items_created": 0,
+    "items_updated": 0,
+    "items_failed": 0,
+    "last_cursor": "",
+    "started_at": 1781344159.6496527,
+    "finished_at": 1781344159.6616397,
+    "error": "",
+    "config": {}
+  },
+  {
+    "id": "0655fe11eee8",
+    "provider": "shopify",
+    "sync_type": "inventory",
+    "connection_id": "",
+    "status": "success",
+    "items_synced": 0,
+    "items_created": 0,
+    "items_updated": 0,
+    "items_failed": 0,
+    "last_cursor": "",
+    "started_at": 1781344159.7418284,
+    "finished_at": 1781344159.7495298,
+    "error": "",
+    "config": {}
   }
 ]

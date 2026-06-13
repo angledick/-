@@ -21784,5 +21784,144 @@
     "severity": "low",
     "error": null,
     "created_at": "2026-06-13T09:34:14.769224+00:00"
+  },
+  {
+    "id": "022a39b6fc4a",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.13791942596435547
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:49:19.402260+00:00"
+  },
+  {
+    "id": "222366c03e99",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.011986970901489258
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:49:19.663354+00:00"
+  },
+  {
+    "id": "cad7d83a4803",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.007701396942138672
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:49:19.749783+00:00"
+  },
+  {
+    "id": "e1914c021e10",
+    "type": "risk:fraud_detected",
+    "category": "risk_alert",
+    "source": "test",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "chat_id": "oc_c0a0a056f96abaf03cc6605b9fc26e4b",
+      "risk_score": 95
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "critical",
+    "error": null,
+    "created_at": "2026-06-13T09:56:08.637425+00:00"
+  },
+  {
+    "id": "ec14e0d37ebc",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:56:16.223377+00:00"
+  },
+  {
+    "id": "36946207f0a9",
+    "type": "risk:fraud_detected",
+    "category": "risk_alert",
+    "source": "test",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "chat_id": "oc_c0a0a056f96abaf03cc6605b9fc26e4b",
+      "risk_score": 95
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "critical",
+    "error": null,
+    "created_at": "2026-06-13T09:57:11.631384+00:00"
+  },
+  {
+    "id": "77827fdf13e5",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T09:57:20.538366+00:00"
   }
 ]

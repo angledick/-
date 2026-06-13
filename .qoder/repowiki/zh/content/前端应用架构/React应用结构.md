@@ -1,7 +1,7 @@
 # React应用结构
 
 <cite>
-**本文引用的文件**
+**本文档引用的文件**
 - [frontend/src/main.tsx](file://frontend/src/main.tsx)
 - [frontend/index.html](file://frontend/index.html)
 - [frontend/src/App.tsx](file://frontend/src/App.tsx)
@@ -20,7 +20,23 @@
 - [frontend/src/pages/OverviewPage.tsx](file://frontend/src/pages/OverviewPage.tsx)
 - [frontend/src/api/config.ts](file://frontend/src/api/config.ts)
 - [frontend/src/types/index.ts](file://frontend/src/types/index.ts)
+- [shopify-app/astra-compliance/app/root.jsx](file://shopify-app/astra-compliance/app/root.jsx)
+- [shopify-app/astra-compliance/app/routes/_index/route.jsx](file://shopify-app/astra-compliance/app/routes/_index/route.jsx)
+- [shopify-app/astra-compliance/app/routes/auth.login/route.jsx](file://shopify-app/astra-compliance/app/routes/auth.login/route.jsx)
+- [shopify-app/astra-compliance/app/db.server.js](file://shopify-app/astra-compliance/app/db.server.js)
+- [shopify-app/astra-compliance/prisma/schema.prisma](file://shopify-app/astra-compliance/prisma/schema.prisma)
+- [shopify-app/astra-compliance/package.json](file://shopify-app/astra-compliance/package.json)
+- [shopify-app/astra-compliance/vite.config.js](file://shopify-app/astra-compliance/vite.config.js)
+- [shopify-app/astra-compliance/tsconfig.json](file://shopify-app/astra-compliance/tsconfig.json)
 </cite>
+
+## 更新摘要
+**所做更改**
+- 新增Shopify应用前端架构章节，涵盖React Router 7.12.0、TypeScript、Prisma集成
+- 更新架构总览图，包含Shopify应用的现代前端技术栈
+- 新增Shopify应用的数据库设计与Prisma集成说明
+- 扩展依赖关系分析，包含Shopify应用的现代化技术栈
+- 更新性能考虑章节，增加Shopify应用的优化策略
 
 ## 目录
 1. [引言](#引言)
@@ -28,11 +44,12 @@
 3. [核心组件](#核心组件)
 4. [架构总览](#架构总览)
 5. [详细组件分析](#详细组件分析)
-6. [依赖关系分析](#依赖关系分析)
-7. [性能考虑](#性能考虑)
-8. [故障排查指南](#故障排查指南)
-9. [结论](#结论)
-10. [附录](#附录)
+6. [Shopify应用前端架构](#shopify应用前端架构)
+7. [依赖关系分析](#依赖关系分析)
+8. [性能考虑](#性能考虑)
+9. [故障排查指南](#故障排查指南)
+10. [结论](#结论)
+11. [附录](#附录)
 
 ## 引言
 本文件面向避风港平台的React前端应用，系统性梳理从应用入口到页面渲染的完整流程，重点覆盖以下方面：
@@ -42,6 +59,7 @@
 - 路由系统与页面组织：静态路由与布局嵌套
 - 生命周期管理、错误边界与性能监控集成
 - 组件树结构、代码分割与Bundle优化策略
+- **新增** Shopify应用前端架构：React Router 7.12.0、TypeScript、Prisma集成等现代化前端技术栈
 
 ## 项目结构
 前端位于frontend目录，采用React + TypeScript + Vite技术栈，使用TailwindCSS进行样式管理。项目采用按功能域划分的目录组织方式，核心目录包括：
@@ -57,6 +75,11 @@
 - 构建配置：vite.config.ts、tsconfig.json、package.json
 - HTML入口：index.html
 
+**新增** Shopify应用位于shopify-app目录，采用Shopify React App架构，包含：
+- app：应用路由和组件
+- prisma：数据库模式和迁移
+- 现代化技术栈：React Router 7.12.0、TypeScript、Prisma集成
+
 ```mermaid
 graph TB
 A["index.html<br/>挂载点 #root"] --> B["main.tsx<br/>创建根容器"]
@@ -70,16 +93,26 @@ H --> I["Sidebar<br/>导航"]
 H --> J["Outlet<br/>子路由内容"]
 J --> K["OverviewPage<br/>概览页"]
 J --> L["其他页面组件..."]
+subgraph "Shopify应用架构"
+S["shopify-app/<br/>React Router 7.12.0"]
+S --> R["app/<br/>路由与组件"]
+S --> P["prisma/<br/>数据库模式"]
+S --> T["TypeScript<br/>类型安全"]
+S --> PR["Prisma<br/>ORM集成"]
+end
 ```
 
-图表来源
+**图表来源**
 - [frontend/index.html:8-11](file://frontend/index.html#L8-L11)
 - [frontend/src/main.tsx:1-10](file://frontend/src/main.tsx#L1-L10)
 - [frontend/src/App.tsx:1-93](file://frontend/src/App.tsx#L1-L93)
+- [shopify-app/astra-compliance/app/root.jsx](file://shopify-app/astra-compliance/app/root.jsx)
+- [shopify-app/astra-compliance/prisma/schema.prisma](file://shopify-app/astra-compliance/prisma/schema.prisma)
 
-章节来源
+**章节来源**
 - [frontend/index.html:1-12](file://frontend/index.html#L1-L12)
 - [frontend/src/main.tsx:1-10](file://frontend/src/main.tsx#L1-L10)
+- [shopify-app/astra-compliance/package.json](file://shopify-app/astra-compliance/package.json)
 
 ## 核心组件
 本节聚焦应用启动与根组件的关键职责与实现要点。
@@ -102,37 +135,50 @@ J --> L["其他页面组件..."]
   - NotificationContext：通知中心与Toast管理，支持WebSocket事件驱动
   - AppStore（Zustand）：Agent配置、侧边栏状态等
 
-章节来源
+**新增** Shopify应用核心组件
+- root.jsx：应用根组件，提供路由容器和上下文提供者
+- db.server.js：数据库服务器配置，集成Prisma ORM
+- 路由组件：基于React Router 7.12.0的现代化路由系统
+
+**章节来源**
 - [frontend/src/main.tsx:1-10](file://frontend/src/main.tsx#L1-L10)
 - [frontend/src/App.tsx:1-93](file://frontend/src/App.tsx#L1-L93)
 - [frontend/src/context/AuthContext.tsx:1-106](file://frontend/src/context/AuthContext.tsx#L1-L106)
 - [frontend/src/context/WebSocketContext.tsx:1-132](file://frontend/src/context/WebSocketContext.tsx#L1-L132)
 - [frontend/src/context/NotificationContext.tsx:1-187](file://frontend/src/context/NotificationContext.tsx#L1-L187)
 - [frontend/src/context/AppStore.tsx:1-107](file://frontend/src/context/AppStore.tsx#L1-L107)
+- [shopify-app/astra-compliance/app/root.jsx](file://shopify-app/astra-compliance/app/root.jsx)
+- [shopify-app/astra-compliance/app/db.server.js](file://shopify-app/astra-compliance/app/db.server.js)
 
 ## 架构总览
-应用采用“入口 -> 根组件 -> 上下文提供者 -> 路由 -> 页面”的分层架构。认证与实时通信贯穿整个应用，全局状态通过Zustand集中管理。
+应用采用"入口 -> 根组件 -> 上下文提供者 -> 路由 -> 页面"的分层架构。认证与实时通信贯穿整个应用，全局状态通过Zustand集中管理。
+
+**更新** 新增Shopify应用的现代化前端技术栈架构：
 
 ```mermaid
 graph TB
-subgraph "应用入口"
+subgraph "传统React应用"
 M["main.tsx"]
 I["index.html"]
-end
-subgraph "根组件与上下文"
 A["App.tsx"]
 AC["AuthContext"]
 WC["WebSocketContext"]
 NC["NotificationContext"]
 ZS["Zustand Store(AppStore)"]
-end
-subgraph "路由与页面"
 R["AppRoutes"]
 L["Layout"]
 S["Sidebar"]
 P1["OverviewPage"]
 P2["LoginPage"]
 P3["其他页面..."]
+end
+subgraph "Shopify应用架构"
+SR["Shopify Root"]
+SC["Shopify Components"]
+SP["Prisma ORM"]
+SD["Database Schema"]
+ST["TypeScript"]
+SRT["React Router 7.12.0"]
 end
 I --> M --> A
 A --> AC
@@ -145,19 +191,24 @@ L --> S
 L --> P1
 R --> P2
 R --> P3
+SR --> SC
+SC --> SP
+SP --> SD
+SC --> ST
+SC --> SRT
 ```
 
-图表来源
+**图表来源**
 - [frontend/src/main.tsx:1-10](file://frontend/src/main.tsx#L1-L10)
 - [frontend/src/App.tsx:1-93](file://frontend/src/App.tsx#L1-L93)
-- [frontend/src/context/AuthContext.tsx:1-106](file://frontend/src/context/AuthContext.tsx#L1-L106)
-- [frontend/src/context/WebSocketContext.tsx:1-132](file://frontend/src/context/WebSocketContext.tsx#L1-L132)
-- [frontend/src/context/NotificationContext.tsx:1-187](file://frontend/src/context/NotificationContext.tsx#L1-L187)
-- [frontend/src/context/AppStore.tsx:1-107](file://frontend/src/context/AppStore.tsx#L1-L107)
-- [frontend/src/components/Layout.tsx:1-60](file://frontend/src/components/Layout.tsx#L1-L60)
-- [frontend/src/components/Sidebar.tsx:1-163](file://frontend/src/components/Sidebar.tsx#L1-L163)
-- [frontend/src/pages/OverviewPage.tsx:1-316](file://frontend/src/pages/OverviewPage.tsx#L1-L316)
-- [frontend/src/pages/LoginPage.tsx:1-90](file://frontend/src/pages/LoginPage.tsx#L1-L90)
+- [shopify-app/astra-compliance/app/root.jsx](file://shopify-app/astra-compliance/app/root.jsx)
+- [shopify-app/astra-compliance/prisma/schema.prisma](file://shopify-app/astra-compliance/prisma/schema.prisma)
+- [shopify-app/astra-compliance/package.json](file://shopify-app/astra-compliance/package.json)
+
+**章节来源**
+- [frontend/src/main.tsx:1-10](file://frontend/src/main.tsx#L1-L10)
+- [frontend/src/App.tsx:1-93](file://frontend/src/App.tsx#L1-L93)
+- [shopify-app/astra-compliance/app/root.jsx](file://shopify-app/astra-compliance/app/root.jsx)
 
 ## 详细组件分析
 
@@ -181,13 +232,13 @@ App->>Auth : 初始化AuthProvider
 App->>App : 判断登录状态并渲染路由
 ```
 
-图表来源
+**图表来源**
 - [frontend/index.html:8-11](file://frontend/index.html#L8-L11)
 - [frontend/src/main.tsx:1-10](file://frontend/src/main.tsx#L1-L10)
 - [frontend/src/App.tsx:1-93](file://frontend/src/App.tsx#L1-L93)
 - [frontend/src/context/AuthContext.tsx:1-106](file://frontend/src/context/AuthContext.tsx#L1-L106)
 
-章节来源
+**章节来源**
 - [frontend/index.html:1-12](file://frontend/index.html#L1-L12)
 - [frontend/src/main.tsx:1-10](file://frontend/src/main.tsx#L1-L10)
 - [frontend/src/App.tsx:1-93](file://frontend/src/App.tsx#L1-L93)
@@ -212,12 +263,12 @@ RenderLayout --> Routes["Routes 定义页面映射"]
 Routes --> End(["完成渲染"])
 ```
 
-图表来源
+**图表来源**
 - [frontend/src/App.tsx:35-82](file://frontend/src/App.tsx#L35-L82)
 - [frontend/src/components/Layout.tsx:1-60](file://frontend/src/components/Layout.tsx#L1-L60)
 - [frontend/src/pages/LoginPage.tsx:1-90](file://frontend/src/pages/LoginPage.tsx#L1-L90)
 
-章节来源
+**章节来源**
 - [frontend/src/App.tsx:1-93](file://frontend/src/App.tsx#L1-L93)
 - [frontend/src/components/Layout.tsx:1-60](file://frontend/src/components/Layout.tsx#L1-L60)
 - [frontend/src/pages/LoginPage.tsx:1-90](file://frontend/src/pages/LoginPage.tsx#L1-L90)
@@ -241,11 +292,11 @@ Auth->>Auth : 写入 localStorage
 Auth-->>UI : 设置 user/token 状态
 ```
 
-图表来源
+**图表来源**
 - [frontend/src/context/AuthContext.tsx:44-72](file://frontend/src/context/AuthContext.tsx#L44-L72)
 - [frontend/src/pages/LoginPage.tsx:11-23](file://frontend/src/pages/LoginPage.tsx#L11-L23)
 
-章节来源
+**章节来源**
 - [frontend/src/context/AuthContext.tsx:1-106](file://frontend/src/context/AuthContext.tsx#L1-L106)
 - [frontend/src/pages/LoginPage.tsx:1-90](file://frontend/src/pages/LoginPage.tsx#L1-L90)
 
@@ -274,12 +325,12 @@ WS-->>NC : 收到消息 -> 触发 handler
 NC->>UI : 新增通知/Toast
 ```
 
-图表来源
+**图表来源**
 - [frontend/src/context/WebSocketContext.tsx:31-108](file://frontend/src/context/WebSocketContext.tsx#L31-L108)
 - [frontend/src/context/NotificationContext.tsx:59-117](file://frontend/src/context/NotificationContext.tsx#L59-L117)
 - [frontend/src/api/config.ts:408-434](file://frontend/src/api/config.ts#L408-L434)
 
-章节来源
+**章节来源**
 - [frontend/src/context/WebSocketContext.tsx:1-132](file://frontend/src/context/WebSocketContext.tsx#L1-L132)
 - [frontend/src/context/NotificationContext.tsx:1-187](file://frontend/src/context/NotificationContext.tsx#L1-L187)
 - [frontend/src/api/config.ts:1-635](file://frontend/src/api/config.ts#L1-L635)
@@ -298,11 +349,11 @@ FetchAPI --> UpdateStore["更新 Zustand Store"]
 UpdateStore --> RenderRoutes["渲染受保护路由"]
 ```
 
-图表来源
+**图表来源**
 - [frontend/src/App.tsx:29-33](file://frontend/src/App.tsx#L29-L33)
 - [frontend/src/context/AppStore.tsx:28-44](file://frontend/src/context/AppStore.tsx#L28-L44)
 
-章节来源
+**章节来源**
 - [frontend/src/context/AppStore.tsx:1-107](file://frontend/src/context/AppStore.tsx#L1-L107)
 - [frontend/src/App.tsx:28-33](file://frontend/src/App.tsx#L28-L33)
 
@@ -327,12 +378,12 @@ API-->>OP : Promise.allSettled 结果
 OP->>OP : 更新状态/渲染UI
 ```
 
-图表来源
+**图表来源**
 - [frontend/src/pages/OverviewPage.tsx:54-81](file://frontend/src/pages/OverviewPage.tsx#L54-L81)
 - [frontend/src/api/config.ts:362-434](file://frontend/src/api/config.ts#L362-L434)
 - [frontend/src/types/index.ts:448-477](file://frontend/src/types/index.ts#L448-L477)
 
-章节来源
+**章节来源**
 - [frontend/src/pages/OverviewPage.tsx:1-316](file://frontend/src/pages/OverviewPage.tsx#L1-L316)
 - [frontend/src/api/config.ts:1-635](file://frontend/src/api/config.ts#L1-L635)
 - [frontend/src/types/index.ts:1-477](file://frontend/src/types/index.ts#L1-L477)
@@ -354,11 +405,77 @@ Layout --> Outlet["Outlet"]
 Outlet --> Overview["OverviewPage"]
 ```
 
-图表来源
+**图表来源**
 - [frontend/src/App.tsx:1-93](file://frontend/src/App.tsx#L1-L93)
 - [frontend/src/components/Layout.tsx:1-60](file://frontend/src/components/Layout.tsx#L1-L60)
 - [frontend/src/components/Sidebar.tsx:1-163](file://frontend/src/components/Sidebar.tsx#L1-L163)
 - [frontend/src/pages/OverviewPage.tsx:1-316](file://frontend/src/pages/OverviewPage.tsx#L1-L316)
+
+## Shopify应用前端架构
+
+**新增** Shopify应用采用现代化前端技术栈，包含React Router 7.12.0、TypeScript、Prisma集成等先进特性：
+
+### 应用入口与根组件
+- root.jsx：Shopify应用的根组件，提供路由容器和上下文提供者
+- 基于React Router 7.12.0的现代化路由系统，支持最新的路由特性
+- TypeScript类型安全，提供更好的开发体验和运行时保障
+
+### 路由系统与页面组织
+- app/routes：采用Shopify推荐的路由组织方式
+- _index：默认首页路由
+- auth.login：登录认证路由
+- app：主应用路由
+- webhooks：Shopify Webhook处理路由
+
+### 数据库与ORM集成
+- prisma/schema.prisma：数据库模式定义
+- db.server.js：数据库服务器配置
+- Prisma ORM：类型安全的数据库操作
+- 支持多种数据库后端（PostgreSQL、MySQL、SQLite等）
+
+### 现代化技术栈特性
+- React Router 7.12.0：最新版本的路由库，提供更好的性能和开发体验
+- TypeScript：完整的类型系统，提升代码质量和可维护性
+- Prisma：现代化ORM，支持数据库迁移和模式验证
+- Vite构建：快速的开发服务器和构建工具
+- TailwindCSS：实用优先的CSS框架
+
+```mermaid
+graph TB
+subgraph "Shopify应用技术栈"
+R7["React Router 7.12.0<br/>现代化路由"]
+TS["TypeScript<br/>类型安全"]
+PR["Prisma ORM<br/>数据库操作"]
+VITE["Vite<br/>构建工具"]
+TW["TailwindCSS<br/>样式框架"]
+END
+end
+subgraph "应用结构"
+ROOT["root.jsx<br/>根组件"]
+ROUTES["routes/<br/>路由组织"]
+DB["db.server.js<br/>数据库配置"]
+PRISMA["prisma/schema.prisma<br/>数据库模式"]
+END
+end
+R7 --> ROOT
+TS --> ROUTES
+PR --> DB
+VITE --> PRISMA
+TW --> ROOT
+```
+
+**图表来源**
+- [shopify-app/astra-compliance/app/root.jsx](file://shopify-app/astra-compliance/app/root.jsx)
+- [shopify-app/astra-compliance/prisma/schema.prisma](file://shopify-app/astra-compliance/prisma/schema.prisma)
+- [shopify-app/astra-compliance/app/db.server.js](file://shopify-app/astra-compliance/app/db.server.js)
+- [shopify-app/astra-compliance/package.json](file://shopify-app/astra-compliance/package.json)
+
+**章节来源**
+- [shopify-app/astra-compliance/app/root.jsx](file://shopify-app/astra-compliance/app/root.jsx)
+- [shopify-app/astra-compliance/app/routes/_index/route.jsx](file://shopify-app/astra-compliance/app/routes/_index/route.jsx)
+- [shopify-app/astra-compliance/app/routes/auth.login/route.jsx](file://shopify-app/astra-compliance/app/routes/auth.login/route.jsx)
+- [shopify-app/astra-compliance/prisma/schema.prisma](file://shopify-app/astra-compliance/prisma/schema.prisma)
+- [shopify-app/astra-compliance/package.json](file://shopify-app/astra-compliance/package.json)
 
 ## 依赖关系分析
 - 构建与开发
@@ -368,6 +485,13 @@ Outlet --> Overview["OverviewPage"]
 - 类型与编译：TypeScript配置为ESNext模块解析，bundler模式，JSX使用react-jsx
 - 运行时依赖：react、react-dom、react-router-dom、zustand、react-markdown
 
+**更新** Shopify应用依赖关系：
+- React Router 7.12.0：现代化路由库
+- Prisma：数据库ORM和迁移工具
+- TypeScript：类型系统
+- Vite：构建工具
+- TailwindCSS：样式框架
+
 ```mermaid
 graph LR
 Vite["vite.config.ts"] --> Plugins["插件: react, tailwindcss"]
@@ -375,17 +499,26 @@ Vite --> DevServer["开发服务器: 5173, 代理 /api"]
 Pkg["package.json"] --> Scripts["脚本: dev/build/preview"]
 TS["tsconfig.json"] --> Module["moduleResolution: bundler"]
 TS --> JSX["jsx: react-jsx"]
+subgraph "Shopify应用依赖"
+R7["react-router@7.12.0"]
+PR["prisma"]
+TS2["typescript"]
+VITE2["vite"]
+TAIL["tailwindcss"]
+end
 ```
 
-图表来源
+**图表来源**
 - [frontend/vite.config.ts:1-16](file://frontend/vite.config.ts#L1-L16)
 - [frontend/package.json:1-28](file://frontend/package.json#L1-L28)
 - [frontend/tsconfig.json:1-20](file://frontend/tsconfig.json#L1-L20)
+- [shopify-app/astra-compliance/package.json](file://shopify-app/astra-compliance/package.json)
 
-章节来源
+**章节来源**
 - [frontend/vite.config.ts:1-16](file://frontend/vite.config.ts#L1-L16)
 - [frontend/package.json:1-28](file://frontend/package.json#L1-L28)
 - [frontend/tsconfig.json:1-20](file://frontend/tsconfig.json#L1-L20)
+- [shopify-app/astra-compliance/package.json](file://shopify-app/astra-compliance/package.json)
 
 ## 性能考虑
 - 代码分割与懒加载
@@ -400,7 +533,11 @@ TS --> JSX["jsx: react-jsx"]
   - API封装统一处理鉴权头，减少重复逻辑
   - WebSocket长连接配合心跳维持，提升实时性
 
-[本节为通用指导，不直接分析具体文件]
+**新增** Shopify应用性能优化策略：
+- React Router 7.12.0的路由懒加载支持，减少初始包大小
+- Prisma的查询优化和连接池管理
+- TypeScript的编译时优化
+- Vite的快速热重载和构建优化
 
 ## 故障排查指南
 - 登录失败
@@ -416,16 +553,28 @@ TS --> JSX["jsx: react-jsx"]
   - 确认BrowserRouter包裹与路由表配置
   - 检查Layout与Outlet的嵌套关系
 
-章节来源
+**新增** Shopify应用故障排查：
+- 路由问题：检查React Router 7.12.0的路由配置和组件导入
+- 数据库连接：确认Prisma连接字符串和数据库可用性
+- 类型错误：检查TypeScript编译错误和类型定义
+- 构建问题：验证Vite配置和依赖版本兼容性
+
+**章节来源**
 - [frontend/src/context/AuthContext.tsx:44-72](file://frontend/src/context/AuthContext.tsx#L44-L72)
 - [frontend/src/context/WebSocketContext.tsx:39-108](file://frontend/src/context/WebSocketContext.tsx#L39-L108)
 - [frontend/src/context/NotificationContext.tsx:89-117](file://frontend/src/context/NotificationContext.tsx#L89-L117)
 - [frontend/src/App.tsx:35-82](file://frontend/src/App.tsx#L35-L82)
 
 ## 结论
-避风港React应用采用清晰的分层架构：入口负责挂载，根组件负责路由与上下文整合，页面组件承载业务逻辑。通过认证、WebSocket与通知三大上下文，应用实现了安全、实时与可观测的用户体验。结合Zustand与Vite，整体具备良好的可维护性与性能表现。后续可在路由层引入动态导入以进一步优化首屏加载，并完善错误边界与性能监控集成。
+避风港React应用采用清晰的分层架构：入口负责挂载，根组件负责路由与上下文整合，页面组件承载业务逻辑。通过认证、WebSocket与通知三大上下文，应用实现了安全、实时与可观测的用户体验。结合Zustand与Vite，整体具备良好的可维护性与性能表现。
 
-[本节为总结性内容，不直接分析具体文件]
+**新增** Shopify应用前端架构展示了现代化前端技术栈的最佳实践：
+- React Router 7.12.0提供了最新的路由特性和性能优化
+- TypeScript确保了代码质量和开发体验
+- Prisma集成实现了类型安全的数据库操作
+- 现代化的构建工具链提升了开发效率
+
+后续可在路由层引入动态导入以进一步优化首屏加载，并完善错误边界与性能监控集成。同时，Shopify应用的现代化技术栈为平台扩展提供了坚实的技术基础。
 
 ## 附录
 - API与类型
@@ -433,11 +582,17 @@ TS --> JSX["jsx: react-jsx"]
   - types/index.ts：核心业务类型定义，覆盖对话、事件链、风险预警、产品、定时任务等
 - UI组件
   - Layout/Sidebar/NotificationCenter/ToastNotification：提供一致的导航与通知体验
+- **新增** Shopify应用组件
+  - root.jsx：应用根组件
+  - db.server.js：数据库服务器配置
+  - 路由组件：基于React Router 7.12.0的现代化路由系统
 
-章节来源
+**章节来源**
 - [frontend/src/api/config.ts:1-635](file://frontend/src/api/config.ts#L1-L635)
 - [frontend/src/types/index.ts:1-477](file://frontend/src/types/index.ts#L1-L477)
 - [frontend/src/components/Layout.tsx:1-60](file://frontend/src/components/Layout.tsx#L1-L60)
 - [frontend/src/components/Sidebar.tsx:1-163](file://frontend/src/components/Sidebar.tsx#L1-L163)
 - [frontend/src/components/NotificationCenter.tsx:1-119](file://frontend/src/components/NotificationCenter.tsx#L1-L119)
 - [frontend/src/components/ToastNotification.tsx:1-53](file://frontend/src/components/ToastNotification.tsx#L1-L53)
+- [shopify-app/astra-compliance/app/root.jsx](file://shopify-app/astra-compliance/app/root.jsx)
+- [shopify-app/astra-compliance/app/db.server.js](file://shopify-app/astra-compliance/app/db.server.js)

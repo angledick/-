@@ -858,6 +858,7 @@ class AstraAssistant:
 
         result_text = ""
         try:
+            logger.info("SDK query 启动: cli_path=%s, model=%s, cwd=%s", options.cli_path, options.model, options.cwd)
             async for msg in query(prompt=task, options=options):
                 if isinstance(msg, ResultMessage) and msg.result:
                     result_text = msg.result or ""
@@ -866,6 +867,8 @@ class AstraAssistant:
                         if isinstance(block, TextBlock):
                             result_text += block.text
         except Exception as e:
+            import traceback as _tb
+            logger.error("SDK query 失败详情:\n%s", _tb.format_exc())
             raise AstraAssistantError(f"Claude Agent SDK query 失败: {e}") from e
 
         return self._parse_result(result_text, task)
