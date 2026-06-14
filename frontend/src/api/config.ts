@@ -945,6 +945,22 @@ export interface CustomsDeclaration {
   status: string
   exception_reason?: string
   created_at: string
+  // ── DEVLOG.md 扩展字段 ──
+  brand?: string
+  model_spec?: string
+  unit_price?: number
+  fx_rate_date?: string
+  shipper_name?: string
+  shipper_address?: string
+  shipper_eori?: string
+  consignee_name?: string
+  consignee_address?: string
+  order_id?: string
+  contract_no?: string
+  invoice_no?: string
+  export_license_no?: string
+  co_cert_no?: string
+  ecommerce_record_no?: string
 }
 
 export interface DutyCalcResult {
@@ -1042,6 +1058,25 @@ export const customsApi = {
     declared_value: number; dest_country: string; quantity?: number
     mode?: string; origin_country?: string; documents?: string[]
     ioss_number?: string
+    logistics_id?: string
+    declared_currency?: string
+    unit?: string
+    // ── DEVLOG.md 扩展字段（15个）──
+    brand?: string                    // 商品品牌
+    model_spec?: string               // 型号规格
+    unit_price?: number               // 单价
+    fx_rate_date?: string             // 汇率日期
+    shipper_name?: string             // 发货人名称
+    shipper_address?: string          // 发货人地址
+    shipper_eori?: string             // 发货人EORI
+    consignee_name?: string           // 收货人名称
+    consignee_address?: string        // 收货人地址
+    order_id?: string                 // 关联销售订单ID
+    contract_no?: string              // 合同号
+    invoice_no?: string               // 发票号
+    export_license_no?: string        // 出口许可证号
+    co_cert_no?: string               // CO证书号
+    ecommerce_record_no?: string      // 电商备案号
   }) => request<CustomsDeclaration>(`${API}/customs/declarations`, { method: 'POST', body: JSON.stringify(data) }),
   list: (params?: { product_id?: string; status?: string }) => {
     const p = new URLSearchParams()
@@ -1055,4 +1090,107 @@ export const customsApi = {
   calculateDuty: (data: { hs_code: string; dest_country: string; declared_value: number; currency?: string }) =>
     request<DutyCalcResult>(`${API}/customs/duty-calculator`, { method: 'POST', body: JSON.stringify(data) }),
   getTariffRates: () => request<any>(`${API}/customs/tariff-rates`),
+  clear: (id: string) => request<CustomsDeclaration>(`${API}/customs/declarations/${id}/clear`, { method: 'POST' }),
+  markException: (id: string, reason: string) =>
+    request<CustomsDeclaration>(`${API}/customs/declarations/${id}/exception?reason=${encodeURIComponent(reason)}`, { method: 'POST' }),
+  checkControlledGoods: (params: { hs_code: string; declared_name: string; dest_country: string; shipper_name?: string; shipper_address?: string }) => {
+    const p = new URLSearchParams({ hs_code: params.hs_code, declared_name: params.declared_name, dest_country: params.dest_country })
+    if (params.shipper_name) p.set('shipper_name', params.shipper_name)
+    if (params.shipper_address) p.set('shipper_address', params.shipper_address)
+    return request<any>(`${API}/customs/controlled-goods/check?${p.toString()}`)
+  },
+  threeWayCheck: (data: { order_id?: string; declaration_id?: string; logistics_id?: string }) =>
+    request<any>(`${API}/customs/three-way-check`, { method: 'POST', body: JSON.stringify(data) }),
+}
+
+// ── 销售订单 API ─────────────────────────────────────────────────────────────────
+
+export interface SalesOrder {
+  id: string
+  product_id?: string
+  platform: string
+  platform_order_id?: string
+  buyer_name: string
+  buyer_email: string
+  buyer_address: { country?: string; city?: string; zip?: string; street?: string }
+  items: Array<{ sku?: string; name: string; qty: number; unit_price: number; hs_code?: string }>
+  currency: string
+  total_amount: number
+  status: string
+  notes?: string
+  created_at: string
+  updated_at: string
+}
+
+export interface PaymentRecord {
+  id: string
+  order_id: string
+  channel_id?: string
+  payment_ref?: string
+  amount: number
+  currency: string
+  payer_email?: string
+  payer_name?: string
+  status: string
+  paid_at?: string
+  notes?: string
+  created_at: string
+}
+
+export interface ConsistencyCheckResult {
+  passed: boolean
+  checks: Array<{
+    dimension: string
+    label: string
+    passed: boolean
+    detail: string
+    severity?: string
+  }>
+  summary: string
+}
+
+export const ordersApi = {
+  list: (params?: { product_id?: string; platform?: string; status?: string; limit?: number }) => {
+    const p = new URLSearchParams()
+    if (params?.product_id) p.set('product_id', params.product_id)
+    if (params?.platform) p.set('platform', params.platform)
+    if (params?.status) p.set('status', params.status)
+    if (params?.limit) p.set('limit', String(params.limit))
+    return request<SalesOrder[]>(`${API}/orders?${p.toString()}`)
+  },
+  create: (data: {
+    platform?: string
+    platform_order_id?: string
+    product_id?: string
+    buyer_name: string
+    buyer_email?: string
+    buyer_address?: Record<string, unknown>
+    items?: Array<{ sku?: string; name: string; qty?: number; unit_price?: number; hs_code?: string }>
+    currency?: string
+    total_amount?: number
+    status?: string
+    notes?: string
+  }) => request<SalesOrder>(`${API}/orders`, { method: 'POST', body: JSON.stringify(data) }),
+  get: (id: string) => request<SalesOrder>(`${API}/orders/${id}`),
+  update: (id: string, data: Partial<SalesOrder>) =>
+    request<SalesOrder>(`${API}/orders/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  getPayments: (id: string) =>
+    request<{ payments: PaymentRecord[]; summary: { total_paid: number; total_refunded: number; count: number } }>(`${API}/orders/${id}/payments`),
+  addPayment: (id: string, data: {
+    channel_id?: string
+    payment_ref?: string
+    amount: number
+    currency?: string
+    payer_email?: string
+    payer_name?: string
+    status?: string
+    paid_at?: string
+    notes?: string
+  }) => request<PaymentRecord>(`${API}/orders/${id}/payments`, { method: 'POST', body: JSON.stringify(data) }),
+  consistencyCheck: (id: string, params?: { declaration_id?: string; logistics_id?: string }) => {
+    const p = new URLSearchParams()
+    if (params?.declaration_id) p.set('declaration_id', params.declaration_id)
+    if (params?.logistics_id) p.set('logistics_id', params.logistics_id)
+    return request<ConsistencyCheckResult>(`${API}/orders/${id}/consistency-check?${p.toString()}`)
+  },
 }

@@ -1,0 +1,141 @@
+{
+  "task_id": "task_4690962d9b",
+  "task_type": "recommend_actions",
+  "generation_status": "COMPLETED",
+  "processed_at": "2026-06-14T15:00:00Z",
+  "pipeline_stage": "RECOMMENDATIONS_GENERATED",
+  "priority_actions": [
+    {
+      "action_id": "A001",
+      "title": "确认HS编码",
+      "priority": "P0",
+      "category": "CLASSIFICATION",
+      "description": "人工确认HS编码（建议范围：8518.30耳机类或8517.62蓝牙通信设备）",
+      "deadline": "IMMEDIATE",
+      "estimated_effort": "1-2天",
+      "responsible_party": "产品经理/关务",
+      "risk_addressed": "CRITICAL - HS编码风险",
+      "steps": ["联系海关或归类机构", "提供产品规格资料", "获取正式HS编码归类意见"]
+    },
+    {
+      "action_id": "A002",
+      "title": "启动CE认证流程",
+      "priority": "P0",
+      "category": "CERTIFICATION",
+      "description": "联系公告机构进行CE符合性评估，准备技术文档",
+      "deadline": "2026-08-02前",
+      "estimated_effort": "4-6周",
+      "responsible_party": "合规团队",
+      "risk_addressed": "CRITICAL - 市场准入",
+      "steps": ["选择公告机构", "准备技术构造文件", "进行EMC/安全测试", "签署符合性声明"]
+    },
+    {
+      "action_id": "A003",
+      "title": "完成RoHS合规检测",
+      "priority": "P0",
+      "category": "COMPLIANCE",
+      "description": "送样至实验室进行RoHS有害物质检测",
+      "deadline": "2-4周内",
+      "estimated_effort": "2-3周",
+      "responsible_party": "产品团队",
+      "risk_addressed": "CRITICAL - 环保合规",
+      "steps": ["准备样品", "选择认可实验室", "进行10项物质检测", "出具RoHS合规声明"]
+    },
+    {
+      "action_id": "A004",
+      "title": "申请WEEE注册(EAR)",
+      "priority": "P1",
+      "category": "ENVIRONMENTAL",
+      "description": "通过德国EAR系统注册电子产品回收",
+      "deadline": "市场准入前",
+      "estimated_effort": "2-3周",
+      "responsible_party": "合规团队",
+      "risk_addressed": "HIGH - 德国环保法规",
+      "steps": ["准备营业执照翻译件", "指定授权代表", "提交EAR注册申请", "获取WEEE注册号"]
+    },
+    {
+      "action_id": "A005",
+      "title": "完成Bluetooth SIG认证",
+      "priority": "P1",
+      "category": "CERTIFICATION",
+      "description": "蓝牙设备需完成Bluetooth SIG认证和QDID授权",
+      "deadline": "CE认证同步进行",
+      "estimated_effort": "2-4周",
+      "responsible_party": "研发团队",
+      "risk_addressed": "HIGH - 知识产权合规",
+      "steps": ["购买QDID授权", "完成RF测试", "提交SIG声明"]
+    },
+    {
+      "action_id": "A006",
+      "title": "注册德国包装法LUCID",
+      "priority": "P2",
+      "category": "PACKAGING",
+      "description": "完成德国包装物系统参与注册",
+      "deadline": "1个月内",
+      "estimated_effort": "1-2周",
+      "responsible_party": "合规团队",
+      "risk_addressed": "MODERATE - 包装法规",
+      "steps": ["注册LUCID账户", "申报包装材料", "签订系统参与合同"]
+    },
+    {
+      "action_id": "A007",
+      "title": "准备清关文件",
+      "priority": "P2",
+      "category": "LOGISTICS",
+      "description": "准备商业发票、装箱单、运输单据等清关文件",
+      "deadline": "发货前",
+      "estimated_effort": "1周",
+      "responsible_party": "物流团队",
+      "risk_addressed": "MODERATE - 清关风险",
+      "steps": ["制作商业发票", "准备装箱单", "确认运输单据", "准备产品规格书"]
+    },
+    {
+      "action_id": "A008",
+      "title": "指定欧盟授权代表(EC REP)",
+      "priority": "P2",
+      "category": "REGULATORY",
+      "description": "GPSR强制要求指定欧盟授权代表",
+      "deadline": "市场准入前",
+      "estimated_effort": "1-2周",
+      "responsible_party": "合规团队",
+      "risk_addressed": "MODERATE - GPSR合规",
+      "steps": ["选择欧盟授权代表", "签订授权协议", "更新产品标签"]
+    }
+  ],
+  "timeline_planning": {
+    "immediate_week_1": ["确认HS编码", "启动CE认证流程", "启动RoHS检测"],
+    "short_term_week_2_4": ["完成WEEE注册", "Bluetooth SIG认证", "LUCID注册"],
+    "medium_term_month_2": ["准备清关文件", "指定欧盟授权代表", "ERP能效评估"],
+    "pre_launch": ["最终合规审查", "文件归档", "系统更新"]
+  },
+  "compliance_data_reference": {
+    "target_market": "DE",
+    "vat_rate": 0.0,
+    "certifications_required": ["CE认证", "WEEE注册(EAR)", "RoHS合规", "德国包装法(LUCID)", "ERP能效标签"],
+    "risk_level": "medium",
+    "risk_score": 55
+  },
+  "expected_improvement": {
+    "current_score": 55,
+    "after_P0_actions": 80,
+    "after_P1_actions": 90,
+    "after_all_actions": 100,
+    "final_status": "COMPLIANT"
+  },
+  "six_stage_pipeline": {
+    "stage_1_event_perceive": "COMPLETED",
+    "stage_2_rule_check": "COMPLETED",
+    "stage_3_risk_assessment": "COMPLETED",
+    "stage_4_recommendations": "COMPLETED",
+    "stage_5_action_execution": "PENDING",
+    "stage_6_reporting": "PENDING"
+  },
+  "summary": {
+    "total_actions": 8,
+    "p0_critical": 3,
+    "p1_high": 2,
+    "p2_moderate": 3,
+    "estimated_full_compliance_time": "4-8周",
+    "market_ready_after": "P0+P1 actions completed"
+  }
+}

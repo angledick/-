@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { pipelineApi, modelConfigsApi, productsApi, riskAlertsApi, proactiveApi, type BriefItem } from '../api/config'
+import { pipelineApi, modelConfigsApi, productsApi, riskAlertsApi, proactiveApi } from '../api/config'
 import MetricCard from '../components/metrics/MetricCard'
 import TrendChart from '../components/metrics/TrendChart'
 
@@ -88,13 +88,17 @@ export default function MetricsPage() {
         const dayNames = ['周日', '周一', '周二', '周三', '周四', '周五', '周六']
         const data = res.briefs
           .map(b => ({
-            label: dayNames[new Date(b.date).getDay()],
+            label: dayNames[new Date(b.date).getDay()] ?? '—',
             value: b.summary.compliance_pass_rate,
           }))
           .slice(-7)
         // 最后一天用当前实时 healthScore
         if (data.length > 0) {
-          data[data.length - 1].value = healthScore || data[data.length - 1].value
+          const lastIdx = data.length - 1
+          const lastItem = data[lastIdx]
+          if (lastItem) {
+            lastItem.value = healthScore || lastItem.value
+          }
         }
         setWeekData(data)
       } else {

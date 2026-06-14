@@ -65,7 +65,8 @@ class ModelRouter:
     def _parse_routes(self, data: dict):
         """从配置字典解析路由。"""
         for role, config in data.get("routes", {}).items():
-            self._routes[role] = ModelConfig(**config)
+            config_with_role = {**config, "role": role}
+            self._routes[role] = ModelConfig(**config_with_role)
         self._fallback_chain = data.get("fallback_chain", {})
 
     # ── 路由接口 ──────────────────────────────────

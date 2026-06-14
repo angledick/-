@@ -1,0 +1,39 @@
+{
+  "id": "p_test_cd074123",
+  "name": "test",
+  "product_type": "toy",
+  "target_markets": [
+    "eu",
+    "de",
+    "us"
+  ],
+  "hs_code": "85411",
+  "vendor": "",
+  "tags": [],
+  "lifecycle_stage": "concept",
+  "business_stage": "阶段2",
+  "compliance_status": "pending",
+  "risk_level": "low",
+  "created_at": "2026-06-14T14:30:06.648390+00:00",
+  "updated_at": "2026-06-14T14:30:06.648416+00:00",
+  "metadata": {},
+  "health_score": 30,
+  "certifications": [
+    {
+      "name": "CE",
+      "status": "checking"
+    },
+    {
+      "name": "RoHS",
+      "status": "checking"
+    },
+    {
+      "name": "WEEE",
+      "status": "checking"
+    },
+    {
+      "name": "FDA",
+      "status": "checking"
+    }
+  ]
+}

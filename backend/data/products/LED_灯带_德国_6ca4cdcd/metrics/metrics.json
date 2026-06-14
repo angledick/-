@@ -1,0 +1,9 @@
+{
+  "event_count": 3,
+  "last_event_type": "compliance:check_passed",
+  "last_event_time": "2026-06-14T14:56:23.161765+00:00",
+  "snapshot_time": "2026-06-14T14:57:13.438240+00:00",
+  "event_type_counts": {
+    "compliance:check_passed": 3
+  }
+}

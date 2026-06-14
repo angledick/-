@@ -1,0 +1,34 @@
+{
+  "sync_status": "completed",
+  "sync_timestamp": "2026-06-14T14:47:42Z",
+  "total_products_synced": 1,
+  "products": [
+    {
+      "shopify_id": 7703739367491,
+      "name": "Astra 智能LED灯带 - Smart LED Strip",
+      "handle": "astra-智能led灯带-smart-led-strip",
+      "product_type": "Electronics",
+      "vendor": "Astra Tech",
+      "sku": "ASTRA-LED-001",
+      "price": "29.99",
+      "shopify_status": "active",
+      "lifecycle_stage": "active",
+      "compliance_status": "pending",
+      "risk_level": "low",
+      "health_score": 30,
+      "target_markets": [],
+      "certifications": []
+    }
+  ],
+  "sync_issues": [
+    "target_markets为空，需配置目标市场",
+    "certifications为空，需添加认证信息",
+    "health_score较低(30)，建议补充合规数据"
+  ],
+  "recommendations": [
+    "配置目标市场(EU/US/UK等)",
+    "触发HS编码查询流程",
+    "添加CE/RoHS/FCC等认证信息",
+    "进行完整合规检查"
+  ]
+}

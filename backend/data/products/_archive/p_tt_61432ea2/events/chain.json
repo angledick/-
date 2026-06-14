@@ -1,0 +1,85 @@
+{
+  "product_id": "p_tt_61432ea2",
+  "events": [
+    {
+      "id": "13088e745fb9",
+      "type": "product:created",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_tt_61432ea2",
+      "business_stage": "阶段2",
+      "data": {
+        "name": "tt",
+        "product_type": "tt"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-14T14:44:50.399001+00:00"
+    },
+    {
+      "id": "c3235f77c73a",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_tt_61432ea2",
+      "business_stage": null,
+      "data": {
+        "new_stage": "sourcing",
+        "reason": "前端手动调整为 采购"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-14T14:44:57.644458+00:00"
+    },
+    {
+      "id": "98e6591f8928",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_tt_61432ea2",
+      "business_stage": null,
+      "data": {
+        "new_stage": "ready",
+        "reason": "前端手动调整为 就绪"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-14T14:45:04.828073+00:00"
+    },
+    {
+      "id": "f0a5b3e70909",
+      "type": "compliance:check_started",
+      "category": "compliance",
+      "source": "api",
+      "product_id": "p_tt_61432ea2",
+      "business_stage": "阶段4",
+      "data": {},
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-14T14:45:06.595561+00:00"
+    }
+  ],
+  "timeline": [
+    "🟢 [Low] 2026-06-14T14:45:06 compliance:check_started",
+    "🟡 [Medium] 2026-06-14T14:45:04 product:status_changed",
+    "🟡 [Medium] 2026-06-14T14:44:57 product:status_changed",
+    "🟢 [Low] 2026-06-14T14:44:50 product:created"
+  ],
+  "total_events": 4
+}

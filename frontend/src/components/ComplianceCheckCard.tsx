@@ -16,7 +16,7 @@ export default function ComplianceCheckCard({ stage, checklist }: Props) {
   const items = checklist || []
   const passed = items.filter(i => i.passed).length
   const total = items.length
-  const st = stageStatusConfig[stage.status] || stageStatusConfig.unknown
+  const st = stageStatusConfig[stage.status] ?? stageStatusConfig.unknown ?? { label: '—', color: '', bg: '' }
   const passPct = Math.round(stage.pass_rate * 100)
 
   return (
@@ -25,8 +25,8 @@ export default function ComplianceCheckCard({ stage, checklist }: Props) {
       <div className="px-5 py-3 border-b border-black/6 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold text-[#1D1D1F]">{stage.stage_name}</span>
-          <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${st.bg} ${st.color}`}>
-            {st.label}
+          <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${st?.bg ?? ''} ${st?.color ?? ''}`}>
+            {st?.label ?? '—'}
           </span>
         </div>
         <div className="flex items-center gap-3 text-xs">

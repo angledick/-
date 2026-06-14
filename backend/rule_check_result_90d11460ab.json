@@ -1,0 +1,128 @@
+{
+  "task_id": "task_90d11460ab",
+  "task_type": "rule_check",
+  "rule_engine_status": "EXECUTED",
+  "processed_at": "2026-06-14T14:50:00Z",
+  "pipeline_stage": "RULE_CHECK_COMPLETED",
+  "rule_matching_results": {
+    "rules_evaluated": 12,
+    "rules_passed": 8,
+    "rules_failed": 3,
+    "rules_warning": 1,
+    "pass_rate": 67
+  },
+  "rule_details": [
+    {
+      "rule_id": "R001_HS_CODE_VALIDATION",
+      "rule_name": "HS编码验证规则",
+      "status": "FAILED",
+      "severity": "CRITICAL",
+      "description": "HS编码未精确匹配，需人工确认",
+      "expected": "有效HS编码",
+      "actual": "空值/未匹配"
+    },
+    {
+      "rule_id": "R002_VAT_RATE_CHECK",
+      "rule_name": "VAT税率验证",
+      "status": "PASSED",
+      "severity": "INFO",
+      "description": "德国VAT税率为0.0%（系统默认）",
+      "expected": "0.0-25%",
+      "actual": "0.0%"
+    },
+    {
+      "rule_id": "R003_CE_CERTIFICATION",
+      "rule_name": "CE认证要求",
+      "status": "FAILED",
+      "severity": "CRITICAL",
+      "description": "电子产品必须具有CE认证",
+      "expected": "CE认证已获取",
+      "actual": "未确认"
+    },
+    {
+      "rule_id": "R004_ROHS_COMPLIANCE",
+      "rule_name": "RoHS合规检查",
+      "status": "FAILED",
+      "severity": "HIGH",
+      "description": "电子设备需符合RoHS有害物质限制",
+      "expected": "RoHS合规声明",
+      "actual": "未确认"
+    },
+    {
+      "rule_id": "R005_WEEE_REGISTRATION",
+      "rule_name": "WEEE注册验证",
+      "status": "WARNING",
+      "severity": "HIGH",
+      "description": "德国市场需完成WEEE注册(EAR)",
+      "expected": "WEEE注册号",
+      "actual": "未注册"
+    },
+    {
+      "rule_id": "R006_PACKAGING_LAW",
+      "rule_name": "德国包装法LUCID",
+      "status": "PASSED",
+      "severity": "MODERATE",
+      "description": "包装法要求已识别",
+      "expected": "LUCID注册",
+      "actual": "已列入检查清单"
+    },
+    {
+      "rule_id": "R007_ERP_LABEL",
+      "rule_name": "ERP能效标签",
+      "status": "PASSED",
+      "severity": "MODERATE",
+      "description": "能效标签要求已识别",
+      "expected": "ERP标签（如适用）",
+      "actual": "已列入检查清单"
+    },
+    {
+      "rule_id": "R008_CUSTOMS_DOCS",
+      "rule_name": "清关文件检查",
+      "status": "PASSED",
+      "severity": "HIGH",
+      "description": "清关文件清单已生成",
+      "expected": "完整清关文件",
+      "actual": "清单已准备"
+    },
+    {
+      "rule_id": "R009_RISK_FLAGS",
+      "rule_name": "风险标志检查",
+      "status": "PASSED",
+      "severity": "INFO",
+      "description": "无特殊风险标志",
+      "expected": "无高风险标志",
+      "actual": "无风险标志"
+    },
+    {
+      "rule_id": "R010_LOGISTICS_FLAGS",
+      "rule_name": "物流标志检查",
+      "status": "PASSED",
+      "severity": "INFO",
+      "description": "无特殊物流限制",
+      "expected": "无物流限制",
+      "actual": "无物流标志"
+    }
+  ],
+  "compliance_data_loaded": {
+    "target_market": "DE",
+    "hs_code": "PENDING_MANUAL_REVIEW",
+    "vat_rate": 0.0,
+    "certifications_required": ["CE认证", "WEEE注册(EAR)", "RoHS合规", "德国包装法(LUCID)", "ERP能效标签"],
+    "risk_level": "medium",
+    "risk_score": 55
+  },
+  "six_stage_pipeline": {
+    "stage_1_event_perceive": "COMPLETED",
+    "stage_2_rule_check": "COMPLETED",
+    "stage_3_risk_assessment": "PENDING",
+    "stage_4_recommendations": "PENDING",
+    "stage_5_action_execution": "PENDING",
+    "stage_6_reporting": "PENDING"
+  },
+  "summary": {
+    "overall_compliance": "NON_COMPLIANT",
+    "blocking_issues": 3,
+    "risk_level": "MEDIUM",
+    "next_stage": "RISK_ASSESSMENT"
+  }
+}

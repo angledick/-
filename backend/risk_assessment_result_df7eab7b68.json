@@ -1,0 +1,86 @@
+{
+  "task_id": "task_df7eab7b68",
+  "task_type": "risk_assessment",
+  "assessment_status": "COMPLETED",
+  "processed_at": "2026-06-14T14:55:00Z",
+  "pipeline_stage": "RISK_ASSESSMENT_COMPLETED",
+  "risk_calculation": {
+    "overall_risk_score": 55,
+    "risk_level": "MEDIUM",
+    "confidence_level": "MODERATE",
+    "scoring_breakdown": {
+      "hs_code_risk": {"score": 25, "weight": 25, "status": "CRITICAL", "note": "HS编码未确认"},
+      "certification_risk": {"score": 20, "weight": 30, "status": "HIGH", "note": "5项核心认证未获取"},
+      "regulatory_risk": {"score": 5, "weight": 20, "status": "LOW", "note": "无特殊风险标志"},
+      "logistics_risk": {"score": 3, "weight": 15, "status": "LOW", "note": "无物流限制"},
+      "documentation_risk": {"score": 2, "weight": 10, "status": "LOW", "note": "清关文件清单已准备"}
+    },
+    "max_possible_score": 100,
+    "deductions": 45,
+    "final_score": 55
+  },
+  "risk_factors": {
+    "critical_risks": [
+      {
+        "factor": "HS编码未精确匹配",
+        "impact": "影响税则分类、认证路径、清关流程",
+        "mitigation": "立即联系专业机构确认HS编码"
+      },
+      {
+        "factor": "CE认证缺失",
+        "impact": "无法合法在欧盟市场销售",
+        "mitigation": "启动CE认证流程"
+      },
+      {
+        "factor": "RoHS合规未确认",
+        "impact": "可能违反有害物质限制指令",
+        "mitigation": "送样进行RoHS检测"
+      }
+    ],
+    "high_risks": [
+      {
+        "factor": "WEEE注册未完成",
+        "impact": "德国市场电子产品回收要求",
+        "mitigation": "通过EAR系统注册"
+      },
+      {
+        "factor": "德国包装法LUCID未注册",
+        "impact": "包装产品必须注册",
+        "mitigation": "完成LUCID系统注册"
+      }
+    ],
+    "hidden_risks": [
+      "Bluetooth SIG认证（蓝牙技术授权）",
+      "电池合规（UN38.3、电池指令）",
+      "REACH SVHC筛查（253种物质）",
+      "GPSR欧盟授权代表要求"
+    ]
+  },
+  "risk_matrix": {
+    "probability": "MEDIUM",
+    "impact": "HIGH",
+    "overall_exposure": "MEDIUM-HIGH",
+    "recommendation": "需要缓解措施后才能上架"
+  },
+  "certification_gap_analysis": {
+    "total_certifications": 5,
+    "obtained": 0,
+    "pending": 5,
+    "gap_percentage": 100,
+    "priority_order": ["CE认证(P0)", "RoHS合规(P0)", "WEEE注册(P1)", "德国包装法(P2)", "ERP能效标签(P2)"]
+  },
+  "six_stage_pipeline": {
+    "stage_1_event_perceive": "COMPLETED",
+    "stage_2_rule_check": "COMPLETED",
+    "stage_3_risk_assessment": "COMPLETED",
+    "stage_4_recommendations": "PENDING",
+    "stage_5_action_execution": "PENDING",
+    "stage_6_reporting": "PENDING"
+  },
+  "summary": {
+    "verdict": "CONDITIONAL_NON_COMPLIANT",
+    "market_readiness": "NOT_READY",
+    "estimated_time_to_compliance": "4-8 weeks",
+    "primary_blocker": "认证缺口（5项核心认证未获取）"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "query": "测试飞书消息接入",
+  "response_text": "API Error: Request rejected (429) · [1308][已达到 5 小时的使用上限。您的限额将在 2026-06-14 21:21:39 重置。][202606142110435ce055040a874cae]",
+  "response_len": 120,
+  "tools_used": [],
+  "progress_messages": [
+    "API Error: Request rejected (429) · [1308][已达到 5 小时的使用上限。您的限额将在 2026-06-14 21:21:39 重置。][202606142110435ce055040a874cae]"
+  ],
+  "progress_count": 1,
+  "tool_calls": [],
+  "result_keys": [
+    "response",
+    "structured_result",
+    "tools_used",
+    "session_id",
+    "usage"
+  ],
+  "usage": {
+    "cost_usd": 0,
+    "input_tokens": null,
+    "output_tokens": null
+  },
+  "session_id": null
+}

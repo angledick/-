@@ -177,7 +177,7 @@ export default function AgentMonitorPage() {
                           <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-white text-lg font-bold ${
                             agent.enabled ? 'bg-gradient-to-br from-[#1D1D1F] to-[#424245]' : 'bg-[#E5E5EA]'
                           }`}>
-                            {agent.name[0].toUpperCase()}
+                            {(agent.name[0] || '?').toUpperCase()}
                           </div>
                           <div>
                             <div className="text-sm font-semibold text-[#1D1D1F]">{agent.name}</div>

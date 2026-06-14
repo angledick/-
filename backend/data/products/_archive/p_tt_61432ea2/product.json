@@ -1,0 +1,39 @@
+{
+  "id": "p_tt_61432ea2",
+  "name": "tt",
+  "product_type": "tt",
+  "target_markets": [
+    "eu",
+    "de",
+    "us"
+  ],
+  "hs_code": "",
+  "vendor": "",
+  "tags": [],
+  "lifecycle_stage": "ready",
+  "business_stage": "阶段4",
+  "compliance_status": "pending",
+  "risk_level": "low",
+  "created_at": "2026-06-14T14:44:50.394165+00:00",
+  "updated_at": "2026-06-14T14:45:04.825049+00:00",
+  "metadata": {},
+  "health_score": 30,
+  "certifications": [
+    {
+      "name": "CE",
+      "status": "checking"
+    },
+    {
+      "name": "RoHS",
+      "status": "checking"
+    },
+    {
+      "name": "WEEE",
+      "status": "checking"
+    },
+    {
+      "name": "FDA",
+      "status": "checking"
+    }
+  ]
+}

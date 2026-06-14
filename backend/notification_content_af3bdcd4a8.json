@@ -1,0 +1,53 @@
+{
+  "task_id": "task_af3bdcd4a8",
+  "task_type": "notify_user",
+  "notification_status": "PREPARED",
+  "processed_at": "2026-06-14T14:58:00Z",
+  "notification_content": {
+    "title": "🔔 跨境合规检查报告已完成",
+    "summary": "无线蓝牙耳机 (Wireless Bluetooth Earbuds) 出口德国市场合规检查结果",
+    "risk_level": "MEDIUM (55/100)",
+    "key_findings": [
+      "✅ 合规检查流水线已完成",
+      "⚠️ HS编码需人工确认（建议：8518.30/8517.62）",
+      "🔴 5项核心认证待获取：CE、WEEE、RoHS、包装法、ERP",
+      "📋 清关文件清单已准备",
+      "⏱️ 预计合规周期：4-8周"
+    ],
+    "priority_actions": [
+      "P0: 确认HS编码",
+      "P0: 启动CE认证流程",
+      "P1: 完成RoHS检测",
+      "P1: 申请WEEE注册"
+    ]
+  },
+  "channels": {
+    "dashboard": {
+      "status": "PUSHED",
+      "message": "合规检查报告已更新到Dashboard",
+      "timestamp": "2026-06-14T14:58:00Z"
+    },
+    "websocket": {
+      "status": "SENT",
+      "event": "compliance_report_ready",
+      "payload": "task_af3bdcd4a8 | MEDIUM | 55/100"
+    },
+    "email": {
+      "status": "QUEUED",
+      "subject": "[避风港合规] 跨境合规检查报告 - 无线蓝牙耳机",
+      "note": "邮件通知已加入队列"
+    },
+    "feishu": {
+      "status": "AVAILABLE",
+      "note": "飞书消息渠道可用（如已配置）"
+    }
+  },
+  "pipeline_completion": {
+    "stage_1_event_perceive": "COMPLETED",
+    "stage_2_rule_check": "COMPLETED",
+    "stage_3_risk_assessment": "COMPLETED",
+    "stage_4_recommendations": "COMPLETED",
+    "stage_5_notify_user": "COMPLETED",
+    "stage_6_reporting": "COMPLETED"
+  }
+}

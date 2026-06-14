@@ -506,7 +506,7 @@ function PaymentPanel() {
             <input type="checkbox" checked={form.test_mode} onChange={e => setForm(f => ({ ...f, test_mode: e.target.checked }))} className="accent-blue-500"/>测试模式
           </label>
           {PROVIDER_META[form.provider] && (
-            <p className="text-xs text-gray-500 bg-white rounded-lg px-3 py-2 border border-gray-100">{PROVIDER_META[form.provider].icon} {PROVIDER_META[form.provider].desc}</p>
+            <p className="text-xs text-gray-500 bg-white rounded-lg px-3 py-2 border border-gray-100">{PROVIDER_META[form.provider]!.icon} {PROVIDER_META[form.provider]!.desc}</p>
           )}
           <div className="flex gap-2">
             <button onClick={handleAdd} className="h-9 px-5 text-sm font-semibold rounded-xl bg-gray-900 text-white hover:bg-gray-700 transition">配置</button>

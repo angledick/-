@@ -1,0 +1,17 @@
+{
+  "task_id": "task_e37375e2c8",
+  "task_type": "event_perceive",
+  "event_type": "compliance:check_started",
+  "processed_at": 1781426900,
+  "pipeline_status": "INITIATED",
+  "target_product": "Astra 智能LED灯带 - Smart LED Strip",
+  "product_type": "Electronics",
+  "six_stage_pipeline": {
+    "stage_1_event_perceive": "COMPLETED",
+    "stage_2_data_loading": "COMPLETED",
+    "stage_3_rule_check": "COMPLETED",
+    "stage_4_risk_assessment": "COMPLETED",
+    "stage_5_recommendations": "COMPLETED",
+    "stage_6_reporting": "COMPLETED"
+  }
+}

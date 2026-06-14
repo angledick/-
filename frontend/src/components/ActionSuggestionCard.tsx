@@ -5,14 +5,14 @@ interface Props {
   onAction?: (action: Action, decision: 'confirm' | 'skip') => void
 }
 
-const riskColors = {
+const riskColors: Record<string, string> = {
   low: 'bg-[#34C759]/10 text-[#34C759]',
   medium: 'bg-[#FF9500]/10 text-[#FF9500]',
   high: 'bg-[#FF3B30]/10 text-[#FF3B30]',
   critical: 'bg-[#FF3B30]/20 text-[#FF3B30] font-semibold',
 }
 
-const riskLabels = { low: '低风险', medium: '中风险', high: '高风险', critical: '严重' }
+const riskLabels: Record<string, string> = { low: '低风险', medium: '中风险', high: '高风险', critical: '严重' }
 
 const statusLabels: Record<string, string> = {
   pending: '',

@@ -1,0 +1,59 @@
+{
+  "id": "shopify_7703739367491",
+  "name": "Astra 智能LED灯带 - Smart LED Strip",
+  "product_type": "Electronics",
+  "target_markets": [],
+  "hs_code": "",
+  "vendor": "Astra Tech",
+  "tags": [
+    "led",
+    "lighting",
+    "smart",
+    "smart home",
+    "test"
+  ],
+  "lifecycle_stage": "active",
+  "business_stage": "阶段5",
+  "compliance_status": "pending",
+  "risk_level": "low",
+  "created_at": "2026-06-14T13:22:10.864237+00:00",
+  "updated_at": "2026-06-14T14:47:42.817581+00:00",
+  "metadata": {
+    "shopify_id": 7703739367491,
+    "handle": "astra-智能led灯带-smart-led-strip",
+    "status": "active",
+    "variants": [
+      {
+        "id": 43395386638403,
+        "product_id": 7703739367491,
+        "title": "Default Title",
+        "price": "29.99",
+        "position": 1,
+        "inventory_policy": "deny",
+        "compare_at_price": "49.99",
+        "option1": "Default Title",
+        "option2": null,
+        "option3": null,
+        "created_at": "2026-06-14T07:49:57+08:00",
+        "updated_at": "2026-06-14T07:49:57+08:00",
+        "taxable": true,
+        "barcode": "6975000010012",
+        "fulfillment_service": "manual",
+        "grams": 300,
+        "inventory_management": null,
+        "requires_shipping": true,
+        "sku": "ASTRA-LED-001",
+        "weight": 0.3,
+        "weight_unit": "kg",
+        "inventory_item_id": 45509992185923,
+        "inventory_quantity": 0,
+        "old_inventory_quantity": 0,
+        "admin_graphql_api_id": "gid://shopify/ProductVariant/43395386638403",
+        "image_id": null
+      }
+    ],
+    "images": []
+  },
+  "health_score": 30,
+  "certifications": []
+}

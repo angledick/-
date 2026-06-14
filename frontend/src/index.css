@@ -1,93 +1,142 @@
-@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Manrope:wght@200..800&display=swap');
 
-/* ── 品牌色系 CSS 变量 ──────────────────────────────────────────────────────── */
-:root {
-  /* 主色 */
-  --color-primary: #1D1D1F;
-  --color-primary-hover: #2D2D2F;
-  --color-accent: #0071E3;
-  --color-accent-hover: #0060C0;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  /* 语义色 */
-  --color-success: #34C759;
-  --color-warning: #FF9500;
-  --color-danger: #FF3B30;
-  --color-info: #5AC8FA;
-  --color-purple: #AF52DE;
+@layer base {
+  :root {
+    /* Swiss International Minimalism — Light Mode */
+    --background: 0 0% 99%;
+    --foreground: 220 10% 8%;
 
-  /* 背景与文字 */
-  --color-bg-base: #FAFAFA;
-  --color-bg-surface: #FFFFFF;
-  --color-bg-muted: #F5F5F7;
-  --color-text-primary: #1D1D1F;
-  --color-text-secondary: #86868B;
-  --color-text-muted: #C7C7CC;
-  --color-border: rgba(0, 0, 0, 0.06);
+    --card: 0 0% 100%;
+    --card-foreground: 220 10% 8%;
 
-  /* 字体 */
-  --font-sans: -apple-system, 'SF Pro Display', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
-  --font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 10% 8%;
+
+    /* Primary: Deep Blue #2463EB - Professional & Trustworthy */
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 8% 95%;
+    --secondary-foreground: 220 10% 8%;
+
+    --muted: 220 8% 96%;
+    --muted-foreground: 220 6% 42%;
+
+    --accent: 220 8% 93%;
+    --accent-foreground: 220 10% 8%;
+
+    --destructive: 4 85% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 56% 45%;
+    --success-foreground: 220 10% 8%;
+
+    --warning: 35 100% 48%;
+    --warning-foreground: 220 10% 8%;
+
+    /* Subtle borders for minimalism */
+    --border: 220 10% 88%;
+    --input: 220 10% 88%;
+    --ring: 217 91% 60%;
+
+    /* Reduced radius: 8px for Swiss precision */
+    --radius: 0.5rem;
+
+    /* Editorial — for marketing pages (Landing / Login / Register / Reset)
+       Separated from --background so the working area (AppLayout) keeps #FCFCFC. */
+    --cream: 36 14% 96%;
+    --cream-foreground: 0 0% 11%;
+    --rule: 0 0% 11%;
+  }
+
+  .dark {
+    /* Swiss International Minimalism — Dark Mode */
+    --background: 220 10% 6%;
+    --foreground: 0 0% 97%;
+
+    --card: 220 10% 9%;
+    --card-foreground: 0 0% 97%;
+
+    --popover: 220 10% 9%;
+    --popover-foreground: 0 0% 97%;
+
+    /* Primary: Lighter Deep Blue for dark mode */
+    --primary: 217 91% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 10% 14%;
+    --secondary-foreground: 0 0% 97%;
+
+    --muted: 220 10% 12%;
+    --muted-foreground: 220 6% 72%;
+
+    --accent: 220 10% 16%;
+    --accent-foreground: 0 0% 97%;
+
+    --destructive: 4 80% 48%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 56% 50%;
+    --success-foreground: 220 10% 6%;
+
+    --warning: 35 95% 55%;
+    --warning-foreground: 220 10% 6%;
+
+    /* High-contrast borders for dark mode */
+    --border: 0 0% 100% / 0.1;
+    --input: 0 0% 100% / 0.12;
+    --ring: 217 91% 65%;
+
+    /* Editorial dark — cream collapses to dark slate, text inverts to off-white */
+    --cream: 220 10% 6%;
+    --cream-foreground: 0 0% 92%;
+    --rule: 0 0% 100%;
+  }
 }
 
-/* ── 全局基础样式 ───────────────────────────────────────────────────────────── */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
 }
 
-body {
-  font-family: var(--font-sans);
-  background: var(--color-bg-base);
-  color: var(--color-text-primary);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 9999px;
+  }
 }
 
-/* ── 滚动条 ────────────────────────────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.12);
-  border-radius: 3px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.22);
-}
-
-/* ── 动画 ───────────────────────────────────────────────────────────────────── */
-@keyframes pulse-dot {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 1; }
-}
-
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* ── Toast slide-in ────────────────────────────────────────────────── */
-@keyframes slide-in {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
-}
-
-.animate-slide-in {
-  animation: slide-in 0.25s ease-out;
-}
-
-/* ── SSE token 流式光标 ───────────────────────────────────────────────────── */
-.streaming-cursor::after {
-  content: '▍';
-  animation: pulse-dot 1s infinite;
-  color: var(--color-accent);
+/* WCAG 2.2 SC 2.3.3 — 尊重用户 reduced-motion 偏好 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

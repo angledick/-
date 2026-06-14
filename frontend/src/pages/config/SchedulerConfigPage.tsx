@@ -348,8 +348,8 @@ function ProductJobsView({
   productIds,
   productJobs,
   productMeta,
-  actionLoading,
-  onAction,
+  actionLoading: _actionLoading,
+  onAction: _onAction,
   selectedProductId,
   onSelectProduct,
 }: {

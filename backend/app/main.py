@@ -48,6 +48,9 @@ from app.api import admin_rbac, admin_approvals, admin_config as admin_config_ro
 # 定时任务管理
 from app.api import scheduler_config
 
+# 飞书集成
+from app.api import feishu
+
 from app.core.scheduler import start_scheduler, stop_scheduler
 from app.services.ws_manager import ws_manager
 from app.services.astra_assistant import AstraAssistant
@@ -138,6 +141,20 @@ async def lifespan(app: FastAPI):
     _log.info("[启动] Phase 4: 调度器启动")
     await start_scheduler()
 
+    # ── 5. 外部事件监听器（飞书 + Shopify）──────────
+    _log.info("[启动] Phase 5: 外部事件监听器")
+    try:
+        from app.core.unified_dispatcher import get_dispatcher
+        from app.core.event_listeners.feishu_listener import FeishuListener
+        from app.core.event_listeners.shopify_listener import ShopifyEventListener
+        dispatcher = get_dispatcher()
+        dispatcher.register_listener("feishu", FeishuListener())
+        dispatcher.register_listener("shopify", ShopifyEventListener())
+        await dispatcher.start_all()
+        _log.info("  飞书监听器 + Shopify 定时同步监听器已注册并启动")
+    except Exception as e:
+        _log.warning("  监听器启动失败（非致命）: %s", e)
+
     _log.info("=" * 50)
     _log.info("[启动完成] 避风港 OS级合规智能体 v4.0.0")
     _log.info("=" * 50)
@@ -145,6 +162,12 @@ async def lifespan(app: FastAPI):
     yield  # ── 应用运行中 ──
 
     # ── 关闭清理 ──────────────────────────────────
+    try:
+        from app.core.unified_dispatcher import get_dispatcher
+        dispatcher = get_dispatcher()
+        await dispatcher.stop_all()
+    except Exception:
+        pass
     await stop_scheduler()
     from app.core.auto_pull_engine import get_auto_pull_engine
     auto_pull = get_auto_pull_engine()
@@ -176,6 +199,7 @@ app.include_router(sessions.router)
 app.include_router(auth_router.router)
 app.include_router(users.router)
 app.include_router(agent_config_router.router)       # exec (chat)
+app.include_router(agent_tasks.router)                 # 任务管理 (必须在 CRUD 之前，避免 /agents/{id} 吞噬 /agents/tasks)
 app.include_router(agent_crud_router.router)          # CRUD
 app.include_router(agent_extensions_router.router)     # extensions (skills/tools/oauth)
 app.include_router(sdk_sessions.router)
@@ -195,7 +219,6 @@ app.include_router(memory.router)
 app.include_router(metrics.router)
 app.include_router(tools.router)
 app.include_router(chat_stream.router)
-app.include_router(agent_tasks.router)
 app.include_router(proactive.router)
 
 # ── Phase 3 新增路由注册 ─────────────────────────
@@ -238,6 +261,9 @@ app.include_router(admin_rbac.router)
 app.include_router(admin_approvals.router)
 app.include_router(admin_config_router.router)
 app.include_router(admin_reports.router)
+
+# ── 飞书集成路由 ──────────────────────────────
+app.include_router(feishu.router)
 
 
 @app.get("/api/v1/health", tags=["health"], summary="Health Check")

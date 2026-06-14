@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { memoryApi, cliApi, type CLIExecuteResponse } from '../api/config'
+import { memoryApi, cliApi } from '../api/config'
 import TreeView from '../components/memory/TreeView'
 import MarkdownViewer from '../components/memory/MarkdownViewer'
 import type { NLRecord } from '../types'
@@ -52,7 +52,8 @@ export default function MemoryTreePage() {
   const [selectedRecord, setSelectedRecord] = useState<NLRecord | null>(null)
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
-  const [execHistory, setExecHistory] = useState<CLIExecuteResponse[]>([])
+  // CLI 历史（加载但不渲染，预留扩展）
+  const [, setExecHistory] = useState<unknown[]>([])
 
   const loadData = useCallback(async () => {
     setLoading(true)
@@ -92,6 +93,7 @@ export default function MemoryTreePage() {
     // If it's a leaf node (has path), fetch record content
     if (node.id.includes('/') && !node.children) {
       const [ns, recordId] = node.id.split('/', 2)
+      if (!ns || !recordId) { setSelectedRecord(null); return }
       try {
         const record = await memoryApi.getRecord(ns, recordId) as NLRecord
         setSelectedRecord(record)

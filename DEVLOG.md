@@ -142,3 +142,45 @@ AFTERSHIP_HMAC_SECRET=    # AfterShip Webhook 签名密钥
 | 2026-06-14 | 开始开发，Phase A 完成 |
 | 2026-06-14 | Phase B 完成（三单一致性 + Webhook 加固） |
 | 2026-06-14 | Phase C 完成（订单 API + 报关字段扩充） |
+| 2026-06-14 | 前端集成完成（API 客户端 + 页面对接，详见下方） |
+
+---
+
+## 前端集成状态
+
+### API 客户端覆盖度（`frontend/src/api/config.ts`）
+
+| API 模块 | 后端端点数 | 前端方法数 | 状态 |
+|----------|-----------|-----------|------|
+| ordersApi | 7 | 7 (list/create/get/update/getPayments/addPayment/consistencyCheck) | ✅ 完整 |
+| customsApi | 11 | 11 (create/list/get/submit/check/clear/markException/calculateDuty/getTariffRates/checkControlledGoods/threeWayCheck) | ✅ 完整 |
+| logisticsApi | 6 (+2 webhook) | 6 (listCarriers/createShipment/listShipments/getShipment/getTracking/refreshTracking) | ✅ 完整 |
+
+> Webhook 端点（`/webhook/17track`、`/webhook/aftership`）为服务端接收，无需前端调用。
+
+### 页面级功能对接
+
+| 功能 | 页面文件 | 使用的 API | 状态 |
+|------|---------|-----------|------|
+| 销售订单管理 | `pages/OrdersPage.tsx` | ordersApi.list/create/getPayments/addPayment/consistencyCheck | ✅ |
+| 物流轨迹追踪 | `pages/LogisticsTrackingPage.tsx` | logisticsApi.listShipments/createShipment/getTracking/refreshTracking + WS | ✅ |
+| 三单一致性检查 | `pages/OrdersPage.tsx` | ordersApi.consistencyCheck | ✅ |
+| 关税计算器（20 国） | `pages/ProductLifecyclePage.tsx` | customsApi.calculateDuty | ✅ |
+| 报关单 CRUD | `pages/ProductLifecyclePage.tsx` | customsApi.create/list/submit/check | ✅ |
+| 报关扩展字段（15个） | `api/config.ts` 类型定义 | customsApi.create() 含全部字段 | ✅ |
+| 支付记录管理 | `pages/OrdersPage.tsx` | ordersApi.getPayments/addPayment | ✅ |
+| WS 实时物流推送 | `pages/LogisticsTrackingPage.tsx` | WebSocketContext logistics_updated | ✅ |
+
+### 路由与导航
+
+| 路由 | 侧边栏入口 | 状态 |
+|------|-----------|------|
+| `/app/orders` | 「销售订单」(ShoppingCart) | ✅ |
+| `/app/logistics` | 「物流追踪」(Truck) | ✅ |
+
+### TypeScript 类型完整性
+
+- `SalesOrder` / `PaymentRecord` / `ConsistencyCheckResult` — ✅
+- `CustomsDeclaration` + 15 扩展字段 — ✅
+- `LogisticsOrder` / `DutyCalcResult` — ✅
+- `customsApi.create()` 参数含 15 扩展字段 — ✅

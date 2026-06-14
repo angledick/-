@@ -46,7 +46,7 @@ class UserInfoResponse(BaseModel):
     id: str
     username: str
     role: str
-    created_at: int
+    created_at: Optional[int] = None
 
 
 # ── 端点 ──────────────────────────────────────────────────────────────────────

@@ -1,0 +1,28 @@
+{
+  "product_id": "p_test_cd074123",
+  "events": [
+    {
+      "id": "819ef5126b89",
+      "type": "product:created",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_test_cd074123",
+      "business_stage": "阶段2",
+      "data": {
+        "name": "test",
+        "product_type": "toy"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-14T14:30:06.655940+00:00"
+    }
+  ],
+  "timeline": [
+    "🟢 [Low] 2026-06-14T14:30:06 product:created"
+  ],
+  "total_events": 1
+}

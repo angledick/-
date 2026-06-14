@@ -1,0 +1,32 @@
+{
+  "product_id": "儿童益智玩具_法国_a14e551a",
+  "events": [
+    {
+      "id": "93512bd90236",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "儿童益智玩具_法国_a14e551a",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "儿童益智玩具",
+        "country": "法国",
+        "risk_level": "medium",
+        "risk_score": 63,
+        "certifications": 4,
+        "session_id": "a7605241-a87e-4522-b0d8-1eba27ecca6f"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-14T14:58:43.349023+00:00"
+    }
+  ],
+  "timeline": [
+    "🟢 [Low] 2026-06-14T14:58:43 compliance:check_passed"
+  ],
+  "total_events": 1
+}

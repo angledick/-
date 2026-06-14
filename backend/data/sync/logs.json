@@ -1,184 +1,5 @@
 [
   {
-    "id": "995a49465a7a",
-    "job_id": "ccf3b3ac28cf",
-    "timestamp": "2026-06-12T06:44:52Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "5ccb755aa75d",
-    "job_id": "ccf3b3ac28cf",
-    "timestamp": "2026-06-12T06:44:52Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "930a202e88d6",
-    "job_id": "ccf3b3ac28cf",
-    "timestamp": "2026-06-12T06:44:52Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "eafb09e57eed",
-    "job_id": "ccf3b3ac28cf",
-    "timestamp": "2026-06-12T06:44:52Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "1f5460047ad2",
-    "job_id": "ccf3b3ac28cf",
-    "timestamp": "2026-06-12T06:44:52Z",
-    "level": "info",
-    "message": "Sync completed: 0 items synced",
-    "data": {
-      "items_created": 0,
-      "items_updated": 0
-    }
-  },
-  {
-    "id": "b826a4a4f2ab",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "Starting sync: 17track/tracking",
-    "data": {}
-  },
-  {
-    "id": "121fc8ebaed9",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "40916c4a6e5e",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "80b742844941",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "8f5565237fa5",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "c7ba59a254c1",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "2fd8ea420741",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "ba7e2e350179",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "900dfe5a4028",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "05626a5f77fe",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "bd6b0a99910d",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "ba720acdd81e",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "b03455ba9883",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "63b6f7e6e547",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "d21d816b3d19",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "4ef67bdbe07f",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
-    "id": "5c5ba8bff269",
-    "job_id": "ea2b7a00043e",
-    "timestamp": "2026-06-12T06:50:35Z",
-    "level": "info",
-    "message": "No tracking numbers to sync",
-    "data": {}
-  },
-  {
     "id": "2aed5735b9d6",
     "job_id": "ea2b7a00043e",
     "timestamp": "2026-06-12T06:50:35Z",
@@ -4004,6 +3825,205 @@
     "id": "c0a1c5ed0f76",
     "job_id": "bfd3f2d57d44",
     "timestamp": "2026-06-12T09:03:22Z",
+    "level": "info",
+    "message": "Sync completed: 0 items synced",
+    "data": {
+      "items_created": 0,
+      "items_updated": 0
+    }
+  },
+  {
+    "id": "b0719bc7bed8",
+    "job_id": "",
+    "timestamp": "2026-06-14T13:50:39Z",
+    "level": "info",
+    "message": "AutoPullEngine started",
+    "data": {
+      "tasks": 6
+    }
+  },
+  {
+    "id": "e472e4f3e7d8",
+    "job_id": "fc06ada0b327",
+    "timestamp": "2026-06-14T14:10:39Z",
+    "level": "info",
+    "message": "Starting sync: shopify/products",
+    "data": {}
+  },
+  {
+    "id": "210820dfb4bd",
+    "job_id": "fc06ada0b327",
+    "timestamp": "2026-06-14T14:10:39Z",
+    "level": "warning",
+    "message": "No Shopify connections configured",
+    "data": {}
+  },
+  {
+    "id": "1594278c780f",
+    "job_id": "fc06ada0b327",
+    "timestamp": "2026-06-14T14:10:39Z",
+    "level": "info",
+    "message": "Sync completed: 0 items synced",
+    "data": {
+      "items_created": 0,
+      "items_updated": 0
+    }
+  },
+  {
+    "id": "84b8db4d68b4",
+    "job_id": "fe5469b1db1f",
+    "timestamp": "2026-06-14T14:10:39Z",
+    "level": "info",
+    "message": "Starting sync: shopify/orders",
+    "data": {}
+  },
+  {
+    "id": "80837e7fcf16",
+    "job_id": "fe5469b1db1f",
+    "timestamp": "2026-06-14T14:10:39Z",
+    "level": "warning",
+    "message": "No Shopify connections configured",
+    "data": {}
+  },
+  {
+    "id": "ec730d22a11a",
+    "job_id": "fe5469b1db1f",
+    "timestamp": "2026-06-14T14:10:39Z",
+    "level": "info",
+    "message": "Sync completed: 0 items synced",
+    "data": {
+      "items_created": 0,
+      "items_updated": 0
+    }
+  },
+  {
+    "id": "825235862476",
+    "job_id": "677efb4be0e8",
+    "timestamp": "2026-06-14T14:10:39Z",
+    "level": "info",
+    "message": "Starting sync: shopify/inventory",
+    "data": {}
+  },
+  {
+    "id": "ebb0f590bb70",
+    "job_id": "677efb4be0e8",
+    "timestamp": "2026-06-14T14:10:39Z",
+    "level": "warning",
+    "message": "No Shopify connections configured",
+    "data": {}
+  },
+  {
+    "id": "f9c5622dfe1d",
+    "job_id": "677efb4be0e8",
+    "timestamp": "2026-06-14T14:10:39Z",
+    "level": "info",
+    "message": "Sync completed: 0 items synced",
+    "data": {
+      "items_created": 0,
+      "items_updated": 0
+    }
+  },
+  {
+    "id": "20f3ae36800a",
+    "job_id": "eb772be6b545",
+    "timestamp": "2026-06-14T14:20:39Z",
+    "level": "info",
+    "message": "Starting sync: 17track/tracking",
+    "data": {}
+  },
+  {
+    "id": "41d19477ce7f",
+    "job_id": "eb772be6b545",
+    "timestamp": "2026-06-14T14:20:39Z",
+    "level": "warning",
+    "message": "No 17TRACK connections configured",
+    "data": {}
+  },
+  {
+    "id": "bf1390b7fb17",
+    "job_id": "eb772be6b545",
+    "timestamp": "2026-06-14T14:20:39Z",
+    "level": "info",
+    "message": "Sync completed: 0 items synced",
+    "data": {
+      "items_created": 0,
+      "items_updated": 0
+    }
+  },
+  {
+    "id": "dc3b6d5c49c0",
+    "job_id": "98c6e411f697",
+    "timestamp": "2026-06-14T14:30:39Z",
+    "level": "info",
+    "message": "Starting sync: shopify/products",
+    "data": {}
+  },
+  {
+    "id": "4ef3fb9cc247",
+    "job_id": "98c6e411f697",
+    "timestamp": "2026-06-14T14:30:39Z",
+    "level": "warning",
+    "message": "No Shopify connections configured",
+    "data": {}
+  },
+  {
+    "id": "d65779e3b7d5",
+    "job_id": "98c6e411f697",
+    "timestamp": "2026-06-14T14:30:39Z",
+    "level": "info",
+    "message": "Sync completed: 0 items synced",
+    "data": {
+      "items_created": 0,
+      "items_updated": 0
+    }
+  },
+  {
+    "id": "e19fb77f2fac",
+    "job_id": "28c9c3a78793",
+    "timestamp": "2026-06-14T14:30:39Z",
+    "level": "info",
+    "message": "Starting sync: shopify/orders",
+    "data": {}
+  },
+  {
+    "id": "f85dbf308726",
+    "job_id": "28c9c3a78793",
+    "timestamp": "2026-06-14T14:30:39Z",
+    "level": "warning",
+    "message": "No Shopify connections configured",
+    "data": {}
+  },
+  {
+    "id": "83c1cb4466a7",
+    "job_id": "28c9c3a78793",
+    "timestamp": "2026-06-14T14:30:39Z",
+    "level": "info",
+    "message": "Sync completed: 0 items synced",
+    "data": {
+      "items_created": 0,
+      "items_updated": 0
+    }
+  },
+  {
+    "id": "40e0ab336827",
+    "job_id": "fa24544bbb49",
+    "timestamp": "2026-06-14T14:30:39Z",
+    "level": "info",
+    "message": "Starting sync: shopify/inventory",
+    "data": {}
+  },
+  {
+    "id": "58c4f34a12f7",
+    "job_id": "fa24544bbb49",
+    "timestamp": "2026-06-14T14:30:39Z",
+    "level": "warning",
+    "message": "No Shopify connections configured",
+    "data": {}
+  },
+  {
+    "id": "8e5b83f73a60",
+    "job_id": "fa24544bbb49",
+    "timestamp": "2026-06-14T14:30:39Z",
     "level": "info",
     "message": "Sync completed: 0 items synced",
     "data": {

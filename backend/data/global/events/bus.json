@@ -21319,5 +21319,1421 @@
     "severity": "low",
     "error": null,
     "created_at": "2026-06-12T09:05:39.866360+00:00"
+  },
+  {
+    "id": "643cc5f5655b",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T12:56:41.502713+00:00"
+  },
+  {
+    "id": "d0706ad1a81b",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:01:51.374794+00:00"
+  },
+  {
+    "id": "1bade8bf062d",
+    "type": "compliance:check_started",
+    "category": "compliance",
+    "source": "api",
+    "product_id": "p_LED灯_19fbc772",
+    "business_stage": "阶段2",
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:03:58.654092+00:00"
+  },
+  {
+    "id": "78a3374c7133",
+    "type": "session:created",
+    "category": "system",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "45d5e6cb-84df-4911-90b9-9d14dda0631c",
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:04:34.834977+00:00"
+  },
+  {
+    "id": "28a650ce93dd",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117",
+      "action": "export_check",
+      "product": "LED 灯带",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:04:34.940140+00:00"
+  },
+  {
+    "id": "f37fa250138d",
+    "type": "message:created",
+    "category": "system",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "45d5e6cb-84df-4911-90b9-9d14dda0631c",
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117",
+      "content_preview": "## 📋 LED 灯带 → 德国 合规报告\n\n### 🏷️ 商品归类\n- HS编码: **9405.40**\n- 品名: LED灯具及照明装置\n\n### 💰 税率\n- 德国标准VAT: **19.0%"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:04:47.028230+00:00"
+  },
+  {
+    "id": "b204eddd93d7",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED_灯带_德国_6ca4cdcd",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED 灯带",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "45d5e6cb-84df-4911-90b9-9d14dda0631c"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:04:47.044737+00:00"
+  },
+  {
+    "id": "7ed50431816d",
+    "type": "session:created",
+    "category": "system",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "3ede79aa-bef3-4633-9aa0-c1810dc7a99f",
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:10:05.277185+00:00"
+  },
+  {
+    "id": "bc3697fa7ad9",
+    "type": "user:system_query",
+    "category": "user_action",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": "阶段1",
+    "data": {
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117",
+      "action": "system_query",
+      "product": "你好，简要介绍避风港系统的核心能力",
+      "target_country": "欧盟",
+      "confidence": 0.6,
+      "recommended_skills": [
+        "shopify-use-shopify-cli"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:10:05.358562+00:00"
+  },
+  {
+    "id": "d997d34bd768",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:10:32.472293+00:00"
+  },
+  {
+    "id": "ac6e13cebeaf",
+    "type": "session:deleted",
+    "category": "system",
+    "source": "sessions_api",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "c48ddcfa-10de-47fc-abff-09395381ae95",
+      "user_id": null
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:18:36.472113+00:00"
+  },
+  {
+    "id": "9f4338627596",
+    "type": "session:deleted",
+    "category": "system",
+    "source": "sessions_api",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "3ede79aa-bef3-4633-9aa0-c1810dc7a99f",
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:18:37.380042+00:00"
+  },
+  {
+    "id": "d6bb6fb58bc9",
+    "type": "session:deleted",
+    "category": "system",
+    "source": "sessions_api",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "45d5e6cb-84df-4911-90b9-9d14dda0631c",
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:18:37.852344+00:00"
+  },
+  {
+    "id": "b2ec9dae7fc4",
+    "type": "session:deleted",
+    "category": "system",
+    "source": "sessions_api",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "158c1043-ad29-4cb4-8175-1825d2203260",
+      "user_id": null
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:18:38.333508+00:00"
+  },
+  {
+    "id": "861120d3c699",
+    "type": "session:deleted",
+    "category": "system",
+    "source": "sessions_api",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "794fcaf6-cb2d-444f-8764-c64d20c08fde",
+      "user_id": null
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:18:38.839152+00:00"
+  },
+  {
+    "id": "370967fc7ff8",
+    "type": "session:deleted",
+    "category": "system",
+    "source": "sessions_api",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "30b835a1-9616-477a-a73a-e33ee53db626",
+      "user_id": null
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:18:39.111106+00:00"
+  },
+  {
+    "id": "01284a3bc330",
+    "type": "session:deleted",
+    "category": "system",
+    "source": "sessions_api",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "449e482d-4a54-4054-bd8d-7c145db208dc",
+      "user_id": null
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:18:39.300712+00:00"
+  },
+  {
+    "id": "8168dd077285",
+    "type": "session:deleted",
+    "category": "system",
+    "source": "sessions_api",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "c46d23cd-701a-4a67-a2e5-1dd00461983f",
+      "user_id": null
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:18:39.473960+00:00"
+  },
+  {
+    "id": "7cdf1f537a5a",
+    "type": "session:deleted",
+    "category": "system",
+    "source": "sessions_api",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "47772078-6059-407e-af6c-5899b772d46a",
+      "user_id": null
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:18:39.666536+00:00"
+  },
+  {
+    "id": "25662e4c5905",
+    "type": "session:deleted",
+    "category": "system",
+    "source": "sessions_api",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "d3737993-c28b-4896-9b8f-7f471492d6bb",
+      "user_id": null
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:18:39.847300+00:00"
+  },
+  {
+    "id": "9fa768a47472",
+    "type": "session:deleted",
+    "category": "system",
+    "source": "sessions_api",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "af039cfc-82ba-493d-8e9b-aa9a0bd1ef3e",
+      "user_id": null
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:18:40.037029+00:00"
+  },
+  {
+    "id": "32e939e7b041",
+    "type": "session:deleted",
+    "category": "system",
+    "source": "sessions_api",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "e4052e17-1686-4f9c-901c-0e15f985de01",
+      "user_id": null
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:18:40.220770+00:00"
+  },
+  {
+    "id": "01c6f122a676",
+    "type": "session:deleted",
+    "category": "system",
+    "source": "sessions_api",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "32a0259b-28e3-49b6-a84d-b1a017e53fed",
+      "user_id": null
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:18:40.406721+00:00"
+  },
+  {
+    "id": "dc109e7a10b1",
+    "type": "session:deleted",
+    "category": "system",
+    "source": "sessions_api",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "c6e64e44-4330-4cd9-9558-3d5a01c4ad8a",
+      "user_id": null
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:18:40.591871+00:00"
+  },
+  {
+    "id": "f4aa8bda449b",
+    "type": "session:deleted",
+    "category": "system",
+    "source": "sessions_api",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "cbca1427-efbd-4d6b-9e10-4ca210f407a2",
+      "user_id": null
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:18:50.685815+00:00"
+  },
+  {
+    "id": "bf5e4bf486de",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "shopify_7703739367491",
+    "business_stage": null,
+    "data": {
+      "new_stage": "design",
+      "reason": "E2E测试: 推进到设计阶段"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-14T13:34:19.206633+00:00"
+  },
+  {
+    "id": "f982c334d2c5",
+    "type": "compliance:check_started",
+    "category": "compliance",
+    "source": "api",
+    "product_id": "shopify_7703739367491",
+    "business_stage": "阶段2",
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:34:19.239215+00:00"
+  },
+  {
+    "id": "8b6bf10089e9",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "shopify_7703739367491",
+    "business_stage": null,
+    "data": {
+      "new_stage": "sourcing",
+      "reason": "E2E测试: 推进到采购阶段"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-14T13:34:19.273570+00:00"
+  },
+  {
+    "id": "b2a95374955d",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:42:21.584962+00:00"
+  },
+  {
+    "id": "d36f52ef3cb2",
+    "type": "compliance:check_started",
+    "category": "compliance",
+    "source": "api",
+    "product_id": "shopify_7703739367491",
+    "business_stage": "阶段3",
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:49:34.748414+00:00"
+  },
+  {
+    "id": "ef2f0b7c7941",
+    "type": "compliance:check_started",
+    "category": "compliance",
+    "source": "api",
+    "product_id": "shopify_7703739367491",
+    "business_stage": "阶段3",
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T13:53:50.725871+00:00"
+  },
+  {
+    "id": "5e61379efec7",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0001437664031982422
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:10:39.765026+00:00"
+  },
+  {
+    "id": "dfb233271802",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 4.363059997558594e-05
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:10:39.783301+00:00"
+  },
+  {
+    "id": "5d0f6a7160e0",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 4.553794860839844e-05
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:10:39.794756+00:00"
+  },
+  {
+    "id": "eb22d3e1b69e",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "17track",
+      "sync_type": "tracking",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0002117156982421875
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:20:39.758979+00:00"
+  },
+  {
+    "id": "819ef5126b89",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_test_cd074123",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "test",
+      "product_type": "toy"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:30:06.655940+00:00"
+  },
+  {
+    "id": "b136194e862a",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.00017452239990234375
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:30:39.833733+00:00"
+  },
+  {
+    "id": "89168b6683f9",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 8.916854858398438e-05
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:30:39.856944+00:00"
+  },
+  {
+    "id": "a6708bfe52fb",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 9.799003601074219e-05
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:30:39.883416+00:00"
+  },
+  {
+    "id": "4468c26abe81",
+    "type": "session:created",
+    "category": "system",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "8b4dc295-a984-43c5-b835-f8e8e57ddf4b",
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:41:34.567862+00:00"
+  },
+  {
+    "id": "d7980b848a99",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117",
+      "action": "export_check",
+      "product": "LED 灯",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:41:34.718007+00:00"
+  },
+  {
+    "id": "a5f4f89c9e88",
+    "type": "message:created",
+    "category": "system",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "8b4dc295-a984-43c5-b835-f8e8e57ddf4b",
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117",
+      "content_preview": "## 📋 LED 灯 → 德国 合规报告\n\n### 🏷️ 商品归类\n- HS编码: **9405.40**\n- 品名: LED灯具及照明装置\n\n### 💰 税率\n- 德国标准VAT: **19.0%*"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:41:52.300378+00:00"
+  },
+  {
+    "id": "0a0ed2bd14fd",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED_灯_德国_958017a9",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED 灯",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "8b4dc295-a984-43c5-b835-f8e8e57ddf4b"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:41:52.325376+00:00"
+  },
+  {
+    "id": "896a90b9c274",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "shopify_7703739367491",
+    "business_stage": null,
+    "data": {
+      "new_stage": "ready",
+      "reason": "前端手动调整为 就绪"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-14T14:44:27.899769+00:00"
+  },
+  {
+    "id": "454eb7434b56",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "shopify_7703739367491",
+    "business_stage": null,
+    "data": {
+      "new_stage": "active",
+      "reason": "前端手动调整为 在售"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-14T14:44:29.961225+00:00"
+  },
+  {
+    "id": "17e21b91642b",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "shopify_7703739367491",
+    "business_stage": null,
+    "data": {
+      "new_stage": "fulfilling",
+      "reason": "前端手动调整为 履约"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-14T14:44:38.071338+00:00"
+  },
+  {
+    "id": "102ea940ebd4",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "shopify_7703739367491",
+    "business_stage": null,
+    "data": {
+      "new_stage": "active",
+      "reason": "前端手动调整为 在售"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-14T14:44:41.608775+00:00"
+  },
+  {
+    "id": "13088e745fb9",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_tt_61432ea2",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "tt",
+      "product_type": "tt"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:44:50.399001+00:00"
+  },
+  {
+    "id": "c3235f77c73a",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_tt_61432ea2",
+    "business_stage": null,
+    "data": {
+      "new_stage": "sourcing",
+      "reason": "前端手动调整为 采购"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-14T14:44:57.644458+00:00"
+  },
+  {
+    "id": "98e6591f8928",
+    "type": "product:status_changed",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_tt_61432ea2",
+    "business_stage": null,
+    "data": {
+      "new_stage": "ready",
+      "reason": "前端手动调整为 就绪"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "medium",
+    "error": null,
+    "created_at": "2026-06-14T14:45:04.828073+00:00"
+  },
+  {
+    "id": "f0a5b3e70909",
+    "type": "compliance:check_started",
+    "category": "compliance",
+    "source": "api",
+    "product_id": "p_tt_61432ea2",
+    "business_stage": "阶段4",
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:45:06.595561+00:00"
+  },
+  {
+    "id": "cb572d10e70f",
+    "type": "compliance:check_started",
+    "category": "compliance",
+    "source": "api",
+    "product_id": "shopify_7703739367491",
+    "business_stage": "阶段5",
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:47:32.789795+00:00"
+  },
+  {
+    "id": "13515adb45b6",
+    "type": "session:created",
+    "category": "system",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "f730ac18-8fc4-4c78-b506-c7172ac104ea",
+      "user_id": null
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:48:10.549041+00:00"
+  },
+  {
+    "id": "36fedf6b0d84",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "anonymous",
+      "action": "export_check",
+      "product": "LED 灯带",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:48:10.659071+00:00"
+  },
+  {
+    "id": "17e13fa5c13a",
+    "type": "message:created",
+    "category": "system",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "f730ac18-8fc4-4c78-b506-c7172ac104ea",
+      "user_id": null,
+      "content_preview": "## 📋 LED 灯带 → 德国 合规报告\n\n### 🏷️ 商品归类\n- HS编码: **9405.40**\n- 品名: LED灯具及照明装置\n\n### 💰 税率\n- 德国标准VAT: **19.0%"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:48:59.630906+00:00"
+  },
+  {
+    "id": "b94323db8dc0",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED_灯带_德国_6ca4cdcd",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED 灯带",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "f730ac18-8fc4-4c78-b506-c7172ac104ea"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:48:59.645035+00:00"
+  },
+  {
+    "id": "119b3f457996",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:49:26.223849+00:00"
+  },
+  {
+    "id": "fdc321c44656",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:50:16.040199+00:00"
+  },
+  {
+    "id": "9ac8cf5b32fb",
+    "type": "compliance:check_started",
+    "category": "compliance",
+    "source": "api",
+    "product_id": "shopify_7703739367491",
+    "business_stage": "阶段5",
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:54:12.930931+00:00"
+  },
+  {
+    "id": "9cac012f8161",
+    "type": "session:created",
+    "category": "system",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "5c830d83-b48f-4086-851f-69ab53e2b11f",
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:54:39.077249+00:00"
+  },
+  {
+    "id": "d267e1c727e9",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117",
+      "action": "export_check",
+      "product": "LED 灯带",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:54:39.116343+00:00"
+  },
+  {
+    "id": "5594beecc789",
+    "type": "message:created",
+    "category": "system",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "5c830d83-b48f-4086-851f-69ab53e2b11f",
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117",
+      "content_preview": "## 📋 LED 灯带 → 德国 合规报告\n\n### 🏷️ 商品归类\n- HS编码: **9405.40**\n- 品名: LED灯具及照明装置\n\n### 💰 税率\n- 德国标准VAT: **19.0%"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:55:25.269718+00:00"
+  },
+  {
+    "id": "c06ba12f2ab4",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED_灯带_德国_6ca4cdcd",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED 灯带",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "5c830d83-b48f-4086-851f-69ab53e2b11f"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:55:25.283886+00:00"
+  },
+  {
+    "id": "bf603570c47b",
+    "type": "session:created",
+    "category": "system",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "69863dfc-d307-4743-a159-4543ec671ea1",
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:55:41.186920+00:00"
+  },
+  {
+    "id": "d285e05a6020",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117",
+      "action": "export_check",
+      "product": "LED 灯带",
+      "target_country": "德国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:55:41.217049+00:00"
+  },
+  {
+    "id": "82d713e91cce",
+    "type": "message:created",
+    "category": "system",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "69863dfc-d307-4743-a159-4543ec671ea1",
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117",
+      "content_preview": "## 📋 LED 灯带 → 德国 合规报告\n\n### 🏷️ 商品归类\n- HS编码: **9405.40**\n- 品名: LED灯具及照明装置\n\n### 💰 税率\n- 德国标准VAT: **19.0%"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:56:23.136019+00:00"
+  },
+  {
+    "id": "099f75a01915",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "LED_灯带_德国_6ca4cdcd",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "LED 灯带",
+      "country": "德国",
+      "risk_level": "medium",
+      "risk_score": 57,
+      "certifications": 5,
+      "session_id": "69863dfc-d307-4743-a159-4543ec671ea1"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:56:23.161765+00:00"
+  },
+  {
+    "id": "17c4e91d8043",
+    "type": "session:created",
+    "category": "system",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "a7605241-a87e-4522-b0d8-1eba27ecca6f",
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:57:30.545419+00:00"
+  },
+  {
+    "id": "df333d24f09c",
+    "type": "user:compliance_check",
+    "category": "user_action",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": "阶段7",
+    "data": {
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117",
+      "action": "export_check",
+      "product": "儿童益智玩具",
+      "target_country": "法国",
+      "confidence": 0.7,
+      "recommended_skills": [
+        "shopify-admin",
+        "shopify-custom-data"
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:57:30.637627+00:00"
+  },
+  {
+    "id": "29106ac91a1f",
+    "type": "message:created",
+    "category": "system",
+    "source": "chat_stream",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "session_id": "a7605241-a87e-4522-b0d8-1eba27ecca6f",
+      "user_id": "0bd6b36d-76fc-4c89-b16d-014a2fe37117",
+      "content_preview": "## 📋 儿童益智玩具 → 法国 合规报告\n\n### 🏷️ 商品归类\n- HS编码: **9503.00**\n- 品名: 玩具（含电子玩具）\n\n### 💰 税率\n- 法国标准VAT: **20.0%*"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:58:43.326260+00:00"
+  },
+  {
+    "id": "93512bd90236",
+    "type": "compliance:check_passed",
+    "category": "compliance",
+    "source": "chat_stream",
+    "product_id": "儿童益智玩具_法国_a14e551a",
+    "business_stage": "阶段7",
+    "data": {
+      "product": "儿童益智玩具",
+      "country": "法国",
+      "risk_level": "medium",
+      "risk_score": 63,
+      "certifications": 4,
+      "session_id": "a7605241-a87e-4522-b0d8-1eba27ecca6f"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T14:58:43.349023+00:00"
   }
 ]

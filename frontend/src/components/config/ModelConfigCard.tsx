@@ -26,7 +26,7 @@ export default function ModelConfigCard({ config, onEdit, onDelete }: Props) {
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-[#FF9F0A]/10 flex items-center justify-center text-sm font-bold text-[#FF9F0A]">
-            {config.role[0].toUpperCase()}
+            {(config.role[0] || '?').toUpperCase()}
           </div>
           <div>
             <div className="font-semibold text-sm text-[#1D1D1F]">

@@ -1,0 +1,213 @@
+{
+  "product_id": "shopify_7703739367491",
+  "events": [
+    {
+      "id": "bf5e4bf486de",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "shopify_7703739367491",
+      "business_stage": null,
+      "data": {
+        "new_stage": "design",
+        "reason": "E2E测试: 推进到设计阶段"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-14T13:34:19.206633+00:00"
+    },
+    {
+      "id": "f982c334d2c5",
+      "type": "compliance:check_started",
+      "category": "compliance",
+      "source": "api",
+      "product_id": "shopify_7703739367491",
+      "business_stage": "阶段2",
+      "data": {},
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-14T13:34:19.239215+00:00"
+    },
+    {
+      "id": "8b6bf10089e9",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "shopify_7703739367491",
+      "business_stage": null,
+      "data": {
+        "new_stage": "sourcing",
+        "reason": "E2E测试: 推进到采购阶段"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-14T13:34:19.273570+00:00"
+    },
+    {
+      "id": "d36f52ef3cb2",
+      "type": "compliance:check_started",
+      "category": "compliance",
+      "source": "api",
+      "product_id": "shopify_7703739367491",
+      "business_stage": "阶段3",
+      "data": {},
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-14T13:49:34.748414+00:00"
+    },
+    {
+      "id": "ef2f0b7c7941",
+      "type": "compliance:check_started",
+      "category": "compliance",
+      "source": "api",
+      "product_id": "shopify_7703739367491",
+      "business_stage": "阶段3",
+      "data": {},
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-14T13:53:50.725871+00:00"
+    },
+    {
+      "id": "896a90b9c274",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "shopify_7703739367491",
+      "business_stage": null,
+      "data": {
+        "new_stage": "ready",
+        "reason": "前端手动调整为 就绪"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-14T14:44:27.899769+00:00"
+    },
+    {
+      "id": "454eb7434b56",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "shopify_7703739367491",
+      "business_stage": null,
+      "data": {
+        "new_stage": "active",
+        "reason": "前端手动调整为 在售"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-14T14:44:29.961225+00:00"
+    },
+    {
+      "id": "17e21b91642b",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "shopify_7703739367491",
+      "business_stage": null,
+      "data": {
+        "new_stage": "fulfilling",
+        "reason": "前端手动调整为 履约"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-14T14:44:38.071338+00:00"
+    },
+    {
+      "id": "102ea940ebd4",
+      "type": "product:status_changed",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "shopify_7703739367491",
+      "business_stage": null,
+      "data": {
+        "new_stage": "active",
+        "reason": "前端手动调整为 在售"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "medium",
+      "error": null,
+      "created_at": "2026-06-14T14:44:41.608775+00:00"
+    },
+    {
+      "id": "cb572d10e70f",
+      "type": "compliance:check_started",
+      "category": "compliance",
+      "source": "api",
+      "product_id": "shopify_7703739367491",
+      "business_stage": "阶段5",
+      "data": {},
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-14T14:47:32.789795+00:00"
+    },
+    {
+      "id": "9ac8cf5b32fb",
+      "type": "compliance:check_started",
+      "category": "compliance",
+      "source": "api",
+      "product_id": "shopify_7703739367491",
+      "business_stage": "阶段5",
+      "data": {},
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-14T14:54:12.930931+00:00"
+    }
+  ],
+  "timeline": [
+    "🟢 [Low] 2026-06-14T14:54:12 compliance:check_started",
+    "🟢 [Low] 2026-06-14T14:47:32 compliance:check_started",
+    "🟡 [Medium] 2026-06-14T14:44:41 product:status_changed",
+    "🟡 [Medium] 2026-06-14T14:44:38 product:status_changed",
+    "🟡 [Medium] 2026-06-14T14:44:29 product:status_changed",
+    "🟡 [Medium] 2026-06-14T14:44:27 product:status_changed",
+    "🟢 [Low] 2026-06-14T13:53:50 compliance:check_started",
+    "🟢 [Low] 2026-06-14T13:49:34 compliance:check_started",
+    "🟡 [Medium] 2026-06-14T13:34:19 product:status_changed",
+    "🟢 [Low] 2026-06-14T13:34:19 compliance:check_started",
+    "🟡 [Medium] 2026-06-14T13:34:19 product:status_changed"
+  ],
+  "total_events": 11
+}

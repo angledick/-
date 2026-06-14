@@ -1,0 +1,80 @@
+{
+  "product_id": "LED_灯带_德国_6ca4cdcd",
+  "events": [
+    {
+      "id": "b94323db8dc0",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "LED_灯带_德国_6ca4cdcd",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "LED 灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "f730ac18-8fc4-4c78-b506-c7172ac104ea"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-14T14:48:59.645035+00:00"
+    },
+    {
+      "id": "c06ba12f2ab4",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "LED_灯带_德国_6ca4cdcd",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "LED 灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "5c830d83-b48f-4086-851f-69ab53e2b11f"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-14T14:55:25.283886+00:00"
+    },
+    {
+      "id": "099f75a01915",
+      "type": "compliance:check_passed",
+      "category": "compliance",
+      "source": "chat_stream",
+      "product_id": "LED_灯带_德国_6ca4cdcd",
+      "business_stage": "阶段7",
+      "data": {
+        "product": "LED 灯带",
+        "country": "德国",
+        "risk_level": "medium",
+        "risk_score": 57,
+        "certifications": 5,
+        "session_id": "69863dfc-d307-4743-a159-4543ec671ea1"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-14T14:56:23.161765+00:00"
+    }
+  ],
+  "timeline": [
+    "🟢 [Low] 2026-06-14T14:56:23 compliance:check_passed",
+    "🟢 [Low] 2026-06-14T14:55:25 compliance:check_passed",
+    "🟢 [Low] 2026-06-14T14:48:59 compliance:check_passed"
+  ],
+  "total_events": 3
+}

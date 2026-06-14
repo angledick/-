@@ -43,8 +43,6 @@ const STAGES = [
   { key: 'delivered',         label: '已签收',  icon: '✅' },
 ] as const
 
-type StatusKey = typeof STAGES[number]['key'] | 'exception' | 'returned'
-
 const STATUS_ORDER: Record<string, number> = {
   pending: 0, picked_up: 1, in_transit: 2,
   customs_export: 3, customs_import: 4,
@@ -85,7 +83,7 @@ function formatTime(iso: string): { date: string; time: string } {
 }
 
 function buildTrackingUrl(carrier: string, num: string): string {
-  const tmpl = CARRIERS[carrier]?.trackingUrl || CARRIERS['17track'].trackingUrl
+  const tmpl = CARRIERS[carrier]?.trackingUrl || CARRIERS['17track']?.trackingUrl || ''
   return tmpl.replace('{num}', encodeURIComponent(num))
 }
 
@@ -130,7 +128,8 @@ function ProgressBar({ status }: { status: string }) {
         {STAGES.map((stage, idx) => {
           const done = idx < currentIdx
           const active = idx === currentIdx
-          const future = idx > currentIdx
+          const _future = idx > currentIdx
+          void _future
           return (
             <div key={stage.key} className="relative flex flex-col items-center flex-1 gap-2">
               {/* 圆圈 */}
@@ -262,6 +261,7 @@ function TrackingResult({
   refreshing: boolean
 }) {
   const carrier = CARRIERS[shipment.carrier] || CARRIERS['17track']
+  if (!carrier) return null
   const status = shipment.status
   const statusLabel = STATUS_LABELS[status] || status
   const events = trackingData?.events || []

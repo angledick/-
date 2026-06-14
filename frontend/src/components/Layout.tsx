@@ -31,7 +31,9 @@ export default function Layout() {
   const collapsed = useSidebarStore(s => s.collapsed)
   const location = useLocation()
 
-  const wsInfo = wsStatusConfig[wsStatus] || wsStatusConfig.disconnected
+  const wsInfo = wsStatusConfig[wsStatus] ?? wsStatusConfig.disconnected ?? {
+    label: '—', color: 'text-[#6B7280]', dot: 'bg-[#9CA3AF]',
+  }
   const current = titleMap.find(item => item.match(location.pathname)) || {
     title: '避风港',
     subtitle: '跨境合规智能体工作台',

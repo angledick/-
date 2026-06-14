@@ -3,7 +3,7 @@ import type { ChatConfigData } from '../types'
 
 // ── Agent 配置 Store ─────────────────────────────────────────────────────────
 
-interface AgentConfigState extends ChatConfigData {
+export interface AgentConfigState extends ChatConfigData {
   /** 从后端加载配置 */
   loadConfig: () => Promise<void>
   /** 更新配置（同时推送到后端） */
@@ -18,7 +18,7 @@ interface AgentConfigState extends ChatConfigData {
 
 const API = '/api/v1'
 
-export const useAgentConfigStore = create<AgentConfigState>((set, get) => ({
+export const useAgentConfigStore = create<AgentConfigState>()((set, get) => ({
   agent_id: undefined,
   tools: [],
   skills: [],
@@ -102,5 +102,5 @@ interface SidebarState {
 export const useSidebarStore = create<SidebarState>((set) => ({
   collapsed: false,
   toggle: () => set(s => ({ collapsed: !s.collapsed })),
-  setCollapsed: (v) => set({ collapsed: v }),
+  setCollapsed: (v: boolean) => set({ collapsed: v }),
 }))

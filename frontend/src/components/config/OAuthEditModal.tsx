@@ -54,9 +54,11 @@ export default function OAuthEditModal({ oauth, onClose, onSaved }: Props) {
         setConfigValues(entries)
       }
     } else if (providerTemplates.length > 0 && !provider) {
-      const first = providerTemplates[0].provider
-      setProvider(first)
-      _initConfigForProvider(first)
+      const first = providerTemplates[0]?.provider
+      if (first) {
+        setProvider(first)
+        _initConfigForProvider(first)
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [oauth, providerTemplates])
@@ -85,7 +87,8 @@ export default function OAuthEditModal({ oauth, onClose, onSaved }: Props) {
       // 保留已有字段，补充缺失字段
       const merged = { ...next }
       for (const k of Object.keys(prev)) {
-        if (next[k] !== undefined) merged[k] = prev[k]
+        const prevVal = prev[k]
+        if (prevVal !== undefined) merged[k] = prevVal
       }
       return merged
     })

@@ -46,7 +46,7 @@ export default function SkillEventBlock({ skill, startEvent, endEvent, status }:
             <div className="mt-2">
               <div className="text-[11px] font-semibold text-[#86868B] mb-1">结果</div>
               {endEvent.result.summary ? (
-                <div className="text-xs text-[#1D1D1F]">{endEvent.result.summary}</div>
+                <div className="text-xs text-[#1D1D1F]">{String(endEvent.result.summary)}</div>
               ) : (
                 <pre className="text-xs bg-[#F5F5F7] rounded p-2 overflow-x-auto font-mono text-[#1D1D1F]">
                   {JSON.stringify(endEvent.result, null, 2)}

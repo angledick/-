@@ -482,16 +482,23 @@ class OAuthManager:
 
             if connected:
                 status_str = "connected"
-            elif conns or is_env_configured:
+                connected_num = len(connected)
+            elif is_env_configured:
+                # env 直连模式：凭证已配置即可通过 API 直接访问，视为已连接
+                status_str = "connected"
+                connected_num = 1
+            elif conns:
                 status_str = "configured"
+                connected_num = 0
             else:
                 status_str = "not_configured"
+                connected_num = 0
 
             summary[pkey] = {
                 "name": template["name"],
                 "icon": template["icon"],
                 "total_connections": len(conns),
-                "connected": len(connected),
+                "connected": connected_num,
                 "status": status_str,
                 "env_configured": is_env_configured,
             }

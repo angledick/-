@@ -1,0 +1,24 @@
+{
+  "query": "hello",
+  "response_text": "API Error: Request rejected (429) · [1308][已达到 5 小时的使用上限。您的限额将在 2026-06-14 21:21:39 重置。][20260614210207d6ece361ec9a41d9]",
+  "response_len": 120,
+  "tools_used": [],
+  "progress_messages": [
+    "API Error: Request rejected (429) · [1308][已达到 5 小时的使用上限。您的限额将在 2026-06-14 21:21:39 重置。][20260614210207d6ece361ec9a41d9]"
+  ],
+  "progress_count": 1,
+  "tool_calls": [],
+  "result_keys": [
+    "response",
+    "structured_result",
+    "tools_used",
+    "session_id",
+    "usage"
+  ],
+  "usage": {
+    "cost_usd": 0,
+    "input_tokens": null,
+    "output_tokens": null
+  },
+  "session_id": null
+}

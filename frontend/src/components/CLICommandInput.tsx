@@ -110,7 +110,10 @@ export default function CLICommandInput({ visible, onExecute, onClose }: Props) 
       if (e.key === 'Tab' || e.key === 'Enter') {
         if (selectedIdx >= 0 && selectedIdx < suggestions.length) {
           e.preventDefault()
-          selectSuggestion(suggestions[selectedIdx].cmd)
+          const picked = suggestions[selectedIdx]
+          if (picked) {
+            selectSuggestion(picked.cmd)
+          }
           return
         }
       }
@@ -128,7 +131,8 @@ export default function CLICommandInput({ visible, onExecute, onClose }: Props) 
       if (history.length > 0) {
         const newIdx = Math.min(historyIdx + 1, history.length - 1)
         setHistoryIdx(newIdx)
-        setInput(history[history.length - 1 - newIdx])
+        const histVal = history[history.length - 1 - newIdx]
+        if (histVal !== undefined) setInput(histVal)
       }
       return
     }
@@ -137,7 +141,8 @@ export default function CLICommandInput({ visible, onExecute, onClose }: Props) 
       if (historyIdx > 0) {
         const newIdx = historyIdx - 1
         setHistoryIdx(newIdx)
-        setInput(history[history.length - 1 - newIdx])
+        const histVal = history[history.length - 1 - newIdx]
+        if (histVal !== undefined) setInput(histVal)
       } else {
         setHistoryIdx(-1)
         setInput('')

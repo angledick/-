@@ -29,6 +29,21 @@ from app.core.task_decomposer import TaskDecomposer, SubTask, get_task_decompose
 from app.core.worker_registry import WorkerRegistry, get_worker_registry
 from app.models.schemas import WorkerDefinition, WorkerStatus
 
+
+def _load_source_reference(source: str) -> str:
+    """加载事件来源的能力参考文档，注入到 Worker 执行上下文中。
+
+    根据 subtask.context["source"] 加载 data/context/{source}_reference.md。
+    Agent/Worker 执行时直接读取此参考，无需先读源码。
+    """
+    if not source:
+        return ""
+    context_dir = Path(settings.data_dir).resolve() / "context"
+    ref_path = context_dir / f"{source}_reference.md"
+    if ref_path.exists():
+        return ref_path.read_text(encoding="utf-8")
+    return ""
+
 logger = logging.getLogger(__name__)
 
 DATA_DIR = Path(settings.data_dir)
@@ -231,7 +246,11 @@ class ManagerAgent:
         event_type: str,
         event_data: Dict[str, Any],
     ) -> TaskGroup:
-        """基于事件类型提交任务"""
+        """基于事件类型提交任务
+
+        危险事件自动暂停: 如果事件定义的 severity 为 high/critical，
+        任务组自动设为 pending_approval，等待人工在飞书回复处理意见后恢复。
+        """
         subtasks = await self.decomposer.decompose_event(event_type, event_data)
 
         for st in subtasks:
@@ -245,6 +264,16 @@ class ManagerAgent:
             subtasks=subtasks,
             created_by="event_bus",
         )
+
+        # ── 危险事件自动暂停 ──
+        event_def = self._event_registry.get_event(event_type) if self._event_registry else None
+        if event_def and event_def.severity in ("high", "critical"):
+            group.status = "pending_approval"
+            group.context["pause_reason"] = f"危险事件 [{event_type}] severity={event_def.severity}"
+            logger.info(
+                "ManagerAgent: 危险事件自动暂停 group=%s event=%s severity=%s",
+                group.group_id, event_type, event_def.severity,
+            )
 
         self._task_groups[group.group_id] = group
         return group
@@ -370,6 +399,16 @@ class ManagerAgent:
             conversation_id=group.conversation_id,
         ))
 
+        # ── 完成后通知飞书（如果有 chat_id） ──
+        chat_id = group.context.get("chat_id", "") if isinstance(group.context, dict) else ""
+        if chat_id:
+            await self._send_feishu_notification(chat_id, (
+                f"✅ 任务执行完成\n"
+                f"任务: {group.task_description}\n"
+                f"状态: {group.status}\n"
+                f"子任务: {group._calc_progress()}"
+            ))
+
         return group.to_dict()
 
     async def _execute_subtask(self, group: TaskGroup, subtask: SubTask) -> Dict[str, Any]:
@@ -483,6 +522,10 @@ class ManagerAgent:
                             **(subtask.context or {}),
                         }
 
+                        # 加载事件来源的能力参考文档（飞书/Shopify 等）
+                        event_source = (subtask.context or {}).get("source", "")
+                        source_reference = _load_source_reference(event_source)
+
                         if sdk_agent_id:
                             # 方式 A: 以 Agent 身份执行
                             message_parts = [
@@ -497,6 +540,8 @@ class ManagerAgent:
                                 skills = event_skills or subtask.required_skills
                                 message_parts.append(f"所需技能: {', '.join(skills)}")
                             message_parts.append(f"上下文: {json.dumps(task_context, ensure_ascii=False)}")
+                            if source_reference:
+                                message_parts.append(f"\n--- 事件来源能力参考 ---\n{source_reference}")
                             sdk_result = await assistant.run_as_agent(
                                 agent_id=sdk_agent_id,
                                 message="\n".join(message_parts),
@@ -504,8 +549,32 @@ class ManagerAgent:
                             raw_response = sdk_result.get("response", "") or json.dumps(sdk_result, ensure_ascii=False)
                         else:
                             # 方式 B: 使用 run_task()
+                            prompt_name = f"manager_{subtask.task_type}"
+                            # 专用 prompt 不存在时自动回退到通用模板
+                            try:
+                                from app.services.prompt_loader import load_prompt
+                                load_prompt(prompt_name)
+                            except FileNotFoundError:
+                                logger.info(
+                                    "ManagerAgent: Worker '%s' prompt '%s' 不存在，回退到 manager_generic",
+                                    worker_code, prompt_name,
+                                )
+                                prompt_name = "manager_generic"
+                            # 渐进加载：不注入完整 source_reference，只注入技能描述摘要
+                            # Manager 只看技能描述/函数推荐，Worker 执行时按需加载
+                            # source_reference 不再注入到 prompt（太大会导致上下文溢出）
+                            # 渲染辅助变量：列表转字符串 + context JSON 序列化（精简版）
+                            _skills_list = event_skills or subtask.required_skills or []
+                            task_context["skills"] = ", ".join(_skills_list) if _skills_list else "(无)"
+                            task_context["tools"] = ", ".join(event_tools) if event_tools else "(无)"
+                            # 精简 context_json：只保留关键字段
+                            _slim_ctx = {
+                                k: v for k, v in task_context.items()
+                                if k in ("task_id", "task_type", "description", "agent_action", "skills", "tools", "id", "title", "product_type", "vendor", "tags", "handle", "variants", "source", "event_type")
+                            }
+                            task_context["context_json"] = json.dumps(_slim_ctx, ensure_ascii=False, default=str)
                             sdk_result = await assistant.run_task(
-                                prompt_name=f"manager_{subtask.task_type}",
+                                prompt_name=prompt_name,
                                 context=task_context,
                             )
                             if isinstance(sdk_result, dict):
@@ -598,6 +667,95 @@ class ManagerAgent:
             g.to_dict() for g in self._task_groups.values()
             if g.status in ("pending", "running", "paused")
         ]
+
+    def get_pending_groups(self) -> List[Dict[str, Any]]:
+        """获取等待人工决策的任务组（危险事件闭环）。
+
+        返回 status == 'pending_approval' 的任务组列表。
+        """
+        return [
+            g.to_dict() for g in self._task_groups.values()
+            if g.status == "pending_approval"
+        ]
+
+    async def resume_pending_group(self, group_id: str, instructions: str) -> bool:
+        """恢复等待人工决策的任务组（危险事件闭环）。
+
+        用户在飞书回复处理意见后调用，恢复任务组执行。
+        """
+        group = self._task_groups.get(group_id)
+        if not group:
+            logger.warning("ManagerAgent: 恢复失败，任务组不存在: %s", group_id)
+            return False
+
+        group.status = "running"
+        # 将处理意见注入任务组上下文
+        if isinstance(group.context, dict):
+            group.context["human_instructions"] = instructions
+
+        logger.info(
+            "ManagerAgent: 任务组 %s 已恢复执行，处理意见: %s",
+            group_id, instructions[:50],
+        )
+
+        # 异步执行任务组
+        import asyncio
+        asyncio.create_task(self.execute_group(group_id))
+        return True
+
+    async def pause_group_for_approval(self, group_id: str, reason: str = "") -> bool:
+        """暂停任务组等待人工审批（危险事件闭环）。
+
+        高风险事件触发后，暂停执行并通知飞书等待处理意见。
+        """
+        group = self._task_groups.get(group_id)
+        if not group:
+            return False
+
+        group.status = "pending_approval"
+        if isinstance(group.context, dict):
+            group.context["pause_reason"] = reason
+
+        logger.info(
+            "ManagerAgent: 任务组 %s 已暂停等待人工审批，原因: %s",
+            group_id, reason[:100],
+        )
+        return True
+
+    async def _send_feishu_notification(self, chat_id: str, text: str):
+        """通过 lark-cli 发送飞书通知（异步，不阻塞主流程）。
+
+        使用 Node.js 直调模式绕过 cmd.exe，支持多行文本。
+        """
+        def _sync():
+            import subprocess as _sp
+            from pathlib import Path as _P
+            npm_root = _P.home() / "AppData" / "Roaming" / "npm"
+            entry = npm_root / "node_modules" / "@larksuite" / "cli" / "scripts" / "run.js"
+            if entry.exists():
+                cmd = ["node", str(entry)]
+            else:
+                import shutil
+                found = shutil.which("lark-cli")
+                cmd = ["cmd", "/C", found] if found and found.endswith(".cmd") else ([found] if found else ["lark-cli"])
+            return _sp.run(
+                cmd + [
+                    "im", "+messages-send",
+                    "--as", "bot",
+                    "--chat-id", chat_id,
+                    "--text", text,
+                ],
+                capture_output=True, encoding="utf-8", timeout=15,
+            )
+
+        try:
+            proc = await asyncio.to_thread(_sync)
+            logger.info(
+                "飞书通知已发送: chat=%s rc=%d stdout=%.80s",
+                chat_id, proc.returncode, proc.stdout.strip(),
+            )
+        except Exception as e:
+            logger.warning("飞书通知发送失败: chat=%s err=%s", chat_id, e)
 
     def get_all_groups(self, limit: int = 50) -> List[Dict[str, Any]]:
         """获取全部任务组（最近N个）"""
@@ -850,6 +1008,7 @@ class ManagerAgent:
         """事件 → Worker 调度（SDK 底座）
 
         从事件定义查找 related_worker，分配 tools/skills/context 后执行。
+        危险事件（severity=high/critical）自动暂停等待人工审批。
         """
         event_def = self._event_registry.get_event(event.type) if self._event_registry else None
         if not event_def or not event_def.related_worker:
@@ -872,7 +1031,26 @@ class ManagerAgent:
             st.context["event_skills"] = event_def.skills or []
             st.context["agent_action"] = event_def.agent_action or ""
 
-        # 执行任务组
+        # ── 危险事件：暂停并通知飞书，等待人工审批 ──
+        if group.status == "pending_approval":
+            event_data = event.data or {}
+            chat_id = event_data.get("chat_id", "")
+            if chat_id:
+                await self._send_feishu_notification(chat_id, (
+                    f"⚠️ 危险事件需要人工审批\n"
+                    f"事件: {event.type}\n"
+                    f"严重级别: {event_def.severity}\n"
+                    f"任务组: {group.group_id}\n"
+                    f"原因: {group.context.get('pause_reason', '')}\n\n"
+                    f"请回复处理意见（如：执行/取消）"
+                ))
+            logger.info(
+                "ManagerAgent: 危险事件已暂停等待审批 group=%s event=%s",
+                group.group_id, event.type,
+            )
+            return
+
+        # 正常执行任务组
         await self.execute_group(group.group_id)
 
     async def _route_to_product_metrics(self, event):

@@ -32,7 +32,7 @@ async def list_products(
     )
 
 
-@router.post("", response_model=ProductInfo)
+@router.post("")
 async def create_product(request: ProductCreateRequest):
     """创建产品"""
     storage = get_product_storage()
@@ -62,7 +62,31 @@ async def create_product(request: ProductCreateRequest):
     except Exception:
         pass
 
-    return product
+    # 自动同步到 Shopify（缺失字段自动补全，非阻塞）
+    shopify_sync_result = None
+    try:
+        import logging
+        _log = logging.getLogger(__name__)
+        from app.services.shopify_api import sync_to_shopify
+        shopify_sync_result = await sync_to_shopify(product)
+        if shopify_sync_result.get("ok"):
+            _log.info("产品 %s 已自动同步到 Shopify (id=%s)",
+                       product.id, shopify_sync_result.get("shopify_product_id"))
+        elif shopify_sync_result.get("skipped"):
+            _log.debug("产品 %s Shopify 同步跳过: %s", product.id, shopify_sync_result.get("reason", "unknown"))
+        else:
+            _log.warning("产品 %s Shopify 同步失败: %s", product.id, shopify_sync_result.get("error", "unknown"))
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).warning("产品 %s Shopify 同步异常: %s", product.id, e)
+        shopify_sync_result = {"ok": False, "skipped": True, "reason": f"exception: {e}"}
+
+    # 将同步结果附加到返回数据中（不阻断创建流程）
+    product_dict = product.model_dump()
+    if shopify_sync_result:
+        product_dict["shopify_sync"] = shopify_sync_result
+
+    return product_dict
 
 
 @router.get("/count")

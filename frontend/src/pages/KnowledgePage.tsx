@@ -1,160 +1,410 @@
-import { useState, useEffect, useCallback } from 'react'
-import { knowledgeApi, type KnowledgeSection } from '../api/config'
+import { useMemo, useState } from 'react'
+import {
+  BookOpenCheck,
+  CheckCircle2,
+  Database,
+  FileText,
+  Gavel,
+  Globe2,
+  Landmark,
+  Link2,
+  Loader2,
+  Search,
+  ShieldCheck,
+  Star,
+  UploadCloud,
+} from 'lucide-react'
 
-// 静态回退内容（API 不可用时使用）
-const FALLBACK_SECTIONS: Record<string, string> = {
-  'CE 认证': `### CE 认证 (欧盟)
-CE标志是产品进入欧盟市场的强制性安全标志，适用于约70%的工业产品。
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { KnowledgeList } from '@/components/knowledge/KnowledgeList'
+import { PdfUpload } from '@/components/knowledge/PdfUpload'
+import { SearchPanel } from '@/components/knowledge/SearchPanel'
+import { UrlImport } from '@/components/knowledge/UrlImport'
+import { useKnowledgeDocs, useKnowledgeStats } from '@/hooks/queries/useKnowledge'
+import { cn } from '@/lib/utils'
 
-**适用产品类别**
-- 电子产品：需符合EMC指令(2014/30/EU)、LVD指令(2014/35/EU)
-- 玩具：需符合玩具安全指令(2009/48/EC)
-- 医疗器械：需符合MDR法规(2017/745)
-- 个人防护装备：需符合PPE法规(2016/425)
-- 无线电设备：需符合RED指令(2014/53/EU)
+type CategoryId = 'all' | 'compliance' | 'tax' | 'certification' | 'cases' | 'industry'
 
-**LED灯具出口德国 CE 要求**
-- 适用指令: LVD 2014/35/EU + EMC 2014/30/EU + RoHS 2011/65/EU
-- 还需满足 ERP 能效要求(EU 2019/2020)
-- 需要德国授权代表(EC-REP)`,
+const CATEGORIES: Array<{ id: CategoryId; label: string }> = [
+  { id: 'all', label: '全部' },
+  { id: 'compliance', label: '合规法规' },
+  { id: 'tax', label: '关税税务' },
+  { id: 'certification', label: '认证流程' },
+  { id: 'cases', label: '案例分析' },
+  { id: 'industry', label: '行业报告' },
+]
 
-  'GDPR': `### GDPR 通用数据保护条例
-**适用范围**
-- 在欧盟境内设立机构处理个人数据
-- 向欧盟境内个人提供商品/服务并处理其个人数据
-- 监控欧盟境内个人的行为
+const FEATURED_ARTICLES = [
+  {
+    category: 'compliance',
+    label: '合规法规',
+    title: '美国 FTC 广告合规完整指南',
+    description: '涵盖商品描述、星级评价、影响者合作等高频违规点。',
+    meta: '12 分钟阅读 · 2026-05',
+    Icon: ShieldCheck,
+    tone: 'blue',
+  },
+  {
+    category: 'tax',
+    label: '关税税务',
+    title: '欧盟 IOSS 一站式申报详解',
+    description: 'EUR 150 以下小额订单 VAT 申报机制全解析。',
+    meta: '8 分钟阅读 · 2026-04',
+    Icon: Landmark,
+    tone: 'amber',
+  },
+  {
+    category: 'certification',
+    label: '认证流程',
+    title: '日本 PSE 圆形菱形差异',
+    description: '副产品类需要菱形 PSE，违规处罚案例与材料清单。',
+    meta: '6 分钟阅读 · 2026-03',
+    Icon: Gavel,
+    tone: 'red',
+  },
+  {
+    category: 'cases',
+    label: '案例分析',
+    title: '蓝牙耳机美国市场合规清单',
+    description: 'FCC、UL、CA Prop 65 与平台审核常见缺口。',
+    meta: '10 分钟阅读 · 2026-02',
+    Icon: BookOpenCheck,
+    tone: 'emerald',
+  },
+  {
+    category: 'industry',
+    label: '行业报告',
+    title: '锂电池跨境运输风险要点',
+    description: 'UN38.3、MSDS、包装标签和航空承运限制。',
+    meta: '9 分钟阅读 · 2026-01',
+    Icon: Globe2,
+    tone: 'violet',
+  },
+] satisfies Array<{
+  category: CategoryId
+  label: string
+  title: string
+  description: string
+  meta: string
+  Icon: typeof ShieldCheck
+  tone: 'blue' | 'amber' | 'red' | 'emerald' | 'violet'
+}>
 
-**核心要求**
-- 合法性、公平性和透明性
-- 目的限制 · 数据最小化
-- 准确性 · 存储限制
-- 完整性和保密性
+const PROVIDERS = [
+  {
+    name: 'XX 国际税务',
+    scope: 'VAT / EORI / IOSS 一站式',
+    rating: '4.9',
+    reviews: '256',
+    toneClass: 'bg-indigo-500/80',
+  },
+  {
+    name: 'XX 认证检测',
+    scope: 'CE / FCC / PSE / UL 加急',
+    rating: '4.7',
+    reviews: '189',
+    toneClass: 'bg-emerald-500/80',
+  },
+  {
+    name: 'XX 跨境法律',
+    scope: '商标 / 专利 / 合规咨询',
+    rating: '4.8',
+    reviews: '143',
+    toneClass: 'bg-orange-500/85',
+  },
+]
 
-**罚款**：最高 2000万欧元 或 全球年营业额4%`,
-
-  'WEEE': `### WEEE 电子废弃物回收指令
-**德国 WEEE (ElektroG)**
-- 所有电子电气设备出口德国必须在EAR基金会注册
-- 获得WEEE注册号后方可销售
-- 需提供回收担保
-- 产品标签须含打叉带轮垃圾桶符号`,
-
-  '包装法': `### 德国包装法 (VerpackG)
-- 所有销售到德国的商品包装必须在LUCID系统注册
-- 需加入双轨回收系统(Dual System)
-- 申报包装材料类型和重量`,
-
-  'GPSR': `### GPSR 通用产品安全法规
-2024年12月正式生效，取代原GPSD指令。
-
-**新要求**
-- 强化在线市场产品安全责任
-- 要求指定欧盟境内负责人
-- 产品召回流程更严格
-- 适用于所有面向消费者的产品`,
-
-  '美国 FCC': `### FCC 认证 (美国)
-- 电子产品需FCC认证
-- Part 15: 无线电频率设备
-- 分为 Verification / DoC / Certification 三级
-
-**FDA (食品接触/医疗器械)**
-- 食品接触材料需FDA注册
-- 医疗器械需510(k)或PMA
-
-**UL 安全认证**
-- 非强制但市场必备`,
-
-  '日本 PSE': `### 日本 PSE 认证
-- 电气用品安全法
-- 特定电气用品(菱形PSE) + 非特定(圆形PSE)
-- LED灯具属于圆形PSE范围`,
-
-  '韩国 KC': `### 韩国 KC 认证
-- KC认证(安全) — 韩国产品安全标志
-- KCC认证(电磁兼容) — 通讯设备
-- 韩国无线电研究所(RRA)负责管理`,
-
-  'REACH': `### REACH 化学品法规 (欧盟)
-- 含化学物质的商品（如电池、塑料部件）需注册
-- 高度关注物质(SVHC)清单持续更新
-- LED灯具需确保符合RoHS有害物质限制`,
+const TONE_CLASS = {
+  blue: {
+    pill: 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-900/70 dark:bg-blue-950/30 dark:text-blue-300',
+    icon: 'text-blue-600',
+    ring: 'ring-blue-100 dark:ring-blue-900/60',
+  },
+  amber: {
+    pill: 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900/70 dark:bg-amber-950/30 dark:text-amber-300',
+    icon: 'text-amber-600',
+    ring: 'ring-amber-100 dark:ring-amber-900/60',
+  },
+  red: {
+    pill: 'border-red-200 bg-red-50 text-red-700 dark:border-red-900/70 dark:bg-red-950/30 dark:text-red-300',
+    icon: 'text-red-600',
+    ring: 'ring-red-100 dark:ring-red-900/60',
+  },
+  emerald: {
+    pill: 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900/70 dark:bg-emerald-950/30 dark:text-emerald-300',
+    icon: 'text-emerald-600',
+    ring: 'ring-emerald-100 dark:ring-emerald-900/60',
+  },
+  violet: {
+    pill: 'border-violet-200 bg-violet-50 text-violet-700 dark:border-violet-900/70 dark:bg-violet-950/30 dark:text-violet-300',
+    icon: 'text-violet-600',
+    ring: 'ring-violet-100 dark:ring-violet-900/60',
+  },
 }
 
 export default function KnowledgePage() {
-  const [sections, setSections] = useState<KnowledgeSection[]>([])
-  const [loading, setLoading] = useState(true)
-  const [active, setActive] = useState<string>('CE 认证')
+  const { data: stats, isLoading: statsLoading } = useKnowledgeStats()
+  const { data: docs } = useKnowledgeDocs()
+  const [category, setCategory] = useState<CategoryId>('all')
+  const [query, setQuery] = useState('')
 
-  const loadSections = useCallback(async () => {
-    setLoading(true)
-    try {
-      const data = await knowledgeApi.list()
-      setSections(data.sections)
-    } catch {
-      setSections([])
-    } finally {
-      setLoading(false)
-    }
-  }, [])
+  const filteredArticles = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    return FEATURED_ARTICLES.filter((article) => {
+      if (category !== 'all' && article.category !== category) return false
+      if (!q) return true
+      return [article.title, article.description, article.label]
+        .join(' ')
+        .toLowerCase()
+        .includes(q)
+    })
+  }, [category, query])
 
-  useEffect(() => { loadSections() }, [loadSections])
-
-  // 合并 API 数据与静态回退
-  const allKeys = loading
-    ? Object.keys(FALLBACK_SECTIONS)
-    : sections.length > 0
-      ? sections.map(s => s.title)
-      : Object.keys(FALLBACK_SECTIONS)
-
-  const getContent = (key: string): string => {
-    if (sections.length > 0) {
-      const section = sections.find(s => s.title === key)
-      if (section) return section.content
-    }
-    return FALLBACK_SECTIONS[key] || ''
-  }
+  const latestDocs = docs?.slice(0, 3) ?? []
 
   return (
-    <div className="p-10 px-12 max-w-[1100px]">
-      <h1 className="text-[28px] font-semibold text-[#1D1D1F] tracking-tight mb-2">
-        合规知识库
-      </h1>
-      <p className="text-[15px] text-[#86868B] mb-8">
-        查阅主要目标市场的合规法规摘要
-      </p>
+    <div className="h-full overflow-y-auto bg-muted/40 px-4 py-5 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-7">
+        <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-blue-50 text-blue-600 ring-1 ring-blue-100 dark:bg-blue-950/30 dark:text-blue-300 dark:ring-blue-900/70">
+              <BookOpenCheck className="size-4" />
+            </span>
+            <div className="min-w-0">
+              <h1 className="truncate text-[22px] font-semibold tracking-normal">知识库</h1>
+              <p className="mt-0.5 text-[13px] text-muted-foreground">
+                法规、税务、认证与案例索引
+              </p>
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-2 sm:w-[360px]">
+            <MiniMetric label="文档" value={stats?.total_docs} loading={statsLoading} />
+            <MiniMetric label="已就绪" value={stats?.done_count} loading={statsLoading} />
+            <MiniMetric label="向量" value={stats?.total_vectors} loading={statsLoading} />
+          </div>
+        </header>
 
-      <div className="flex gap-6">
-        {/* Tabs */}
-        <div className="w-[200px] shrink-0 flex flex-col gap-0.5">
-          {loading ? (
-            <div className="text-sm text-[#86868B] py-4">加载中...</div>
+        <section className="rounded-lg border border-border/70 bg-card p-4 shadow-sm">
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="搜索法规、税务、认证、案例..."
+              className="h-14 w-full rounded-lg border border-border/70 bg-background pl-11 pr-4 text-[14px] outline-none transition-colors placeholder:text-muted-foreground focus:border-primary/50 focus:ring-2 focus:ring-primary/15"
+            />
+          </div>
+        </section>
+
+        <nav className="flex flex-wrap gap-2" aria-label="知识库分类">
+          {CATEGORIES.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => setCategory(item.id)}
+              className={cn(
+                'h-8 rounded-full px-3 text-[12px] font-medium transition-colors',
+                category === item.id
+                  ? 'bg-foreground text-background'
+                  : 'bg-card text-muted-foreground ring-1 ring-border/70 hover:text-foreground',
+              )}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+
+        <section className="grid gap-4 lg:grid-cols-3" aria-label="知识条目">
+          {filteredArticles.length === 0 ? (
+            <div className="rounded-lg border border-dashed border-border bg-card p-8 text-center text-[13px] text-muted-foreground lg:col-span-3">
+              未找到匹配内容
+            </div>
           ) : (
-            allKeys.map(key => (
-              <button
-                key={key}
-                onClick={() => setActive(key)}
-                className={`text-left px-3.5 py-2.5 rounded-lg border-none text-sm cursor-pointer font-[inherit] transition-all ${
-                  active === key
-                    ? 'bg-[#F5F5F7] text-[#1D1D1F] font-semibold'
-                    : 'bg-transparent text-[#86868B] font-normal hover:bg-[#F5F5F7]/50'
-                }`}
-              >
-                {key}
-              </button>
+            filteredArticles.map((article) => (
+              <KnowledgeCard key={article.title} article={article} />
             ))
           )}
-        </div>
+        </section>
 
-        {/* Content */}
-        <div className="flex-1 bg-white rounded-[14px] border border-black/[0.06] px-8 py-7 text-sm leading-relaxed text-[#424245] whitespace-pre-wrap font-[inherit] min-h-[400px]">
-          {loading ? (
-            <div className="text-sm text-[#86868B]">加载中...</div>
-          ) : (
-            getContent(active)
-          )}
-        </div>
+        <section aria-label="推荐服务商">
+          <div className="mb-3 flex items-center gap-2">
+            <Star className="size-4 fill-warning text-warning" />
+            <h2 className="text-[16px] font-semibold tracking-normal">推荐服务商</h2>
+          </div>
+          <div className="grid gap-4 lg:grid-cols-3">
+            {PROVIDERS.map((provider) => (
+              <article
+                key={provider.name}
+                className="flex min-h-[116px] flex-col justify-between rounded-lg border border-border/70 bg-card p-4 shadow-sm"
+              >
+                <div className="flex items-start gap-3">
+                  <span className={cn('flex size-10 shrink-0 rounded-full', provider.toneClass)} />
+                  <div className="min-w-0">
+                    <h3 className="truncate text-[14px] font-semibold">{provider.name}</h3>
+                    <p className="mt-0.5 truncate text-[12px] text-muted-foreground">{provider.scope}</p>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-1 text-[12px] text-warning">
+                    <span aria-hidden="true">★★★★★</span>
+                    <span className="text-muted-foreground">
+                      {provider.rating} ({provider.reviews})
+                    </span>
+                  </div>
+                  <button className="h-7 rounded-md border border-border/70 px-3 text-[12px] font-medium text-foreground transition-colors hover:bg-muted">
+                    联系
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="grid gap-4 xl:grid-cols-[1fr_340px]">
+          <div className="rounded-lg border border-border/70 bg-card p-4 shadow-sm">
+            <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="text-[16px] font-semibold tracking-normal">知识库维护</h2>
+                <p className="text-[12px] text-muted-foreground">
+                  文档导入、语义搜索与向量状态
+                </p>
+              </div>
+              <span className="text-[12px] text-muted-foreground">
+                {statsLoading ? '统计加载中' : `${stats?.indexing_count ?? 0} 个任务处理中`}
+              </span>
+            </div>
+            <Tabs defaultValue="search" className="w-full">
+              <TabsList className="mb-5 inline-flex min-h-9 flex-wrap items-center justify-start rounded-md bg-muted p-1 text-muted-foreground">
+                <TabsTrigger
+                  value="search"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 text-sm data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+                >
+                  <Search className="size-3.5" />
+                  语义搜索
+                </TabsTrigger>
+                <TabsTrigger
+                  value="list"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 text-sm data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+                >
+                  <FileText className="size-3.5" />
+                  文档
+                </TabsTrigger>
+                <TabsTrigger
+                  value="pdf"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 text-sm data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+                >
+                  <UploadCloud className="size-3.5" />
+                  PDF
+                </TabsTrigger>
+                <TabsTrigger
+                  value="url"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 text-sm data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+                >
+                  <Link2 className="size-3.5" />
+                  URL
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="search">
+                <SearchPanel />
+              </TabsContent>
+              <TabsContent value="list">
+                <KnowledgeList />
+              </TabsContent>
+              <TabsContent value="pdf">
+                <PdfUpload />
+              </TabsContent>
+              <TabsContent value="url">
+                <UrlImport />
+              </TabsContent>
+            </Tabs>
+          </div>
+
+          <aside className="rounded-lg border border-border/70 bg-card p-4 shadow-sm">
+            <div className="mb-4 flex items-center gap-2">
+              <Database className="size-4 text-muted-foreground" />
+              <h2 className="text-[14px] font-semibold tracking-normal">最近导入</h2>
+            </div>
+            {latestDocs.length === 0 ? (
+              <div className="rounded-md border border-dashed border-border bg-muted/30 p-5 text-[13px] text-muted-foreground">
+                暂无导入记录
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {latestDocs.map((doc) => (
+                  <div
+                    key={doc.id}
+                    className="rounded-md border border-border/60 bg-background px-3 py-2"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="truncate text-[13px] font-medium">{doc.name}</p>
+                      <DocStatus status={doc.status} />
+                    </div>
+                    <p className="mt-1 text-[11px] text-muted-foreground">
+                      {doc.doc_type.toUpperCase()} · {doc.chunk_count || 0} 个片段
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </aside>
+        </section>
       </div>
     </div>
   )
+}
+
+function MiniMetric({
+  label,
+  value,
+  loading,
+}: {
+  label: string
+  value: number | undefined
+  loading: boolean
+}) {
+  return (
+    <div className="rounded-lg border border-border/70 bg-card px-3 py-2 text-right shadow-sm">
+      <p className="text-[11px] text-muted-foreground">{label}</p>
+      <p className="mt-0.5 text-[18px] font-semibold tabular-nums">
+        {loading ? '...' : (value ?? 0)}
+      </p>
+    </div>
+  )
+}
+
+function KnowledgeCard({
+  article,
+}: {
+  article: (typeof FEATURED_ARTICLES)[number]
+}) {
+  const tone = TONE_CLASS[article.tone]
+  return (
+    <article className="flex min-h-[146px] flex-col rounded-lg border border-border/70 bg-card p-5 shadow-sm transition-colors hover:border-border">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <span className={cn('inline-flex h-7 items-center gap-1.5 rounded-full border px-2.5 text-[12px] font-medium', tone.pill)}>
+          <article.Icon className={cn('size-3.5', tone.icon)} />
+          {article.label}
+        </span>
+        <span className={cn('flex size-8 items-center justify-center rounded-md bg-background ring-1', tone.ring)}>
+          <article.Icon className={cn('size-4', tone.icon)} />
+        </span>
+      </div>
+      <h2 className="text-[15px] font-semibold tracking-normal text-foreground">{article.title}</h2>
+      <p className="mt-2 line-clamp-2 text-[12px] leading-5 text-muted-foreground">
+        {article.description}
+      </p>
+      <p className="mt-auto pt-4 text-[12px] text-muted-foreground">{article.meta}</p>
+    </article>
+  )
+}
+
+function DocStatus({ status }: { status: 'indexing' | 'done' | 'error' }) {
+  if (status === 'done') {
+    return <CheckCircle2 className="size-3.5 shrink-0 text-success" aria-label="已就绪" />
+  }
+  if (status === 'error') {
+    return <span className="text-[11px] font-medium text-destructive">失败</span>
+  }
+  return <Loader2 className="size-3.5 shrink-0 animate-spin text-warning" aria-label="向量化中" />
 }

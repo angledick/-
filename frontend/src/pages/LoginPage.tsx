@@ -1,118 +1,166 @@
-import { useState, FormEvent } from 'react'
-import { useAuth } from '../context/AuthContext'
+import { useState, type FormEvent } from 'react'
+import { Link } from 'react-router-dom'
+import { toast } from 'sonner'
+
+import { useAuth } from '@/context/AuthContext'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 
 export default function LoginPage() {
+  return (
+    <div className="min-h-screen bg-cream text-cream-foreground flex items-center justify-center px-6 py-20">
+      <div className="w-full max-w-md">
+        {/* Logo */}
+        <div className="text-center mb-12">
+          <Link to="/" className="inline-block">
+            <h1 className="font-serif text-4xl tracking-[0.3em] mb-2 text-cream-foreground">
+              避风港
+            </h1>
+          </Link>
+          <p className="text-xs uppercase tracking-[0.2em] text-cream-foreground/40">
+            跨境合规智能体
+          </p>
+        </div>
+
+        {/* Card */}
+        <div className="border border-rule/10 p-8 md:p-12 bg-card">
+          <h2 className="font-serif text-3xl tracking-tight mb-2 text-card-foreground">
+            登录
+          </h2>
+          <p className="text-sm text-muted-foreground mb-8">
+            输入您的凭据以访问您的账户
+          </p>
+
+          <AccountForm />
+
+          <div className="mt-8 text-center text-sm text-muted-foreground">
+            没有账户？{' '}
+            <Link
+              to="/auth/signup"
+              className="text-cream-foreground hover:underline underline-offset-4"
+            >
+              创建账户
+            </Link>
+          </div>
+        </div>
+
+        {/* Back to home */}
+        <div className="mt-8 text-center">
+          <Link
+            to="/"
+            className="text-xs uppercase tracking-[0.2em] text-cream-foreground/60 hover:text-cream-foreground transition-colors"
+          >
+            返回首页
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ─────────────────────────── Account form ─────────────────────────── */
+
+function AccountForm() {
   const { login } = useAuth()
-  const [username, setUsername] = useState('admin')
-  const [password, setPassword] = useState('admin123')
-  const [error, setError] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    if (!username.trim() || !password.trim()) return
+    if (!username.trim() || !password.trim()) {
+      toast.error('请输入用户名和密码')
+      return
+    }
     setLoading(true)
-    setError('')
     try {
       await login(username.trim(), password)
+      toast.success('登录成功')
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : '登录失败，请重试')
+      toast.error(err instanceof Error ? err.message : '登录失败，请重试')
     } finally {
       setLoading(false)
     }
   }
 
-  const disabled = loading || !username.trim() || !password.trim()
-
   return (
-    <div className="min-h-screen bg-[linear-gradient(135deg,#0F1720_0%,#16202C_42%,#EEF2F6_42%,#F6F8FA_100%)]">
-      <div className="mx-auto grid min-h-screen max-w-[1280px] items-center gap-10 px-6 py-10 lg:grid-cols-[1.05fr_0.95fr]">
-        <section className="hidden lg:block text-white">
-          <div className="max-w-[520px]">
-            <div className="inline-flex rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs font-medium tracking-[0.12em] text-white/72 uppercase">
-              SafeHarbor Console
-            </div>
-            <h1 className="mt-6 text-[56px] font-semibold tracking-[-0.06em] leading-[0.98]">
-              跨境合规工作台
-            </h1>
-            <p className="mt-5 max-w-[54ch] text-[15px] leading-7 text-white/70">
-              在一个控制台里查看产品状态、风险预警、关键词监控、知识库和 Agent 配置。先保证信息清晰，再做自动化执行。
-            </p>
-            <div className="mt-10 grid grid-cols-2 gap-4">
-              {[
-                ['产品合规', '管理产品、证书、健康度和生命周期状态'],
-                ['风险监控', '查看情报流、预警列表和市场热力分布'],
-                ['知识与记忆', '沉淀法规、上下文与系统推理依据'],
-                ['配置中心', '统一管理 Agent、工具、技能和任务'],
-              ].map(([title, desc]) => (
-                <div key={title} className="rounded-3xl border border-white/10 bg-white/6 p-4 backdrop-blur-sm">
-                  <div className="text-sm font-semibold text-white">{title}</div>
-                  <div className="mt-2 text-sm leading-6 text-white/64">{desc}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <Field
+        id="username"
+        label="用户名"
+        type="text"
+        value={username}
+        onChange={setUsername}
+        placeholder="输入用户名"
+        autoComplete="username"
+      />
+      <Field
+        id="password"
+        label="密码"
+        type="password"
+        value={password}
+        onChange={setPassword}
+        placeholder="输入密码"
+        autoComplete="current-password"
+      />
 
-        <section className="flex justify-center lg:justify-end">
-          <div className="w-full max-w-[420px] rounded-[32px] border border-black/[0.06] bg-white px-7 py-8 shadow-[0_30px_80px_rgba(15,23,42,0.14)]">
-            <div className="mb-8 text-center">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#111827] text-xl font-bold text-white shadow-[0_12px_24px_rgba(17,24,39,0.18)]">
-                A
-              </div>
-              <div className="mt-4 text-[22px] font-semibold tracking-[-0.03em] text-[#111827]">登录避风港</div>
-              <div className="mt-1 text-sm text-[#6B7280]">继续进入跨境合规工作台</div>
-            </div>
+      <Button
+        type="submit"
+        disabled={loading}
+        className="w-full bg-cream-foreground text-cream hover:bg-cream-foreground/85"
+      >
+        {loading ? '登录中...' : '登录'}
+      </Button>
+    </form>
+  )
+}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="mb-2 block text-sm font-medium text-[#111827]">用户名</label>
-                <input
-                  type="text"
-                  value={username}
-                  onChange={e => setUsername(e.target.value)}
-                  placeholder="请输入用户名"
-                  autoFocus
-                  className="h-12 w-full rounded-2xl border border-black/[0.08] bg-[#F9FAFB] px-4 text-sm outline-none transition focus:border-[#94A3B8] focus:bg-white focus:ring-4 focus:ring-[#E2E8F0]"
-                />
-              </div>
+/* ─────────────────────────── Shared field ─────────────────────────── */
 
-              <div>
-                <label className="mb-2 block text-sm font-medium text-[#111827]">密码</label>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  placeholder="请输入密码"
-                  className="h-12 w-full rounded-2xl border border-black/[0.08] bg-[#F9FAFB] px-4 text-sm outline-none transition focus:border-[#94A3B8] focus:bg-white focus:ring-4 focus:ring-[#E2E8F0]"
-                />
-              </div>
-
-              {error && (
-                <div className="rounded-2xl border border-[#F5D0D6] bg-[#FFF5F7] px-4 py-3 text-sm text-[#B42318]">
-                  {error}
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={disabled}
-                className={`inline-flex h-12 w-full items-center justify-center rounded-2xl text-sm font-semibold transition-all ${
-                  disabled
-                    ? 'cursor-not-allowed bg-[#E5E7EB] text-[#9CA3AF]'
-                    : 'bg-[#111827] text-white hover:-translate-y-[1px] hover:bg-[#1F2937] hover:shadow-[0_16px_28px_rgba(17,24,39,0.16)]'
-                }`}
-              >
-                {loading ? '登录中' : '进入系统'}
-              </button>
-            </form>
-
-            <div className="mt-6 rounded-2xl border border-black/[0.06] bg-[#F9FAFB] px-4 py-3 text-sm text-[#6B7280]">
-              默认账号 <span className="font-semibold text-[#111827]">admin</span> / <span className="font-semibold text-[#111827]">admin123</span>
-            </div>
-          </div>
-        </section>
-      </div>
+function Field({
+  id,
+  label,
+  type,
+  value,
+  onChange,
+  placeholder,
+  autoComplete,
+  inputMode,
+  maxLength,
+}: {
+  id: string
+  label: string
+  type: string
+  value: string
+  onChange: (v: string) => void
+  placeholder?: string
+  autoComplete?: string
+  inputMode?: 'text' | 'numeric' | 'tel' | 'email'
+  maxLength?: number
+}) {
+  return (
+    <div>
+      <label
+        htmlFor={id}
+        className="block text-xs uppercase tracking-[0.2em] text-cream-foreground/60 mb-2"
+      >
+        {label}
+      </label>
+      <input
+        id={id}
+        type={type}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        autoComplete={autoComplete}
+        inputMode={inputMode}
+        maxLength={maxLength}
+        placeholder={placeholder}
+        className={cn(
+          'w-full border-b border-cream-foreground/20 bg-transparent px-0 py-2 text-sm',
+          'focus:outline-none focus:border-cream-foreground focus-visible:ring-1 focus-visible:ring-ring transition-colors',
+          'placeholder:text-cream-foreground/30',
+        )}
+      />
     </div>
   )
 }

@@ -9,20 +9,16 @@ interface Props {
 export default function DailyBrief({ className = '' }: Props) {
   const { notifications } = useNotificationContext()
   const [brief, setBrief] = useState<BriefItem | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    setLoading(true)
-    setError(null)
     proactiveApi.getBrief(1)
       .then(res => {
         if (res.briefs && res.briefs.length > 0) {
-          setBrief(res.briefs[res.briefs.length - 1])
+          const lastBrief = res.briefs[res.briefs.length - 1]
+          if (lastBrief) setBrief(lastBrief)
         }
       })
-      .catch(err => setError(err instanceof Error ? err.message : '未知错误'))
-      .finally(() => setLoading(false))
+      .catch(() => { /* partial failure tolerated */ })
   }, [])
 
   const todayStart = new Date()
@@ -30,7 +26,6 @@ export default function DailyBrief({ className = '' }: Props) {
 
   const todayNotifs = notifications.filter(n => n.timestamp >= todayStart.getTime())
   const unread = notifications.filter(n => !n.read)
-  const critical = notifications.filter(n => n.severity === 'critical' && !n.read)
   const recentAffected = notifications
     .filter(n => n.affectedProducts && n.affectedProducts.length > 0)
     .slice(0, 5)
@@ -91,7 +86,7 @@ export default function DailyBrief({ className = '' }: Props) {
         <div className="pt-3 border-t border-black/6">
           <div className="text-[10px] font-semibold text-[#86868B] uppercase tracking-wider mb-2">涉及产品</div>
           <div className="flex flex-wrap gap-1.5">
-            {recentAffected.map((n, i) =>
+            {recentAffected.map((n) =>
               n.affectedProducts?.map(pid => (
                 <span
                   key={`${n.id}_${pid}`}

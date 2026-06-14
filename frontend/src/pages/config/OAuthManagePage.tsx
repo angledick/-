@@ -101,8 +101,8 @@ export default function OAuthManagePage() {
                     <span className="text-sm font-semibold text-[#1D1D1F]">{ps.name}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${meta.bg} ${meta.color}`}>
-                      {meta.label}
+                    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${meta?.bg ?? ''} ${meta?.color ?? ''}`}>
+                      {meta?.label ?? '未知'}
                     </span>
                     <span className="text-[11px] text-[#86868B]">
                       {ps.connected}/{ps.total_connections}

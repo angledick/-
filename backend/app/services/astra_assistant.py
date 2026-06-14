@@ -24,12 +24,13 @@
     agents = await assistant.list_subagents()
 """
 
+import asyncio
 import json
 import logging
 import re
 import uuid
 from pathlib import Path
-from typing import Any, AsyncIterator, Optional, Dict
+from typing import Any, AsyncIterator, Callable, Optional, Dict
 
 from app.config import settings
 from app.services.prompt_loader import render_prompt
@@ -47,42 +48,7 @@ class AstraAssistantError(Exception):
 
 # ── 合规助手系统提示词 ─────────────────────────────
 
-ASTRA_SYSTEM_PROMPT = """你是"避风港"跨境合规智能助手，基于 Claude Agent SDK 运行。
-
-## 核心职责
-帮助跨境电商卖家分析目标市场的合规要求，涵盖 HS 编码、VAT 税率、产品认证、
-风险评估、清关文件、文化适配等。
-
-## 可用工具
-你拥有完整的 Claude Code 工具链：
-- **Read/Glob/Grep**: 读取和搜索项目文件  
-- **WebSearch/WebFetch**: 联网搜索最新法规信息  
-- **Bash**: 执行终端命令（数据分析、脚本执行）  
-- **Edit/Write**: 编辑和创建文件（生成合规报告文档）  
-
-以及专有的合规检查工具（通过 MCP 注入）：
-- **lookup_hs_code**: 根据产品名称查询 HS 编码  
-- **lookup_vat_rate**: 查询目标国家的标准 VAT 税率  
-- **get_certifications**: 查询产品出口认证要求  
-- **get_risk_flags**: 评估合规风险  
-- **check_compliance**: 完整合规检查（HS+VAT+认证+风险+物流）  
-- **retrieve_regulation_context**: 从法规知识库检索相关条文  
-- **get_logistics_requirements**: 物流与清关要求  
-- **get_cultural_notes**: 目标市场的文化适配注意事项  
-
-## 工作方式
-1. 理解用户需求（产品 + 目标市场）  
-2. 使用合规工具获取结构化数据  
-3. 必要时联网搜索最新法规动态  
-4. 综合分析，给出可执行的合规建议  
-5. 支持输出结构化合规报告（Markdown / JSON）  
-
-## 输出风格
-- 专业、简洁、有层次  
-- 优先使用工具获取准确数据  
-- 对不确定信息明确标注需要进一步核实  
-- 支持使用子代理处理复杂任务  
-"""
+ASTRA_SYSTEM_PROMPT = """你是跨境合规智能助手。根据任务指令执行操作，使用可用工具和技能完成任务。"""
 
 # 合规 MCP 工具在 SDK 中的名称格式
 _COMPLIANCE_MCP_PREFIX = "mcp__compliance__"
@@ -128,11 +94,15 @@ def _ensure_sdk():
 
 
 def _parse_json_setting(raw: str, default: Any = None) -> Any:
-    """解析 JSON 配置项。空字符串返回默认值。"""
+    """解析 JSON 配置项。空字符串返回默认值。支持非 JSON 的特殊值 'all'。"""
     if not raw or not raw.strip():
         return default
+    stripped = raw.strip()
+    # 特殊处理: "all" 不需要 JSON 引号
+    if stripped == "all":
+        return "all"
     try:
-        return json.loads(raw)
+        return json.loads(stripped)
     except (json.JSONDecodeError, TypeError):
         logger.warning("JSON 配置解析失败: %s", raw[:80])
         return default
@@ -525,6 +495,8 @@ class AstraAssistant:
 
         通过钩子系统将 Astra 的 L0-L4 记忆层注入到 Claude 的工作流中。
         """
+        # 渐进加载：暂时禁用 hooks，避免 CLI hook 回调错误
+        return None
         if not check_sdk():
             return None
         from claude_agent_sdk import HookMatcher
@@ -696,7 +668,40 @@ class AstraAssistant:
                 system = f"{system}\n\n{extra}"
         full_prompt = f"{system}\n\n用户消息: {message}"
 
-        return await self._chat_with_session(sid, full_prompt, model, agent_id=agent_id)
+        return await self._chat_with_session_inner(sid, full_prompt, model, agent_id=agent_id)
+
+    async def chat_with_progress(
+        self,
+        message: str,
+        session_id: Optional[str] = None,
+        context: Optional[dict] = None,
+        model: Optional[str] = None,
+        system_prompt: Optional[str] = None,
+        agent_id: Optional[str] = None,
+        on_progress: Optional[Callable[[str], None]] = None,
+    ) -> dict[str, Any]:
+        """带进度回调的对话 — 用于飞书消息的流式处理。
+
+        SDK 每产生一条中间消息（工具调用、任务进度），
+        通过 on_progress 回调实时通知。
+        """
+        if not self._sdk_available():
+            return self._mock_chat_result(message)
+
+        sid = session_id
+        if not sid:
+            sid = str(uuid.uuid4())
+
+        system = system_prompt or ASTRA_SYSTEM_PROMPT
+        if context:
+            extra = render_prompt("chat_compliance", **(context or {}))
+            if extra:
+                system = f"{system}\n\n{extra}"
+        full_prompt = f"{system}\n\n用户消息: {message}"
+
+        return await self._chat_with_session_inner(
+            sid, full_prompt, model, agent_id=agent_id, on_progress=on_progress,
+        )
 
     async def chat_stream(
         self,
@@ -814,13 +819,52 @@ class AstraAssistant:
         if not self._sdk_available():
             return self._mock_response(prompt_name)
 
-        task = render_prompt(prompt_name, **(context or {}))
+        # 过滤保留键，避免与 render_prompt(name=...) 位置参数冲突
+        _safe_ctx = {
+            k: v for k, v in (context or {}).items()
+            if k not in ("name", "self")
+        }
+        task = render_prompt(prompt_name, **_safe_ctx)
         options = self.build_options(model=model)
         if options is None:
             return self._mock_response(prompt_name)
 
+        # Windows 兼容：在独立的 ProactorEventLoop 线程中运行 SDK
+        # uvicorn --reload 模式可能使用 SelectorEventLoop，不支持 subprocess
+        def _run_query_sync():
+            import subprocess as _sp
+            loop = asyncio.new_event_loop()
+            try:
+                asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+                asyncio.set_event_loop(loop)
+                return loop.run_until_complete(
+                    self._execute_query_in_loop(task, options)
+                )
+            finally:
+                try:
+                    loop.run_until_complete(loop.shutdown_asyncgens())
+                except Exception:
+                    pass
+                loop.close()
+
+        try:
+            result = await asyncio.to_thread(_run_query_sync)
+            return result
+        except Exception as e:
+            import traceback as _tb
+            logger.error("SDK query 失败详情:\n%s", _tb.format_exc())
+            raise AstraAssistantError(f"Claude Agent SDK query 失败: {e}") from e
+
+    async def _execute_query_in_loop(
+        self,
+        task: str,
+        options: Any,
+    ) -> dict[str, Any]:
+        """在新的 ProactorEventLoop 中执行 SDK query。"""
         from claude_agent_sdk import query
         from claude_agent_sdk.types import ResultMessage, AssistantMessage, TextBlock
+
+        logger.info("SDK query 启动: cli_path=%s, model=%s, cwd=%s", options.cli_path, options.model, options.cwd)
 
         result_text = ""
         try:
@@ -832,7 +876,16 @@ class AstraAssistant:
                         if isinstance(block, TextBlock):
                             result_text += block.text
         except Exception as e:
-            raise AstraAssistantError(f"Claude Agent SDK query 失败: {e}") from e
+            # Claude Code CLI 退出时会发 {"type":"error","error":"success"}
+            # 这不是真正的错误，只要已有 result_text 就正常返回
+            err_msg = str(e).strip().lower()
+            if err_msg in ("success", "claude code returned an error result: success"):
+                logger.info("SDK 返回 success 伪错误，已有结果长度=%d", len(result_text))
+                if result_text:
+                    return self._parse_result(result_text, task)
+                logger.warning("SDK success 伪错误但无结果文本，返回空")
+                return self._parse_result("", task)
+            raise
 
         return self._parse_result(result_text, task)
 
@@ -847,7 +900,10 @@ class AstraAssistant:
             yield {"type": "complete"}
             return
 
-        task = render_prompt(prompt_name, **(context or {}))
+        task = render_prompt(prompt_name, **{
+            k: v for k, v in (context or {}).items()
+            if k not in ("name", "self")
+        })
         options = self.build_options(model=model)
         if options is None:
             yield {"type": "complete"}
@@ -875,7 +931,12 @@ class AstraAssistant:
                 elif isinstance(msg, TaskNotificationMessage):
                     yield {"type": "task_end", "status": msg.status, "summary": msg.summary}
         except Exception as e:
-            yield {"type": "error", "error": str(e)}
+            err_msg = str(e).strip().lower()
+            if err_msg in ("success", "claude code returned an error result: success"):
+                logger.info("SDK stream 返回 success 伪错误，正常结束")
+                yield {"type": "complete", "result": ""}
+            else:
+                yield {"type": "error", "error": str(e)}
 
     # ── Agent 执行 ────────────────────────────────
 
@@ -1021,6 +1082,195 @@ class AstraAssistant:
             await self.close_session(session_id)
             raise AstraAssistantError(f"Claude 对话失败: {e}") from e
 
+    async def _chat_with_session_inner(
+        self,
+        session_id: str,
+        full_prompt: str,
+        model: Optional[str] = None,
+        agent_id: Optional[str] = None,
+        on_progress: Optional[Callable[[str], None]] = None,
+    ) -> dict[str, Any]:
+        """带进度回调的内部对话方法。
+
+        直接消费 receive_response() 流，每收到一条消息就通过 on_progress 回调。
+        在 ProactorEventLoop 中运行（Windows 兼容）。
+        """
+        from claude_agent_sdk.types import (
+            ResultMessage, AssistantMessage, TextBlock,
+            ToolUseBlock, ToolResultBlock, ThinkingBlock,
+        )
+
+        client = self._get_or_create_client(session_id, model=model, agent_id=agent_id)
+        if client is None:
+            return self._mock_chat_result(full_prompt[:100])
+
+        # 在 ProactorEventLoop 中运行 SDK
+        def _run_sync():
+            import subprocess as _sp
+            loop = asyncio.new_event_loop()
+            try:
+                asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+                asyncio.set_event_loop(loop)
+                return loop.run_until_complete(
+                    self._run_sdk_in_loop(client, full_prompt, on_progress)
+                )
+            finally:
+                # 先断开 client 连接，停止 SDK 子进程传输层
+                try:
+                    if hasattr(client, 'disconnect'):
+                        loop.run_until_complete(client.disconnect())
+                except Exception:
+                    pass
+                # 静默关闭异步生成器（SDK 内部 SubprocessCLITransport._read_messages_impl
+                # 可能在子进程未完全退出时仍处于 running 状态，导致 aclose 报 RuntimeError。
+                # 这是 Windows + Claude Agent SDK 已知问题，不影响实际结果。）
+                import logging as _logging
+                _asyncio_logger = _logging.getLogger('asyncio')
+                _old_level = _asyncio_logger.level
+                _asyncio_logger.setLevel(_logging.CRITICAL)
+                try:
+                    loop.run_until_complete(loop.shutdown_asyncgens())
+                except Exception:
+                    pass
+                finally:
+                    _asyncio_logger.setLevel(_old_level)
+                loop.close()
+
+        try:
+            result = await asyncio.to_thread(_run_sync)
+            return result
+        except Exception as e:
+            await self.close_session(session_id)
+            raise AstraAssistantError(f"SDK 执行失败: {e}") from e
+
+    async def _run_sdk_in_loop(
+        self,
+        client: Any,
+        full_prompt: str,
+        on_progress: Optional[Callable[[str], None]] = None,
+    ) -> dict[str, Any]:
+        """在事件循环中运行 SDK 并收集结果。"""
+        from claude_agent_sdk.types import (
+            ResultMessage, AssistantMessage, TextBlock,
+            ToolUseBlock, ToolResultBlock,
+        )
+
+        if not hasattr(client, '_transport') or client._transport is None:
+            await client.connect()
+
+        await client.query(full_prompt)
+
+        result_text = ""
+        tools_used: list[str] = []
+        usage: Optional[dict] = None
+        last_tool_result: str = ""
+
+        # 安全消费 receive_response 流
+        # Windows 下 aclose 可能抛 RuntimeError，需要捕获
+        gen = client.receive_response()
+        try:
+            async for msg in gen:
+                if isinstance(msg, ResultMessage):
+                    usage = {
+                        "cost_usd": getattr(msg, "total_cost_usd", None),
+                        "input_tokens": getattr(msg, "input_tokens", None),
+                        "output_tokens": getattr(msg, "output_tokens", None),
+                    }
+                    continue
+
+                if isinstance(msg, AssistantMessage):
+                    for block in msg.content:
+                        if isinstance(block, TextBlock):
+                            text = block.text or ""
+                            result_text += text
+                            if on_progress and text.strip():
+                                on_progress(text)
+                        elif isinstance(block, ToolUseBlock):
+                            tool_name = block.name or ""
+                            tools_used.append(tool_name)
+                            if on_progress:
+                                progress_text = self._format_tool_progress(block)
+                                on_progress(progress_text)
+                        elif isinstance(block, ToolResultBlock):
+                            content = self._format_tool_result(block)
+                            if content:
+                                last_tool_result = content
+                                if on_progress:
+                                    on_progress(f"📋 {content[:300]}")
+        except RuntimeError as e:
+            if "aclose" in str(e) or "already running" in str(e):
+                logger.debug("SDK receive_response 关闭异常 (Windows 已知问题，已忽略): %s", e)
+            else:
+                raise
+        finally:
+            # 尝试安全关闭生成器
+            try:
+                await gen.aclose()
+            except Exception:
+                pass
+
+        # 兜底：SDK 无 TextBlock 时用最后一条工具结果
+        if not result_text and last_tool_result:
+            result_text = last_tool_result
+
+        return {
+            "response": result_text,
+            "structured_result": None,
+            "tools_used": tools_used,
+            "session_id": None,
+            "usage": usage,
+        }
+
+    @staticmethod
+    def _format_tool_progress(block) -> str:
+        """将工具调用格式化为可读的进度消息。"""
+        name = getattr(block, 'name', '') or ''
+        inp = getattr(block, 'input', {}) or {}
+
+        if name == 'Bash':
+            desc = inp.get('description', '') or inp.get('command', '')
+            if desc:
+                return f"🔧 执行: {desc}"
+            return f"🔧 执行命令"
+        elif name in ('Read', 'Write', 'Edit'):
+            path = inp.get('file_path', '') or inp.get('path', '')
+            if path:
+                return f"🔧 {name}: {path}"
+            return f"🔧 {name}"
+        elif name == 'Glob':
+            pattern = inp.get('pattern', '') or inp.get('query', '')
+            return f"🔧 Glob: {pattern}"
+        elif name in ('WebSearch', 'WebFetch'):
+            query = inp.get('query', '') or inp.get('url', '')
+            return f"🔧 {name}: {query}"
+        elif name == 'Grep':
+            return f"🔧 搜索: {inp.get('pattern', '')}"
+        else:
+            return f"🔧 {name}"
+
+    @staticmethod
+    def _format_tool_result(block) -> str:
+        """将工具结果格式化为可读文本。"""
+        content = getattr(block, 'content', None)
+        if content is None:
+            return ""
+        if isinstance(content, str):
+            if content in ("tool ran successfully", "Tool ran successfully"):
+                return ""
+            return content[:300]
+        if isinstance(content, list):
+            parts = []
+            for item in content:
+                if isinstance(item, str):
+                    if item not in ("tool ran successfully",):
+                        parts.append(item[:200])
+                elif isinstance(item, dict):
+                    text = item.get('text', '')
+                    if text:
+                        parts.append(text[:200])
+            return " | ".join(parts)[:300]
+        return str(content)[:300]
+
     async def _stream_client_messages(
         self, client: Any
     ) -> AsyncIterator[dict[str, Any]]:
@@ -1032,53 +1282,66 @@ class AstraAssistant:
             ToolResultBlock, ThinkingBlock, Message,
         )
 
-        async for msg in client.receive_response():
-            if isinstance(msg, ResultMessage):
-                yield {"type": "usage", "data": {
-                    "cost_usd": getattr(msg, "total_cost_usd", None),
-                    "input_tokens": getattr(msg, "input_tokens", None),
-                    "output_tokens": getattr(msg, "output_tokens", None),
-                }}
-                return
+        # 安全消费 receive_response，捕获 Windows aclose 异常
+        gen = client.receive_response()
+        try:
+            async for msg in gen:
+                if isinstance(msg, ResultMessage):
+                    yield {"type": "usage", "data": {
+                        "cost_usd": getattr(msg, "total_cost_usd", None),
+                        "input_tokens": getattr(msg, "input_tokens", None),
+                        "output_tokens": getattr(msg, "output_tokens", None),
+                    }}
+                    return
 
-            elif isinstance(msg, AssistantMessage):
-                for block in msg.content:
-                    if isinstance(block, TextBlock):
-                        yield {"type": "text", "content": block.text}
-                    elif isinstance(block, ToolUseBlock):
-                        yield {
-                            "type": "tool_use",
-                            "tool_name": block.name,
-                            "tool_input": block.input,
-                        }
-                    elif isinstance(block, ToolResultBlock):
-                        yield {
-                            "type": "tool_result",
-                            "tool_name": getattr(block, "tool_use_id", ""),
-                            "content": block.content if hasattr(block, "content") else None,
-                        }
-                    elif isinstance(block, ThinkingBlock):
-                        yield {"type": "thinking", "content": block.thinking}
+                elif isinstance(msg, AssistantMessage):
+                    for block in msg.content:
+                        if isinstance(block, TextBlock):
+                            yield {"type": "text", "content": block.text}
+                        elif isinstance(block, ToolUseBlock):
+                            yield {
+                                "type": "tool_use",
+                                "tool_name": block.name,
+                                "tool_input": block.input,
+                            }
+                        elif isinstance(block, ToolResultBlock):
+                            yield {
+                                "type": "tool_result",
+                                "tool_name": getattr(block, "tool_use_id", ""),
+                                "content": block.content if hasattr(block, "content") else None,
+                            }
+                        elif isinstance(block, ThinkingBlock):
+                            yield {"type": "thinking", "content": block.thinking}
 
-            elif isinstance(msg, SystemMessage):
-                subtype = getattr(msg, "subtype", None) or getattr(msg, "type", "")
-                if subtype == "init":
-                    data = getattr(msg, "data", {}) or {}
+                elif isinstance(msg, SystemMessage):
+                    subtype = getattr(msg, "subtype", None) or getattr(msg, "type", "")
+                    if subtype == "init":
+                        data = getattr(msg, "data", {}) or {}
+                        yield {
+                            "type": "system_init",
+                            "session_id": data.get("session_id", ""),
+                        }
+
+                elif isinstance(msg, TaskStartedMessage):
+                    yield {"type": "task_start", "description": getattr(msg, "description", "")}
+                elif isinstance(msg, TaskProgressMessage):
+                    yield {"type": "task_progress", "description": getattr(msg, "description", "")}
+                elif isinstance(msg, TaskNotificationMessage):
                     yield {
-                        "type": "system_init",
-                        "session_id": data.get("session_id", ""),
+                        "type": "task_end",
+                        "status": getattr(msg, "status", ""),
+                        "summary": getattr(msg, "summary", ""),
                     }
-
-            elif isinstance(msg, TaskStartedMessage):
-                yield {"type": "task_start", "description": getattr(msg, "description", "")}
-            elif isinstance(msg, TaskProgressMessage):
-                yield {"type": "task_progress", "description": getattr(msg, "description", "")}
-            elif isinstance(msg, TaskNotificationMessage):
-                yield {
-                    "type": "task_end",
-                    "status": getattr(msg, "status", ""),
-                    "summary": getattr(msg, "summary", ""),
-                }
+        except RuntimeError as e:
+            if "aclose" in str(e) or "already running" in str(e):
+                logger.debug("SDK stream 关闭异常 (Windows 已知问题): %s", e)
+            else:
+                raise
+        finally:
+            try:
+                await gen.aclose()
+            except Exception:
+                pass
 
     # ── 工具方法 ────────────────────────────────
 

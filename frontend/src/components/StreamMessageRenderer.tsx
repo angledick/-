@@ -100,7 +100,7 @@ function aggregateBlocks(events: StreamEvent[]): RenderBlock[] {
         const idx = skillMap.get(event.skill)
         if (idx !== undefined) {
           const block = blocks[idx]
-          if (block.kind === 'skill') {
+          if (block && block.kind === 'skill') {
             block.end = event
             block.status = event.status === 'error' ? 'error' : 'done'
           }
