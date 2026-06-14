@@ -23932,5 +23932,432 @@
     "severity": "low",
     "error": null,
     "created_at": "2026-06-14T05:41:19.365609+00:00"
+  },
+  {
+    "id": "da3b1d9c15bf",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0018095970153808594
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T06:01:06.698490+00:00"
+  },
+  {
+    "id": "c91114567712",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0012259483337402344
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T06:01:06.716063+00:00"
+  },
+  {
+    "id": "3fa89aa48792",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.004861593246459961
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T06:01:08.257619+00:00"
+  },
+  {
+    "id": "9a55514c5f2a",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "17track",
+      "sync_type": "tracking",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.5334699153900146
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T06:11:07.298080+00:00"
+  },
+  {
+    "id": "4d64cd014ac7",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0801088809967041
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T06:21:40.594597+00:00"
+  },
+  {
+    "id": "997a5e022a73",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.008092403411865234
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T06:21:40.796468+00:00"
+  },
+  {
+    "id": "c98f1a8c7f6f",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.007428169250488281
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T06:21:42.154929+00:00"
+  },
+  {
+    "id": "2005b0f76ebb",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T06:53:55.360340+00:00"
+  },
+  {
+    "id": "906a1665f492",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.007425785064697266
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T07:12:09.507504+00:00"
+  },
+  {
+    "id": "f5ca603641a4",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0018963813781738281
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T07:12:09.533304+00:00"
+  },
+  {
+    "id": "6bd763a53c9b",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.002191781997680664
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T07:12:09.552566+00:00"
+  },
+  {
+    "id": "2ea9867028d8",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "17track",
+      "sync_type": "tracking",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0558629035949707
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T07:22:09.570484+00:00"
+  },
+  {
+    "id": "50e95aecc1ed",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.002860546112060547
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T07:32:57.790099+00:00"
+  },
+  {
+    "id": "826e804efc8a",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0016951560974121094
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T07:32:58.488531+00:00"
+  },
+  {
+    "id": "751442474bb9",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.00157928466796875
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T07:32:59.509713+00:00"
+  },
+  {
+    "id": "a03b80c37dbe",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_联调测试_33d29bfe",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "联调测试产品",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T07:41:08.627610+00:00"
+  },
+  {
+    "id": "76944e1ab021",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_联调测试_33180e4a",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "联调测试产品",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T07:47:21.313864+00:00"
+  },
+  {
+    "id": "9f881fd25bd1",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_联调测试_30df2093",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "联调测试产品",
+      "product_type": "electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T07:48:50.711441+00:00"
+  },
+  {
+    "id": "b01991f96f1b",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T07:52:26.714562+00:00"
+  },
+  {
+    "id": "43ce8f693874",
+    "type": "compliance:check_started",
+    "category": "compliance",
+    "source": "api",
+    "product_id": "p_Wire_19a1897c",
+    "business_stage": "阶段2",
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T07:57:15.196715+00:00"
   }
 ]

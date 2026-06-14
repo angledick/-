@@ -22,7 +22,7 @@ from app.storage.knowledge_doc_store import (
 from app.knowledge.store import upsert_documents, get_document_count, clear_collection, search
 
 log = logging.getLogger(__name__)
-router = APIRouter(prefix="/knowledge", tags=["knowledge"])
+router = APIRouter(prefix="/api/v1/knowledge", tags=["knowledge"])
 
 _ALLOWED_MIME = {"application/pdf", "application/octet-stream"}
 _MAX_SIZE_MB  = 30

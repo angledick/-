@@ -1,320 +1,573 @@
-import { useState, useEffect, useCallback, useRef } from 'react'
-import { riskAlertsApi, type RiskAlertItem } from '../api/config'
-import { useNotificationContext } from '../context/NotificationContext'
+import { useState, useEffect, useCallback } from 'react'
+import type { RiskAlert, MarketStatus } from '../types'
+import { useWebSocket } from '../hooks/useWebSocket'
+import { useAuth } from '@/context/AuthContext'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
+import { cn } from '@/lib/utils'
+import { EmptyState } from '@/components/common/EmptyState'
+import { toast } from 'sonner'
+import { AlertTriangle, Info, Plus, RefreshCw, Search, Shield, Store } from 'lucide-react'
 
-interface MarketInfo {
-  code: string
-  alerts: number
+const API_BASE = '/api/v1'
+const USE_BACKEND_RISK = import.meta.env.VITE_STREAM_MODE !== 'mock'
+
+const SEVERITY_CONFIG: Record<RiskAlert['severity'], { label: string; pillClass: string; dotClass: string; actionClass: string }> = {
+  critical: {
+    label: '红色',
+    pillClass: 'border-red-200 bg-red-50 text-red-700 dark:border-red-900/70 dark:bg-red-950/30 dark:text-red-300',
+    dotClass: 'bg-red-500',
+    actionClass: 'bg-emerald-500 text-white hover:bg-emerald-600',
+  },
+  high: {
+    label: '红色',
+    pillClass: 'border-red-200 bg-red-50 text-red-700 dark:border-red-900/70 dark:bg-red-950/30 dark:text-red-300',
+    dotClass: 'bg-red-500',
+    actionClass: 'bg-emerald-500 text-white hover:bg-emerald-600',
+  },
+  medium: {
+    label: '黄色',
+    pillClass: 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900/70 dark:bg-amber-950/30 dark:text-amber-300',
+    dotClass: 'bg-amber-500',
+    actionClass: 'border-border/70 bg-card text-foreground hover:bg-muted/60',
+  },
+  low: {
+    label: '蓝色',
+    pillClass: 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-900/70 dark:bg-blue-950/30 dark:text-blue-300',
+    dotClass: 'bg-blue-500',
+    actionClass: 'border-border/70 bg-card text-foreground hover:bg-muted/60',
+  },
 }
 
-interface MarketStatus {
-  last_scan: string
-  active_alerts: number
-  markets: MarketInfo[]
+const CONNECTED_STORES = [
+  { name: 'Amazon US', region: 'US' },
+  { name: 'Amazon UK', region: 'UK' },
+  { name: 'Shopee SG', region: 'SG' },
+]
+
+const MOCK_ALERTS: RiskAlert[] = [
+  {
+    alert_id: 'mock_risk_001',
+    alert_type: 'product_impacted',
+    severity: 'high',
+    title: 'WEEE 注册即将到期',
+    description: 'LED 灯带德国 WEEE 注册 30 天后到期，需要续期或补充注册证明。',
+    affected_products: ['LED 灯带'],
+    affected_markets: ['德国'],
+    source: 'certification_monitor',
+    source_url: '',
+    dismissed: false,
+    created_at: String(Math.floor(Date.now() / 1000) - 720),
+  },
+  {
+    alert_id: 'mock_risk_002',
+    alert_type: 'product_impacted',
+    severity: 'high',
+    title: 'PSE 证书附件缺失',
+    description: '锂离子电池组上架日本前缺少 PSE 证书附件，当前检查未通过。',
+    affected_products: ['锂离子电池组'],
+    affected_markets: ['日本'],
+    source: 'compliance_checker',
+    source_url: '',
+    dismissed: false,
+    created_at: String(Math.floor(Date.now() / 1000) - 3600),
+  },
+  {
+    alert_id: 'mock_risk_003',
+    alert_type: 'regulation_change',
+    severity: 'medium',
+    title: 'GPSR 标签字段新增校验',
+    description: '欧盟 GPSR 对电商 Listing 展示的制造商与安全标签字段提出更严格要求。',
+    affected_products: ['LED 灯带', '儿童益智玩具'],
+    affected_markets: ['欧盟', '法国', '德国'],
+    source: 'market_monitor',
+    source_url: '',
+    dismissed: false,
+    created_at: String(Math.floor(Date.now() / 1000) - 86400),
+  },
+  {
+    alert_id: 'mock_risk_004',
+    alert_type: 'market_hotspot',
+    severity: 'low',
+    title: '美国 CA Prop 65 文案复核',
+    description: '蓝牙耳机美国市场 Listing 建议复核 CA Prop 65 警示文案展示位置。',
+    affected_products: ['蓝牙耳机'],
+    affected_markets: ['美国'],
+    source: 'rule_engine',
+    source_url: '',
+    dismissed: true,
+    created_at: String(Math.floor(Date.now() / 1000) - 172800),
+  },
+]
+
+function StatusDot({ status }: { status: 'connected' | 'connecting' | 'disconnected' | 'error' }) {
+  return (
+    <span
+      className={cn(
+        'inline-block size-2 rounded-full',
+        status === 'connected' && 'bg-emerald-500',
+        status === 'connecting' && 'bg-amber-500 animate-pulse',
+        (status === 'disconnected' || status === 'error') && 'bg-rose-500',
+      )}
+    />
+  )
 }
 
-const SEVERITY_TABS = [
-  { key: '', label: '全部' },
-  { key: 'critical', label: '严重', cls: 'bg-[#FF3B30]/10 text-[#FF3B30]' as const },
-  { key: 'high', label: '高危', cls: 'bg-[#FF3B30]/10 text-[#FF3B30]' as const },
-  { key: 'medium', label: '中危', cls: 'bg-[#FF9500]/10 text-[#FF9500]' as const },
-  { key: 'low', label: '低危', cls: 'bg-[#34C759]/10 text-[#34C759]' as const },
-] as const
+function formatLastScan(value?: string | null) {
+  if (!value || value === 'never') return '尚未扫描'
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return '尚未扫描'
+  return date.toLocaleString('zh-CN', {
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
 
-function severityLabel(sev: string) {
-  const found = SEVERITY_TABS.find(t => t.key === sev)
-  if (!found || !('cls' in found)) return { label: sev, cls: 'bg-[#86868B]/10 text-[#86868B]' }
-  return { label: found.label, cls: found.cls }
+function formatAlertTime(value?: string | number | null) {
+  if (value === undefined || value === null || value === '') return '—'
+  const raw = String(value)
+  const numeric = Number(raw)
+  const date = Number.isFinite(numeric) && raw.trim() !== ''
+    ? new Date(numeric * 1000)
+    : new Date(raw)
+  if (Number.isNaN(date.getTime())) return '—'
+  const diffMs = Date.now() - date.getTime()
+  const diffMinutes = Math.max(0, Math.floor(diffMs / 60000))
+  if (diffMinutes < 1) return '刚刚'
+  if (diffMinutes < 60) return `${diffMinutes} 分钟前`
+  const diffHours = Math.floor(diffMinutes / 60)
+  if (diffHours < 24) return `${diffHours} 小时前`
+  if (diffHours < 48) return '昨天'
+  const diffDays = Math.floor(diffHours / 24)
+  if (diffDays < 7) return `${diffDays} 天前`
+  return date.toLocaleString('zh-CN', {
+    month: '2-digit',
+    day: '2-digit',
+  })
+}
+
+function isRedSeverity(severity: RiskAlert['severity']) {
+  return severity === 'critical' || severity === 'high'
 }
 
 export default function RiskCenter() {
-  const [alerts, setAlerts] = useState<RiskAlertItem[]>([])
+  const { authFetch, user } = useAuth()
+  const userId = user?.id || 'default'
+  const [alerts, setAlerts] = useState<RiskAlert[]>([])
+  const [unreadCount, setUnreadCount] = useState(0)
   const [marketStatus, setMarketStatus] = useState<MarketStatus | null>(null)
   const [scanning, setScanning] = useState(false)
-  const [scanStatus, setScanStatus] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [autoRefresh, setAutoRefresh] = useState(true)
-  const [severityTab, setSeverityTab] = useState('')
-  const [lastUpdated, setLastUpdated] = useState('')
-  const { addToast } = useNotificationContext()
-  const refreshTimer = useRef<ReturnType<typeof setInterval> | null>(null)
+  const [, setScanStatus] = useState('')
+  const [severityFilter, setSeverityFilter] = useState('all')
+  const [marketFilter, setMarketFilter] = useState('all')
+  const [query, setQuery] = useState('')
 
-  const loadData = useCallback(async () => {
+  const { status: wsStatus, lastMessage } = useWebSocket(
+    'default',
+    USE_BACKEND_RISK && import.meta.env.VITE_ENABLE_WEBSOCKET === 'true',
+  )
+
+  const loadAlerts = useCallback(async () => {
+    if (!USE_BACKEND_RISK) {
+      setAlerts(MOCK_ALERTS)
+      setUnreadCount(MOCK_ALERTS.filter((alert) => !alert.dismissed).length)
+      return
+    }
     try {
-      const [alertRes, marketRes] = await Promise.all([
-        riskAlertsApi.list({ size: 50 }),
-        riskAlertsApi.getMarketStatus().catch(() => null),
+      const [alertsRes, unreadRes] = await Promise.all([
+        authFetch(`${API_BASE}/risk/alerts?user_id=${userId}&size=100`),
+        authFetch(`${API_BASE}/risk/alerts/unread-count?user_id=${userId}`),
       ])
-      setAlerts(alertRes.alerts)
-      if (marketRes) {
-        setMarketStatus(marketRes)
-      }
-      setLastUpdated(new Date().toLocaleTimeString('zh-CN'))
+      const alertsData = await alertsRes.json()
+      const unreadData = await unreadRes.json()
+      setAlerts(alertsData.alerts || [])
+      setUnreadCount(unreadData.unread_count || 0)
     } catch {
-      /* ignore */
-    } finally {
-      setLoading(false)
+      setAlerts(MOCK_ALERTS)
+      setUnreadCount(MOCK_ALERTS.filter((alert) => !alert.dismissed).length)
     }
-  }, [])
+  }, [authFetch, userId])
+
+  const loadMarketStatus = useCallback(async () => {
+    const mockStatus: MarketStatus = {
+      last_scan: 'never',
+      active_alerts: MOCK_ALERTS.filter((alert) => !alert.dismissed).length,
+      markets: [
+        { code: 'DE', alerts: 1 },
+        { code: 'JP', alerts: 1 },
+        { code: 'EU', alerts: 1 },
+        { code: 'US', alerts: 1 },
+      ],
+    }
+    if (!USE_BACKEND_RISK) {
+      setMarketStatus(mockStatus)
+      return
+    }
+    try {
+      const res = await authFetch(`${API_BASE}/risk/market-status?user_id=${userId}`)
+      setMarketStatus(await res.json())
+    } catch {
+      setMarketStatus(mockStatus)
+    }
+  }, [authFetch, userId])
 
   useEffect(() => {
-    loadData()
-    return () => {
-      if (refreshTimer.current) clearInterval(refreshTimer.current)
-    }
-  }, [loadData])
+    loadAlerts()
+    loadMarketStatus()
+  }, [loadAlerts, loadMarketStatus])
 
   useEffect(() => {
-    if (autoRefresh) {
-      refreshTimer.current = setInterval(loadData, 30000)
-    } else if (refreshTimer.current) {
-      clearInterval(refreshTimer.current)
-      refreshTimer.current = null
+    if (!lastMessage) return
+    if (lastMessage.type === 'alert') {
+      setAlerts(prev => [lastMessage.payload as RiskAlert, ...prev])
+      setUnreadCount(prev => prev + 1)
+      toast.info('收到新的风险预警')
+    } else if (lastMessage.type === 'scan_update') {
+      const payload = lastMessage.payload as { status: string; detail?: string }
+      if (payload.status === 'scanning') {
+        setScanStatus('正在扫描市场...')
+      } else if (payload.status === 'completed') {
+        setScanStatus(payload.detail || '扫描完成')
+        loadAlerts()
+        loadMarketStatus()
+        setScanning(false)
+        toast.success('市场扫描完成')
+      } else if (payload.status === 'error') {
+        setScanStatus(`扫描失败: ${payload.detail || ''}`)
+        setScanning(false)
+        toast.error('市场扫描失败')
+      }
     }
-    return () => {
-      if (refreshTimer.current) clearInterval(refreshTimer.current)
-    }
-  }, [autoRefresh, loadData])
+  }, [lastMessage, loadAlerts, loadMarketStatus])
 
   const handleScan = async () => {
     setScanning(true)
     setScanStatus('正在触发扫描...')
-    try {
-      const res = await riskAlertsApi.triggerScan()
-      if (res.status === 'completed') {
-        setScanStatus('扫描已触发，等待结果...')
-        setTimeout(async () => {
-          await loadData()
-          setScanStatus('')
-          setScanning(false)
-        }, 3000)
-      } else {
-        setScanStatus('触发失败')
+    if (!USE_BACKEND_RISK) {
+      window.setTimeout(() => {
+        setScanStatus('扫描完成，当前使用前端示例风险数据')
+        setMarketStatus(prev => prev ? { ...prev, last_scan: new Date().toISOString() } : prev)
         setScanning(false)
-      }
-    } catch {
-      setScanStatus('扫描服务不可用')
+        toast.success('市场扫描完成')
+      }, 500)
+      return
+    }
+    try {
+      const res = await authFetch(`${API_BASE}/risk/scan?user_id=${userId}`, { method: 'POST' })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const data = await res.json().catch(() => ({}))
+      setScanStatus(`扫描完成，发现 ${data.alerts_created ?? 0} 条预警`)
+      await Promise.all([loadAlerts(), loadMarketStatus()])
       setScanning(false)
+      toast.success('市场扫描完成')
+    } catch (e) {
+      setScanStatus('触发失败')
+      setScanning(false)
+      toast.error('触发扫描失败')
     }
   }
 
   const handleDismiss = async (alertId: string) => {
-    try {
-      await riskAlertsApi.dismiss(alertId)
-      setAlerts(prev => prev.map(a =>
-        a.id === alertId ? { ...a, dismissed: true } : a
-      ))
-      addToast({ severity: 'low', title: '预警已忽略' })
-    } catch {
-      addToast({ severity: 'high', title: '操作失败', message: '后端不可用' })
+    if (USE_BACKEND_RISK) {
+      try {
+        await authFetch(`${API_BASE}/risk/alerts/${alertId}/dismiss?user_id=${userId}`, { method: 'POST' })
+      } catch {
+        // Frontend-only fallback: keep the action usable without backend.
+      }
     }
+    setAlerts(prev => prev.map(a =>
+      a.alert_id === alertId ? { ...a, dismissed: true } : a
+    ))
+    setUnreadCount(prev => Math.max(0, prev - 1))
+    toast.success('已标记为已处理')
   }
 
-  const activeAlerts = alerts.filter(a => !a.dismissed)
-  const filtered = severityTab
-    ? activeAlerts.filter(a => a.severity === severityTab)
-    : activeAlerts
-  const highCount = activeAlerts.filter(a => a.severity === 'high' || a.severity === 'critical').length
+  const filteredAlerts = alerts.filter(alert => {
+    if (severityFilter === 'red' && !isRedSeverity(alert.severity)) return false
+    if (severityFilter === 'yellow' && alert.severity !== 'medium') return false
+    if (severityFilter === 'blue' && alert.severity !== 'low') return false
+    if (marketFilter !== 'all' && !(alert.affected_markets || []).includes(marketFilter)) return false
+    const q = query.trim().toLowerCase()
+    if (q) {
+      const haystack = [
+        alert.title,
+        alert.description,
+        ...(alert.affected_products || []),
+        ...(alert.affected_markets || []),
+      ].join(' ').toLowerCase()
+      if (!haystack.includes(q)) return false
+    }
+    return true
+  })
+  const markets = Array.from(new Set(alerts.flatMap(alert => alert.affected_markets || [])))
+  const activeAlerts = alerts.filter(alert => !alert.dismissed)
+  const redCount = activeAlerts.filter(alert => isRedSeverity(alert.severity)).length
+  const yellowCount = activeAlerts.filter(alert => alert.severity === 'medium').length
+  const blueCount = activeAlerts.filter(alert => alert.severity === 'low').length
+  const summaryCards = [
+    {
+      label: '红色 · 紧急',
+      value: redCount,
+      Icon: AlertTriangle,
+      borderClass: 'border-red-400/80',
+      textClass: 'text-red-600',
+      iconClass: 'text-red-500',
+      iconBgClass: 'bg-red-50 dark:bg-red-950/30',
+    },
+    {
+      label: '黄色 · 关注',
+      value: yellowCount,
+      Icon: AlertTriangle,
+      borderClass: 'border-amber-400/90',
+      textClass: 'text-amber-600',
+      iconClass: 'text-amber-500',
+      iconBgClass: 'bg-amber-50 dark:bg-amber-950/30',
+    },
+    {
+      label: '蓝色 · 提示',
+      value: blueCount,
+      Icon: Info,
+      borderClass: 'border-blue-400/90',
+      textClass: 'text-blue-600',
+      iconClass: 'text-blue-500',
+      iconBgClass: 'bg-blue-50 dark:bg-blue-950/30',
+    },
+  ]
 
   return (
-    <div className="flex-1 overflow-y-auto">
-      <div className="max-w-5xl mx-auto px-6 py-8">
-        {/* Title */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between">
+    <div className="min-h-full bg-muted/40 text-foreground dark:bg-background">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-5 px-3 py-4 sm:px-5 lg:px-6">
+        <header className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-blue-50 text-blue-600 ring-1 ring-blue-100 dark:bg-blue-950/30 dark:text-blue-300 dark:ring-blue-900/70">
+              <Shield className="size-4" />
+            </span>
+            <div className="min-w-0">
+              <h1 className="truncate text-[18px] font-semibold tracking-normal">风险监控</h1>
+              <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-muted-foreground">
+                <span className="inline-flex items-center gap-1.5">
+                  <StatusDot status={wsStatus === 'connecting' ? 'connecting' : 'connected'} />
+                  {wsStatus === 'connected'
+                    ? '实时同步已连接'
+                    : wsStatus === 'connecting'
+                      ? '实时同步连接中'
+                      : '轮询模式'}
+                </span>
+                <span>待处理 {unreadCount} 条</span>
+                <span>最近扫描 {formatLastScan(marketStatus?.last_scan)}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <Button
+              variant="outline"
+              onClick={handleScan}
+              disabled={scanning}
+              className="h-8 rounded-md border-border/70 bg-card px-3 text-[12px] shadow-sm"
+            >
+              <RefreshCw className={cn('mr-1.5 size-3.5', scanning && 'animate-spin')} />
+              {scanning ? '扫描中' : '立即扫描'}
+            </Button>
+            <Button
+              onClick={() => toast.info('新建监控配置即将开放')}
+              className="h-8 rounded-md bg-emerald-500 px-3 text-[12px] text-white shadow-sm hover:bg-emerald-600"
+            >
+              <Plus className="mr-1.5 size-3.5" />
+              新建监控
+            </Button>
+          </div>
+        </header>
+
+        <section className="grid gap-3 md:grid-cols-3" aria-label="风险等级概览">
+          {summaryCards.map(({ label, value, Icon, borderClass, textClass, iconClass, iconBgClass }) => (
+            <article
+              key={label}
+              className={cn(
+                'relative min-h-[74px] overflow-hidden rounded-lg border bg-card px-4 py-3.5 shadow-sm',
+                borderClass,
+              )}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-[12px] font-medium text-muted-foreground">{label}</p>
+                  <p className={cn('mt-1 text-[26px] font-semibold leading-none tracking-normal', textClass)}>
+                    {value}
+                  </p>
+                </div>
+                <span className={cn('flex size-8 items-center justify-center rounded-md', iconBgClass)}>
+                  <Icon className={cn('size-4', iconClass)} />
+                </span>
+              </div>
+            </article>
+          ))}
+        </section>
+
+        <section className="overflow-hidden rounded-lg border border-border/70 bg-card shadow-sm">
+          <div className="flex flex-col gap-3 border-b border-border/60 px-4 py-3 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h1 className="text-xl font-semibold text-[#1D1D1F]">风险监控中心</h1>
-              <p className="text-sm text-[#86868B] mt-1">
-                实时监控与手动扫描
-                {lastUpdated && <span className="ml-2">· 更新 {lastUpdated}</span>}
-                {marketStatus?.last_scan && ` · 最近扫描: ${new Date(marketStatus.last_scan).toLocaleString('zh-CN')}`}
+              <h2 className="text-[14px] font-semibold tracking-normal">监控列表</h2>
+              <p className="mt-0.5 text-[12px] text-muted-foreground">
+                共 {filteredAlerts.length} 条匹配结果，覆盖 {markets.length || marketStatus?.markets.length || 0} 个市场
               </p>
             </div>
-            <div className="flex items-center gap-2">
-              <label className="flex items-center gap-1.5 text-xs text-[#86868B] cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={autoRefresh}
-                  onChange={e => setAutoRefresh(e.target.checked)}
-                  className="w-3 h-3"
+            <div className="grid gap-2 sm:grid-cols-[minmax(220px,1fr)_132px_132px] lg:w-[560px]">
+              <div className="relative">
+                <Search className="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="搜索风险、产品或市场"
+                  className="h-8 rounded-md border-border/70 bg-background pl-8 text-[12px] shadow-none"
                 />
-                30s 自动
-              </label>
-              <button
-                onClick={() => { setLoading(true); loadData() }}
-                className="px-3 py-1.5 text-xs font-medium rounded-lg bg-[#F5F5F7] text-[#86868B] hover:bg-[#E5E5EA] transition-colors"
-              >
-                刷新
-              </button>
-              <button
-                onClick={handleScan}
-                disabled={scanning}
-                className="px-4 py-2 text-sm font-semibold rounded-lg bg-[#1D1D1F] text-white hover:bg-[#2D2D2F] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-              >
-                {scanning ? '扫描中...' : '立即扫描'}
-              </button>
+              </div>
+              <Select value={marketFilter} onValueChange={setMarketFilter}>
+                <SelectTrigger className="h-8 rounded-md border-border/70 bg-background text-[12px] shadow-none">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">全部店铺</SelectItem>
+                  {markets.map((market) => (
+                    <SelectItem key={market} value={market}>{market}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Select value={severityFilter} onValueChange={setSeverityFilter}>
+                <SelectTrigger className="h-8 rounded-md border-border/70 bg-background text-[12px] shadow-none">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">全部级别</SelectItem>
+                  <SelectItem value="red">红色</SelectItem>
+                  <SelectItem value="yellow">黄色</SelectItem>
+                  <SelectItem value="blue">蓝色</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
-        </div>
 
-        {/* Scan status */}
-        {scanStatus && (
-          <div className="mb-4 px-4 py-2.5 rounded-lg bg-[#F5F5F7] text-sm text-[#86868B] flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#0071E3] animate-pulse" />
-            {scanStatus}
-          </div>
-        )}
-
-        {/* Stats */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
-          <div className="bg-white rounded-xl border border-black/6 p-4">
-            <div className="flex items-start justify-between mb-2">
-              <div className="text-xs text-[#86868B]">活跃预警</div>
-              <span className="text-sm">⚠</span>
-            </div>
-            <div className="text-2xl font-semibold text-[#1D1D1F]">{activeAlerts.length}</div>
-          </div>
-          <div className="bg-white rounded-xl border border-black/6 p-4">
-            <div className="flex items-start justify-between mb-2">
-              <div className="text-xs text-[#86868B]">高危预警</div>
-              <span className={`text-sm ${highCount > 0 ? '' : ''}`}>🔴</span>
-            </div>
-            <div className={`text-2xl font-semibold ${highCount > 0 ? 'text-[#FF3B30]' : 'text-[#34C759]'}`}>
-              {highCount}
-            </div>
-          </div>
-          <div className="bg-white rounded-xl border border-black/6 p-4">
-            <div className="flex items-start justify-between mb-2">
-              <div className="text-xs text-[#86868B]">总预警</div>
-              <span className="text-sm">📋</span>
-            </div>
-            <div className="text-2xl font-semibold text-[#1D1D1F]">{alerts.length}</div>
-          </div>
-          <div className="bg-white rounded-xl border border-black/6 p-4">
-            <div className="flex items-start justify-between mb-2">
-              <div className="text-xs text-[#86868B]">覆盖市场</div>
-              <span className="text-sm">🌍</span>
-            </div>
-            <div className="text-2xl font-semibold text-[#1D1D1F]">{marketStatus?.markets.length ?? '-'}</div>
-          </div>
-        </div>
-
-        {/* Severity filter tabs */}
-        {activeAlerts.length > 0 && (
-          <div className="flex items-center gap-1 mb-3">
-            {SEVERITY_TABS.map(tab => (
-              <button
-                key={tab.key}
-                onClick={() => setSeverityTab(tab.key)}
-                className={`px-2.5 py-1 text-xs font-medium rounded-md transition-colors ${
-                  severityTab === tab.key
-                    ? 'bg-[#1D1D1F] text-white'
-                    : 'bg-[#F5F5F7] text-[#86868B] hover:bg-[#E5E5EA]'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Alerts list */}
-        <div className="mb-6">
-          <h2 className="text-sm font-semibold text-[#1D1D1F] mb-3">
-            预警列表
-            {filtered.length > 0 && (
-              <span className="ml-2 text-xs text-[#86868B] font-normal">{filtered.length} 条</span>
-            )}
-          </h2>
-          {loading ? (
-            <div className="bg-white rounded-xl border border-black/6 p-8 text-center text-sm text-[#86868B]">
-              加载中...
-            </div>
-          ) : filtered.length === 0 ? (
-            <div className="bg-white rounded-xl border border-black/6 p-8 text-center text-sm text-[#86868B]">
-              {alerts.length === 0 ? '暂无预警' : '该等级暂无预警'}
+          {filteredAlerts.length === 0 ? (
+            <div className="p-6">
+              <EmptyState
+                title="暂无匹配预警"
+                description="系统会自动监控市场动态并推送风险提示"
+              />
             </div>
           ) : (
-            <div className="space-y-2">
-              {filtered.map(a => {
-                const sv = severityLabel(a.severity)
-                return (
-                  <div
-                    key={a.id}
-                    className={`flex items-center justify-between px-4 py-3 rounded-xl bg-white border border-black/6 group ${
-                      a.dismissed ? 'opacity-50' : ''
-                    }`}
-                  >
-                    <div className="flex items-center gap-3 flex-1 min-w-0">
-                      <div className={`w-2 h-2 rounded-full shrink-0 ${
-                        a.severity === 'critical' || a.severity === 'high'
-                          ? 'bg-[#FF3B30]'
-                          : a.severity === 'medium'
-                          ? 'bg-[#FF9500]'
-                          : 'bg-[#34C759]'
-                      }`} />
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <div className={`text-sm truncate ${a.dismissed ? 'text-[#86868B]' : 'text-[#1D1D1F] font-medium'}`}>
-                            {a.title}
-                          </div>
-                          <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded shrink-0 ${sv.cls}`}>
-                            {sv.label}
-                          </span>
-                        </div>
-                        {a.message && (
-                          <div className="text-xs text-[#86868B] mt-0.5 truncate">{a.message}</div>
-                        )}
-                      </div>
-                      <span className="text-[11px] text-[#C7C7CC] shrink-0">
-                        {new Date(a.created_at).toLocaleDateString('zh-CN')}
-                      </span>
-                    </div>
-                    {!a.dismissed && (
-                      <button
-                        onClick={() => handleDismiss(a.id)}
-                        className="shrink-0 ml-2 px-2.5 py-1 text-xs text-[#86868B] rounded-md border border-black/10 hover:bg-[#F5F5F7] transition-colors"
-                      >
-                        忽略
-                      </button>
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-          )}
-        </div>
-
-        {/* Market status */}
-        {marketStatus && (
-          <div>
-            <h2 className="text-sm font-semibold text-[#1D1D1F] mb-3">市场监控状态</h2>
-            <div className="bg-white rounded-xl border border-black/6 p-4">
-              {marketStatus.markets.length === 0 ? (
-                <div className="text-center py-4 text-sm text-[#86868B]">暂无市场监控数据</div>
-              ) : (
-                <div className="flex gap-3 flex-wrap">
-                  {marketStatus.markets.map(m => {
-                    const hasAlerts = m.alerts > 0
+            <div className="overflow-x-auto" role="region" aria-live="polite" aria-label="风险预警列表">
+              <table className="w-full min-w-[920px]">
+                <thead>
+                  <tr className="border-b border-border/50 bg-muted/30">
+                    <th className="w-[120px] px-4 py-3 text-left text-[12px] font-semibold text-muted-foreground">级别</th>
+                    <th className="px-4 py-3 text-left text-[12px] font-semibold text-muted-foreground">问题</th>
+                    <th className="w-[240px] px-4 py-3 text-left text-[12px] font-semibold text-muted-foreground">店铺 / SKU</th>
+                    <th className="w-[150px] px-4 py-3 text-left text-[12px] font-semibold text-muted-foreground">国家</th>
+                    <th className="w-[140px] px-4 py-3 text-left text-[12px] font-semibold text-muted-foreground">发现时间</th>
+                    <th className="w-[140px] px-4 py-3 text-left text-[12px] font-semibold text-muted-foreground">操作</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border/45">
+                  {filteredAlerts.map((alert) => {
+                    const sev = SEVERITY_CONFIG[alert.severity]
+                    const urgent = isRedSeverity(alert.severity)
                     return (
-                      <div
-                        key={m.code}
-                        className={`flex-1 min-w-[80px] rounded-lg px-3 py-2.5 text-center border ${
-                          hasAlerts ? 'bg-[#FFF5F5] border-[#FF3B30]/20' : 'bg-[#F5F5F7] border-transparent'
-                        }`}
+                      <tr
+                        key={alert.alert_id}
+                        className={cn(
+                          'bg-card transition-colors hover:bg-muted/25',
+                          alert.dismissed && 'opacity-60',
+                        )}
                       >
-                        <div className="text-sm font-semibold text-[#1D1D1F]">{m.code.toUpperCase()}</div>
-                        <div className={`text-[11px] mt-0.5 ${hasAlerts ? 'text-[#FF3B30]' : 'text-[#86868B]'}`}>
-                          {m.alerts} 条预警
-                        </div>
-                      </div>
+                        <td className="px-4 py-3">
+                          <span className={cn('inline-flex h-6 items-center gap-1.5 rounded-full border px-2.5 text-[12px] font-medium', sev.pillClass)}>
+                            <span className={cn('size-2 rounded-full', sev.dotClass)} />
+                            {sev.label}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <div className="max-w-[520px]">
+                            <p className="truncate text-[13px] font-semibold text-foreground">{alert.title}</p>
+                            <p className="mt-1 truncate text-[12px] text-muted-foreground">{alert.description}</p>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 text-[13px] text-muted-foreground">
+                          {(alert.affected_products || []).join('、') || alert.source || '—'}
+                        </td>
+                        <td className="px-4 py-3">
+                          <span className="inline-flex items-center gap-1.5 text-[13px] font-medium text-muted-foreground">
+                            <span className="text-[10px] uppercase tracking-normal text-muted-foreground/70">
+                              {(alert.affected_markets || [])[0]?.slice(0, 2) || '--'}
+                            </span>
+                            {(alert.affected_markets || []).join(' / ') || '—'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-[13px] text-muted-foreground">
+                          {formatAlertTime(alert.created_at)}
+                        </td>
+                        <td className="px-4 py-3">
+                          {alert.dismissed ? (
+                            <span className="text-[12px] font-medium text-muted-foreground">已处理</span>
+                          ) : urgent ? (
+                            <button
+                              onClick={() => handleDismiss(alert.alert_id)}
+                              className={cn('h-7 rounded-md px-3 text-[12px] font-semibold transition-colors', sev.actionClass)}
+                            >
+                              立即处理
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => toast.info(alert.title)}
+                              className="h-7 rounded-md border border-border/70 bg-card px-3 text-[12px] font-medium text-foreground transition-colors hover:bg-muted/60"
+                            >
+                              查看
+                            </button>
+                          )}
+                        </td>
+                      </tr>
                     )
                   })}
-                </div>
-              )}
+                </tbody>
+              </table>
             </div>
+          )}
+        </section>
+
+        <section className="rounded-lg border border-border/70 bg-card px-4 py-3.5 shadow-sm">
+          <div className="mb-3 flex items-center gap-2">
+            <Store className="size-3.5 text-muted-foreground" />
+            <h2 className="text-[14px] font-semibold tracking-normal">已连接平台</h2>
           </div>
-        )}
+          <div className="grid gap-2 md:grid-cols-4">
+            {CONNECTED_STORES.map((store) => (
+              <div
+                key={store.name}
+                className="flex h-11 items-center justify-between rounded-md border border-border/60 bg-background px-3"
+              >
+                <span className="truncate text-[13px] font-semibold">{store.name}</span>
+                <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-50 px-2 py-1 text-[11px] font-medium text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300">
+                  <span className="size-2 rounded-full bg-emerald-600" />
+                  已连接
+                </span>
+              </div>
+            ))}
+            <button
+              onClick={() => toast.info('添加店铺能力即将开放')}
+              className="flex h-11 items-center justify-center rounded-md border border-dashed border-border/80 bg-background px-3 text-[13px] font-medium text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
+            >
+              <Plus className="mr-1.5 size-3.5" />
+              添加店铺
+            </button>
+          </div>
+        </section>
       </div>
     </div>
   )

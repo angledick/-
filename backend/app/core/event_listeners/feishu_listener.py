@@ -97,6 +97,7 @@ class FeishuListener(BaseEventListener):
         """启动一次 lark-cli event consume 并读取直到进程退出。"""
         self._process = subprocess.Popen(
             cmd,
+            stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             encoding="utf-8",

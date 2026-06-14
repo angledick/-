@@ -1,385 +1,578 @@
-import { useState, useEffect, useCallback } from 'react'
-import { oauthApi } from '../api/config'
-import type { OAuthConnection } from '../api/config'
-import StreamChat from '../components/StreamChat'
+import { useEffect, useId, useMemo, useState } from 'react'
+import {
+  Cable,
+  CheckCircle2,
+  Loader2,
+  PlugZap,
+  RefreshCw,
+  Settings2,
+  Trash2,
+} from 'lucide-react'
+import { toast } from 'sonner'
 
-// ── Provider 元数据 ──────────────────────────────────────────────────────────
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { useConfirm } from '@/hooks/useConfirm'
+import {
+  useCreateIntegration,
+  useDeleteIntegration,
+  useIntegrationsDashboard,
+  useSyncIntegration,
+  useTestIntegration,
+  useUpdateIntegrationConfig,
+} from '@/hooks/queries/useIntegrations'
+import type { IntegrationConnection, IntegrationProviderTemplate } from '@/lib/api/os'
+import { cn } from '@/lib/utils'
 
-interface ProviderMeta {
-  provider: string
-  name: string
-  icon: string
-  color: string
+const fallbackProviders: IntegrationProviderTemplate[] = [
+  {
+    provider: 'shopify',
+    name: 'Shopify',
+    auth_type: 'oauth2',
+    config_fields: ['shop', 'api_key', 'api_secret', 'redirect_uri'],
+    description: '店铺产品、订单和库存同步，用于上架后合规巡检。',
+  },
+  {
+    provider: 'erpnext',
+    name: 'ERPNext',
+    auth_type: 'token',
+    config_fields: ['base_url', 'api_key', 'api_secret'],
+    description: '采购、库存和财务数据同步，用于供应链合规校验。',
+  },
+  {
+    provider: '17track',
+    name: '17TRACK',
+    auth_type: 'token',
+    config_fields: ['api_key'],
+    description: '物流轨迹同步，用于履约阶段异常监控。',
+  },
+  {
+    provider: 'chatwoot',
+    name: 'Chatwoot',
+    auth_type: 'token',
+    config_fields: ['base_url', 'api_access_token', 'account_id'],
+    description: '客服工单与会话接入，用于售后风险沉淀。',
+  },
+  {
+    provider: 'feishu',
+    name: '飞书',
+    auth_type: 'oauth2',
+    config_fields: ['app_id', 'app_secret', 'redirect_uri'],
+    description: '团队通知和审批协作。',
+  },
+  {
+    provider: 'dingtalk',
+    name: '钉钉',
+    auth_type: 'oauth2',
+    config_fields: ['app_key', 'app_secret', 'agent_id'],
+    description: '企业消息和机器人通知。',
+  },
+]
+
+const statusTone: Record<string, string> = {
+  connected: 'border-emerald-200 bg-emerald-50 text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-300',
+  configured: 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-300',
+  connecting: 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-300',
+  disconnected: 'border-border bg-muted/40 text-muted-foreground',
+  error: 'border-rose-200 bg-rose-50 text-rose-700 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-300',
+  not_configured: 'border-border bg-muted/40 text-muted-foreground',
 }
 
-const KNOWN_PROVIDERS: Record<string, ProviderMeta> = {
-  shopify:  { provider: 'shopify',  name: 'Shopify',        icon: '🛒', color: '#5E8E3E' },
-  feishu:   { provider: 'feishu',   name: '飞书',           icon: '📮', color: '#3370FF' },
-  dingtalk: { provider: 'dingtalk', name: '钉钉',           icon: '💬', color: '#0089FF' },
-  slack:    { provider: 'slack',    name: 'Slack',          icon: '💬', color: '#4A154B' },
-  discord:  { provider: 'discord',  name: 'Discord',        icon: '🎮', color: '#5865F2' },
-  webhook:  { provider: 'webhook',  name: 'Webhook',        icon: '🔗', color: '#86868B' },
-  email:    { provider: 'email',    name: '邮件推送',       icon: '📧', color: '#86868B' },
-  notion:   { provider: 'notion',   name: 'Notion',         icon: '📝', color: '#000000' },
-  google:   { provider: 'google',   name: 'Google',         icon: '🔍', color: '#4285F4' },
-  github:   { provider: 'github',   name: 'GitHub',         icon: '🐙', color: '#181717' },
+const statusLabel: Record<string, string> = {
+  connected: '已连接',
+  configured: '待连接',
+  connecting: '连接中',
+  disconnected: '未连接',
+  not_configured: '未配置',
+  error: '异常',
 }
-
-function getProviderMeta(provider: string): ProviderMeta {
-  return KNOWN_PROVIDERS[provider] || { provider, name: provider, icon: '🔌', color: '#86868B' }
-}
-
-// ── 状态元数据 ────────────────────────────────────────────────────────────────
-
-interface StatusMeta { label: string; color: string; bg: string; pulse?: boolean }
-
-const connStatusMeta: Record<string, StatusMeta> = {
-  connected:    { label: '已连接',   color: 'text-[#34C759]', bg: 'bg-[#34C759]/10' },
-  disconnected: { label: '未连接',   color: 'text-[#86868B]', bg: 'bg-[#F5F5F7]' },
-  connecting:   { label: '连接中',   color: 'text-[#FFD60A]', bg: 'bg-[#FFD60A]/10', pulse: true },
-  error:        { label: '错误',     color: 'text-[#FF3B30]', bg: 'bg-[#FF3B30]/10' },
-}
-
-const providerStatusMeta: Record<string, StatusMeta> = {
-  connected:       { label: '已连接',   color: 'text-[#34C759]', bg: 'bg-[#34C759]/10' },
-  configured:      { label: '待连接',   color: 'text-[#FFD60A]', bg: 'bg-[#FFD60A]/10' },
-  not_configured:  { label: '未配置',   color: 'text-[#86868B]', bg: 'bg-[#F5F5F7]' },
-}
-
-function fmtDate(iso?: string): string {
-  if (!iso) return '-'
-  try { return new Date(iso).toLocaleDateString('zh-CN') } catch { return iso }
-}
-
-// ── Provider 配置提示模板 ─────────────────────────────────────────────────────
-
-function buildConfigPrompt(provider: string, name: string): string {
-  const prompts: Record<string, string> = {
-    shopify: `帮我配置 Shopify 集成。
-
-请执行以下步骤：
-1. 搜索 Shopify API 集成文档，确认最新 OAuth 流程和所需参数
-2. 引导我完成 Shopify OAuth 授权：
-   - 需要 API 密钥 (API Key)
-   - 需要 API 密钥 (API Secret Key)
-   - 需要商店域名 (myshopify.com)
-   - 需要 Scopes 权限范围
-3. 配置完成后测试连接有效性
-4. 保存配置
-
-请开始搜索 Shopify 集成文档，确认当前推荐的最佳实践。`,
-    feishu: `帮我配置 飞书 机器人集成。
-
-请执行以下步骤：
-1. 搜索飞书开放平台文档，确认最新集成方式
-2. 引导我完成飞书应用配置：
-   - 需要 App ID
-   - 需要 App Secret
-   - 需要获取 Tenant Access Token
-   - 配置 Webhook URL 用于消息推送
-3. 配置完成后测试连接
-4. 保存配置
-
-请开始搜索飞书机器人集成文档。`,
-    dingtalk: `帮我配置 钉钉 机器人集成。
-
-请执行以下步骤：
-1. 搜索钉钉开放平台文档，确认最新集成方式
-2. 引导我完成钉钉机器人配置：
-   - 需要 Client ID (AppKey)
-   - 需要 Client Secret (AppSecret)
-   - 需要 CustomKey / 机器人 Webhook URL
-3. 配置完成后测试连接
-4. 保存配置
-
-请开始搜索钉钉机器人开发文档。`,
-    slack: `帮我配置 Slack 集成。
-
-请执行以下步骤：
-1. 搜索 Slack API 文档，确认最新集成方式
-2. 引导我完成 Slack App 配置：
-   - 创建 Slack App
-   - 配置 Bot Token Scopes
-   - 获取 Bot User OAuth Token
-   - 配置 Webhook URL
-3. 测试连接有效性
-4. 保存配置
-
-请开始搜索 Slack API 集成文档。`,
-    google: `帮我配置 Google 服务集成。
-
-请执行以下步骤：
-1. 搜索 Google API 文档
-2. 引导我完成 Google Cloud 项目配置：
-   - 创建服务账号
-   - 获取 API Key 或 OAuth 2.0 凭据
-   - 配置所需的 API 范围
-3. 测试连接
-4. 保存配置`,
-    github: `帮我配置 GitHub 集成。
-
-请执行以下步骤：
-1. 搜索 GitHub API 集成文档
-2. 引导我完成 GitHub App 或 Personal Access Token 配置：
-   - 需要 Token 权限范围
-   - 配置 Webhook（可选）
-3. 测试连接
-4. 保存配置`,
-    webhook: `帮我配置 Webhook 集成。
-
-请：
-1. 告知需要接收的事件类型和格式
-2. 提供 Webhook URL 和签名密钥配置
-3. 我可以发送测试事件验证配置
-4. 保存配置`,
-  }
-
-  return prompts[provider] || `帮我配置 ${name} (${provider}) 集成。\n\n请搜索该平台的集成文档，了解配置所需参数，然后引导我逐步完成配置，最后测试并保存。`
-}
-
-// ── 主页面 ────────────────────────────────────────────────────────────────────
 
 export default function IntegrationPage() {
-  const [connections, setConnections] = useState<OAuthConnection[]>([])
-  const [providerStatus, setProviderStatus] = useState<Record<string, { name: string; icon?: string; status: string; connected: number; total_connections: number }>>({})
-  const [loading, setLoading] = useState(true)
-  const [testingId, setTestingId] = useState<string | null>(null)
-  const [testResults, setTestResults] = useState<Record<string, { ok: boolean; message?: string }>>({})
+  const confirm = useConfirm()
+  const dashboard = useIntegrationsDashboard()
+  const createIntegration = useCreateIntegration()
+  const updateConfig = useUpdateIntegrationConfig()
+  const testIntegration = useTestIntegration()
+  const syncIntegration = useSyncIntegration()
+  const deleteIntegration = useDeleteIntegration()
+  const [creating, setCreating] = useState(false)
+  const [editing, setEditing] = useState<IntegrationConnection | null>(null)
 
-  // 对话配置状态
-  const [chatKey, setChatKey] = useState(0)
-  const [initialMessage, setInitialMessage] = useState<string | null>(null)
-  const [configuringProvider, setConfiguringProvider] = useState<string | null>(null)
+  const providers = dashboard.data?.providers?.length ? dashboard.data.providers : fallbackProviders
+  const connections = dashboard.data?.connections ?? []
+  const providerStatus: Record<string, { name: string; icon?: string; status: string; connected: number; total_connections: number }> =
+    dashboard.data?.status ?? {}
+  const loading = dashboard.isLoading || dashboard.isFetching
 
-  const loadData = useCallback(async () => {
-    setLoading(true)
-    try {
-      const [connData, statusData] = await Promise.all([
-        oauthApi.list(),
-        oauthApi.getStatusSummary().catch(() => ({ status: {} })),
-      ])
-      setConnections(connData.connections)
-      setProviderStatus(statusData.status || {})
-    } catch {
-      setConnections([])
-    } finally {
-      setLoading(false)
-    }
-  }, [])
+  const connectedCount = connections.filter((conn) => conn.status === 'connected').length
+  const providerCards = useMemo(
+    () =>
+      providers.map((provider) => ({
+        provider,
+        status: providerStatus[provider.provider],
+        connections: connections.filter((conn) => conn.provider === provider.provider),
+      })),
+    [connections, providerStatus, providers],
+  )
 
-  useEffect(() => { loadData() }, [loadData])
-
-  const handleTest = async (id: string) => {
-    setTestingId(id)
-    setTestResults(prev => ({ ...prev, [id]: undefined as unknown as { ok: boolean; message?: string } }))
-    try {
-      const result = await oauthApi.test(id)
-      setTestResults(prev => ({ ...prev, [id]: result }))
-    } catch (e) {
-      setTestResults(prev => ({ ...prev, [id]: { ok: false, message: e instanceof Error ? e.message : '测试失败' } }))
-    } finally {
-      setTestingId(null)
+  const handleTest = async (conn: IntegrationConnection) => {
+    const result = await testIntegration.mutateAsync(conn.id)
+    if (result.ok === false || result.status === 'failed' || result.status === 'error') {
+      toast.error(result.error || result.message || '连接测试失败')
+    } else {
+      toast.success(result.message || '连接测试通过')
     }
   }
 
-  const handleDelete = async (id: string) => {
-    if (!window.confirm('确定断开此连接？')) return
-    try {
-      await oauthApi.delete(id)
-      loadData()
-    } catch (e) {
-      alert(e instanceof Error ? e.message : '断开失败')
+  const handleSync = async (conn: IntegrationConnection) => {
+    const result = await syncIntegration.mutateAsync(conn.id)
+    if (result.ok === false || result.status === 'failed' || result.status === 'error') {
+      toast.error(result.message || '同步失败')
+    } else {
+      toast.success(result.message || '同步任务已触发')
     }
   }
 
-  const handleConfigure = (provider: string, name: string) => {
-    setConfiguringProvider(provider)
-    setChatKey(k => k + 1)
-    setInitialMessage(buildConfigPrompt(provider, name))
-  }
-
-  const handleNewCustom = () => {
-    setConfiguringProvider(null)
-    setChatKey(k => k + 1)
-    setInitialMessage('我需要配置一个新的第三方系统集成。请搜索文档了解配置方式，引导我完成配置并保存。')
-  }
-
-  const providerEntries = Object.entries(providerStatus)
-  const statusCount = {
-    connected: connections.filter(c => c.status === 'connected').length,
-    error: connections.filter(c => c.status === 'error').length,
-    disconnected: connections.filter(c => c.status === 'disconnected').length,
+  const handleDelete = async (conn: IntegrationConnection) => {
+    const ok = await confirm({
+      title: '断开第三方连接',
+      description: `确认断开「${conn.label || conn.provider}」？`,
+      variant: 'destructive',
+      confirmLabel: '断开',
+    })
+    if (!ok) return
+    await deleteIntegration.mutateAsync(conn.id)
+    toast.success('连接已断开')
   }
 
   return (
-    <div className="flex-1 flex flex-col overflow-hidden">
-      {/* ── 顶部：Provider 概览 + 连接列表 ── */}
-      <div className="shrink-0 bg-white border-b border-black/6">
-        <div className="max-w-5xl mx-auto px-6 py-4">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-3">
+    <div className="h-full overflow-y-auto bg-background">
+      <div className="border-b border-border/60">
+        <div className="mx-auto max-w-[1400px] px-6 py-7 sm:px-8">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <h1 className="text-lg font-semibold text-[#1D1D1F]">集成管理 · 对话式配置工作台</h1>
-              <p className="text-sm text-[#86868B] mt-0.5">
-                点击 Provider 卡片通过对话完成配置 · 共 {connections.length} 个连接
-                {statusCount.error > 0 && (
-                  <span className="ml-2 text-[#FF3B30]">· {statusCount.error} 个异常</span>
-                )}
+              <div className="mb-2 flex items-center gap-2 text-[12px] font-medium text-muted-foreground">
+                <span className="h-px w-6 bg-border" />
+                第三方平台连接
+              </div>
+              <h1 className="text-[28px] font-semibold tracking-tight">集成管理</h1>
+              <p className="mt-1 max-w-2xl text-[14px] leading-6 text-muted-foreground">
+                展示最新后端的 Provider 模板、连接状态和同步入口
               </p>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] text-[#86868B]">
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#34C759] mr-1" />
-                {statusCount.connected} 已连接
-                {statusCount.error > 0 && (
-                  <><span className="inline-block w-1.5 h-1.5 rounded-full bg-[#FF3B30] ml-3 mr-1" />
-                  {statusCount.error} 异常</>
-                )}
-              </span>
-              <button
-                onClick={loadData}
-                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#F5F5F7] text-[#1D1D1F] hover:bg-[#E5E5EA] transition-colors"
-              >
+            <div className="flex flex-wrap gap-2">
+              <Button variant="outline" className="h-9 text-[13px]" onClick={() => dashboard.refetch()} disabled={loading}>
+                <RefreshCw className={cn('mr-2 size-4', loading && 'animate-spin')} />
                 刷新
-              </button>
-              <button
-                onClick={handleNewCustom}
-                className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#1D1D1F] text-white hover:bg-[#2D2D2F] transition-colors"
-              >
-                + 自定义集成
-              </button>
+              </Button>
+              <Button className="h-9 text-[13px]" onClick={() => setCreating(true)}>
+                <PlugZap className="mr-2 size-4" />
+                新建连接
+              </Button>
             </div>
           </div>
-
-          {/* Provider 状态卡片（点击触发对话配置） */}
-          {providerEntries.length > 0 && (
-            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
-              {providerEntries.map(([key, ps]) => {
-                const meta = providerStatusMeta[ps.status] || providerStatusMeta.not_configured
-                const pm = getProviderMeta(key)
-                const isConfiguring = configuringProvider === key
-                return (
-                  <button
-                    key={key}
-                    onClick={() => handleConfigure(key, ps.name || pm.name)}
-                    className={`shrink-0 bg-white rounded-xl border p-3 text-left transition-all hover:shadow-md min-w-[140px] ${
-                      isConfiguring ? 'border-[#1D1D1F] ring-1 ring-[#1D1D1F]/10' : 'border-black/6'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <div
-                        className="w-7 h-7 rounded-lg flex items-center justify-center text-sm shrink-0"
-                        style={{ backgroundColor: pm.color + '15' }}
-                      >
-                        {ps.icon || pm.icon}
-                      </div>
-                      <span className="text-sm font-semibold text-[#1D1D1F] truncate">{ps.name || pm.name}</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${meta.bg} ${meta.color}`}>
-                        {meta.label}
-                      </span>
-                      <span className="text-[10px] text-[#86868B]">
-                        {ps.connected}/{ps.total_connections}
-                      </span>
-                    </div>
-                  </button>
-                )
-              })}
-            </div>
-          )}
-
-          {/* 已配置连接列表（折叠） */}
-          {loading ? (
-            <div className="text-center py-4 text-sm text-[#86868B]">加载中...</div>
-          ) : connections.length > 0 && (
-            <div className="mt-3 bg-[#FAFAFA] rounded-xl border border-black/6 overflow-hidden">
-              <details className="group" open>
-                <summary className="px-3.5 py-2.5 flex items-center justify-between cursor-pointer hover:bg-[#F5F5F7]/50 transition-colors text-sm font-semibold text-[#1D1D1F] list-none">
-                  <span>已配置的连接 ({connections.length})</span>
-                  <span className="text-[11px] text-[#C7C7CC] group-open:rotate-180 transition-transform">▾</span>
-                </summary>
-                <div className="divide-y divide-black/6">
-                  {connections.map(conn => {
-                    const pm = getProviderMeta(conn.provider)
-                    const sm = connStatusMeta[conn.status] || connStatusMeta.disconnected
-                    const testResult = testResults[conn.id]
-                    return (
-                      <div key={conn.id} className="px-3.5 py-2.5 flex items-center gap-3 hover:bg-[#F5F5F7]/50 transition-colors">
-                        <div
-                          className="w-7 h-7 rounded-lg flex items-center justify-center text-xs shrink-0"
-                          style={{ backgroundColor: pm.color + '12' }}
-                        >
-                          {pm.icon}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-semibold text-[#1D1D1F] truncate">{conn.label || conn.provider}</span>
-                            <span className="text-[10px] text-[#86868B] shrink-0">{pm.name}</span>
-                            <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${sm.bg} ${sm.color} ${sm.pulse ? 'animate-pulse' : ''}`}>
-                              {sm.label}
-                            </span>
-                          </div>
-                          {conn.last_error && (
-                            <div className="text-[10px] text-[#FF3B30] mt-0.5 line-clamp-1">{conn.last_error}</div>
-                          )}
-                          {testResult && (
-                            <div className={`text-[10px] mt-0.5 ${testResult.ok ? 'text-[#34C759]' : 'text-[#FF3B30]'}`}>
-                              {testResult.ok ? '测试成功' : `失败: ${testResult.message || ''}`}
-                            </div>
-                          )}
-                        </div>
-                        <div className="flex items-center gap-1.5 shrink-0">
-                          <button
-                            onClick={() => handleTest(conn.id)}
-                            disabled={testingId === conn.id}
-                            className="px-2 py-1 text-[10px] font-medium rounded-md bg-white border border-black/6 hover:bg-[#F5F5F7] text-[#1D1D1F] transition-colors disabled:opacity-50"
-                          >
-                            {testingId === conn.id ? '...' : '测试'}
-                          </button>
-                          <button
-                            onClick={() => handleDelete(conn.id)}
-                            className="px-2 py-1 text-[10px] font-medium rounded-md bg-[#FF3B30]/5 hover:bg-[#FF3B30]/10 text-[#FF3B30] transition-colors"
-                          >
-                            断开
-                          </button>
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              </details>
-            </div>
-          )}
-
-          {/* 快捷提示 */}
-          {!configuringProvider && (
-            <div className="mt-2 flex items-center gap-4 text-[10px] text-[#86868B]">
-              <span>💡 点击上方卡片通过对话完成配置</span>
-              <span>🔍 AI 将搜索文档获取最新参数</span>
-              <span>🌐 支持浏览器 OAuth 授权</span>
-              <span>/ 命令支持 CLI 操作</span>
-            </div>
-          )}
-          {configuringProvider && (
-            <div className="mt-2 text-[11px] text-[#0071E3] bg-[#0071E3]/5 px-3 py-1.5 rounded-lg">
-              正在配置 {getProviderMeta(configuringProvider).name} · 与 AI 对话完成配置流程
-            </div>
-          )}
         </div>
       </div>
 
-      {/* ── 底部：对话式配置工作台 ── */}
-      <div className="flex-1 min-h-0">
-        <StreamChat
-          key={chatKey}
-          initialMessage={initialMessage}
-          onInitialMessageConsumed={() => setInitialMessage(null)}
-          title="集成配置工作台"
-          subtitle="对话式第三方系统接入 · AI 自动搜索文档 / 引导 OAuth / 测试连接"
-          placeholder="描述要集成的第三方系统，AI 将引导完成全部配置..."
-        />
+      <div className="mx-auto max-w-[1400px] space-y-7 px-6 py-8 sm:px-8">
+        <section className="grid gap-3 md:grid-cols-3">
+          <Summary label="Provider 模板" value={providers.length} detail="后端可用平台类型" Icon={Cable} />
+          <Summary label="连接总数" value={connections.length} detail="已创建第三方连接" Icon={PlugZap} />
+          <Summary label="已连接" value={connectedCount} detail="状态为 connected" Icon={CheckCircle2} />
+        </section>
+
+        {loading ? (
+          <div className="flex items-center justify-center rounded-lg border border-border/60 bg-card py-20 text-sm text-muted-foreground">
+            <Loader2 className="mr-2 size-4 animate-spin" />
+            加载集成状态...
+          </div>
+        ) : (
+          <section className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {providerCards.map(({ provider, status, connections: providerConnections }) => (
+              <div key={provider.provider} className="flex min-h-[260px] flex-col rounded-lg border border-border/60 bg-card p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <PlugZap className="size-4 text-muted-foreground" />
+                      <h2 className="truncate text-[15px] font-semibold">{provider.name || provider.provider}</h2>
+                    </div>
+                    <p className="mt-1 line-clamp-2 text-[12px] leading-5 text-muted-foreground">
+                      {provider.description || '暂无说明'}
+                    </p>
+                  </div>
+                  <span className={cn('shrink-0 rounded-md border px-2 py-0.5 text-[10px] font-semibold', statusTone[status?.status || 'not_configured'])}>
+                    {statusLabel[status?.status || 'not_configured'] || status?.status || '未配置'}
+                  </span>
+                </div>
+
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  <Badge variant="outline" className="text-[10px]">{provider.auth_type || 'custom'}</Badge>
+                  {(provider.config_fields ?? []).slice(0, 4).map((field) => (
+                    <Badge key={field} variant="outline" className="text-[10px] text-muted-foreground">{field}</Badge>
+                  ))}
+                </div>
+
+                <div className="mt-4 space-y-2">
+                  {providerConnections.length === 0 ? (
+                    <div className="rounded-md border border-dashed border-border bg-muted/25 px-3 py-4 text-center text-[12px] text-muted-foreground">
+                      暂无连接
+                    </div>
+                  ) : (
+                    providerConnections.map((conn) => (
+                      <ConnectionRow
+                        key={conn.id}
+                        connection={conn}
+                        busy={testIntegration.isPending || syncIntegration.isPending || deleteIntegration.isPending}
+                        onEdit={() => setEditing(conn)}
+                        onTest={() => handleTest(conn)}
+                        onSync={() => handleSync(conn)}
+                        onDelete={() => handleDelete(conn)}
+                      />
+                    ))
+                  )}
+                </div>
+
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="mt-auto h-8 text-[12px]"
+                  onClick={() => setCreating(true)}
+                >
+                  <PlugZap className="mr-1.5 size-3.5" />
+                  添加 {provider.name || provider.provider}
+                </Button>
+              </div>
+            ))}
+          </section>
+        )}
+      </div>
+
+      <IntegrationDialog
+        open={creating}
+        providers={providers}
+        saving={createIntegration.isPending}
+        onClose={() => setCreating(false)}
+        onSubmit={async (body) => {
+          await createIntegration.mutateAsync(body)
+          toast.success('连接已创建')
+          setCreating(false)
+        }}
+      />
+      <ConfigDialog
+        connection={editing}
+        saving={updateConfig.isPending}
+        onClose={() => setEditing(null)}
+        onSubmit={async (id, config) => {
+          await updateConfig.mutateAsync({ id, config })
+          toast.success('配置已更新')
+          setEditing(null)
+        }}
+      />
+    </div>
+  )
+}
+
+function Summary({
+  label,
+  value,
+  detail,
+  Icon,
+}: {
+  label: string
+  value: number
+  detail: string
+  Icon: React.ComponentType<{ className?: string }>
+}) {
+  return (
+    <div className="rounded-lg border border-border/60 bg-card p-4">
+      <div className="mb-4 flex items-center justify-between">
+        <div className="text-[12px] font-medium text-muted-foreground">{label}</div>
+        <Icon className="size-4 text-muted-foreground" />
+      </div>
+      <div className="text-[30px] font-semibold leading-none tracking-tight tabular-nums">{value}</div>
+      <div className="mt-2 text-[12px] text-muted-foreground">{detail}</div>
+    </div>
+  )
+}
+
+function ConnectionRow({
+  connection,
+  busy,
+  onEdit,
+  onTest,
+  onSync,
+  onDelete,
+}: {
+  connection: IntegrationConnection
+  busy: boolean
+  onEdit: () => void
+  onTest: () => void
+  onSync: () => void
+  onDelete: () => void
+}) {
+  return (
+    <div className="rounded-md border border-border/60 bg-background p-3">
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <div className="truncate text-[13px] font-semibold">{connection.label || connection.id}</div>
+          <div className="mt-0.5 truncate text-[11px] text-muted-foreground">{connection.id}</div>
+        </div>
+        <span className={cn('rounded-md border px-1.5 py-0.5 text-[10px] font-semibold', statusTone[connection.status] || statusTone.disconnected)}>
+          {statusLabel[connection.status] || connection.status}
+        </span>
+      </div>
+      {connection.last_error && (
+        <div className="mt-2 line-clamp-2 text-[11px] text-destructive">{connection.last_error}</div>
+      )}
+      <div className="mt-3 flex flex-wrap gap-1.5">
+        <Button variant="outline" size="sm" className="h-7 px-2 text-[11px]" disabled={busy} onClick={onTest}>测试</Button>
+        <Button variant="outline" size="sm" className="h-7 px-2 text-[11px]" disabled={busy} onClick={onSync}>同步</Button>
+        <Button variant="ghost" size="sm" className="h-7 px-2 text-[11px]" disabled={busy} onClick={onEdit}>
+          <Settings2 className="mr-1 size-3" />
+          配置
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          aria-label={`删除连接 ${connection.label || connection.id}`}
+          title={`删除连接 ${connection.label || connection.id}`}
+          className="ml-auto h-7 px-2 text-destructive"
+          disabled={busy}
+          onClick={onDelete}
+        >
+          <Trash2 className="size-3.5" />
+        </Button>
       </div>
     </div>
   )
+}
+
+function IntegrationDialog({
+  open,
+  providers,
+  saving,
+  onClose,
+  onSubmit,
+}: {
+  open: boolean
+  providers: IntegrationProviderTemplate[]
+  saving: boolean
+  onClose: () => void
+  onSubmit: (body: { provider: string; label?: string; config?: Record<string, unknown> }) => Promise<void>
+}) {
+  const [provider, setProvider] = useState(providers[0]?.provider ?? 'shopify')
+  const [label, setLabel] = useState('')
+  const [configText, setConfigText] = useState('{}')
+  const [jsonError, setJsonError] = useState('')
+  const providerId = useId()
+  const selectedProvider = providers.find((item) => item.provider === provider)
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const config = parseJsonObject(configText)
+    if (!config) {
+      setJsonError('配置必须是合法 JSON 对象，例如 {"api_key":"…"}')
+      return
+    }
+    setJsonError('')
+    await onSubmit({ provider, label: label.trim(), config })
+    setLabel('')
+    setConfigText('{}')
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={(next) => !next && onClose()}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>新建第三方连接</DialogTitle>
+          <DialogDescription>按最新后端 Provider 模板创建连接，敏感配置只写入后端。</DialogDescription>
+        </DialogHeader>
+        <form className="space-y-4" onSubmit={submit}>
+          <div>
+            <label htmlFor={providerId} className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Provider</label>
+            <select
+              id={providerId}
+              name="provider"
+              value={provider}
+              onChange={(e) => setProvider(e.target.value)}
+              className="h-9 w-full rounded-md border border-input bg-background px-3 text-sm outline-none focus:ring-1 focus:ring-ring"
+            >
+              {providers.map((item) => (
+                <option key={item.provider} value={item.provider}>
+                  {item.name || item.provider}
+                </option>
+              ))}
+            </select>
+          </div>
+          <Field name="label" label="连接名称" value={label} onChange={setLabel} placeholder="如：德国站 Shopify…" />
+          <JsonField
+            name="config"
+            value={configText}
+            onChange={(value) => {
+              setConfigText(value)
+              if (jsonError) setJsonError('')
+            }}
+            fields={selectedProvider?.config_fields}
+            error={jsonError}
+          />
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={onClose} disabled={saving}>取消</Button>
+            <Button type="submit" disabled={saving}>
+              {saving && <Loader2 className="mr-2 size-4 animate-spin" />}
+              创建
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+function ConfigDialog({
+  connection,
+  saving,
+  onClose,
+  onSubmit,
+}: {
+  connection: IntegrationConnection | null
+  saving: boolean
+  onClose: () => void
+  onSubmit: (id: string, config: Record<string, unknown>) => Promise<void>
+}) {
+  const [configText, setConfigText] = useState('{}')
+  const [jsonError, setJsonError] = useState('')
+
+  useEffect(() => {
+    if (!connection) return
+    setConfigText(JSON.stringify(connection.config ?? {}, null, 2))
+    setJsonError('')
+  }, [connection])
+
+  if (!connection) return null
+
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const config = parseJsonObject(configText)
+    if (!config) {
+      setJsonError('配置必须是合法 JSON 对象，例如 {"api_key":"…"}')
+      return
+    }
+    setJsonError('')
+    await onSubmit(connection.id, config)
+    setConfigText('{}')
+  }
+
+  return (
+    <Dialog open={!!connection} onOpenChange={(next) => !next && onClose()}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>更新连接配置</DialogTitle>
+          <DialogDescription>{connection.label || connection.provider}</DialogDescription>
+        </DialogHeader>
+        <form className="space-y-4" onSubmit={submit}>
+          <JsonField
+            name="config"
+            value={configText}
+            onChange={(value) => {
+              setConfigText(value)
+              if (jsonError) setJsonError('')
+            }}
+            error={jsonError}
+          />
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={onClose} disabled={saving}>取消</Button>
+            <Button type="submit" disabled={saving}>
+              {saving && <Loader2 className="mr-2 size-4 animate-spin" />}
+              保存
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+function Field({
+  name,
+  label,
+  value,
+  onChange,
+  placeholder,
+}: {
+  name: string
+  label: string
+  value: string
+  onChange: (value: string) => void
+  placeholder?: string
+}) {
+  const id = useId()
+  return (
+    <div>
+      <label htmlFor={id} className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{label}</label>
+      <Input id={id} name={name} value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} autoComplete="off" />
+    </div>
+  )
+}
+
+function JsonField({
+  name,
+  value,
+  onChange,
+  fields,
+  error,
+}: {
+  name: string
+  value: string
+  onChange: (value: string) => void
+  fields?: string[]
+  error?: string
+}) {
+  const id = useId()
+  return (
+    <div>
+      <label htmlFor={id} className="mb-1.5 block text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">配置 JSON</label>
+      {fields?.length ? (
+        <div className="mb-2 flex flex-wrap gap-1.5">
+          {fields.map((field) => (
+            <Badge key={field} variant="outline" className="font-mono text-[10px] text-muted-foreground">
+              {field}
+            </Badge>
+          ))}
+        </div>
+      ) : null}
+      <textarea
+        id={id}
+        name={name}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? `${id}-error` : undefined}
+        autoComplete="off"
+        spellCheck={false}
+        className="min-h-[128px] w-full rounded-md border border-input bg-background px-3 py-2 font-mono text-[12px] outline-none focus:ring-1 focus:ring-ring"
+        placeholder='{"api_key":"…"}'
+      />
+      {error ? <p id={`${id}-error`} className="mt-1.5 text-[12px] text-destructive">{error}</p> : null}
+    </div>
+  )
+}
+
+function parseJsonObject(value: string) {
+  try {
+    const parsed = JSON.parse(value || '{}')
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+      ? parsed as Record<string, unknown>
+      : null
+  } catch {
+    return null
+  }
 }

@@ -1,0 +1,28 @@
+{
+  "timestamp": "2026-06-14T02:12:51Z",
+  "worker": "system_worker",
+  "task": "heartbeat_check",
+  "overall_status": "DEGRADED",
+  "system_health": 20,
+  "checks": {
+    "fastapi": {"status": "DEGRADED", "health_endpoint": "404", "products_api": "ERROR", "port_8000": "LISTENING"},
+    "chromadb": {"status": "MISSING", "directory": "chroma_db_NOT_FOUND"},
+    "sqlite": {"status": "MISSING", "database": "compliance.db_NOT_FOUND"},
+    "worker_registry": {"status": "MISSING", "file": "worker_registry.json_NOT_FOUND"},
+    "scheduler": {"status": "DOWN", "processes_detected": 0, "port_listening": true}
+  },
+  "summary": {
+    "total_checks": 5,
+    "passed": 0,
+    "degraded": 1,
+    "failed": 4
+  },
+  "alert_level": "WARNING",
+  "immediate_actions": [
+    "配置 /health 端点路由",
+    "初始化 ChromaDB 向量库",
+    "创建 SQLite 合规数据库",
+    "生成 Worker 注册表",
+    "排查 Scheduler 进程问题"
+  ]
+}

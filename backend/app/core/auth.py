@@ -16,7 +16,7 @@ from app.config import settings
 # 开发模式开关
 DEV_MODE = os.getenv("DEV_MODE", "true").lower() in ("1", "true", "yes")
 
-_MOCK_ADMIN = {"id": "dev-admin", "username": "admin", "role": "admin"}
+_MOCK_ADMIN = {"id": "dev-admin", "username": "admin", "role": "admin", "created_at": 1700000000}
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login", auto_error=not DEV_MODE)
 

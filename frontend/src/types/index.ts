@@ -21,7 +21,7 @@ export interface ComplianceResult {
   hs_description: string
   vat_rate: number
   certifications: string[]
-  risk_level: 'low' | 'medium' | 'high' | 'critical'
+  risk_level: 'low' | 'medium' | 'high'
   risk_score?: number
   risk_flags: string[]
   logistics_flags?: string[]
@@ -39,6 +39,9 @@ export interface ChatResponse {
   session_id?: string
   /** 操作链ID，可用于前端回溯展示决策链路 */
   action_chain_id?: string
+  intent?: Record<string, unknown>
+  browser_result?: BrowserResult
+  conflicts?: ConflictResult[]
 }
 
 /** 聊天消息 */
@@ -84,6 +87,31 @@ export interface ActionChainSummary {
   status: string
   trail_preview: string[]
   updated_at: string
+}
+
+export interface BrowserResult {
+  ok: boolean
+  action_type: string
+  url?: string | null
+  title?: string | null
+  data?: unknown[] | null
+  error?: string | null
+  raw?: Record<string, unknown> | null
+}
+
+export interface AgentStatus {
+  agent: string
+  status: 'pending' | 'running' | 'complete' | 'error'
+  result?: Record<string, unknown>
+  error?: string
+  timestamp?: number
+}
+
+export interface ConflictResult {
+  type: 'hs_code' | 'vat_rate' | 'certification' | 'risk_level' | string
+  sources: Record<string, string>
+  resolution: string
+  reason: string
 }
 
 // ── 事件链 (EventChain) 类型 ──────────────────
@@ -277,6 +305,56 @@ export interface AlertsResponse {
 
 // ── 会话历史 (Session) 类型 ──────────────────
 
+export interface PlanStep {
+  id: string
+  action: string
+  expected_result?: string
+  status: 'pending' | 'running' | 'done' | 'failed'
+  skill?: string
+  duration_ms?: number
+}
+
+export interface StreamAction {
+  id: string
+  label: string
+  description?: string
+  skill?: string
+  confidence?: number
+  expected_result?: string
+  risk_level?: 'low' | 'medium' | 'high'
+  status?: 'pending' | 'confirmed' | 'executing' | 'done' | 'skipped'
+}
+
+export type StreamEvent =
+  | { type: 'token'; content: string }
+  | { type: 'skill_start'; skill: string; args: Record<string, unknown> }
+  | {
+      type: 'skill_end'
+      skill: string
+      result: Record<string, unknown>
+      duration_ms?: number
+      status?: 'success' | 'error'
+    }
+  | { type: 'thinking'; content: string; depth?: number }
+  | { type: 'plan'; steps: PlanStep[]; current: number }
+  | { type: 'action_card'; actions: StreamAction[] }
+  | { type: 'agent_status'; agents: AgentStatus[] }
+  | { type: 'conflict'; conflicts: ConflictResult[] }
+  | { type: 'browser_result'; result: BrowserResult }
+  | { type: 'error'; code: string; message: string; recoverable?: boolean }
+  | {
+      type: 'done'
+      finish_reason?: string
+      usage?: Record<string, unknown>
+      message?: string
+      compliance_result?: ComplianceResult
+      intent?: Record<string, unknown>
+      browser_result?: BrowserResult
+      action_chain_id?: string
+      session_id?: string
+      sources?: string[]
+    }
+
 /** 会话消息 */
 export interface SessionMessage {
   id: string
@@ -284,7 +362,12 @@ export interface SessionMessage {
   content: string
   compliance_result?: ComplianceResult
   intent?: Record<string, unknown>
+  browser_result?: BrowserResult
+  action_chain_id?: string
+  conflicts?: ConflictResult[]
   sources: string[]
+  stream_events?: StreamEvent[]
+  streaming?: boolean
   created_at: number
 }
 
@@ -303,174 +386,68 @@ export interface Session extends SessionSummary {
   messages: SessionMessage[]
 }
 
-// ── SSE 流式对话类型 ──────────────────────────
+// ── 知识库导入 (Knowledge Import) 类型 ─────────────
 
-/** SSE 连接状态 */
-export type ConnectionStatus = 'idle' | 'connecting' | 'connected' | 'reconnecting' | 'disconnected' | 'error'
+/** 市场代码（用于知识库 PDF/URL 导入） */
+export type KnowledgeMarket = 'eu' | 'us' | 'jp' | 'kr' | 'cn' | 'custom'
 
-/** 执行计划步骤 */
-export interface PlanStep {
+/** 已导入的知识库文档 */
+export interface KnowledgeDoc {
   id: string
-  action: string
-  expected_result?: string
-  status: 'pending' | 'running' | 'done' | 'failed'
-  skill?: string
-  duration_ms?: number
+  user_id: string
+  doc_type: 'pdf' | 'url'
+  name: string
+  source_url: string
+  market: KnowledgeMarket
+  status: 'indexing' | 'done' | 'error'
+  chunk_count: number
+  error_msg: string
+  /** Unix epoch **秒**（不是毫秒）— 与后端 `int(time.time())` 对齐 */
+  created_at: number
+  /** Unix epoch 秒 */
+  updated_at: number
 }
 
-/** 操作建议 */
-export interface Action {
-  id: string
-  label: string
-  description?: string
-  skill?: string
-  confidence?: number
-  expected_result?: string
-  risk_level?: 'low' | 'medium' | 'high' | 'critical'
-  status?: 'pending' | 'confirmed' | 'executing' | 'done' | 'skipped'
+/** 知识库统计 */
+export interface KnowledgeStats {
+  total_docs: number
+  total_chunks: number
+  done_count: number
+  indexing_count: number
+  error_count: number
+  market_distribution: Record<string, number>
+  total_vectors: number
 }
 
-/** Skill执行结果 */
-export interface SkillResult {
-  output?: Record<string, unknown>
-  summary?: string
-  [key: string]: unknown
+/** 语义搜索请求 */
+export interface KnowledgeSearchRequest {
+  query: string
+  market?: KnowledgeMarket | ''
+  top_k?: number
 }
 
-/** SSE事件: token */
-export interface StreamEventToken {
-  type: 'token'
-  content: string
+/** 语义搜索单条命中（来自 ChromaDB） */
+export interface KnowledgeSearchHit {
+  text: string
+  score: number
+  market: string
+  regulation_name: string
+  source_url: string
+  page_hint: string
+  doc_id: string
 }
 
-/** SSE事件: skill_start */
-export interface StreamEventSkillStart {
-  type: 'skill_start'
-  skill: string
-  args: Record<string, unknown>
+/** 语义搜索响应 */
+export interface KnowledgeSearchResponse {
+  query: string
+  results: KnowledgeSearchHit[]
+  count: number
 }
 
-/** SSE事件: skill_end */
-export interface StreamEventSkillEnd {
-  type: 'skill_end'
-  skill: string
-  result: SkillResult
-  duration_ms?: number
-  status?: 'success' | 'error'
-}
-
-/** SSE事件: thinking */
-export interface StreamEventThinking {
-  type: 'thinking'
-  content: string
-  depth?: number
-}
-
-/** SSE事件: plan */
-export interface StreamEventPlan {
-  type: 'plan'
-  steps: PlanStep[]
-  current: number
-}
-
-/** SSE事件: action_card */
-export interface StreamEventActionCard {
-  type: 'action_card'
-  actions: Action[]
-}
-
-/** SSE事件: error */
-export interface StreamEventError {
-  type: 'error'
-  code: string
+/** PDF 上传 / URL 导入 异步响应 */
+export interface KnowledgeImportAck {
+  doc_id: string
+  name?: string
+  status: 'indexing'
   message: string
-  recoverable?: boolean
-}
-
-/** SSE事件: done */
-export interface StreamEventDone {
-  type: 'done'
-  finish_reason?: string
-  usage?: Record<string, unknown>
-}
-
-/** SSE事件联合类型 */
-export type StreamEvent =
-  | StreamEventToken
-  | StreamEventSkillStart
-  | StreamEventSkillEnd
-  | StreamEventThinking
-  | StreamEventPlan
-  | StreamEventActionCard
-  | StreamEventError
-  | StreamEventDone
-
-/** 用户消息（对话区展示） */
-export interface ChatUserMessage {
-  kind: 'user'
-  id: string
-  content: string
-  timestamp: number
-}
-
-/** AI流式回复（含全部SSE事件） */
-export interface ChatAssistantMessage {
-  kind: 'assistant'
-  id: string
-  events: StreamEvent[]
-  /** 聚合的token文本（从events中提取） */
-  textContent: string
-  isStreaming: boolean
-  timestamp: number
-}
-
-/** 对话消息联合类型 */
-export type ChatMessage = ChatUserMessage | ChatAssistantMessage
-
-// ── 业务流程阶段类型 ────────────────────────────
-
-/** 10阶段合规状态（同时兼容后端 PipelineStageStatus 格式） */
-export interface PipelineStage {
-  id: string
-  stage_number?: number     // 后端字段，可选
-  name: string
-  order: number
-  description?: string
-  pass_rate: number        // 0-100（前端显示）
-  risk_products: number
-  pending_tasks: number
-  status?: string           // healthy/warning/critical/unknown
-  checklist?: { item: string; passed: boolean }[]   // 后端暂无，可选
-  products?: { id: string; name: string; status: string }[]
-}
-
-// ── 产品类型 ─────────────────────────────────────
-
-/** 产品生命周期阶段（对齐后端 ProductLifecycleStage） */
-export type ProductLifecycle = 'concept' | 'design' | 'sourcing' | 'ready' | 'active' | 'fulfilling' | 'aftersale' | 'end'
-
-/** 产品信息 */
-export interface Product {
-  id: string
-  name: string
-  target_markets: string[]
-  lifecycle_stage: ProductLifecycle
-  health_score?: number
-  compliance_status: 'passed' | 'failed' | 'checking' | 'pending'
-  certifications?: { name: string; status: string }[]
-  hs_code?: string
-  vendor?: string
-  created_at?: string
-  updated_at?: string
-}
-
-// ── 对话配置类型 ─────────────────────────────────
-
-/** 对话配置（对应 GET/PUT /api/v1/chat/config） */
-export interface ChatConfigData {
-  agent_id?: string
-  tools?: string[]
-  skills?: string[]
-  pipeline_mode?: string
-  model_role?: string
 }

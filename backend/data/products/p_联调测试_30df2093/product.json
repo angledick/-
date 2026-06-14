@@ -1,0 +1,25 @@
+{
+  "id": "p_联调测试_30df2093",
+  "name": "联调测试产品",
+  "product_type": "electronics",
+  "target_markets": [
+    "us"
+  ],
+  "hs_code": "8471300000",
+  "vendor": "",
+  "tags": [],
+  "lifecycle_stage": "concept",
+  "business_stage": "阶段2",
+  "compliance_status": "pending",
+  "risk_level": "low",
+  "created_at": "2026-06-14T07:48:50.699406+00:00",
+  "updated_at": "2026-06-14T07:48:50.699421+00:00",
+  "metadata": {},
+  "health_score": 30,
+  "certifications": [
+    {
+      "name": "FDA",
+      "status": "checking"
+    }
+  ]
+}

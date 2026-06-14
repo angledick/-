@@ -1,10 +1,11 @@
 # 后端 API 文档
 
-> 版本: v1.1 | 更新: 2026-06-08
+> 版本: v1.2 | 更新: 2026-06-14
 > 技术栈: FastAPI + Pydantic v2 | 系统版本: 4.0.0
 > 基础路径: `/api/v1` | API 文档: 启动后访问 `/docs` (Swagger UI)
 > 架构变更: API 文件按领域拆分重构（Phase 1+P3.6），启动流程4阶段精简
-> 详见: 今日开发文档 (2026-06-08) — API文件按领域拆分重构 + Phase 3.6新增
+> v1.2 新增: Phase 3.7 风险情报引擎 + Phase 3.8 生命周期管理 + Phase 3.9 LLM 调度 + 飞书集成
+> 详见: 今日开发文档 (2026-06-14) — 三库整合迁移完成
 
 ---
 
@@ -23,6 +24,10 @@ API 路由按阶段/功能分组注册在 `backend/app/main.py`中：
 | Phase 3.5 | `knowledge` | 知识库 |
 | Phase 3.6 | `knowledge_import, news_monitor` | RAG知识导入、新闻监控 |
 | Phase 4 | `admin_rbac, admin_approvals, admin_config, admin_reports` | RBAC、审批、后台配置、报表 |
+| Phase 3.7 | `risk_intel` | 风险情报引擎（采集/分析/热力图/关键词） |
+| Phase 3.8 | `suppliers, contracts, payment_channels, logistics, customs, orders` | 生命周期管理（供应商/合同/支付/物流/报关/订单） |
+| Phase 3.9 | `llm_dispatch` | LLM 决策调度网关 |
+| 飞书集成 | `feishu` | 飞书消息/审批/事件集成 |
 | 独立 | `scheduler_config` | 定时任务管理 |
 | 独立 | `model_config` | 模型配置 |
 
@@ -49,10 +54,15 @@ main.py:on_startup()
   │   ├─ get_skill_registry/executor/recommender()
   │   ├─ get_plugin_manager() → 插件管理器
   │   ├─ get_rbac_manager/approval_engine/operation_guard()
-  │   └─ get_proactive_engine() → 主动引擎
+  │   ├─ get_proactive_engine() → 主动引擎
+  │   └─ get_risk_intel_engine() → 风险情报引擎
   │
-  └─ Phase 4: 调度器（最后启动）──────────────────
-      └─ start_scheduler() → 启动 APScheduler
+  ├─ Phase 4: 调度器 ─────────────────────────────
+  │   └─ start_scheduler() → 启动 APScheduler
+  │
+  └─ Phase 5: 外部事件监听器 ─────────────────
+      ├─ FeishuListener → 飞书事件监听
+      └─ ShopifyEventListener → Shopify 事件监听
 ```
 
 ### 1.3 认证体系
@@ -857,9 +867,240 @@ class SDKAgentConfig:
 
 ---
 
-## 二十九、WebSocket 端点
+## 二十九、风险情报引擎 API (Phase 3.7)
 
-**定义在:** `backend/app/main.py` 第 121 行
+**文件:** `backend/app/api/risk_intel.py` (442 行)  
+**前缀:** `/api/v1/risk-intel`  
+**标签:** `risk-intel`  
+**核心依赖:** `core/risk_intel_engine.py` + `storage/risk_intel_store.py` + `data/skills/risk-intel-collect/`
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| POST | `/search` | 搜索情报条目 (keyword 必填，触发采集器) |
+| GET | `/feed` | 情报流 (page/size 分页) |
+| GET | `/heatmap` | 风险热力图 (by_domain/trend/top_markets/latest_critical) |
+| GET | `/keywords` | 监控关键词列表 |
+| POST | `/keywords` | 创建关键词 (keyword/label/sources) |
+| POST | `/keywords/suggest` | AI 建议关键词 |
+| PUT | `/keywords/{keyword_id}` | 更新关键词 |
+| DELETE | `/keywords/{keyword_id}` | 删除关键词 |
+| POST | `/keywords/{keyword_id}/run` | 手动触发采集 |
+| GET | `/runs` | 采集运行记录列表 |
+| GET | `/runs/{run_id}` | 运行详情 |
+| POST | `/admin/global-scan` | 全局扫描 (Admin) |
+| GET | `/analyze/status` | 分析器状态 |
+| POST | `/analyze/trigger` | 触发分析 |
+| POST | `/analyze/item/{item_id}` | 分析单条情报 |
+
+**响应示例:**
+
+```json
+// GET /heatmap
+{
+  "by_domain": {"tariff": 3, "sanction": 1},
+  "trend": [{"date": "2026-06-14", "count": 5}],
+  "top_markets": ["US", "EU"],
+  "latest_critical": [],
+  "generated_at": "2026-06-14T07:25:17Z"
+}
+
+// GET /keywords
+[{"id": "uuid", "keyword": "tariff LED 2026", "label": "LED关税", "sources": [...], "created_at": "..."}]
+```
+
+---
+
+## 三十、生命周期管理 API (Phase 3.8)
+
+产品出海全生命周期管理：供应商 → 合同 → 支付 → 物流 → 报关 → 订单。
+
+### 30.1 供应商管理
+
+**文件:** `backend/app/api/suppliers.py` (172 行)  
+**前缀:** `/api/v1/suppliers`  
+**标签:** `suppliers`  
+**核心依赖:** `storage/supplier_store.py` + `core/lifecycle_analyzer.py`
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| GET | `` | 供应商列表 (country/category/search 筛选) |
+| POST | `` | 创建供应商 (name/source_type/country/contact_*) |
+| GET | `/{supplier_id}` | 供应商详情 |
+| PUT | `/{supplier_id}` | 更新供应商 |
+| DELETE | `/{supplier_id}` | 删除 |
+| GET | `/{supplier_id}/products` | 关联产品 |
+| POST | `/{supplier_id}/rate` | 评级 |
+| GET | `/{supplier_id}/risk-assessment` | AI 风险评估结果 |
+| POST | `/{supplier_id}/verify` | 触发 AI 资质审核 (lifecycle_analyzer) |
+
+**响应示例:**
+
+```json
+// GET /suppliers
+[{"id": "sup_xxx", "name": "供应商名", "source_type": "factory", "country": "CN", "ai_risk_level": null, "created_at": "..."}]
+
+// GET /suppliers/{id}/risk-assessment
+{"supplier_id": "sup_xxx", "status": "not_reviewed", "message": "尚未进行 AI 审核，请调用 POST /{id}/verify"}
+```
+
+### 30.2 合同管理
+
+**文件:** `backend/app/api/contracts.py` (217 行)  
+**前缀:** `/api/v1/contracts`  
+**标签:** `contracts`  
+**核心依赖:** `storage/contract_store.py` + `core/lifecycle_analyzer.py`
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| GET | `/templates` | 合同模板列表 |
+| GET | `/templates/{template_id}` | 模板详情 |
+| POST | `/templates/{template_id}/render` | 渲染模板 |
+| GET | `` | 合同列表 |
+| POST | `` | 创建合同 |
+| GET | `/{contract_id}` | 合同详情 |
+| PUT | `/{contract_id}` | 更新合同 |
+| POST | `/{contract_id}/sign` | 签署合同 |
+| GET | `/{contract_id}/versions` | 版本历史 |
+| POST | `/{contract_id}/compliance-review` | AI 合同合规审查 (lifecycle_analyzer) |
+
+### 30.3 支付渠道
+
+**文件:** `backend/app/api/payment_channels.py` (179 行)  
+**前缀:** `/api/v1/payment-channels`  
+**标签:** `payment-channels`  
+**核心依赖:** `storage/payment_store.py`
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| GET | `` | 渠道列表 (country/currency 筛选) |
+| POST | `` | 创建渠道 (name/provider/currencies/countries) |
+| GET | `/{channel_id}` | 渠道详情 |
+| PUT | `/{channel_id}` | 更新渠道 |
+| POST | `/{channel_id}/test` | 支付测试 |
+| GET | `/{channel_id}/chargeback-stats` | 拒付统计 |
+| POST | `/{channel_id}/chargeback` | 添加拒付事件 |
+
+### 30.4 物流管理
+
+**文件:** `backend/app/api/logistics.py` (417 行)  
+**前缀:** `/api/v1/logistics`  
+**标签:** `logistics`  
+**核心依赖:** `storage/logistics_store.py` + `storage/order_store.py`
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| GET | `/carriers` | 物流商列表 (8个内置: DHL/FedEx/UPS等) |
+| GET | `/shipments` | 货运单列表 |
+| POST | `/shipments` | 创建货运单 (carrier/tracking_num/origin/dest) |
+| GET | `/shipments/{shipment_id}` | 货运详情 |
+| GET | `/shipments/{shipment_id}/tracking` | 物流追踪 |
+| POST | `/shipments/{shipment_id}/refresh` | 刷新追踪信息 |
+| POST | `/webhook/17track` | 17Track Webhook |
+| POST | `/webhook/aftership` | AfterShip Webhook |
+
+**响应示例:**
+
+```json
+// GET /carriers
+[{"code": "dhl", "name": "DHL Express", "tracking_url": "https://www.dhl.com/tracking?id={num}"}, ...]
+```
+
+### 30.5 报关管理
+
+**文件:** `backend/app/api/customs.py` (379 行)  
+**前缀:** `/api/v1/customs`  
+**标签:** `customs`  
+**核心依赖:** `storage/customs_store.py` + `core/three_way_checker.py` + `core/controlled_goods_checker.py`
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| GET | `/declarations` | 报关单列表 |
+| POST | `/declarations` | 创建报关单 (hs_code/declared_name/declared_value/dest_country) |
+| GET | `/declarations/{declaration_id}` | 报关单详情 |
+| POST | `/declarations/{declaration_id}/submit` | 提交报关 |
+| POST | `/declarations/{declaration_id}/check` | 合规检查 |
+| POST | `/declarations/{declaration_id}/clear` | 清关确认 |
+| GET | `/declarations/{declaration_id}/exception` | 异常情况 |
+| GET | `/duty-calculator` | 关税计算 (hs_code/value/country) |
+| GET | `/tariff-rates` | 税率查询 (country/hs_code) |
+| POST | `/three-way-check` | 三单比对 (发票/装箱单/报关单) |
+| GET | `/controlled-goods/check` | 管制商品检查 (declared_name/hs_code/dest_country 必填) |
+
+**响应示例:**
+
+```json
+// GET /controlled-goods/check?declared_name=laser&hs_code=9013.20&dest_country=US
+{"passed": true, "level": "pass", "errors": [], "warnings": [], "infos": [{"rule": "HS_HIGH_RISK", "level": "info", "message": "..."}]}
+```
+
+### 30.6 订单管理
+
+**文件:** `backend/app/api/orders.py` (214 行)  
+**前缀:** `/api/v1/orders`  
+**标签:** `orders`  
+**核心依赖:** `storage/order_store.py` + `core/three_way_checker.py`
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| GET | `` | 订单列表 (status/customer_id/date_from 筛选) |
+| POST | `` | 创建订单 (customer_id/items/shipping_address) |
+| GET | `/{order_id}` | 订单详情 |
+| PUT | `/{order_id}` | 更新订单 |
+| GET | `/{order_id}/payments` | 支付记录 |
+| GET | `/{order_id}/payment-summary` | 支付汇总 |
+| POST | `/{order_id}/payments` | 添加支付记录 |
+| POST | `/{order_id}/three-way-check` | 三单比对 |
+
+---
+
+## 三十一、LLM 决策调度 API (Phase 3.9)
+
+**文件:** `backend/app/api/llm_dispatch.py` (215 行)  
+**前缀:** `/api/v1/llm-dispatch`  
+**标签:** `llm-dispatch`  
+**核心依赖:** `core/llm_gateway.py` (GLM-5.1) + `core/llm_dispatcher.py` + `data/models/routes.yaml`
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| GET | `/status` | 网关状态 (gateway_available/roles/call_stats) |
+| POST | `/risk/dispatch` | 风险情报分析调度 |
+| POST | `/risk/dispatch-item` | 单条情报分析 |
+| POST | `/lifecycle/scan` | 生命周期全局扫描 |
+| POST | `/lifecycle/supplier/{supplier_id}` | 供应商分析调度 |
+| POST | `/lifecycle/contract/{contract_id}` | 合同分析调度 |
+
+**响应示例:**
+
+```json
+// GET /status
+{
+  "gateway_available": true,
+  "roles": {
+    "risk_analysis": {"available": true, "provider": "zhipu", "model": "glm-5.1"},
+    "lifecycle_analysis": {"available": true, "provider": "zhipu", "model": "glm-5.1"}
+  },
+  "call_stats": {"total_calls": 0, "total_tokens": 0}
+}
+```
+
+---
+
+## 三十二、飞书集成 API
+
+**文件:** `backend/app/api/feishu.py`  
+**标签:** `feishu`  
+**核心依赖:** `core/feishu_client.py` + `core/event_listeners/feishu_listener.py`
+
+| 方法 | 路径 | 说明 |
+|------|------|------|
+| GET | `/api/v1/feishu/status` | 飞书集成状态 |
+| POST | `/api/v1/feishu/webhook` | 飞书事件 Webhook |
+
+---
+
+## 三十三、WebSocket 端点
+
+**定义在:** `backend/app/main.py`
 
 | 协议 | 路径 | 说明 |
 |------|------|------|
@@ -867,17 +1108,18 @@ class SDKAgentConfig:
 
 ---
 
-## 三十、系统健康端点
+## 三十四、系统健康端点
 
 | 方法 | 路径 | 说明 |
 |------|------|------|
-| GET | `/api/v1/health` | 基础健康检查 (status/service/version) |
-| GET | `/api/v1/system/health` | 系统详细健康检查 (QAAgent 诊断) |
+| GET | `/api/v1/system/health` | 系统详细健康检查 (event_bus/scheduler/skill_registry 等10组件) |
 | GET | `/api/v1/config/health` | 10 个核心组件健康检查 |
+| GET | `/api/v1/metrics/dashboard` | 指标仪表盘 (total_products/risk_distribution/recent_alerts) |
+| GET | `/api/v1/metrics/global` | 全局指标 (total_managed_products/system_health_score) |
 
 ---
 
-## 三十一、文件索引（v1.1 重构后）
+## 三十五、文件索引（v1.2 三库整合后）
 
 ### Phase 1 重构（文件拆分）：
 
@@ -904,6 +1146,56 @@ class SDKAgentConfig:
 |------|------|-------|----------|
 | `knowledge_import.py` | 211 | 5 | RAG 知识导入（文件/URL/任务管理） |
 | `news_monitor.py` | 157 | 7 | 新闻监控 |
+
+### Phase 3.7 新增（风险情报引擎）：
+
+| 文件 | 行数 | 路由数 | 主要功能 |
+|------|------|-------|----------|
+| `api/risk_intel.py` | 442 | 15 | 风险情报 API (采集/分析/热力图/关键词) |
+| `core/risk_intel_engine.py` | 718 | - | 风险情报引擎 (采集器+分析器+周期任务) |
+| `core/risk_intel_analyzer.py` | 190 | - | 风险情报分析器 |
+| `storage/risk_intel_store.py` | 870 | - | 情报数据存储 |
+| `data/skills/risk-intel-collect/` | 977 | - | 采集器 Skill (15+ RSS 源) |
+| `data/skills/risk-intel-analyze/` | 220 | - | 分析器 Skill |
+
+### Phase 3.8 新增（生命周期管理）：
+
+| 文件 | 行数 | 路由数 | 主要功能 |
+|------|------|-------|----------|
+| `api/suppliers.py` | 172 | 9 | 供应商 CRUD + AI 审核 |
+| `api/contracts.py` | 217 | 10 | 合同模板 + CRUD + AI 合规审查 |
+| `api/payment_channels.py` | 179 | 7 | 支付渠道 + 拒付统计 |
+| `api/logistics.py` | 417 | 8 | 物流管理 + Webhook |
+| `api/customs.py` | 379 | 11 | 报关 + 关税 + 管制商品 + 三单比对 |
+| `api/orders.py` | 214 | 8 | 订单 CRUD + 支付记录 |
+| `core/lifecycle_analyzer.py` | 172 | - | 生命周期 LLM 分析器 (供应商/合同/报关) |
+| `core/three_way_checker.py` | 422 | - | 三单比对器 (发票/装箱单/报关单) |
+| `core/controlled_goods_checker.py` | 398 | - | 管制商品检查器 |
+| `storage/supplier_store.py` | 210 | - | 供应商数据存储 |
+| `storage/contract_store.py` | 252 | - | 合同数据存储 |
+| `storage/payment_store.py` | 224 | - | 支付渠道存储 |
+| `storage/logistics_store.py` | 228 | - | 物流数据存储 |
+| `storage/customs_store.py` | 306 | - | 报关数据存储 |
+| `storage/order_store.py` | 294 | - | 订单数据存储 |
+
+### Phase 3.9 新增（LLM 决策调度）：
+
+| 文件 | 行数 | 路由数 | 主要功能 |
+|------|------|-------|----------|
+| `api/llm_dispatch.py` | 215 | 6 | LLM 调度 API (风险/生命周期) |
+| `core/llm_gateway.py` | 275 | - | LLM 网关 (GLM-5.1 统一接口) |
+| `core/llm_dispatcher.py` | 408 | - | LLM 决策调度器 |
+| `data/models/routes.yaml` | 36 | - | 模型路由配置 |
+
+### 飞书集成（astra-main 独有）：
+
+| 文件 | 行数 | 路由数 | 主要功能 |
+|------|------|-------|----------|
+| `api/feishu.py` | - | 2 | 飞书消息/事件 API |
+| `core/feishu_client.py` | - | - | 飞书客户端 |
+| `core/unified_dispatcher.py` | - | - | 统一事件分发器 |
+| `core/event_listeners/feishu_listener.py` | - | - | 飞书事件监听 (lark-cli) |
+| `core/event_listeners/shopify_listener.py` | - | - | Shopify 事件监听 |
 
 ### Phase 2-3 未变文件：
 

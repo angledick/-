@@ -4004,6 +4004,17 @@
     "target_markets": [],
     "compliance_status": "pending",
     "risk_level": "low",
-    "updated_at": "2026-06-14T05:47:07.001443+00:00"
+    "updated_at": "2026-06-14T08:03:41.981393+00:00"
+  },
+  "p_联调测试_30df2093": {
+    "name": "联调测试产品",
+    "product_type": "electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "us"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-14T07:48:50.699421+00:00"
   }
 }
