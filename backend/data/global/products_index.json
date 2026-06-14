@@ -3777,5 +3777,233 @@
     "compliance_status": "pending",
     "risk_level": "low",
     "updated_at": "2026-06-12T09:03:17.673002+00:00"
+  },
+  "p_Wire_535c9ab9": {
+    "name": "Wireless Charger Pad",
+    "product_type": "Electronics/Charger",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "EU",
+      "US"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:23:49.836582+00:00"
+  },
+  "p_Wire_19a1897c": {
+    "name": "Wireless Charger Pad",
+    "product_type": "Electronics/Charger",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "欧盟",
+      "美国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:24:26.361402+00:00"
+  },
+  "p_Wire_47ed84c6": {
+    "name": "Wireless Charger Pad",
+    "product_type": "Electronics/Charger",
+    "lifecycle_stage": "concept",
+    "target_markets": [],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:27:51.946671+00:00"
+  },
+  "p_Wire_0d424da3": {
+    "name": "Wireless Charger Pad",
+    "product_type": "Electronics/Charger",
+    "lifecycle_stage": "concept",
+    "target_markets": [],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:28:20.332375+00:00"
+  },
+  "p_USB-_11934b9e": {
+    "name": "USB-C Hub 7-in-1",
+    "product_type": "Electronics/Adapter",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "欧盟",
+      "美国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:30:06.179126+00:00"
+  },
+  "p_USB-_2a552c74": {
+    "name": "USB-C Hub 7-in-1",
+    "product_type": "Electronics/Adapter",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "欧盟",
+      "美国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:30:43.445266+00:00"
+  },
+  "p_USB-_922f0c04": {
+    "name": "USB-C Hub 7-in-1",
+    "product_type": "Electronics/Adapter",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "欧盟",
+      "美国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:30:51.859788+00:00"
+  },
+  "p_USB-_23ddba5c": {
+    "name": "USB-C Hub 7-in-1",
+    "product_type": "Electronics/Adapter",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "欧盟",
+      "美国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:31:29.418620+00:00"
+  },
+  "p_USB-_6ac864e0": {
+    "name": "USB-C Hub 7-in-1",
+    "product_type": "Electronics/Adapter",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "EU",
+      "US"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:31:53.868406+00:00"
+  },
+  "p_USB-_df6cab3b": {
+    "name": "USB-C Hub 7-in-1",
+    "product_type": "Electronics/Adapter",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "EU",
+      "US"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:32:03.951171+00:00"
+  },
+  "p_Test_6252f886": {
+    "name": "Test Product",
+    "product_type": "Electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:32:54.560175+00:00"
+  },
+  "p_Test_4de68a29": {
+    "name": "Test Product",
+    "product_type": "Electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "EU",
+      "US"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:33:15.097072+00:00"
+  },
+  "p_Test_1184f6b3": {
+    "name": "Test Product",
+    "product_type": "Electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "EU",
+      "US"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:33:18.897771+00:00"
+  },
+  "p_USB-_bbbf48bd": {
+    "name": "USB-C Hub 7-in-1",
+    "product_type": "Electronics/Adapter",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "欧盟",
+      "美国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:33:32.949918+00:00"
+  },
+  "p_USB-_d44f3d17": {
+    "name": "USB-C Hub 7-in-1",
+    "product_type": "Electronics/Adapter",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "欧盟",
+      "美国"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:33:36.678079+00:00"
+  },
+  "p_USB-_a9b704c6": {
+    "name": "USB-C Hub 7-in-1",
+    "product_type": "Electronics/Adapter",
+    "lifecycle_stage": "concept",
+    "target_markets": [
+      "EU",
+      "US"
+    ],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:34:17.475063+00:00"
+  },
+  "p_Test_7f4c332f": {
+    "name": "Test Product",
+    "product_type": "Electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:34:17.927859+00:00"
+  },
+  "p_Test_e0ef12c3": {
+    "name": "Test Product",
+    "product_type": "Electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T13:35:22.881746+00:00"
+  },
+  "shopify_7703725572163": {
+    "name": "Test Product from Astra",
+    "product_type": "Electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T23:41:15.632661+00:00"
+  },
+  "shopify_7703735992387": {
+    "name": "Astra ???? - LED Smart Strip",
+    "product_type": "Electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-13T23:47:53.532480+00:00"
+  },
+  "shopify_7703739367491": {
+    "name": "Astra 智能LED灯带 - Smart LED Strip",
+    "product_type": "Electronics",
+    "lifecycle_stage": "concept",
+    "target_markets": [],
+    "compliance_status": "pending",
+    "risk_level": "low",
+    "updated_at": "2026-06-14T05:47:07.001443+00:00"
   }
 }

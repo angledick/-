@@ -1,0 +1,25 @@
+{
+  "id": "p_Wire_0d424da3",
+  "name": "Wireless Charger Pad",
+  "product_type": "Electronics/Charger",
+  "target_markets": [],
+  "hs_code": "",
+  "vendor": "TechBrand",
+  "tags": [
+    "wireless",
+    "charger",
+    "qi",
+    "ce",
+    "fcc",
+    "rohs"
+  ],
+  "lifecycle_stage": "concept",
+  "business_stage": "阶段2",
+  "compliance_status": "pending",
+  "risk_level": "low",
+  "created_at": "2026-06-13T13:28:20.332357+00:00",
+  "updated_at": "2026-06-13T13:28:20.332375+00:00",
+  "metadata": {},
+  "health_score": 30,
+  "certifications": []
+}

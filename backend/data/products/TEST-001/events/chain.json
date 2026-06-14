@@ -1,0 +1,28 @@
+{
+  "product_id": "TEST-001",
+  "events": [
+    {
+      "id": "ebd50f4f729c",
+      "type": "product:created",
+      "category": "lifecycle",
+      "source": "test",
+      "product_id": "TEST-001",
+      "business_stage": "stage2",
+      "data": {
+        "title": "Test Product",
+        "product_type": "Electronics"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-13T13:31:01.572727+00:00"
+    }
+  ],
+  "timeline": [
+    "🟢 [Low] 2026-06-13T13:31:01 product:created"
+  ],
+  "total_events": 1
+}

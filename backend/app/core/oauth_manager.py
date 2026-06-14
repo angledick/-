@@ -226,7 +226,7 @@ class OAuthManager:
             auth_url = auth_url.replace("{shop}", shop)
             params["client_id"] = conn.config.get("api_key", settings.shopify_client_id)
             params["scope"] = template["scopes"]
-            params["redirect_uri"] = conn.config.get("redirect_uri", settings.shopify_redirect_uri)
+            params["redirect_uri"] = conn.config.get("redirect_uri", "")
         elif conn.provider == "feishu":
             params["app_id"] = conn.config.get("app_id", "")
             params["redirect_uri"] = conn.config.get("redirect_uri", "")
@@ -293,15 +293,13 @@ class OAuthManager:
         token_url = template.get("token_url", "")
 
         if conn.provider == "shopify":
-            # 使用现有shopify.py的SDK方式
-            from app.services.shopify import exchange_code_for_token as shopify_exchange
-            shop = conn.config.get("shop", "")
-            code = params.get("code", "")
-            stk = shopify_exchange(shop, code, params)
-            return OAuthToken(
-                access_token=stk.access_token,
-                scope=stk.scope,
+            # Shopify OAuth 已迁移到事件驱动链路（API → Manager → Worker → SDK）
+            # 此分支保留接口兼容，实际授权由 shopify:oauth_callback 事件处理
+            logger.warning(
+                "Shopify OAuth 令牌交换已迁移到事件驱动链路，"
+                "请通过 UnifiedDispatcher 下发 shopify:oauth_callback 事件"
             )
+            return OAuthToken(access_token="", scope="")
         elif conn.provider == "feishu":
             # 飞书OAuth: 先用code换app_access_token，再换user_access_token
             async with httpx.AsyncClient() as client:
@@ -410,10 +408,10 @@ class OAuthManager:
 
         if conn.provider == "shopify":
             try:
-                from app.services.shopify import load_token
-                tok = load_token(conn.config.get("shop", ""))
-                return {"ok": tok is not None, "status": "connected" if tok else "error",
-                        "provider": "shopify", "shop": conn.config.get("shop", "")}
+                from app.config import settings
+                ok = bool(settings.shopify_domain and settings.shopify_client_secret)
+                return {"ok": ok, "status": "connected" if ok else "error",
+                        "provider": "shopify", "shop": settings.shopify_domain}
             except Exception as e:
                 return {"ok": False, "status": "error", "error": str(e)}
         elif conn.provider in ("feishu", "dingtalk", "slack"):

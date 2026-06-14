@@ -123,17 +123,19 @@ async def lifespan(app: FastAPI):
     _log.info("[启动] Phase 4: 调度器启动")
     await start_scheduler()
 
-    # ── 5. 飞书消息监听 ──────────────────────────
-    _log.info("[启动] Phase 5: 飞书消息监听")
+    # ── 5. 外部事件监听器（飞书 + Shopify）──────────
+    _log.info("[启动] Phase 5: 外部事件监听器")
     try:
         from app.core.unified_dispatcher import get_dispatcher
         from app.core.event_listeners.feishu_listener import FeishuListener
+        from app.core.event_listeners.shopify_listener import ShopifyEventListener
         dispatcher = get_dispatcher()
         dispatcher.register_listener("feishu", FeishuListener())
+        dispatcher.register_listener("shopify", ShopifyEventListener())
         await dispatcher.start_all()
-        _log.info("  飞书监听器已注册并启动")
+        _log.info("  飞书监听器 + Shopify 定时同步监听器已注册并启动")
     except Exception as e:
-        _log.warning("  飞书监听器启动失败（非致命）: %s", e)
+        _log.warning("  监听器启动失败（非致命）: %s", e)
 
     _log.info("=" * 50)
     _log.info("[启动完成] 避风港 OS级合规智能体 v4.0.0")

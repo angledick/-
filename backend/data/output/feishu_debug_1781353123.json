@@ -1,0 +1,39 @@
+{
+  "query": "shopify内商品",
+  "response_text": "# 🛒 Shopify 商品状态\n\n**当前 Shopify 同步商品数: 0**\n\n## 原因\n\nShopify OAuth 授权**尚未配置**，同步引擎虽然正常运行（每 20 分钟触发），但每次同步返回 0 条数据：\n\n```\n[11:06:22] Starting sync: shopify/products\n[11:06:22] Sync completed: 0 items synced (created: 0, updated: 0)\n[11:06:22] Starting sync: shopify/inventory\n[11:06:22] Sync completed: 0 items synced (created: 0, updated: 0)\n```\n\n## 同步引擎状态\n\n| 同步类型 | 频率 | 状态 | 已同步 |\n|---------|------|------|--------|\n| Shopify products | 每 20 分钟 | ✅ 运行中 | **0** |\n| Shopify orders | 每 20 分钟 | ✅ 运行中 | **0** |\n| Shopify inventory | 每 20 分钟 | ✅ 运行中 | **0** |\n\n## 🔧 如何连接 Shopify\n\n需要先完成 Shopify OAuth 授权：\n1. 通过 `/api/v1/shopify/auth` 发起 OAuth 流程\n2. 在 Shopify 后台授权应用\n3. 授权完成后同步引擎将自动拉取商品数据\n\n需要我帮你配置 Shopify 连接吗？",
+  "response_len": 702,
+  "tools_used": [
+    "Bash",
+    "Bash",
+    "Bash",
+    "Bash"
+  ],
+  "progress_messages": [
+    "🔧 执行: Check Shopify sync jobs",
+    "🔧 执行: Check sync engine overall status",
+    "在的！请问需要什么帮助？",
+    "🔧 执行: Check Shopify products endpoint",
+    "🔧 执行: Check recent sync logs",
+    "# 🛒 Shopify 商品状态\n\n**当前 Shopify 同步商品数: 0**\n\n## 原因\n\nShopify OAuth 授权**尚未配置**，同步引擎虽然正常运行（每 20 分钟触发），但每次同步返回 0 条数据：\n\n```\n[11:06:22] Starting sync: shopify/products\n[11:06:22] Sync completed: 0 items synced (created: 0, updated: 0)\n[11:06:22] Starting sync: shopify/inventory\n[11:06:22] Sync completed: 0 items synced (created: 0, updated: 0)\n```\n\n## 同步引擎状态\n\n| 同步类型 | 频率 | 状态 | 已同步 |\n|---------|------|------|--------|\n| Shopify products | 每 20 分钟 | ✅ 运行中 | **0** |\n| Shopify orders | 每 20 分钟 | ✅ 运行中 | **0** |\n| Shopify inventory | 每 20 分钟 | ✅ 运行中 | **0** |\n\n## 🔧 如何连接 Shopify\n\n需要先完成 Shopify OAuth 授权：\n1. 通过 `/api/v1/shopify/auth` 发起 OAuth 流程\n2. 在 Shopify 后台授权应用\n3. 授权完成后同步引擎将自动拉取商品数据\n\n需要我帮你配置 Shopify 连接吗？"
+  ],
+  "progress_count": 6,
+  "tool_calls": [
+    "🔧 执行: Check Shopify sync jobs",
+    "🔧 执行: Check sync engine overall status",
+    "🔧 执行: Check Shopify products endpoint",
+    "🔧 执行: Check recent sync logs"
+  ],
+  "result_keys": [
+    "response",
+    "structured_result",
+    "tools_used",
+    "session_id",
+    "usage"
+  ],
+  "usage": {
+    "cost_usd": 2.4165075,
+    "input_tokens": null,
+    "output_tokens": null
+  },
+  "session_id": null
+}

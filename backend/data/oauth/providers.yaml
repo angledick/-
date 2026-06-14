@@ -3,13 +3,10 @@
 providers:
   shopify:
     name: "Shopify"
-    auth_type: oauth2
-    auth_url: "https://{shop}/admin/oauth/authorize"
-    token_url: "https://{shop}/admin/oauth/access_token"
-    scopes: "read_products,write_products,read_orders,read_customers,read_inventory"
-    config_fields: ["shop", "api_key", "api_secret", "redirect_uri"]
+    auth_type: token
+    config_fields: ["shop", "api_key", "api_secret"]
     icon: "🛍️"
-    description: "Shopify店铺OAuth连接，支持产品/订单/库存同步"
+    description: "Shopify 店铺直连（Admin REST API），使用 Client Secret 作为 Access Token"
     guide_ref: "§3.1 Shopify Admin API"
   feishu:
     name: "飞书"

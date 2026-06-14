@@ -158,9 +158,11 @@ class Settings(BaseSettings):
     # Shopify
     shopify_client_id: str = ""
     shopify_client_secret: str = ""
-    shopify_redirect_uri: str = "http://localhost:8000/api/v1/shopify/callback"
-    shopify_scopes: str = "read_products,write_products"
-    shopify_api_version: str = "2024-10"
+    shopify_domain: str = ""
+    shopify_api_version: str = "2026-07"
+    shopify_webhook_api_version: str = "2026-04"
+    shopify_app_url: str = "https://example.com"
+    shopify_embedded: bool = True
 
     # Risk Alerts storage
     risk_alert_dir: str = "./data/risk_alerts"

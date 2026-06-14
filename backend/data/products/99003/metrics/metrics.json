@@ -1,0 +1,9 @@
+{
+  "event_count": 1,
+  "last_event_type": "product:created",
+  "last_event_time": "2026-06-13T13:18:53.158565+00:00",
+  "snapshot_time": "2026-06-13T13:19:25.479239+00:00",
+  "event_type_counts": {
+    "product:created": 1
+  }
+}

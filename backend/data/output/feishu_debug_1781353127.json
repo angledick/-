@@ -1,0 +1,45 @@
+{
+  "query": "shopify内商品",
+  "response_text": "# 🛒 Shopify 商品状态\n\n**当前无已连接的 Shopify 店铺**，商品同步为零。\n\n| 指标 | 值 |\n|------|---|\n| 已连接店铺 | **0** |\n| 同步产品数 | 0 |\n| 同步订单数 | 0 |\n| 同步库存数 | 0 |\n| 同步引擎 | ✅ 运行中（等待连接） |\n\n---\n\n## 🔗 如何连接 Shopify\n\n1. 访问 `/api/v1/shopify/auth` 发起 OAuth 授权\n2. 在 Shopify 后台确认授权\n3. 连接成功后系统自动开始同步：\n   - 产品（每 20 分钟）\n   - 订单（每 20 分钟）\n   - 库存（每 20 分钟）\n\n需要我帮你配置 Shopify 连接吗？",
+  "response_len": 333,
+  "tools_used": [
+    "Bash",
+    "Bash",
+    "Bash",
+    "Grep",
+    "Read",
+    "Bash"
+  ],
+  "progress_messages": [
+    "🔧 执行: Check Shopify products via API",
+    "🔧 执行: Check Shopify connection status",
+    "🔧 执行: Check Shopify sync status",
+    "在的！请问需要什么帮助？",
+    "🔧 搜索: @router\\.(get|post).*shopify",
+    "🔧 Read: C:\\Users\\22859\\Desktop\\astra-main\\backend\\app\\api\\shopify.py",
+    "🔧 执行: List connected Shopify shops",
+    "# 🛒 Shopify 商品状态\n\n**当前无已连接的 Shopify 店铺**，商品同步为零。\n\n| 指标 | 值 |\n|------|---|\n| 已连接店铺 | **0** |\n| 同步产品数 | 0 |\n| 同步订单数 | 0 |\n| 同步库存数 | 0 |\n| 同步引擎 | ✅ 运行中（等待连接） |\n\n---\n\n## 🔗 如何连接 Shopify\n\n1. 访问 `/api/v1/shopify/auth` 发起 OAuth 授权\n2. 在 Shopify 后台确认授权\n3. 连接成功后系统自动开始同步：\n   - 产品（每 20 分钟）\n   - 订单（每 20 分钟）\n   - 库存（每 20 分钟）\n\n需要我帮你配置 Shopify 连接吗？"
+  ],
+  "progress_count": 8,
+  "tool_calls": [
+    "🔧 执行: Check Shopify products via API",
+    "🔧 执行: Check Shopify connection status",
+    "🔧 执行: Check Shopify sync status",
+    "🔧 搜索: @router\\.(get|post).*shopify",
+    "🔧 Read: C:\\Users\\22859\\Desktop\\astra-main\\backend\\app\\api\\shopify.py",
+    "🔧 执行: List connected Shopify shops"
+  ],
+  "result_keys": [
+    "response",
+    "structured_result",
+    "tools_used",
+    "session_id",
+    "usage"
+  ],
+  "usage": {
+    "cost_usd": 2.4176967499999997,
+    "input_tokens": null,
+    "output_tokens": null
+  },
+  "session_id": null
+}

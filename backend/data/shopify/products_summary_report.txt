@@ -1,0 +1,31 @@
+Shopify商品数据分析报告
+生成时间: 2026-06-13 23:16:08
+==================================================
+
+商品总数: 347
+
+商品类型分布:
+  electronics: 307
+  LED灯: 10
+  智能插座: 10
+  Electronics/Adapter: 9
+  Electronics: 5
+  Electronics/Charger: 4
+  电子产品: 1
+  Test: 1
+
+生命周期阶段:
+  concept: 339
+  design: 6
+  end: 2
+
+目标市场分布:
+  德国: 313
+  欧盟: 126
+  法国: 68
+  美国: 7
+  EU: 6
+  US: 6
+
+合规状态:
+  pending: 347

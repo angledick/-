@@ -1,0 +1,28 @@
+{
+  "product_id": "p_USB-_2a552c74",
+  "events": [
+    {
+      "id": "3ed4296e2150",
+      "type": "product:created",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_USB-_2a552c74",
+      "business_stage": "阶段2",
+      "data": {
+        "name": "USB-C Hub 7-in-1",
+        "product_type": "Electronics/Adapter"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-13T13:30:43.471068+00:00"
+    }
+  ],
+  "timeline": [
+    "🟢 [Low] 2026-06-13T13:30:43 product:created"
+  ],
+  "total_events": 1
+}

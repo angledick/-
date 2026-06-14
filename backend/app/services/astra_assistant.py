@@ -48,42 +48,7 @@ class AstraAssistantError(Exception):
 
 # ── 合规助手系统提示词 ─────────────────────────────
 
-ASTRA_SYSTEM_PROMPT = """你是"避风港"跨境合规智能助手，基于 Claude Agent SDK 运行。
-
-## 核心职责
-帮助跨境电商卖家分析目标市场的合规要求，涵盖 HS 编码、VAT 税率、产品认证、
-风险评估、清关文件、文化适配等。
-
-## 可用工具
-你拥有完整的 Claude Code 工具链：
-- **Read/Glob/Grep**: 读取和搜索项目文件  
-- **WebSearch/WebFetch**: 联网搜索最新法规信息  
-- **Bash**: 执行终端命令（数据分析、脚本执行）  
-- **Edit/Write**: 编辑和创建文件（生成合规报告文档）  
-
-以及专有的合规检查工具（通过 MCP 注入）：
-- **lookup_hs_code**: 根据产品名称查询 HS 编码  
-- **lookup_vat_rate**: 查询目标国家的标准 VAT 税率  
-- **get_certifications**: 查询产品出口认证要求  
-- **get_risk_flags**: 评估合规风险  
-- **check_compliance**: 完整合规检查（HS+VAT+认证+风险+物流）  
-- **retrieve_regulation_context**: 从法规知识库检索相关条文  
-- **get_logistics_requirements**: 物流与清关要求  
-- **get_cultural_notes**: 目标市场的文化适配注意事项  
-
-## 工作方式
-1. 理解用户需求（产品 + 目标市场）  
-2. 使用合规工具获取结构化数据  
-3. 必要时联网搜索最新法规动态  
-4. 综合分析，给出可执行的合规建议  
-5. 支持输出结构化合规报告（Markdown / JSON）  
-
-## 输出风格
-- 专业、简洁、有层次  
-- 优先使用工具获取准确数据  
-- 对不确定信息明确标注需要进一步核实  
-- 支持使用子代理处理复杂任务  
-"""
+ASTRA_SYSTEM_PROMPT = """你是跨境合规智能助手。根据任务指令执行操作，使用可用工具和技能完成任务。"""
 
 # 合规 MCP 工具在 SDK 中的名称格式
 _COMPLIANCE_MCP_PREFIX = "mcp__compliance__"
@@ -129,11 +94,15 @@ def _ensure_sdk():
 
 
 def _parse_json_setting(raw: str, default: Any = None) -> Any:
-    """解析 JSON 配置项。空字符串返回默认值。"""
+    """解析 JSON 配置项。空字符串返回默认值。支持非 JSON 的特殊值 'all'。"""
     if not raw or not raw.strip():
         return default
+    stripped = raw.strip()
+    # 特殊处理: "all" 不需要 JSON 引号
+    if stripped == "all":
+        return "all"
     try:
-        return json.loads(raw)
+        return json.loads(stripped)
     except (json.JSONDecodeError, TypeError):
         logger.warning("JSON 配置解析失败: %s", raw[:80])
         return default
@@ -526,6 +495,8 @@ class AstraAssistant:
 
         通过钩子系统将 Astra 的 L0-L4 记忆层注入到 Claude 的工作流中。
         """
+        # 渐进加载：暂时禁用 hooks，避免 CLI hook 回调错误
+        return None
         if not check_sdk():
             return None
         from claude_agent_sdk import HookMatcher
@@ -848,7 +819,12 @@ class AstraAssistant:
         if not self._sdk_available():
             return self._mock_response(prompt_name)
 
-        task = render_prompt(prompt_name, **(context or {}))
+        # 过滤保留键，避免与 render_prompt(name=...) 位置参数冲突
+        _safe_ctx = {
+            k: v for k, v in (context or {}).items()
+            if k not in ("name", "self")
+        }
+        task = render_prompt(prompt_name, **_safe_ctx)
         options = self.build_options(model=model)
         if options is None:
             return self._mock_response(prompt_name)
@@ -912,7 +888,10 @@ class AstraAssistant:
             yield {"type": "complete"}
             return
 
-        task = render_prompt(prompt_name, **(context or {}))
+        task = render_prompt(prompt_name, **{
+            k: v for k, v in (context or {}).items()
+            if k not in ("name", "self")
+        })
         options = self.build_options(model=model)
         if options is None:
             yield {"type": "complete"}

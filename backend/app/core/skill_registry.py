@@ -114,15 +114,6 @@ def _load_yaml_config(filename: str) -> Any:
     return {}
 
 
-# ── Skills×阶段映射矩阵（指南 §4.2）— 从 YAML 文件加载 ─────────────────
-
-_skills_data = _load_yaml_config("_stage_matrix.yaml")
-SKILLS_STAGE_MATRIX: Dict[int, List[Dict]] = _skills_data.get("stage_matrix", {})
-CROSS_STAGE_SKILLS: List[Dict] = _skills_data.get("cross_stage_skills", [])
-
-# 事件动作推荐清单（指南 §5 三层动作推荐）— 从 YAML 文件加载
-_actions_data = _load_yaml_config("_event_actions.yaml")
-EVENT_ACTION_MAP: Dict[str, List[Dict]] = _actions_data.get("event_actions", {})
 
 
 # ── 持久化 ────────────────────────────────────────
@@ -438,12 +429,12 @@ def execute(args: dict) -> dict:
         return skill.to_dict()
 
     def get_stage_matrix(self) -> Dict:
-        """获取Skills×阶段映射矩阵"""
-        return {str(k): v for k, v in SKILLS_STAGE_MATRIX.items()}
+        """获取Skills×阶段映射矩阵（已迁移到 data/context/ agent 参考文档）"""
+        return {}
 
     def get_cross_stage_skills(self) -> List[Dict]:
-        """获取跨阶段通用Skills"""
-        return CROSS_STAGE_SKILLS
+        """获取跨阶段通用Skills（已迁移到 data/context/ agent 参考文档）"""
+        return []
 
 
 # ── SkillExecutor ─────────────────────────────────
@@ -695,67 +686,25 @@ class SkillExecutor:
 
 
 class SkillRecommender:
-    """技能推荐器 — 根据事件类型/业务阶段推荐Skills"""
+    """技能推荐器 — 技能信息已迁移到 data/context/ agent 参考文档。
+
+    推荐逻辑由 agent 运行时直接读取 context 文档完成，此处保留接口兼容返回空列表。
+    """
 
     def __init__(self, registry: SkillRegistry):
         self.registry = registry
 
     def recommend_by_event(self, event_category: str) -> List[Dict]:
-        """根据事件类别推荐Skills（三层动作：Skill/CLI/API）"""
-        actions = EVENT_ACTION_MAP.get(event_category, [])
-        return actions
+        return []
 
     def recommend_by_stage(self, stage: int, event_type: str = "") -> List[Dict]:
-        """根据业务阶段推荐Skills"""
-        stage_skills = SKILLS_STAGE_MATRIX.get(stage, [])
-
-        if event_type:
-            # 精确匹配
-            matched = [s for s in stage_skills if event_type in s.get("events", [])]
-            if matched:
-                return matched
-
-        # 阶段默认 + 跨阶段通用
-        result = list(stage_skills)
-        result.extend(CROSS_STAGE_SKILLS[:2])  # 附加 skill-vetter 和 web-search
-        return result
+        return []
 
     def recommend_by_context(self, context: Dict[str, Any]) -> List[Dict]:
-        """根据上下文综合推荐"""
-        recommendations = []
-
-        stage = context.get("business_stage")
-        event_category = context.get("event_category", "")
-        product_type = context.get("product_type", "")
-
-        if stage:
-            stage_recs = self.recommend_by_stage(int(stage))
-            recommendations.extend([{"skill": s.get("skill", ""), "reason": s.get("purpose", ""),
-                                    "source": "stage_match"} for s in stage_recs])
-
-        if event_category:
-            event_recs = self.recommend_by_event(event_category)
-            recommendations.extend([{"skill": r.get("name", ""), "reason": r.get("action", ""),
-                                    "source": "event_match", "type": r.get("type", "")} for r in event_recs])
-
-        # 去重
-        seen = set()
-        unique = []
-        for r in recommendations:
-            key = r.get("skill", "")
-            if key and key not in seen:
-                seen.add(key)
-                unique.append(r)
-
-        return unique[:10]  # 最多返回10个推荐
+        return []
 
     def get_action_recommendations(self, event_category: str) -> Dict:
-        """获取完整的事件动作推荐清单（Skill/CLI/API三层）"""
-        return {
-            "event_category": event_category,
-            "actions": EVENT_ACTION_MAP.get(event_category, []),
-            "guide_ref": f"§5 事件动作推荐清单",
-        }
+        return {"event_category": event_category, "actions": []}
 
 
 # ── 整合单例 ──────────────────────────────────────

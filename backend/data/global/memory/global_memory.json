@@ -1,18 +1,18 @@
 {
   "shared_context": {
     "system_health": {
-      "status": "degraded",
-      "last_check": "2026-06-12T09:03:16.310736+00:00",
+      "status": "healthy",
+      "last_check": "2026-06-13T13:34:13.264056+00:00",
       "components": {
         "event_bus": "healthy",
         "product_storage": "healthy",
         "worker_registry": "healthy",
         "notification_engine": "healthy",
-        "scheduler": "degraded"
+        "scheduler": "healthy"
       }
     }
   },
-  "last_updated": "2026-06-12T09:03:16.443102+00:00",
+  "last_updated": "2026-06-13T13:34:13.872881+00:00",
   "cross_product_insights": {
     "common_risks": [],
     "generated_at": "2026-06-08T06:18:10.438024+00:00"

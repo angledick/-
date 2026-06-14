@@ -1,0 +1,28 @@
+{
+  "timestamp": "2026-06-13T23:00:00Z",
+  "worker": "system_worker",
+  "task": "heartbeat_check",
+  "overall_status": "CRITICAL",
+  "system_health": 0,
+  "checks": {
+    "fastapi": {"status": "CRITICAL", "health_endpoint": "404", "products_api": "ERROR", "port_8000": "NOT_LISTENING"},
+    "chromadb": {"status": "MISSING", "directory": "chroma_db_NOT_FOUND"},
+    "sqlite": {"status": "MISSING", "database": "compliance.db_NOT_FOUND"},
+    "worker_registry": {"status": "MISSING", "file": "worker_registry.json_NOT_FOUND"},
+    "scheduler": {"status": "MALFUNCTIONING", "processes": 1, "port_listening": false}
+  },
+  "summary": {
+    "total_checks": 5,
+    "passed": 0,
+    "critical": 4,
+    "malfunctioning": 1
+  },
+  "alert_level": "CRITICAL",
+  "immediate_actions": [
+    "URGENT: 完全重启 FastAPI 服务系统",
+    "创建并配置 ChromaDB 向量数据库",
+    "初始化 SQLite 合规数据库",
+    "生成 Worker 注册表配置",
+    "修复 Scheduler 端口监听问题"
+  ]
+}

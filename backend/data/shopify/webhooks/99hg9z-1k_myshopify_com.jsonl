@@ -1,0 +1,3 @@
+{"topic": "products/create", "shop": "99hg9z-1k.myshopify.com", "data": {"id": 123456789, "title": "Test Product", "body_html": "<p>Test description</p>"}}
+{"topic": "products/create", "shop": "99hg9z-1k.myshopify.com", "data": {"id": 88123, "title": "Wireless Bluetooth Earbuds", "product_type": "Electronics", "vendor": "TechCo", "tags": "bluetooth, wireless, audio", "handle": "wireless-bluetooth-earbuds", "variants": [{"id": 1, "title": "Default", "price": "29.99", "sku": "EAR-001"}]}}
+{"topic": "orders/create", "shop": "99hg9z-1k.myshopify.com", "data": {"id": 450789, "email": "customer@example.com", "total_price": "59.98", "currency": "USD", "shipping_address": {"country": "Germany"}}}

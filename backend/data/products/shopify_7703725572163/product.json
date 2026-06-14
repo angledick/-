@@ -1,0 +1,53 @@
+{
+  "id": "shopify_7703725572163",
+  "name": "Test Product from Astra",
+  "product_type": "Electronics",
+  "target_markets": [],
+  "hs_code": "",
+  "vendor": "Astra Test",
+  "tags": [],
+  "lifecycle_stage": "concept",
+  "business_stage": "阶段2",
+  "compliance_status": "pending",
+  "risk_level": "low",
+  "created_at": "2026-06-13T23:41:15.632634+00:00",
+  "updated_at": "2026-06-13T23:41:15.632661+00:00",
+  "metadata": {
+    "shopify_id": 7703725572163,
+    "handle": "test-product-from-astra",
+    "status": "active",
+    "variants": [
+      {
+        "id": 43395370975299,
+        "product_id": 7703725572163,
+        "title": "Default Title",
+        "price": "0.00",
+        "position": 1,
+        "inventory_policy": "deny",
+        "compare_at_price": null,
+        "option1": "Default Title",
+        "option2": null,
+        "option3": null,
+        "created_at": "2026-06-14T07:41:02+08:00",
+        "updated_at": "2026-06-14T07:41:02+08:00",
+        "taxable": true,
+        "barcode": null,
+        "fulfillment_service": "manual",
+        "grams": 0,
+        "inventory_management": null,
+        "requires_shipping": true,
+        "sku": null,
+        "weight": 0.0,
+        "weight_unit": "kg",
+        "inventory_item_id": 45509976522819,
+        "inventory_quantity": 0,
+        "old_inventory_quantity": 0,
+        "admin_graphql_api_id": "gid://shopify/ProductVariant/43395370975299",
+        "image_id": null
+      }
+    ],
+    "images": []
+  },
+  "health_score": 30,
+  "certifications": []
+}

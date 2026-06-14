@@ -1,0 +1,38 @@
+{
+  "id": "p_USB-_a9b704c6",
+  "name": "USB-C Hub 7-in-1",
+  "product_type": "Electronics/Adapter",
+  "target_markets": [
+    "EU",
+    "US"
+  ],
+  "hs_code": "8471.80",
+  "vendor": "TechBrand",
+  "tags": [
+    "usb-c",
+    "hub",
+    "adapter"
+  ],
+  "lifecycle_stage": "concept",
+  "business_stage": "阶段2",
+  "compliance_status": "pending",
+  "risk_level": "low",
+  "created_at": "2026-06-13T13:34:17.475037+00:00",
+  "updated_at": "2026-06-13T13:34:17.475063+00:00",
+  "metadata": {},
+  "health_score": 30,
+  "certifications": [
+    {
+      "name": "CE",
+      "status": "checking"
+    },
+    {
+      "name": "RoHS",
+      "status": "checking"
+    },
+    {
+      "name": "FDA",
+      "status": "checking"
+    }
+  ]
+}

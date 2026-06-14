@@ -10,4 +10,4 @@ event_template_map:
   "order:shipped": order_fulfillment_check
   "gdpr:dsar": gdpr_dsar_handling
   "product:listing": product_listing_compliance
-  "product:created": product_listing_compliance
+  "product:created": product_sync_basic

@@ -21942,5 +21942,1995 @@
     "severity": "critical",
     "error": null,
     "created_at": "2026-06-13T10:03:58.749986+00:00"
+  },
+  {
+    "id": "0dc8a2bbb7df",
+    "type": "risk:fraud_detected",
+    "category": "risk_alert",
+    "source": "test",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "chat_id": "oc_c0a0a056f96abaf03cc6605b9fc26e4b",
+      "risk_score": 95
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "critical",
+    "error": null,
+    "created_at": "2026-06-13T10:07:43.120609+00:00"
+  },
+  {
+    "id": "5c2bc40ae465",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T10:07:57.997438+00:00"
+  },
+  {
+    "id": "695d1cc63326",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.061606407165527344
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T10:29:11.561387+00:00"
+  },
+  {
+    "id": "0f320dec283d",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.012916803359985352
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T10:29:11.993003+00:00"
+  },
+  {
+    "id": "6b63a21164eb",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.004507541656494141
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T10:29:12.026903+00:00"
+  },
+  {
+    "id": "56955a1585fb",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "17track",
+      "sync_type": "tracking",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.1614069938659668
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T10:38:39.235282+00:00"
+  },
+  {
+    "id": "7fdba4a99baf",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.14963030815124512
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T11:06:22.729321+00:00"
+  },
+  {
+    "id": "a37e1dbc2d2c",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0025277137756347656
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T11:06:22.914803+00:00"
+  },
+  {
+    "id": "6aca95d1b048",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.01180887222290039
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T11:06:23.543964+00:00"
+  },
+  {
+    "id": "4cdd99581d85",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "17track",
+      "sync_type": "tracking",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.11200857162475586
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T11:08:52.098298+00:00"
+  },
+  {
+    "id": "b9713190aceb",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T12:14:34.596923+00:00"
+  },
+  {
+    "id": "6cbf79bd364a",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T12:15:08.701237+00:00"
+  },
+  {
+    "id": "b076b33fa182",
+    "type": "risk:fraud_detected",
+    "category": "risk_alert",
+    "source": "test",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "chat_id": "oc_c0a0a056f96abaf03cc6605b9fc26e4b",
+      "risk_score": 95
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "critical",
+    "error": null,
+    "created_at": "2026-06-13T12:15:35.736694+00:00"
+  },
+  {
+    "id": "4b5edbf39185",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "12345",
+    "business_stage": null,
+    "data": {
+      "id": 12345,
+      "title": "LED Light",
+      "product_type": "Electronics",
+      "vendor": "TestVendor",
+      "tags": "light, led"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T12:19:03.728222+00:00"
+  },
+  {
+    "id": "186900c12ba8",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "88123",
+    "business_stage": null,
+    "data": {
+      "id": 88123,
+      "title": "Wireless Bluetooth Earbuds",
+      "product_type": "Electronics",
+      "vendor": "TechCo",
+      "tags": "bluetooth, wireless, audio",
+      "handle": "wireless-bluetooth-earbuds",
+      "variants": [
+        {
+          "id": 1,
+          "title": "Default",
+          "price": "29.99",
+          "sku": "EAR-001"
+        }
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T12:25:26.546982+00:00"
+  },
+  {
+    "id": "2be732b2e849",
+    "type": "order:created",
+    "category": "order",
+    "source": "shopify",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "id": 450789,
+      "email": "customer@example.com",
+      "total_price": "59.98",
+      "currency": "USD",
+      "shipping_address": {
+        "country": "Germany"
+      }
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T12:25:44.467478+00:00"
+  },
+  {
+    "id": "4404240d2032",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "99001",
+    "business_stage": null,
+    "data": {
+      "id": 99001,
+      "title": "LED Test Lamp",
+      "product_type": "Electronics/Lighting",
+      "vendor": "TestVendor",
+      "tags": "led,lighting,ce",
+      "handle": "led-test-lamp",
+      "body_html": "Test product for e2e pipeline",
+      "variants": [
+        {
+          "id": 101,
+          "price": "29.99",
+          "sku": "LED-TEST-001"
+        }
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:15:41.632199+00:00"
+  },
+  {
+    "id": "f0469f698988",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "99002",
+    "business_stage": null,
+    "data": {
+      "id": 99002,
+      "title": "CE Test Product",
+      "product_type": "Toys/Electronic",
+      "vendor": "TestVendor",
+      "tags": "ce,toys,electronic",
+      "handle": "ce-test-product",
+      "body_html": "CE certified test product",
+      "variants": [
+        {
+          "id": 102,
+          "price": "49.99",
+          "sku": "CE-TEST-002"
+        }
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:16:49.758025+00:00"
+  },
+  {
+    "id": "114ce0f7fc00",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "99003",
+    "business_stage": null,
+    "data": {
+      "id": 99003,
+      "title": "Bluetooth Speaker Pro",
+      "product_type": "Electronics/Audio",
+      "vendor": "TechBrand",
+      "tags": "bluetooth,speaker,ce,rohs",
+      "handle": "bluetooth-speaker-pro",
+      "variants": [
+        {
+          "id": 103,
+          "price": "79.99",
+          "sku": "BT-SPK-003"
+        }
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:18:53.158565+00:00"
+  },
+  {
+    "id": "38ece4f4858e",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "99010",
+    "business_stage": null,
+    "data": {
+      "id": 99010,
+      "title": "Wireless Charger Pad",
+      "product_type": "Electronics/Charger",
+      "vendor": "TechBrand",
+      "tags": "wireless,charger,qi,ce,fcc,rohs",
+      "handle": "wireless-charger-pad",
+      "variants": [
+        {
+          "id": 110,
+          "price": "24.99",
+          "sku": "WC-PAD-010"
+        }
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:23:19.361995+00:00"
+  },
+  {
+    "id": "a92539eb34d9",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_Wire_535c9ab9",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "Wireless Charger Pad",
+      "product_type": "Electronics/Charger"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:23:49.843948+00:00"
+  },
+  {
+    "id": "6d8853b3bd6d",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_Wire_19a1897c",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "Wireless Charger Pad",
+      "product_type": "Electronics/Charger"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:24:26.370217+00:00"
+  },
+  {
+    "id": "dadb534e234c",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "99010",
+    "business_stage": null,
+    "data": {
+      "id": 99010,
+      "title": "Wireless Charger Pad",
+      "product_type": "Electronics/Charger",
+      "vendor": "TechBrand",
+      "tags": "wireless,charger,qi,ce,fcc,rohs",
+      "handle": "wireless-charger-pad",
+      "variants": [
+        {
+          "id": 110,
+          "price": "24.99",
+          "sku": "WC-PAD-010"
+        }
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:27:24.830528+00:00"
+  },
+  {
+    "id": "b86576ea2805",
+    "type": "compliance:check_started",
+    "category": "compliance",
+    "source": "shopify",
+    "product_id": "99010",
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:27:45.571511+00:00"
+  },
+  {
+    "id": "120994eaa891",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_Wire_47ed84c6",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "Wireless Charger Pad",
+      "product_type": "Electronics/Charger"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:27:51.980446+00:00"
+  },
+  {
+    "id": "6100123a2ecd",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_Wire_0d424da3",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "Wireless Charger Pad",
+      "product_type": "Electronics/Charger"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:28:20.345911+00:00"
+  },
+  {
+    "id": "2b26cda9255c",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "99020",
+    "business_stage": null,
+    "data": {
+      "id": 99020,
+      "title": "USB-C Hub 7-in-1",
+      "product_type": "Electronics/Adapter",
+      "vendor": "TechBrand",
+      "tags": "usb-c,hub,adapter,ce,fcc",
+      "handle": "usbc-hub-7in1",
+      "variants": [
+        {
+          "id": 120,
+          "price": "39.99",
+          "sku": "USB-HUB-020"
+        }
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:29:15.410696+00:00"
+  },
+  {
+    "id": "c92cec54ced5",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_USB-_11934b9e",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "USB-C Hub 7-in-1",
+      "product_type": "Electronics/Adapter"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:30:06.222605+00:00"
+  },
+  {
+    "id": "3ed4296e2150",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_USB-_2a552c74",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "USB-C Hub 7-in-1",
+      "product_type": "Electronics/Adapter"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:30:43.471068+00:00"
+  },
+  {
+    "id": "02ac288abbb1",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_USB-_922f0c04",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "USB-C Hub 7-in-1",
+      "product_type": "Electronics/Adapter"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:30:51.886623+00:00"
+  },
+  {
+    "id": "ebd50f4f729c",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "test",
+    "product_id": "TEST-001",
+    "business_stage": "stage2",
+    "data": {
+      "title": "Test Product",
+      "product_type": "Electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:31:01.572727+00:00"
+  },
+  {
+    "id": "ecdcf552b4e9",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_USB-_23ddba5c",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "USB-C Hub 7-in-1",
+      "product_type": "Electronics/Adapter"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:31:29.443662+00:00"
+  },
+  {
+    "id": "c78ed7ff6131",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "test",
+    "product_id": "TEST-API-001",
+    "business_stage": "stage2",
+    "data": {
+      "title": "Test Product API",
+      "product_type": "Electronics",
+      "tags": "ce,rohs"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:31:39.969283+00:00"
+  },
+  {
+    "id": "12d3fba0407b",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_USB-_6ac864e0",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "USB-C Hub 7-in-1",
+      "product_type": "Electronics/Adapter"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:31:53.905421+00:00"
+  },
+  {
+    "id": "f1dfa3f92b50",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_USB-_df6cab3b",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "USB-C Hub 7-in-1",
+      "product_type": "Electronics/Adapter"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:32:04.002732+00:00"
+  },
+  {
+    "id": "d99b1f42bd49",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "test",
+    "product_id": "TEST-API-001",
+    "business_stage": "stage2",
+    "data": {
+      "title": "Test Product API",
+      "product_type": "Electronics",
+      "tags": "ce,rohs"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:32:10.405694+00:00"
+  },
+  {
+    "id": "7647120627e1",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_Test_6252f886",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "Test Product",
+      "product_type": "Electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:32:54.584954+00:00"
+  },
+  {
+    "id": "b158ae70980a",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_Test_4de68a29",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "Test Product",
+      "product_type": "Electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:33:15.108640+00:00"
+  },
+  {
+    "id": "fe0c9d65f56e",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_Test_1184f6b3",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "Test Product",
+      "product_type": "Electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:33:18.909457+00:00"
+  },
+  {
+    "id": "ac731b476e40",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_USB-_bbbf48bd",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "USB-C Hub 7-in-1",
+      "product_type": "Electronics/Adapter"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:33:32.961891+00:00"
+  },
+  {
+    "id": "9799603e9779",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_USB-_d44f3d17",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "USB-C Hub 7-in-1",
+      "product_type": "Electronics/Adapter"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:33:36.708567+00:00"
+  },
+  {
+    "id": "e546257f87d7",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_USB-_a9b704c6",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "USB-C Hub 7-in-1",
+      "product_type": "Electronics/Adapter"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:34:17.489681+00:00"
+  },
+  {
+    "id": "16ebf1b82315",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_Test_7f4c332f",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "Test Product",
+      "product_type": "Electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:34:17.946705+00:00"
+  },
+  {
+    "id": "ec585ca4f47b",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "api",
+    "product_id": "p_Test_e0ef12c3",
+    "business_stage": "阶段2",
+    "data": {
+      "name": "Test Product",
+      "product_type": "Electronics"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:35:22.894501+00:00"
+  },
+  {
+    "id": "d851bb9b9452",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:49:25.524286+00:00"
+  },
+  {
+    "id": "b12ed4521ca7",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:49:45.347526+00:00"
+  },
+  {
+    "id": "6adb307eef4c",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "99030",
+    "business_stage": null,
+    "data": {
+      "id": 99030,
+      "title": "Smart Watch Ultra 2",
+      "product_type": "Electronics/Wearable",
+      "vendor": "TechBrand",
+      "tags": "smartwatch,wearable,ce,fcc,rohs,reach",
+      "handle": "smart-watch-ultra-2",
+      "body_html": "<p>Premium smartwatch with health monitoring</p>",
+      "variants": [
+        {
+          "id": 130,
+          "price": "299.99",
+          "sku": "SW-ULTRA-030"
+        }
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:50:06.825007+00:00"
+  },
+  {
+    "id": "2ea403500469",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:54:03.092721+00:00"
+  },
+  {
+    "id": "4741dcb90f36",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "99040",
+    "business_stage": null,
+    "data": {
+      "id": 99040,
+      "title": "USB-C Power Bank 20000mAh",
+      "product_type": "Electronics/Power",
+      "vendor": "TechBrand",
+      "tags": "power-bank,usb-c,ce,fcc,rohs,un38.3",
+      "handle": "usbc-power-bank-20000mah",
+      "body_html": "<p>20000mAh USB-C PD power bank</p>",
+      "variants": [
+        {
+          "id": 140,
+          "price": "49.99",
+          "sku": "PB-20000-040"
+        }
+      ]
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T13:54:22.530076+00:00"
+  },
+  {
+    "id": "304faa64acbe",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T14:03:08.040323+00:00"
+  },
+  {
+    "id": "4e04ea4e1353",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T14:04:36.789614+00:00"
+  },
+  {
+    "id": "c5db0b73b733",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T14:05:36.693031+00:00"
+  },
+  {
+    "id": "3f3d5a2daa0c",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T14:11:11.419629+00:00"
+  },
+  {
+    "id": "9e6b41dbf279",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "99050",
+    "business_stage": null,
+    "data": {
+      "id": 99050,
+      "title": "Wireless Earbuds Pro 3",
+      "product_type": "Electronics/Audio",
+      "vendor": "TechBrand",
+      "tags": "earbuds,bluetooth,ce,fcc,rohs",
+      "handle": "wireless-earbuds-pro-3",
+      "body_html": "<p>Active noise cancelling wireless earbuds with USB-C charging</p>",
+      "variants": [
+        {
+          "id": 150,
+          "price": "79.99",
+          "sku": "WB-PRO3-050"
+        }
+      ],
+      "created_at": "2026-06-13T14:30:00Z",
+      "updated_at": "2026-06-13T14:30:00Z"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T14:13:11.623420+00:00"
+  },
+  {
+    "id": "8df596c81b9d",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.013014078140258789
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T14:13:20.933689+00:00"
+  },
+  {
+    "id": "7429542908bd",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0032215118408203125
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T14:13:20.969710+00:00"
+  },
+  {
+    "id": "e381c577c9c5",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.003443479537963867
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T14:13:20.999841+00:00"
+  },
+  {
+    "id": "6b367ed0738b",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "99050",
+    "business_stage": null,
+    "data": {
+      "id": 99050,
+      "title": "Wireless Earbuds Pro 3",
+      "product_type": "Electronics/Audio",
+      "vendor": "TechBrand",
+      "tags": "earbuds,bluetooth,ce,fcc,rohs",
+      "handle": "wireless-earbuds-pro-3",
+      "body_html": "<p>Active noise cancelling wireless earbuds with USB-C charging</p>",
+      "variants": [
+        {
+          "id": 150,
+          "price": "79.99",
+          "sku": "WB-PRO3-050"
+        }
+      ],
+      "created_at": "2026-06-13T14:30:00Z",
+      "updated_at": "2026-06-13T14:30:00Z"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T14:16:18.984487+00:00"
+  },
+  {
+    "id": "5a285e29d68a",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "99050",
+    "business_stage": null,
+    "data": {
+      "id": 99050,
+      "title": "Wireless Earbuds Pro 3",
+      "product_type": "Electronics/Audio",
+      "vendor": "TechBrand",
+      "tags": "earbuds,bluetooth,ce,fcc,rohs",
+      "handle": "wireless-earbuds-pro-3",
+      "body_html": "<p>Active noise cancelling wireless earbuds with USB-C charging</p>",
+      "variants": [
+        {
+          "id": 150,
+          "price": "79.99",
+          "sku": "WB-PRO3-050"
+        }
+      ],
+      "created_at": "2026-06-13T14:30:00Z",
+      "updated_at": "2026-06-13T14:30:00Z"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T14:40:06.151976+00:00"
+  },
+  {
+    "id": "8cf7c9674bbb",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T14:40:33.851504+00:00"
+  },
+  {
+    "id": "54a9af02a2a1",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "99050",
+    "business_stage": null,
+    "data": {
+      "id": 99050,
+      "title": "Wireless Earbuds Pro 3",
+      "product_type": "Electronics/Audio",
+      "vendor": "TechBrand",
+      "tags": "earbuds,bluetooth,ce,fcc,rohs",
+      "handle": "wireless-earbuds-pro-3",
+      "body_html": "<p>Active noise cancelling wireless earbuds with USB-C charging</p>",
+      "variants": [
+        {
+          "id": 150,
+          "price": "79.99",
+          "sku": "WB-PRO3-050"
+        }
+      ],
+      "created_at": "2026-06-13T14:30:00Z",
+      "updated_at": "2026-06-13T14:30:00Z"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T14:49:55.544428+00:00"
+  },
+  {
+    "id": "ca5bbb4d6c08",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "99050",
+    "business_stage": null,
+    "data": {
+      "id": 99050,
+      "title": "Wireless Earbuds Pro 3",
+      "product_type": "Electronics/Audio",
+      "vendor": "TechBrand",
+      "tags": "earbuds,bluetooth,ce,fcc,rohs",
+      "handle": "wireless-earbuds-pro-3",
+      "body_html": "<p>Active noise cancelling wireless earbuds with USB-C charging</p>",
+      "variants": [
+        {
+          "id": 150,
+          "price": "79.99",
+          "sku": "WB-PRO3-050"
+        }
+      ],
+      "created_at": "2026-06-13T14:30:00Z",
+      "updated_at": "2026-06-13T14:30:00Z"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T14:51:47.231261+00:00"
+  },
+  {
+    "id": "8fe4760798a7",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "99050",
+    "business_stage": null,
+    "data": {
+      "id": 99050,
+      "title": "Wireless Earbuds Pro 3",
+      "product_type": "Electronics/Audio",
+      "vendor": "TechBrand",
+      "tags": "earbuds,bluetooth,ce,fcc,rohs",
+      "handle": "wireless-earbuds-pro-3",
+      "body_html": "<p>Active noise cancelling wireless earbuds with USB-C charging</p>",
+      "variants": [
+        {
+          "id": 150,
+          "price": "79.99",
+          "sku": "WB-PRO3-050"
+        }
+      ],
+      "created_at": "2026-06-13T14:30:00Z",
+      "updated_at": "2026-06-13T14:30:00Z"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T14:57:11.959287+00:00"
+  },
+  {
+    "id": "cee2b1f6f017",
+    "type": "product:created",
+    "category": "lifecycle",
+    "source": "shopify",
+    "product_id": "99050",
+    "business_stage": null,
+    "data": {
+      "id": 99050,
+      "title": "Wireless Earbuds Pro 3",
+      "product_type": "Electronics/Audio",
+      "vendor": "TechBrand",
+      "tags": "earbuds,bluetooth,ce,fcc,rohs",
+      "handle": "wireless-earbuds-pro-3",
+      "body_html": "<p>Active noise cancelling wireless earbuds with USB-C charging</p>",
+      "variants": [
+        {
+          "id": 150,
+          "price": "79.99",
+          "sku": "WB-PRO3-050"
+        }
+      ],
+      "created_at": "2026-06-13T14:30:00Z",
+      "updated_at": "2026-06-13T14:30:00Z"
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T14:59:45.710286+00:00"
+  },
+  {
+    "id": "46a897b94bad",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0018095970153808594
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T15:19:24.333195+00:00"
+  },
+  {
+    "id": "4248e4ee8eb6",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0012402534484863281
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T15:19:24.348763+00:00"
+  },
+  {
+    "id": "7a8369d8c59c",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0013287067413330078
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T15:19:24.361047+00:00"
+  },
+  {
+    "id": "ea0edd2b4b49",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "17track",
+      "sync_type": "tracking",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.1200265884399414
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T15:29:24.454246+00:00"
+  },
+  {
+    "id": "06ee8df1b42c",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.002729654312133789
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T15:39:47.606941+00:00"
+  },
+  {
+    "id": "4837768b9b33",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0033254623413085938
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T15:39:50.664337+00:00"
+  },
+  {
+    "id": "9e88d02464fc",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0027506351470947266
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T15:39:55.008981+00:00"
+  },
+  {
+    "id": "56122171a044",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T15:45:30.331939+00:00"
+  },
+  {
+    "id": "2f51118201ce",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T15:47:05.361097+00:00"
+  },
+  {
+    "id": "d9d6d118dbeb",
+    "type": "feishu:message_received",
+    "category": "system",
+    "source": "feishu",
+    "product_id": null,
+    "business_stage": null,
+    "data": {},
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-13T15:47:24.340596+00:00"
+  },
+  {
+    "id": "a2b8801fcc7d",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0028076171875
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T00:21:41.448523+00:00"
+  },
+  {
+    "id": "fd8b98353bb5",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.002376079559326172
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T00:21:41.508906+00:00"
+  },
+  {
+    "id": "b6b22ec572a8",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0036935806274414062
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T00:21:41.531512+00:00"
+  },
+  {
+    "id": "b671c9a0c84a",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "17track",
+      "sync_type": "tracking",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.17949295043945312
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T02:30:38.097153+00:00"
+  },
+  {
+    "id": "2d3828b50edf",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.009584903717041016
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T02:30:38.151086+00:00"
+  },
+  {
+    "id": "d6f36b8ecb48",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.0063364505767822266
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T02:30:38.203320+00:00"
+  },
+  {
+    "id": "6dd834c0e935",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.007884502410888672
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T02:30:38.252959+00:00"
+  },
+  {
+    "id": "c66a2d4eb811",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "erpnext",
+      "sync_type": "purchase_orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 171.88910841941833
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T02:33:30.190427+00:00"
+  },
+  {
+    "id": "22586b0dfee4",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "erpnext",
+      "sync_type": "stock",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 171.05532908439636
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T02:33:30.208161+00:00"
+  },
+  {
+    "id": "0618c55da2a4",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.006605386734008789
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T05:40:24.776335+00:00"
+  },
+  {
+    "id": "1f4d80965cd7",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "products",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.002213716506958008
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T05:40:24.901550+00:00"
+  },
+  {
+    "id": "e0cb3226b1ed",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "shopify",
+      "sync_type": "inventory",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.004157543182373047
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T05:40:24.941867+00:00"
+  },
+  {
+    "id": "3ada2df3db3a",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "17track",
+      "sync_type": "tracking",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 0.24373435974121094
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T05:40:25.221193+00:00"
+  },
+  {
+    "id": "93164bb5e4b6",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "erpnext",
+      "sync_type": "stock",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 54.10140252113342
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T05:41:19.341314+00:00"
+  },
+  {
+    "id": "5289f94d16e0",
+    "type": "system:sync_completed",
+    "category": "system",
+    "source": "auto_pull_engine",
+    "product_id": null,
+    "business_stage": null,
+    "data": {
+      "provider": "erpnext",
+      "sync_type": "purchase_orders",
+      "items_synced": 0,
+      "items_created": 0,
+      "items_updated": 0,
+      "duration": 53.59467911720276
+    },
+    "data_sources": {
+      "read": [],
+      "write": []
+    },
+    "severity": "low",
+    "error": null,
+    "created_at": "2026-06-14T05:41:19.365609+00:00"
   }
 ]

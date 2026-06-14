@@ -1,0 +1,24 @@
+{
+  "query": "？？？",
+  "response_text": "API Error: 400 [1211][模型不存在，请检查模型代码。][20260613220552af5d047cd03a4205]",
+  "response_len": 69,
+  "tools_used": [],
+  "progress_messages": [
+    "API Error: 400 [1211][模型不存在，请检查模型代码。][20260613220552af5d047cd03a4205]"
+  ],
+  "progress_count": 1,
+  "tool_calls": [],
+  "result_keys": [
+    "response",
+    "structured_result",
+    "tools_used",
+    "session_id",
+    "usage"
+  ],
+  "usage": {
+    "cost_usd": 0,
+    "input_tokens": null,
+    "output_tokens": null
+  },
+  "session_id": null
+}

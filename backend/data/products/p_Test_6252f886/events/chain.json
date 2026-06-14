@@ -1,0 +1,28 @@
+{
+  "product_id": "p_Test_6252f886",
+  "events": [
+    {
+      "id": "7647120627e1",
+      "type": "product:created",
+      "category": "lifecycle",
+      "source": "api",
+      "product_id": "p_Test_6252f886",
+      "business_stage": "阶段2",
+      "data": {
+        "name": "Test Product",
+        "product_type": "Electronics"
+      },
+      "data_sources": {
+        "read": [],
+        "write": []
+      },
+      "severity": "low",
+      "error": null,
+      "created_at": "2026-06-13T13:32:54.584954+00:00"
+    }
+  ],
+  "timeline": [
+    "🟢 [Low] 2026-06-13T13:32:54 product:created"
+  ],
+  "total_events": 1
+}

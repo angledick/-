@@ -29,6 +29,21 @@ from app.core.task_decomposer import TaskDecomposer, SubTask, get_task_decompose
 from app.core.worker_registry import WorkerRegistry, get_worker_registry
 from app.models.schemas import WorkerDefinition, WorkerStatus
 
+
+def _load_source_reference(source: str) -> str:
+    """加载事件来源的能力参考文档，注入到 Worker 执行上下文中。
+
+    根据 subtask.context["source"] 加载 data/context/{source}_reference.md。
+    Agent/Worker 执行时直接读取此参考，无需先读源码。
+    """
+    if not source:
+        return ""
+    context_dir = Path(settings.data_dir).resolve() / "context"
+    ref_path = context_dir / f"{source}_reference.md"
+    if ref_path.exists():
+        return ref_path.read_text(encoding="utf-8")
+    return ""
+
 logger = logging.getLogger(__name__)
 
 DATA_DIR = Path(settings.data_dir)
@@ -507,6 +522,10 @@ class ManagerAgent:
                             **(subtask.context or {}),
                         }
 
+                        # 加载事件来源的能力参考文档（飞书/Shopify 等）
+                        event_source = (subtask.context or {}).get("source", "")
+                        source_reference = _load_source_reference(event_source)
+
                         if sdk_agent_id:
                             # 方式 A: 以 Agent 身份执行
                             message_parts = [
@@ -521,6 +540,8 @@ class ManagerAgent:
                                 skills = event_skills or subtask.required_skills
                                 message_parts.append(f"所需技能: {', '.join(skills)}")
                             message_parts.append(f"上下文: {json.dumps(task_context, ensure_ascii=False)}")
+                            if source_reference:
+                                message_parts.append(f"\n--- 事件来源能力参考 ---\n{source_reference}")
                             sdk_result = await assistant.run_as_agent(
                                 agent_id=sdk_agent_id,
                                 message="\n".join(message_parts),
@@ -528,8 +549,32 @@ class ManagerAgent:
                             raw_response = sdk_result.get("response", "") or json.dumps(sdk_result, ensure_ascii=False)
                         else:
                             # 方式 B: 使用 run_task()
+                            prompt_name = f"manager_{subtask.task_type}"
+                            # 专用 prompt 不存在时自动回退到通用模板
+                            try:
+                                from app.services.prompt_loader import load_prompt
+                                load_prompt(prompt_name)
+                            except FileNotFoundError:
+                                logger.info(
+                                    "ManagerAgent: Worker '%s' prompt '%s' 不存在，回退到 manager_generic",
+                                    worker_code, prompt_name,
+                                )
+                                prompt_name = "manager_generic"
+                            # 渐进加载：不注入完整 source_reference，只注入技能描述摘要
+                            # Manager 只看技能描述/函数推荐，Worker 执行时按需加载
+                            # source_reference 不再注入到 prompt（太大会导致上下文溢出）
+                            # 渲染辅助变量：列表转字符串 + context JSON 序列化（精简版）
+                            _skills_list = event_skills or subtask.required_skills or []
+                            task_context["skills"] = ", ".join(_skills_list) if _skills_list else "(无)"
+                            task_context["tools"] = ", ".join(event_tools) if event_tools else "(无)"
+                            # 精简 context_json：只保留关键字段
+                            _slim_ctx = {
+                                k: v for k, v in task_context.items()
+                                if k in ("task_id", "task_type", "description", "agent_action", "skills", "tools", "id", "title", "product_type", "vendor", "tags", "handle", "variants", "source", "event_type")
+                            }
+                            task_context["context_json"] = json.dumps(_slim_ctx, ensure_ascii=False, default=str)
                             sdk_result = await assistant.run_task(
-                                prompt_name=f"manager_{subtask.task_type}",
+                                prompt_name=prompt_name,
                                 context=task_context,
                             )
                             if isinstance(sdk_result, dict):

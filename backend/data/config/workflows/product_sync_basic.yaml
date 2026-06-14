@@ -1,0 +1,21 @@
+# 商品同步与合规补足流程（事件驱动）
+# 事件 product:created 触发此模板
+templates:
+  product_sync_basic:
+    - task_type: product_sync
+      description: |
+        接收 Shopify 商品创建事件，将商品信息同步到系统内部。
+        验证商品已在 Shopify 正确上架。
+      business_stage: 阶段4
+      required_skills: []
+      priority: 1
+
+    - task_type: compliance_enrichment
+      description: |
+        为新创建的 Shopify 商品自动补足跨境合规字段。
+        三层策略：本地 HS 编码库 → RAG 法规搜索 → 在线搜索。
+        回写 country_code_of_origin, harmonized_system_code 到 Shopify。
+      business_stage: 阶段3
+      required_skills: []
+      priority: 2
+      depends_on_index: [0]
