@@ -154,3 +154,19 @@ tasks:
       hour: 9
       minute: 0
     default_worker: system_worker
+  - task_name: lifecycle_llm_scan
+    display_name: "生命周期 LLM 批量扫描"
+    description: "每小时自动扫描未审核的供应商/合同/报关单，触发 LLM 分析和处置建议"
+    agent_instructions: "调用 LLMDispatcher.scan_lifecycle_assets()，对 status=active 且无 ai_review 的供应商、status=draft 且 compliance_score=0 的合同、status=submitted 且无合规检查的报关单，批量触发 LLM 审核并推送结果。"
+    default_trigger: interval
+    trigger_args:
+      hours: 1
+    default_worker: compliance_worker
+  - task_name: risk_intel_dispatch
+    display_name: "风险情报 LLM 决策调度"
+    description: "每30分钟对 LLM 已分析的高分情报执行决策调度，自动生成处置建议和预警"
+    agent_instructions: "调用 LLMDispatcher.batch_dispatch_risk_intel(limit=20)，对 risk_score>=0.6 且已 LLM 分析但无预警的情报，由 LLM 判断 action(alert/watch/ignore/escalate) 和 auto_actions，自动执行决策。"
+    default_trigger: interval
+    trigger_args:
+      minutes: 30
+    default_worker: risk_worker

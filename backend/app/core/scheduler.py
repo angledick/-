@@ -206,6 +206,16 @@ def _import_task_func(task_name: str) -> Callable:
         engine = get_risk_intel_engine()
         return getattr(engine, RISK_INTEL_METHODS[task_name])
 
+    # LLM 决策调度任务（直接调用 dispatcher）
+    LLM_DISPATCH_METHODS = {
+        "lifecycle_llm_scan":  "scan_lifecycle_assets",
+        "risk_intel_dispatch": "batch_dispatch_risk_intel",
+    }
+    if task_name in LLM_DISPATCH_METHODS:
+        from app.core.llm_dispatcher import get_llm_dispatcher
+        dispatcher = get_llm_dispatcher()
+        return getattr(dispatcher, LLM_DISPATCH_METHODS[task_name])
+
     # 如果绑定禁用，但仍有 Worker 配置，也尝试 Worker 分发
     if binding:
         async def _worker_fallback():
@@ -334,6 +344,20 @@ async def start_scheduler():
         _execute_via_worker_wrapper("payment_chargeback_monitor"),
         'cron', hour=9, minute=0,
         id='lifecycle_chargeback_monitor',
+        replace_existing=True,
+    )
+
+    # ── LLM 决策调度任务（glm-5.1 驱动）─────────────────────────
+    _scheduler.add_job(
+        _execute_via_worker_wrapper("lifecycle_llm_scan"),
+        'interval', hours=1,
+        id='llm_lifecycle_scan',
+        replace_existing=True,
+    )
+    _scheduler.add_job(
+        _execute_via_worker_wrapper("risk_intel_dispatch"),
+        'interval', minutes=30,
+        id='llm_risk_dispatch',
         replace_existing=True,
     )
 

@@ -80,3 +80,9 @@ bindings:
   payment_chargeback_monitor:
     worker_code: system_worker
     enabled: true
+  lifecycle_llm_scan:
+    worker_code: compliance_worker
+    enabled: true
+  risk_intel_dispatch:
+    worker_code: risk_worker
+    enabled: true
