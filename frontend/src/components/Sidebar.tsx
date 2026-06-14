@@ -6,6 +6,7 @@ const mainItems = [
   { to: '/', label: '概览', icon: '◫', end: true },
   { to: '/products', label: '产品合规', icon: '□' },
   { to: '/products/lifecycle', label: '出海生命周期', icon: '⟳' },
+  { to: '/logistics/track',   label: '物流追踪',    icon: '🚢' },
   { to: '/chat', label: '对话工作台', icon: '◇' },
   { to: '/knowledge', label: '知识库', icon: '▣' },
   { to: '/memory', label: '记忆树', icon: '△' },

@@ -15,6 +15,7 @@ import KnowledgePage from './pages/KnowledgePage'
 import UserManagePage from './pages/UserManagePage'
 import RiskCenter from './pages/RiskCenter'
 import ProductLifecyclePage from './pages/ProductLifecyclePage'
+import LogisticsTrackingPage from './pages/LogisticsTrackingPage'
 import MemoryTreePage from './pages/MemoryTreePage'
 import MetricsPage from './pages/MetricsPage'
 import AgentMonitorPage from './pages/AgentMonitorPage'
@@ -74,6 +75,7 @@ function AppRoutes() {
               <Route path="system/users" element={<UserManagePage />} />
               <Route path="system/risk" element={<RiskCenter />} />
               <Route path="products/lifecycle" element={<ProductLifecyclePage />} />
+              <Route path="logistics/track" element={<LogisticsTrackingPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Route>
           </Routes>
