@@ -10,19 +10,35 @@ router = APIRouter(prefix="/api/v1/customs", tags=["customs"])
 
 
 class DeclarationCreate(BaseModel):
-    product_id: str
-    logistics_id: Optional[str] = None
-    mode: str = Field("9610", description="9610（跨境B2C直邮）|一般贸易|保税备货")
-    hs_code: str
-    declared_name: str
-    declared_value: float
+    product_id:        str
+    logistics_id:      Optional[str] = None
+    mode:              str = Field("9610", description="9610（跨境B2C直邮）|一般贸易|保税备货")
+    hs_code:           str
+    declared_name:     str
+    declared_value:    float
     declared_currency: str = "USD"
-    quantity: int = 1
-    unit: str = "件"
-    origin_country: str = "CN"
-    dest_country: str
-    ioss_number: Optional[str] = None
-    documents: list[str] = []
+    quantity:          int = 1
+    unit:              str = "件"
+    origin_country:    str = "CN"
+    dest_country:      str
+    ioss_number:       Optional[str] = None
+    documents:         list[str] = []
+    # 扩展字段（三单一致性 + 报关要素）
+    brand:               str = ""
+    model_spec:          str = ""
+    unit_price:          float = 0.0
+    fx_rate_date:        Optional[str] = None
+    shipper_name:        str = ""
+    shipper_address:     str = ""
+    shipper_eori:        str = ""
+    consignee_name:      str = ""
+    consignee_address:   str = ""
+    order_id:            Optional[str] = None
+    contract_no:         str = ""
+    invoice_no:          str = ""
+    export_license_no:   str = ""
+    co_cert_no:          str = ""
+    ecommerce_record_no: str = ""
 
 
 class DutyCalcRequest(BaseModel):
@@ -203,6 +219,62 @@ async def _do_compliance_check(declaration_id: str):
     else:
         checks.append({"rule": "HS_FORMAT_OK", "level": "pass", "message": f"HS 编码格式正常（{hs}）✓"})
 
+    # 规则 5: 管制品检测
+    try:
+        from app.core.controlled_goods_checker import get_controlled_goods_checker
+        cg_checker = get_controlled_goods_checker()
+        cg_result = cg_checker.full_check(
+            hs_code=hs,
+            declared_name=d.get("declared_name", ""),
+            dest_country=d.get("dest_country", ""),
+            supplier_name=d.get("shipper_name", ""),
+            supplier_address=d.get("shipper_address", ""),
+        )
+        for issue in cg_result.get("errors", []) + cg_result.get("warnings", []):
+            checks.append({
+                "rule": issue.get("rule", "CONTROLLED_GOODS"),
+                "level": issue.get("level", "warning"),
+                "message": issue.get("message", ""),
+                "recommendation": issue.get("recommendation", ""),
+                "code": issue.get("code", ""),
+            })
+        if not cg_result.get("errors") and not cg_result.get("warnings"):
+            checks.append({"rule": "CONTROLLED_GOODS_OK", "level": "pass",
+                           "message": "管制品检查通过，未发现高风险 ✓"})
+    except Exception:
+        pass
+
+    # 规则 6: 三单一致性检查（如果有关联订单）
+    order_id = d.get("order_id")
+    logistics_id = d.get("logistics_id")
+    if order_id or logistics_id:
+        try:
+            from app.core.three_way_checker import get_three_way_checker
+            tw_checker = get_three_way_checker()
+            tw_result = tw_checker.check(
+                order_id=order_id,
+                declaration_id=declaration_id,
+                logistics_id=logistics_id,
+            )
+            for check in tw_result.get("checks", []):
+                if check.get("level") not in ("pass", "na"):
+                    checks.append({
+                        "rule": "3WAY_" + check.get("rule", "CHECK"),
+                        "level": check.get("level", "warning"),
+                        "message": f"[三单一致性] {check.get('message', '')}",
+                        "recommendation": check.get("recommendation", ""),
+                        "code": check.get("code", ""),
+                    })
+            # 将三单检查摘要加入
+            if tw_result.get("passed"):
+                checks.append({"rule": "THREE_WAY_OK", "level": "pass",
+                               "message": f"三单一致性验证通过 ✓（{len(tw_result['checks'])} 项检查）"})
+        except Exception:
+            pass
+    else:
+        checks.append({"rule": "THREE_WAY_SKIPPED", "level": "info",
+                       "message": "报关单未关联订单，跳过三单一致性检查（建议关联 order_id）"})
+
     # AI 增强检查（可选，需 ZhipuAI）
     try:
         from app.core.lifecycle_analyzer import analyze_customs_declaration
@@ -228,6 +300,46 @@ async def _do_compliance_check(declaration_id: str):
         })
     except Exception:
         pass
+
+
+@router.get("/controlled-goods/check")
+async def check_controlled_goods(
+    hs_code: str,
+    declared_name: str,
+    dest_country: str,
+    shipper_name: str = "",
+    shipper_address: str = "",
+    current_user: dict = Depends(get_current_user),
+):
+    """管制品快速检查（不创建报关单，用于预检）。"""
+    from app.core.controlled_goods_checker import get_controlled_goods_checker
+    checker = get_controlled_goods_checker()
+    return checker.full_check(
+        hs_code=hs_code,
+        declared_name=declared_name,
+        dest_country=dest_country,
+        supplier_name=shipper_name,
+        supplier_address=shipper_address,
+    )
+
+
+@router.post("/three-way-check")
+async def three_way_check(
+    order_id: Optional[str] = None,
+    declaration_id: Optional[str] = None,
+    logistics_id: Optional[str] = None,
+    current_user: dict = Depends(get_current_user),
+):
+    """三单一致性独立检查接口。"""
+    if not order_id and not declaration_id:
+        raise HTTPException(400, "order_id 或 declaration_id 至少填写一个")
+    from app.core.three_way_checker import get_three_way_checker
+    checker = get_three_way_checker()
+    return checker.check(
+        order_id=order_id,
+        declaration_id=declaration_id,
+        logistics_id=logistics_id,
+    )
 
 
 def _publish(event_type: str, data: dict):

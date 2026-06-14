@@ -1,10 +1,43 @@
 """物流管理 API — /api/v1/logistics"""
 
-from fastapi import APIRouter, HTTPException, BackgroundTasks, Depends
+from fastapi import APIRouter, HTTPException, BackgroundTasks, Depends, Request
 from typing import Optional
 from pydantic import BaseModel, Field
+import hashlib, hmac, os
+from pathlib import Path
 
 from app.core.auth import get_current_user
+
+_ENV_FILE = Path(__file__).resolve().parents[2] / ".env"
+
+
+def _get_env(key: str) -> str:
+    """从 os.environ 或 .env 文件读取配置。"""
+    v = os.environ.get(key, "")
+    if v:
+        return v
+    if _ENV_FILE.exists():
+        for line in _ENV_FILE.read_text(encoding="utf-8").splitlines():
+            line = line.strip()
+            if line.startswith("#") or "=" not in line:
+                continue
+            k, _, val = line.partition("=")
+            if k.strip() == key:
+                return val.strip().strip('"').strip("'")
+    return ""
+
+
+def _verify_hmac(body: bytes, signature: str, secret: str) -> bool:
+    """HMAC-SHA256 签名验证。"""
+    if not signature:
+        return False
+    expected = hmac.new(secret.encode(), body, hashlib.sha256).hexdigest()
+    return hmac.compare_digest(expected.lower(), signature.lower())
+
+
+def _hash_body(body: bytes) -> str:
+    """生成 body 的 SHA256 短哈希（用于去重）。"""
+    return hashlib.sha256(body).hexdigest()[:16]
 
 router = APIRouter(prefix="/api/v1/logistics", tags=["logistics"])
 
@@ -109,55 +142,199 @@ async def refresh_tracking(
 
 
 @router.post("/webhook/17track")
-async def webhook_17track(payload: dict):
-    """接收 17TRACK Webhook 推送。"""
+async def webhook_17track(
+    request: Request,
+    background_tasks: BackgroundTasks,
+):
+    """17TRACK Webhook — 安全加固版。
+
+    安全措施：
+    - HMAC-SHA256 签名验证（可选，需配置 TRACK17_WEBHOOK_SECRET）
+    - 幂等去重（X-17Track-Event-Id 头部）
+    - 异步处理（快速响应，防 Webhook 超时重试）
+    - 结构化日志（不再静默吞掉异常）
+    """
+    import logging
+    logger = logging.getLogger("webhook.17track")
+
+    raw_body = await request.body()
+
+    # ── 签名验证（有 secret 时强制验证）───────────────────────────────────
+    secret = _get_env("TRACK17_WEBHOOK_SECRET")
+    if secret:
+        sig = request.headers.get("X-17Track-Signature", "")
+        if not _verify_hmac(raw_body, sig, secret):
+            logger.warning("17TRACK Webhook 签名验证失败，IP=%s",
+                           request.client.host if request.client else "unknown")
+            raise HTTPException(401, "Webhook 签名验证失败")
+
+    # ── 解析 JSON ───────────────────────────────────────────────────────────
     try:
+        import json as _json
+        payload = _json.loads(raw_body)
+    except Exception:
+        raise HTTPException(400, "无效 JSON")
+
+    # ── 幂等检查 ────────────────────────────────────────────────────────────
+    event_id = request.headers.get("X-17Track-Event-Id", "") or \
+               f"17track_{payload.get('event','')}_{_hash_body(raw_body)}"
+    from app.storage.order_store import is_webhook_processed, mark_webhook_processed
+    if is_webhook_processed(event_id):
+        logger.debug("17TRACK Webhook 重复，已忽略 event_id=%s", event_id)
+        return {"received": True, "skipped": True}
+
+    # ── 异步处理 ────────────────────────────────────────────────────────────
+    mark_webhook_processed(event_id, "17track", _hash_body(raw_body))
+    background_tasks.add_task(_process_17track_payload, payload)
+
+    return {"received": True}
+
+
+async def _process_17track_payload(payload: dict):
+    """17TRACK Webhook 后台处理（签名验证后在此处理）。"""
+    import logging, sqlite3
+    from pathlib import Path
+    logger = logging.getLogger("webhook.17track")
+
+    try:
+        from app.storage.logistics_store import save_tracking_result
+        db_path = Path(__file__).parent.parent.parent / "data" / "sessions.db"
+
         for item in payload.get("data", {}).get("accepted", []):
             num = item.get("number", "")
+            if not num:
+                continue
             events_raw = item.get("track", {}).get("z2", []) or []
-            from app.storage.logistics_store import get_order, save_tracking_result
-            import sqlite3
-            db_path = __import__('pathlib').Path(__file__).parent.parent.parent / "data" / "sessions.db"
+
+            # 通过运单号查找物流单
             conn = sqlite3.connect(str(db_path))
-            row = conn.execute("SELECT id FROM logistics_orders WHERE tracking_number=?", (num,)).fetchone()
+            row = conn.execute(
+                "SELECT id FROM logistics_orders WHERE tracking_number=?", (num,)
+            ).fetchone()
             conn.close()
-            if row:
-                oid = row[0]
-                events = [{"timestamp": e.get("a", ""), "location": e.get("c", ""),
-                           "description": e.get("z", ""), "status_code": e.get("d", "")}
-                          for e in events_raw]
-                status = _map_17track_status(item.get("track", {}).get("e"))
-                save_tracking_result(oid, events, status)
-    except Exception:
-        pass
-    return {"received": True}
+
+            if not row:
+                logger.debug("17TRACK 推送运单号 %s 未匹配到物流单", num)
+                continue
+
+            oid = row[0]
+            events = [
+                {"timestamp": e.get("a", ""), "location": e.get("c", ""),
+                 "description": e.get("z", ""), "status_code": e.get("d", "")}
+                for e in events_raw
+            ]
+            status = _map_17track_status(item.get("track", {}).get("e"))
+            save_tracking_result(oid, events, status)
+
+            logger.info("17TRACK 轨迹更新: tracking=%s status=%s events=%d",
+                        num, status, len(events))
+
+            # WS 推送
+            try:
+                from app.services.ws_manager import ws_manager
+                latest = events[0] if events else {}
+                await ws_manager.broadcast({
+                    "type": "logistics_updated",
+                    "payload": {
+                        "logistics_id": oid,
+                        "tracking_number": num,
+                        "status": status,
+                        "latest_event": {
+                            "timestamp": latest.get("timestamp", ""),
+                            "location": latest.get("location", ""),
+                            "description": latest.get("description", ""),
+                        },
+                    },
+                })
+            except Exception:
+                pass
+
+    except Exception as e:
+        logging.getLogger("webhook.17track").error(
+            "17TRACK Webhook 处理失败: %s", e, exc_info=True
+        )
 
 
 @router.post("/webhook/aftership")
-async def webhook_aftership(payload: dict):
-    """接收 AfterShip Webhook 推送。"""
+async def webhook_aftership(
+    request: Request,
+    background_tasks: BackgroundTasks,
+):
+    """AfterShip Webhook — 安全加固版。"""
+    import logging, json as _json
+    logger = logging.getLogger("webhook.aftership")
+
+    raw_body = await request.body()
+
+    # ── HMAC 签名验证 ────────────────────────────────────────────────────────
+    secret = _get_env("AFTERSHIP_HMAC_SECRET")
+    if secret:
+        sig = request.headers.get("aftership-hmac-sha256", "")
+        if not _verify_hmac(raw_body, sig, secret):
+            logger.warning("AfterShip Webhook 签名验证失败")
+            raise HTTPException(401, "Webhook 签名验证失败")
+
+    try:
+        payload = _json.loads(raw_body)
+    except Exception:
+        raise HTTPException(400, "无效 JSON")
+
+    # ── 幂等检查 ────────────────────────────────────────────────────────────
+    event_id = payload.get("id") or f"aftership_{_hash_body(raw_body)}"
+    from app.storage.order_store import is_webhook_processed, mark_webhook_processed
+    if is_webhook_processed(event_id):
+        return {"received": True, "skipped": True}
+
+    mark_webhook_processed(event_id, "aftership", _hash_body(raw_body))
+    background_tasks.add_task(_process_aftership_payload, payload)
+    return {"received": True}
+
+
+async def _process_aftership_payload(payload: dict):
+    """AfterShip Webhook 后台处理。"""
+    import logging, sqlite3
+    from pathlib import Path
+    logger = logging.getLogger("webhook.aftership")
+
     try:
         msg = payload.get("msg", {})
         num = msg.get("tracking_number", "")
+        if not num:
+            return
         checkpoints = msg.get("checkpoints", [])
-        import sqlite3
-        db_path = __import__('pathlib').Path(__file__).parent.parent.parent / "data" / "sessions.db"
+        db_path = Path(__file__).parent.parent.parent / "data" / "sessions.db"
         conn = sqlite3.connect(str(db_path))
-        row = conn.execute("SELECT id FROM logistics_orders WHERE tracking_number=?", (num,)).fetchone()
+        row = conn.execute(
+            "SELECT id FROM logistics_orders WHERE tracking_number=?", (num,)
+        ).fetchone()
         conn.close()
-        if row:
-            from app.storage.logistics_store import save_tracking_result
-            events = [{"timestamp": cp.get("checkpoint_time", ""),
-                       "location": f"{cp.get('city','')} {cp.get('country_iso3','')}".strip(),
-                       "description": cp.get("message", ""),
-                       "status_code": cp.get("subtag", "")}
-                      for cp in checkpoints]
-            tag = msg.get("tag", "")
-            status = _map_aftership_status(tag)
-            save_tracking_result(row[0], events, status)
-    except Exception:
-        pass
-    return {"received": True}
+        if not row:
+            return
+        from app.storage.logistics_store import save_tracking_result
+        events = [
+            {"timestamp": cp.get("checkpoint_time", ""),
+             "location": f"{cp.get('city','')} {cp.get('country_iso3','')}".strip(),
+             "description": cp.get("message", ""),
+             "status_code": cp.get("subtag", "")}
+            for cp in checkpoints
+        ]
+        tag = msg.get("tag", "")
+        status = _map_aftership_status(tag)
+        save_tracking_result(row[0], events, status)
+        logger.info("AfterShip 轨迹更新: tracking=%s status=%s", num, status)
+        # WS 推送
+        try:
+            from app.services.ws_manager import ws_manager
+            latest = events[0] if events else {}
+            await ws_manager.broadcast({"type": "logistics_updated",
+                                         "payload": {"logistics_id": row[0],
+                                                     "tracking_number": num,
+                                                     "status": status,
+                                                     "latest_event": latest}})
+        except Exception:
+            pass
+    except Exception as e:
+        logging.getLogger("webhook.aftership").error("AfterShip Webhook 失败: %s", e, exc_info=True)
 
 
 # ── 辅助 ─────────────────────────────────────────────────────────────────────

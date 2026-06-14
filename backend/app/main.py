@@ -39,6 +39,7 @@ from app.api import (
     payment_channels as payment_channels_router,
     logistics as logistics_router,
     customs as customs_router,
+    orders as orders_router,          # Phase 3.8.1 — 销售订单
 )
 # Phase 4 新增路由（后台管理）
 from app.api import admin_rbac, admin_approvals, admin_config as admin_config_router, admin_reports
@@ -222,6 +223,7 @@ app.include_router(contracts_router.router)
 app.include_router(payment_channels_router.router)
 app.include_router(logistics_router.router)
 app.include_router(customs_router.router)
+app.include_router(orders_router.router)
 
 # ── 定时任务管理路由 ────────────────────────────
 app.include_router(scheduler_config.router)

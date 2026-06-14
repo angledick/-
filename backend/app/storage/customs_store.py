@@ -22,8 +22,40 @@ def _conn():
     return conn
 
 
+def _migrate_columns(conn) -> None:
+    """幂等迁移：为 customs_declarations 添加新字段。"""
+    new_cols = [
+        # 商品详情
+        ("brand",               "TEXT DEFAULT ''"),
+        ("model_spec",          "TEXT DEFAULT ''"),
+        ("unit_price",          "REAL DEFAULT 0.0"),
+        ("fx_rate_date",        "TEXT"),
+        # 发货人
+        ("shipper_name",        "TEXT DEFAULT ''"),
+        ("shipper_address",     "TEXT DEFAULT ''"),
+        ("shipper_eori",        "TEXT DEFAULT ''"),
+        # 收货人
+        ("consignee_name",      "TEXT DEFAULT ''"),
+        ("consignee_address",   "TEXT DEFAULT ''"),
+        # 关联单据
+        ("order_id",            "TEXT"),
+        ("contract_no",         "TEXT DEFAULT ''"),
+        ("invoice_no",          "TEXT DEFAULT ''"),
+        # 许可证与认证
+        ("export_license_no",   "TEXT DEFAULT ''"),
+        ("co_cert_no",          "TEXT DEFAULT ''"),          # 原产地证书号
+        ("ecommerce_record_no", "TEXT DEFAULT ''"),          # 跨境电商备案号
+    ]
+    for col, col_type in new_cols:
+        try:
+            conn.execute(f"ALTER TABLE customs_declarations ADD COLUMN {col} {col_type}")
+        except Exception:
+            pass  # 列已存在，跳过
+
+
 def ensure_tables() -> None:
     with _conn() as conn:
+        _migrate_columns(conn)
         conn.executescript("""
         CREATE TABLE IF NOT EXISTS customs_declarations (
             id                TEXT PRIMARY KEY,
@@ -77,15 +109,23 @@ def get_tariff_rates() -> dict:
 
 
 def lookup_duty_rate(hs_code: str, dest_country: str) -> float:
-    """查询关税税率（%）。先查本地缓存，返回 0.0 表示未知。"""
+    """查询关税税率（%）。精确→前缀→_ref→_default 四级降级。"""
     rates = get_tariff_rates()
-    # 精确匹配（8位） → 前4位 → 前2位
-    for hs in [hs_code, hs_code[:4], hs_code[:2]]:
-        r = rates.get(dest_country, {}).get(hs)
+    country = dest_country.upper()
+
+    # 解析 _ref（如 DE → EU）
+    entry = rates.get(country, {})
+    if isinstance(entry, dict) and "_ref" in entry:
+        country = entry["_ref"]
+        entry = rates.get(country, {})
+
+    # 精确匹配（8位→4位→2位）
+    for hs in [hs_code, hs_code[:6], hs_code[:4], hs_code[:2]]:
+        r = entry.get(hs)
         if r is not None:
             return float(r)
-    # 全局默认税率
-    return float(rates.get(dest_country, {}).get("_default", 0.0))
+    # _default
+    return float(entry.get("_default", 0.0))
 
 
 def check_ioss_applicable(dest_country: str, declared_value_usd: float) -> bool:
@@ -105,27 +145,64 @@ def check_ioss_applicable(dest_country: str, declared_value_usd: float) -> bool:
 def create_declaration(data: dict) -> dict:
     now = _now()
     did = f"cust_{uuid.uuid4().hex[:8]}"
-    hs = data.get("hs_code", "")
+    hs   = data.get("hs_code", "")
     dest = data.get("dest_country", "")
     value = float(data.get("declared_value", 0))
-    duty_rate = lookup_duty_rate(hs, dest)
-    calculated_duty = round(value * duty_rate / 100, 2)
-    vat_applicable = int(check_ioss_applicable(dest, value))
+    duty_rate        = lookup_duty_rate(hs, dest)
+    calculated_duty  = round(value * duty_rate / 100, 2)
+    vat_applicable   = int(check_ioss_applicable(dest, value))
 
+    # 用 INSERT OR IGNORE + UPDATE 模式保证字段兼容性
+    cols = {
+        "id": did,
+        "product_id":        data["product_id"],
+        "logistics_id":      data.get("logistics_id"),
+        "mode":              data.get("mode", "9610"),
+        "hs_code":           hs,
+        "declared_name":     data.get("declared_name", ""),
+        "declared_value":    value,
+        "declared_currency": data.get("declared_currency", "USD"),
+        "quantity":          int(data.get("quantity", 1)),
+        "unit":              data.get("unit", "件"),
+        "origin_country":    data.get("origin_country", "CN"),
+        "dest_country":      dest,
+        "duty_rate":         duty_rate,
+        "calculated_duty":   calculated_duty,
+        "vat_applicable":    vat_applicable,
+        "ioss_number":       data.get("ioss_number"),
+        "documents":         json.dumps(data.get("documents", []), ensure_ascii=False),
+        "compliance_checks": json.dumps([], ensure_ascii=False),
+        "status":            "draft",
+        "exception_reason":  None,
+        "submitted_at":      None,
+        "cleared_at":        None,
+        "created_at":        now,
+        "updated_at":        now,
+        # 新增字段
+        "brand":               data.get("brand", ""),
+        "model_spec":          data.get("model_spec", ""),
+        "unit_price":          float(data.get("unit_price", 0)),
+        "fx_rate_date":        data.get("fx_rate_date"),
+        "shipper_name":        data.get("shipper_name", ""),
+        "shipper_address":     data.get("shipper_address", ""),
+        "shipper_eori":        data.get("shipper_eori", ""),
+        "consignee_name":      data.get("consignee_name", ""),
+        "consignee_address":   data.get("consignee_address", ""),
+        "order_id":            data.get("order_id"),
+        "contract_no":         data.get("contract_no", ""),
+        "invoice_no":          data.get("invoice_no", ""),
+        "export_license_no":   data.get("export_license_no", ""),
+        "co_cert_no":          data.get("co_cert_no", ""),
+        "ecommerce_record_no": data.get("ecommerce_record_no", ""),
+    }
+    # 只插入数据库中实际存在的列（兼容旧版 DB）
+    import sqlite3
     with _conn() as conn:
-        conn.execute("""INSERT INTO customs_declarations VALUES (
-            ?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-            (did, data["product_id"], data.get("logistics_id"),
-             data.get("mode", "9610"), hs,
-             data.get("declared_name", ""),
-             value, data.get("declared_currency", "USD"),
-             int(data.get("quantity", 1)), data.get("unit", "件"),
-             data.get("origin_country", "CN"), dest,
-             duty_rate, calculated_duty, vat_applicable,
-             data.get("ioss_number"),
-             json.dumps(data.get("documents", []), ensure_ascii=False),
-             json.dumps([], ensure_ascii=False),
-             "draft", None, None, None, now, now))
+        existing_cols = {r["name"] for r in conn.execute("PRAGMA table_info(customs_declarations)").fetchall()}
+        valid = {k: v for k, v in cols.items() if k in existing_cols}
+        keys = ", ".join(valid.keys())
+        vals = ", ".join(["?"] * len(valid))
+        conn.execute(f"INSERT INTO customs_declarations ({keys}) VALUES ({vals})", list(valid.values()))
     return get_declaration(did)
 
 
