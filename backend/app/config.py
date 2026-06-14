@@ -158,9 +158,20 @@ class Settings(BaseSettings):
     # Shopify
     shopify_client_id: str = ""
     shopify_client_secret: str = ""
+    shopify_domain: str = ""                    # 店铺域名，如 my-store.myshopify.com
     shopify_redirect_uri: str = "http://localhost:8000/api/v1/shopify/callback"
     shopify_scopes: str = "read_products,write_products"
-    shopify_api_version: str = "2024-10"
+    shopify_api_version: str = "2026-07"
+    shopify_webhook_api_version: str = "2026-04"
+    shopify_app_url: str = ""
+    shopify_embedded: bool = False
+
+    # Feishu / Lark
+    feishu_app_id: str = ""
+    feishu_app_secret: str = ""
+
+    # 风险情报飞书通知
+    risk_intel_feishu_chat_id: str = ""         # 严重/高危情报推送群 ID
 
     # Risk Alerts storage
     risk_alert_dir: str = "./data/risk_alerts"

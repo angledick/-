@@ -100,8 +100,22 @@ async def shopify_callback(
     description="列出所有已完成 OAuth 授权的 Shopify 店铺。",
 )
 async def list_shops():
-    """列出已连接的所有 Shopify 店铺。"""
-    return list_connected_shops()
+    """列出已连接的 Shopify 店铺（含 env 预配置店铺）。"""
+    shops = list_connected_shops()
+    # 若 .env 中配置了 SHOPIFY_DOMAIN 且未在 OAuth 列表中，补充为 env-configured 状态
+    from app.config import settings
+    env_domain = settings.shopify_domain
+    if env_domain:
+        known_domains = {s.get("shop", "") for s in shops}
+        if env_domain not in known_domains:
+            shops.append({
+                "shop": env_domain,
+                "scope": settings.shopify_scopes,
+                "source": "env",
+                "status": "env_configured",
+                "api_version": settings.shopify_api_version,
+            })
+    return shops
 
 
 @router.get(

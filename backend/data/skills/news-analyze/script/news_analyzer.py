@@ -58,7 +58,7 @@ def _get_llm_config() -> tuple[str, str, str]:
     # 回退：从 app.config 读取 anthropic_api_key
     if not api_key:
         try:
-            sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent.parent))
+            sys.path.insert(0, str(Path(__file__).resolve().parents[4]))
             from app.config import settings
             api_key = settings.anthropic_api_key
             base_url = base_url or "https://openrouter.ai/api/v1"
@@ -67,7 +67,7 @@ def _get_llm_config() -> tuple[str, str, str]:
 
     # 再回退：从 .env 文件读取
     if not api_key:
-        env_file = Path(__file__).resolve().parent.parent.parent.parent / ".env"
+        env_file = Path(__file__).resolve().parents[4] / ".env"
         if env_file.exists():
             for line in env_file.read_text(encoding="utf-8").splitlines():
                 line = line.strip()
@@ -130,7 +130,7 @@ def analyze_single(news: dict) -> dict | None:
 def run_batch_analysis(limit: int = 20) -> dict:
     """分析未处理的新闻，返回统计。"""
     try:
-        sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent.parent))
+        sys.path.insert(0, str(Path(__file__).resolve().parents[4]))
         from app.storage.news_store import get_unanalyzed_news, save_analysis
     except ImportError as e:
         return {"error": f"无法导入 news_store: {e}", "analyzed": 0}
@@ -155,7 +155,7 @@ def run_batch_analysis(limit: int = 20) -> dict:
 def get_market_summary(hours: int = 24) -> dict:
     """生成最近 N 小时的跨境市场风险摘要。"""
     try:
-        sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent.parent))
+        sys.path.insert(0, str(Path(__file__).resolve().parents[4]))
         from app.storage.news_store import get_recent_news
     except ImportError as e:
         return {"error": f"无法导入 news_store: {e}"}

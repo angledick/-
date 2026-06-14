@@ -275,7 +275,7 @@ _DEFAULT_HIGH = [
 def _get_keywords(user_id: str = "default") -> dict:
     """获取关键词配置（尝试从 storage 读取，失败则用默认）。"""
     try:
-        sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent.parent))
+        sys.path.insert(0, str(Path(__file__).resolve().parents[4]))
         from app.storage.news_store import get_keywords
         return get_keywords(user_id)
     except Exception:
@@ -361,7 +361,7 @@ def main():
     saved = 0
     if args.save:
         try:
-            sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent.parent))
+            sys.path.insert(0, str(Path(__file__).resolve().parents[4]))
             from app.storage.news_store import upsert_news
             saved = upsert_news(items)
         except Exception as e:

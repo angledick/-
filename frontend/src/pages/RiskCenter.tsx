@@ -10,7 +10,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import {
-  riskIntelApi, riskAlertsApi,
+  riskIntelApi, riskAlertsApi, schedulerApi, oauthApi,
   type RiskIntelItem, type RiskIntelKeyword, type RiskIntelRun,
   type RiskHeatmap, type RiskAlertItem, type LlmAnalysis,
 } from '../api/config'
@@ -799,20 +799,61 @@ function HeatmapPanel() {
 
 // ── Tab 5: 扫描监控 ───────────────────────────────────────────────────────────
 
+// 调度任务颜色映射（按前缀）
+const JOB_COLOR: Record<string, string> = {
+  risk_intel_analyze:    'bg-violet-400',
+  llm_risk_dispatch:     'bg-violet-500',
+  llm_lifecycle_scan:    'bg-indigo-400',
+  risk_intel_global_scan:'bg-blue-400',
+  risk_intel_keyword_scan:'bg-emerald-400',
+  lifecycle_:            'bg-orange-400',
+  proactive_:            'bg-sky-400',
+}
+
+function jobColor(id: string): string {
+  for (const [prefix, color] of Object.entries(JOB_COLOR)) {
+    if (id === prefix || id.startsWith(prefix)) return color
+  }
+  return 'bg-gray-300'
+}
+
 function ScanPanel() {
   const [marketStatus, setMarketStatus] = useState<{ last_scan: string; active_alerts: number; markets: { code: string; alerts: number }[] } | null>(null)
   const [analyzeStats, setAnalyzeStats] = useState<{ total: number; done: number; pending: number; errors: number } | null>(null)
   const [scanning, setScanning] = useState(false)
   const [triggering, setTriggering] = useState(false)
   const [msg, setMsg] = useState('')
+  // 从后端动态获取的调度任务和集成状态
+  const [schedulerJobs, setSchedulerJobs] = useState<Array<{ id: string; name: string; trigger?: { interval_human?: string; cron_human?: string }; next_run_time?: string | null }>>([])
+  const [integrations, setIntegrations] = useState<Record<string, { name: string; icon: string; status: string; connected: number; env_configured?: boolean }>>({})
 
   const load = useCallback(async () => {
-    const [mkt, stats] = await Promise.all([
+    const [mkt, stats, jobsResp, intResp] = await Promise.all([
       riskAlertsApi.getMarketStatus().catch(() => null),
       riskIntelApi.getAnalyzeStatus().catch(() => null),
+      // 拉取核心调度任务（过滤掉产品级批量任务）
+      schedulerApi.list().catch(() => null),
+      oauthApi.getStatusSummary().catch(() => null),
     ])
     if (mkt) setMarketStatus(mkt)
     if (stats) setAnalyzeStats(stats)
+    if (jobsResp) {
+      const coreJobs = (jobsResp.jobs || []).filter((j: any) =>
+        j.scope === 'global' &&
+        !j.id?.startsWith('check_cert') &&
+        !j.id?.startsWith('scan_reg')
+      ).slice(0, 12)
+      setSchedulerJobs(coreJobs)
+    }
+    if (intResp) {
+      // getStatusSummary 返回 { status: { feishu: {...}, shopify: {...}, ... } }
+      const statusMap = (intResp as any).status || intResp
+      const filtered: typeof integrations = {}
+      for (const k of ['feishu', 'shopify']) {
+        if (statusMap[k]) filtered[k] = statusMap[k]
+      }
+      setIntegrations(filtered)
+    }
   }, [])
 
   useEffect(() => { load() }, [load])
@@ -917,26 +958,61 @@ function ScanPanel() {
         )}
       </div>
 
-      <div className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
-        <p className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">自动调度任务</p>
-        <div className="space-y-2">
-          {[
-            { name: 'AI 分析队列', freq: '每 15 分钟', desc: '处理 pending 情报，调用 glm-5.1 深度分析', color: 'bg-violet-400' },
-            { name: '全域情报扫描', freq: '每 2 小时', desc: '三大域（关税/冲突/金融）全量采集', color: 'bg-blue-400' },
-            { name: '关键词周期检索', freq: '每 6 小时', desc: '执行所有开启周期检索的用户关键词', color: 'bg-emerald-400' },
-          ].map(t => (
-            <div key={t.name} className="flex items-start gap-3 rounded-xl bg-white border border-gray-100 px-3.5 py-3">
-              <span className={cx('mt-1.5 w-2 h-2 rounded-full shrink-0', t.color)}/>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-gray-700">{t.name}</span>
-                  <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">{t.freq}</span>
+      {/* 已连接平台（从后端 integrations/status 动态获取） */}
+      {Object.keys(integrations).length > 0 && (
+        <div className="rounded-2xl border border-gray-200 bg-white p-4">
+          <p className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">已连接平台</p>
+          <div className="flex flex-wrap gap-3">
+            {Object.entries(integrations).map(([key, info]) => {
+              const statusCls = info.status === 'connected'
+                ? 'border-emerald-200 bg-emerald-50 text-emerald-700'
+                : info.status === 'configured' || info.env_configured
+                  ? 'border-amber-200 bg-amber-50 text-amber-700'
+                  : 'border-gray-200 bg-gray-50 text-gray-400'
+              const statusLabel = info.status === 'connected' ? '已连接'
+                : info.status === 'configured' || info.env_configured ? '已配置'
+                : '未连接'
+              return (
+                <div key={key} className={cx('flex items-center gap-2 px-3 py-2 rounded-xl border text-sm font-medium', statusCls)}>
+                  <span>{info.icon}</span>
+                  <span>{info.name}</span>
+                  <span className="text-[10px] opacity-75">· {statusLabel}</span>
+                  {info.connected > 0 && <span className="text-[10px] opacity-60">{info.connected} 个连接</span>}
                 </div>
-                <p className="text-xs text-gray-400 mt-0.5">{t.desc}</p>
-              </div>
-            </div>
-          ))}
+              )
+            })}
+          </div>
         </div>
+      )}
+
+      {/* 自动调度任务（从后端动态获取） */}
+      <div className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+        <p className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">
+          自动调度任务{schedulerJobs.length > 0 && <span className="ml-1 font-normal text-gray-400">({schedulerJobs.length})</span>}
+        </p>
+        {schedulerJobs.length === 0 ? (
+          <p className="text-xs text-gray-400">加载中…</p>
+        ) : (
+          <div className="space-y-2">
+            {schedulerJobs.map(j => {
+              const freq = j.trigger?.interval_human || j.trigger?.cron_human || ''
+              const nextRun = j.next_run_time ? j.next_run_time.slice(0, 16).replace('T', ' ') : ''
+              return (
+                <div key={j.id} className="flex items-start gap-3 rounded-xl bg-white border border-gray-100 px-3.5 py-3">
+                  <span className={cx('mt-1.5 w-2 h-2 rounded-full shrink-0', jobColor(j.id))}/>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-sm font-medium text-gray-700">{j.name || j.id}</span>
+                      {freq && <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded">{freq}</span>}
+                      {nextRun && <span className="text-[10px] text-gray-400">下次 {nextRun}</span>}
+                    </div>
+                    <p className="text-[11px] text-gray-400 mt-0.5 font-mono truncate">{j.id}</p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
       </div>
     </div>
   )

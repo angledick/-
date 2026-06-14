@@ -465,17 +465,35 @@ class OAuthManager:
     # ── 状态查询 ────────────────────────────────
 
     def get_status_summary(self) -> Dict:
-        """所有Provider连接状态汇总"""
+        """所有Provider连接状态汇总（含 env-based 预配置检测）"""
+        from app.config import settings
         summary = {}
+
+        # env-based 预配置检测：若 .env 中填写了凭证，标记为 configured
+        env_configured = {
+            "feishu":  bool(settings.feishu_app_id and settings.feishu_app_secret),
+            "shopify": bool(settings.shopify_client_id and settings.shopify_client_secret),
+        }
+
         for pkey, template in PROVIDER_TEMPLATES.items():
             conns = [c for c in self._connections.values() if c.provider == pkey]
             connected = [c for c in conns if c.status == ProviderStatus.connected]
+            is_env_configured = env_configured.get(pkey, False)
+
+            if connected:
+                status_str = "connected"
+            elif conns or is_env_configured:
+                status_str = "configured"
+            else:
+                status_str = "not_configured"
+
             summary[pkey] = {
                 "name": template["name"],
                 "icon": template["icon"],
                 "total_connections": len(conns),
                 "connected": len(connected),
-                "status": "connected" if connected else ("configured" if conns else "not_configured"),
+                "status": status_str,
+                "env_configured": is_env_configured,
             }
         return summary
 
