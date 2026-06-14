@@ -1084,20 +1084,6 @@
     "created_at": "2026-06-03T04:31:48Z",
     "updated_at": "2026-06-03T04:31:48Z"
   },
-  "cac82c732a37": {
-    "id": "cac82c732a37",
-    "provider": "shopify",
-    "label": "测试Shopify店铺",
-    "status": "disconnected",
-    "config": {
-      "shop_domain": "test-store.myshopify.com"
-    },
-    "token": null,
-    "last_sync_at": 0.0,
-    "last_error": "",
-    "created_at": "2026-06-08T08:09:37Z",
-    "updated_at": "2026-06-08T08:09:37Z"
-  },
   "24939c4486c0": {
     "id": "24939c4486c0",
     "provider": "chatwoot",

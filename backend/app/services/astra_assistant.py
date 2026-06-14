@@ -867,13 +867,25 @@ class AstraAssistant:
         logger.info("SDK query 启动: cli_path=%s, model=%s, cwd=%s", options.cli_path, options.model, options.cwd)
 
         result_text = ""
-        async for msg in query(prompt=task, options=options):
-            if isinstance(msg, ResultMessage) and msg.result:
-                result_text = msg.result or ""
-            elif isinstance(msg, AssistantMessage):
-                for block in msg.content:
-                    if isinstance(block, TextBlock):
-                        result_text += block.text
+        try:
+            async for msg in query(prompt=task, options=options):
+                if isinstance(msg, ResultMessage) and msg.result:
+                    result_text = msg.result or ""
+                elif isinstance(msg, AssistantMessage):
+                    for block in msg.content:
+                        if isinstance(block, TextBlock):
+                            result_text += block.text
+        except Exception as e:
+            # Claude Code CLI 退出时会发 {"type":"error","error":"success"}
+            # 这不是真正的错误，只要已有 result_text 就正常返回
+            err_msg = str(e).strip().lower()
+            if err_msg in ("success", "claude code returned an error result: success"):
+                logger.info("SDK 返回 success 伪错误，已有结果长度=%d", len(result_text))
+                if result_text:
+                    return self._parse_result(result_text, task)
+                logger.warning("SDK success 伪错误但无结果文本，返回空")
+                return self._parse_result("", task)
+            raise
 
         return self._parse_result(result_text, task)
 
@@ -919,7 +931,12 @@ class AstraAssistant:
                 elif isinstance(msg, TaskNotificationMessage):
                     yield {"type": "task_end", "status": msg.status, "summary": msg.summary}
         except Exception as e:
-            yield {"type": "error", "error": str(e)}
+            err_msg = str(e).strip().lower()
+            if err_msg in ("success", "claude code returned an error result: success"):
+                logger.info("SDK stream 返回 success 伪错误，正常结束")
+                yield {"type": "complete", "result": ""}
+            else:
+                yield {"type": "error", "error": str(e)}
 
     # ── Agent 执行 ────────────────────────────────
 

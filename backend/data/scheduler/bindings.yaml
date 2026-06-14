@@ -1,61 +1,15 @@
 # ====== 任务-Worker 绑定配置文件 ======
 #
-# 本文件将定时任务（tasks.yaml 中定义）绑定到具体的 Worker 执行单元。
-#
-# 绑定优先级:
-#   此处的绑定优先级高于 tasks.yaml 中的 default_worker 字段
-#   运行时通过 /api/v1/scheduler/bindings API 动态管理
-#
-# 每个绑定项包含:
-#   - worker_code:  绑定的 Worker 编码（对应 workers/builtin/*.md 中的定义）
-#   - enabled:      是否启用（true=启用, false=暂停但不删除绑定关系）
-#
-# Worker 执行链路:
-#   Scheduler 触发 → 查询 bindings.yaml 获取 worker_code
-#   → WorkerRegistry.execute_worker_task()
-#   → AstraAssistant.run_as_agent() / run_task()
-#   → Claude Agent SDK 加载对应 Skills 和工具执行
-#
-# ⚠ 重要: 当 task 被删除时，同时清理此文件的对应绑定记录
-#
-# 可用 Worker 列表（详见 data/workers/builtin/builtin_workers.md）:
-#   regulation_worker   法规监控（regulation-scan, impact-analysis）
-#   compliance_worker  合规检查（compliance-check, hs_lookup）
-#   cert_worker        认证管理（cert_verify, cert_monitor）
-#   system_worker      系统运维（health_check, sync_task）
-#   risk_worker        风险预警（risk_score, anomaly_detect）
-#   order_worker       订单处理（order_track, logistics_query）
-#   customs_worker     报关清关（customs_declare, duty_calc）
-#   logistics_worker   物流追踪（tracking_query, eta_calc）
-#   listing_worker     商品上架（content_check, shopify_publish）
-#   qa_agent           系统管理 Agent（config_manage, event_define）
+# 仅保留三项核心定时任务的 Worker 绑定。
 #
 # ========================================
 bindings:
-  poll_all_markets:
-    worker_code: regulation_worker
-    enabled: true
-  collect_metrics:
-    worker_code: system_worker
-    enabled: true
-  daily_compliance_brief:
-    worker_code: compliance_worker
-    enabled: true
-  check_cert_expiry:
-    worker_code: cert_worker
-    enabled: true
   scan_regulation_changes:
     worker_code: regulation_worker
     enabled: true
   heartbeat_check:
     worker_code: system_worker
     enabled: true
-  generate_cross_product_insights:
-    worker_code: compliance_worker
-    enabled: true
-  aggregate_global_metrics:
-    worker_code: system_worker
-    enabled: true
-  news_collect_and_analyze:
-    worker_code: regulation_worker
+  shopify_product_sync:
+    worker_code: listing_worker
     enabled: true

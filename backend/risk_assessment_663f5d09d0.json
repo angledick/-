@@ -1,0 +1,40 @@
+{
+  "task_id": "task_663f5d09d0",
+  "task_type": "risk_assessment",
+  "event_type": "compliance:check_started",
+  "processed_at": 1781426520,
+  "pipeline_stage": "RISK_ASSESSMENT",
+  "six_stage_pipeline": {
+    "stage_1_event_perceive": "COMPLETED",
+    "stage_2_data_loading": "COMPLETED",
+    "stage_3_compliance_check": "COMPLETED",
+    "stage_4_risk_assessment": "IN_PROGRESS",
+    "stage_5_recommendations": "PENDING",
+    "stage_6_reporting": "PENDING"
+  },
+  "risk_assessment": {
+    "overall_risk_level": "MEDIUM",
+    "risk_score": 55,
+    "confidence_level": "MODERATE",
+    "primary_risk_factors": [
+      "HS编码未精确匹配",
+      "电子产品环境合规要求严格"
+    ],
+    "certification_gaps": [
+      "CE认证: 未确认",
+      "WEEE注册: 未确认",
+      "RoHS合规: 未确认",
+      "德国包装法: 未确认"
+    ],
+    "mitigation_strategies": [
+      "立即完成HS编码人工确认",
+      "优先准备核心认证文件",
+      "联系认证机构进行评估"
+    ]
+  },
+  "next_actions": [
+    "生成结构化推荐操作",
+    "创建风险评估报告",
+    "通知相关方"
+  ]
+}

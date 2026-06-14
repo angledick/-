@@ -204,6 +204,77 @@ def _import_task_func(task_name: str) -> Callable:
     raise ValueError(f"未知任务: {task_name}")
 
 
+async def _run_shopify_product_sync():
+    """Shopify 商品同步定时任务。
+
+    执行流程：
+      1. 调用 shopify_api.sync_to_local() 同步 Shopify 商品到本地
+      2. 检测 Shopify 有但本地缺失的商品
+      3. 缺失商品推送飞书通知
+    """
+    import logging
+    _log = logging.getLogger("scheduler.shopify_sync")
+    try:
+        from app.services.shopify_api import sync_to_local, get_products
+        from app.core.product_storage import get_product_storage
+        from app.core.feishu_client import get_feishu_client
+        from app.config import settings as _s
+
+        _log.info("Shopify 商品同步任务启动")
+
+        # Step 1: 同步商品
+        result = await sync_to_local(limit=250)
+        synced_count = result.get("synced", 0)
+        shopify_products = result.get("products", [])
+
+        # Step 2: 检测缺失商品（Shopify 有但本地没有）
+        storage = get_product_storage()
+        missing = []
+        for sp in shopify_products:
+            pid = f"shopify_{sp['id']}"
+            if not storage.get_product(pid):
+                missing.append({
+                    "shopify_id": sp["id"],
+                    "title": sp.get("title", ""),
+                    "product_type": sp.get("product_type", ""),
+                    "status": sp.get("status", ""),
+                })
+
+        _log.info("Shopify 同步完成: synced=%d missing=%d", synced_count, len(missing))
+
+        # Step 3: 缺失商品推送飞书通知
+        if missing:
+            chat_id = getattr(_s, "risk_intel_feishu_chat_id", "") or ""
+            if not chat_id:
+                # fallback 到 channels.json
+                try:
+                    from pathlib import Path
+                    import json as _json
+                    cfg_path = Path(_s.data_dir) / "config" / "channels.json"
+                    if cfg_path.exists():
+                        with open(cfg_path, "r", encoding="utf-8") as f:
+                            channels = _json.load(f)
+                        chat_id = channels.get("feishu_compliance", {}).get("config", {}).get("chat_id", "")
+                except Exception:
+                    pass
+
+            if chat_id:
+                fc = get_feishu_client()
+                lines = [f"Shopify 商品同步检测到 {len(missing)} 个缺失商品："]
+                for m in missing[:20]:
+                    lines.append(f"• [{m['shopify_id']}] {m['title']} ({m['product_type']}) — {m['status']}")
+                if len(missing) > 20:
+                    lines.append(f"... 还有 {len(missing) - 20} 个")
+                text = "\n".join(lines)
+                await fc.send_message(chat_id, text, msg_type="text")
+                _log.info("已推送 %d 个缺失商品到飞书", len(missing))
+            else:
+                _log.warning("检测到 %d 个缺失商品但未配置飞书 chat_id，跳过推送", len(missing))
+
+    except Exception as e:
+        _log.error("Shopify 商品同步任务失败: %s", e)
+
+
 def get_scheduler() -> Optional[AsyncIOScheduler]:
     """获取当前调度器实例。"""
     return _scheduler
@@ -228,33 +299,7 @@ async def start_scheduler():
 
     _scheduler = AsyncIOScheduler()
 
-    # 所有定时任务通过 Worker 分发调度
-    _scheduler.add_job(
-        _execute_via_worker_wrapper("poll_all_markets"),
-        "interval",
-        minutes=settings.market_poll_interval_minutes,
-        id="market_poll",
-        replace_existing=True,
-    )
-    _scheduler.add_job(
-        _execute_via_worker_wrapper("collect_metrics"),
-        "interval",
-        hours=6,
-        id="metrics_collect",
-        replace_existing=True,
-    )
-    _scheduler.add_job(
-        _execute_via_worker_wrapper("daily_compliance_brief"),
-        'cron', hour=9, minute=0,
-        id='proactive_daily_brief',
-        replace_existing=True,
-    )
-    _scheduler.add_job(
-        _execute_via_worker_wrapper("check_cert_expiry"),
-        'cron', hour=10, minute=0,
-        id='proactive_cert_expiry',
-        replace_existing=True,
-    )
+    # 仅保留三项核心定时任务：风险情报检索 + 心跳自检 + Shopify 商品同步
     _scheduler.add_job(
         _execute_via_worker_wrapper("scan_regulation_changes"),
         'interval', hours=1,
@@ -268,15 +313,9 @@ async def start_scheduler():
         replace_existing=True,
     )
     _scheduler.add_job(
-        _execute_via_worker_wrapper("generate_cross_product_insights"),
-        'interval', hours=4,
-        id='proactive_insights',
-        replace_existing=True,
-    )
-    _scheduler.add_job(
-        _execute_via_worker_wrapper("aggregate_global_metrics"),
-        'interval', hours=12,
-        id='proactive_global_metrics',
+        _run_shopify_product_sync,
+        'interval', minutes=20,
+        id='proactive_shopify_sync',
         replace_existing=True,
     )
 

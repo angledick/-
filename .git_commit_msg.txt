@@ -1,6 +1,0 @@
-feat: frontend migration + backend API fixes + risk intel feishu alert integration
-
-Frontend: replace with feat-astra-frontend-contest-api (React 19 + TS + Tailwind)
-Backend: fix auth/me 500, model_router YAML parse, knowledge route prefix
-Backend: add risk intel critical alert feishu notification
-Migrate lifecycle/risk-intel/llm-dispatch modules from event-bus-ws branch

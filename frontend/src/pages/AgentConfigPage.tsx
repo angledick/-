@@ -22,6 +22,13 @@ interface AgentDetail extends AgentListItem {
   system_prompt: string
 }
 
+interface SkillItem {
+  skill_id: string
+  name: string
+  status: string
+  description?: string
+}
+
 // 内置 Agent 类型标签
 const TYPE_LABELS: Record<string, { label: string; className: string }> = {
   general:       { label: '通用合规', className: 'text-blue-600 bg-blue-600/10 dark:text-blue-400 dark:bg-blue-400/10' },
@@ -50,6 +57,8 @@ const EMPTY_FORM = {
   sort_order: 99,
 }
 
+type ExtKey = 'skill_ids' | 'tool_ids'
+
 export default function AgentConfigPage() {
   const { authFetch, isAdmin } = useAuth()
   const confirm = useConfirm()
@@ -58,6 +67,11 @@ export default function AgentConfigPage() {
   const [isNew, setIsNew] = useState(false)
   const [form, setForm] = useState({ ...EMPTY_FORM })
   const [saving, setSaving] = useState(false)
+  const [extLoading, setExtLoading] = useState(false)
+  const [skillsList, setSkillsList] = useState<SkillItem[]>([])
+  const [toolsList, setToolsList] = useState<SkillItem[]>([])
+  const [agentSkills, setAgentSkills] = useState<string[]>([])
+  const [agentTools, setAgentTools] = useState<string[]>([])
 
   const loadAgents = useCallback(async () => {
     const res = await authFetch(`${API}/agents`)
@@ -66,12 +80,71 @@ export default function AgentConfigPage() {
 
   useEffect(() => { loadAgents() }, [])  // eslint-disable-line
 
+  // 加载可用 Skills/Tools 列表（全局一次）
+  useEffect(() => {
+    const loadCatalog = async () => {
+      const [skillsRes, pluginsRes] = await Promise.all([
+        authFetch(`${API}/skills`).catch(() => null),
+        authFetch(`${API}/plugins`).catch(() => null),
+      ])
+      if (skillsRes?.ok) {
+        const data = await skillsRes.json()
+        setSkillsList((data.skills || []).map((s: Record<string, unknown>) => ({
+          skill_id: s.skill_id as string,
+          name: s.name as string,
+          status: s.status as string,
+          description: s.description as string | undefined,
+        })))
+      }
+      if (pluginsRes?.ok) {
+        const data = await pluginsRes.json()
+        setToolsList((data.plugins || []).map((p: Record<string, unknown>) => ({
+          skill_id: p.plugin_id as string,
+          name: p.name as string,
+          status: p.status as string,
+          description: p.description as string | undefined,
+        })))
+      }
+    }
+    loadCatalog()
+  }, [authFetch])
+
+  const loadAgentExtensions = useCallback(async (agentId: string) => {
+    setExtLoading(true)
+    const [skillsRes, toolsRes] = await Promise.all([
+      authFetch(`${API}/agents/${agentId}/skills`).catch(() => null),
+      authFetch(`${API}/agents/${agentId}/tools`).catch(() => null),
+    ])
+    if (skillsRes?.ok) {
+      const data = await skillsRes.json()
+      setAgentSkills(data.skill_ids || [])
+    }
+    if (toolsRes?.ok) {
+      const data = await toolsRes.json()
+      setAgentTools(data.tool_ids || [])
+    }
+    setExtLoading(false)
+  }, [authFetch])
+
+  const toggleExtension = async (agentId: string, key: ExtKey, id: string, checked: boolean) => {
+    const current = key === 'skill_ids' ? agentSkills : agentTools
+    const next = checked ? [...current, id] : current.filter((x) => x !== id)
+    if (key === 'skill_ids') setAgentSkills(next)
+    else setAgentTools(next)
+    await authFetch(`${API}/agents/${agentId}/${key === 'skill_ids' ? 'skills' : 'tools'}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ [key]: next }),
+    })
+  }
+
   const openAgent = async (id: string) => {
     setIsNew(false)
     const res = await authFetch(`${API}/agents/${id}`)
     if (res.ok) {
       const data: AgentDetail = await res.json()
       setSelected(data)
+      loadAgentExtensions(id)
       setForm({
         name: data.name,
         type: data.type,
@@ -396,10 +469,111 @@ export default function AgentConfigPage() {
                   <li>修改通用合规 Agent 的 System Prompt 将影响所有用户的合规查询行为</li>
                 </ul>
               </div>
+
+              {/* Skills / Tools 关联管理 */}
+              {selected && !isNew && (
+                <div style={{ maxWidth: 800, marginTop: 24 }}>
+                  <ExtPanel
+                    title="关联 Skills"
+                    items={skillsList}
+                    selected={agentSkills}
+                    loading={extLoading}
+                    canEdit={isAdmin}
+                    onToggle={(id, checked) => toggleExtension(selected.id, 'skill_ids', id, checked)}
+                    emptyText="暂无可用 Skill"
+                  />
+                  <div style={{ height: 16 }} />
+                  <ExtPanel
+                    title="关联 Tools（插件）"
+                    items={toolsList}
+                    selected={agentTools}
+                    loading={extLoading}
+                    canEdit={isAdmin}
+                    onToggle={(id, checked) => toggleExtension(selected.id, 'tool_ids', id, checked)}
+                    emptyText="暂无可用 Tool"
+                  />
+                </div>
+              )}
             </>
           )}
         </div>
       </div>
+    </div>
+  )
+}
+
+// ── 扩展关联面板 ──────────────────────────────────────────────────
+
+function ExtPanel({
+  title,
+  items,
+  selected,
+  loading,
+  canEdit,
+  onToggle,
+  emptyText,
+}: {
+  title: string
+  items: SkillItem[]
+  selected: string[]
+  loading: boolean
+  canEdit: boolean
+  onToggle: (id: string, checked: boolean) => void
+  emptyText: string
+}) {
+  return (
+    <div style={{
+      border: '1.5px solid rgba(0,0,0,0.08)',
+      borderRadius: 10,
+      padding: '12px 16px',
+    }}>
+      <div style={{
+        fontSize: 11, fontWeight: 600, color: '#86868B',
+        marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.04em',
+        display: 'flex', alignItems: 'center', gap: 8,
+      }}>
+        {title}
+        <span style={{ fontSize: 10, color: '#C7C7CC', fontWeight: 400, textTransform: 'none' }}>
+          ({selected.length}/{items.length || 0})
+        </span>
+      </div>
+      {loading ? (
+        <div style={{ fontSize: 12, color: '#86868B', padding: '8px 0' }}>加载中…</div>
+      ) : items.length === 0 ? (
+        <div style={{ fontSize: 12, color: '#86868B', padding: '8px 0' }}>{emptyText}</div>
+      ) : (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+          {items.map((item) => {
+            const active = selected.includes(item.skill_id)
+            return (
+              <label
+                key={item.skill_id}
+                title={item.description || item.name}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 4,
+                  padding: '4px 10px', borderRadius: 6,
+                  border: `1.5px solid ${active ? '#34C759' : 'rgba(0,0,0,0.1)'}`,
+                  background: active ? 'rgba(52,199,89,0.08)' : 'transparent',
+                  fontSize: 12, cursor: canEdit ? 'pointer' : 'default',
+                  transition: 'all 0.12s', opacity: canEdit ? 1 : 0.6,
+                  userSelect: 'none',
+                }}>
+                <input
+                  type="checkbox"
+                  checked={active}
+                  disabled={!canEdit}
+                  onChange={(e) => onToggle(item.skill_id, e.target.checked)}
+                  style={{ margin: 0, accentColor: '#34C759' }}
+                />
+                <span>{item.name}</span>
+                {item.status && item.status !== 'active' && (
+                  <span style={{ fontSize: 10, color: '#FF9500', marginLeft: 2 }}>{item.status}</span>
+                )}
+              </label>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }

@@ -732,12 +732,14 @@ class ChannelRegistry:
         return False
 
     def update(self, name: str, config: Dict[str, Any]) -> Optional[Dict]:
-        """更新频道配置"""
+        """更新频道配置（增量 merge，不覆盖已有字段）"""
         adapter = self._adapters.get(name)
         if not adapter:
             return None
         channel_type = adapter.channel_name
-        self._create_adapter(name, {"channel": channel_type, "config": config})
+        # merge: 新配置覆盖旧配置中同名字段，保留未提及的字段
+        merged_config = {**adapter.config, **config}
+        self._create_adapter(name, {"channel": channel_type, "config": merged_config})
         self._save_config()
         return {"name": name, "channel_type": channel_type, "status": "updated"}
 
@@ -745,10 +747,19 @@ class ChannelRegistry:
         return self._adapters.get(name)
 
     def list_channels(self) -> List[Dict]:
-        return [
-            {"name": name, "channel": adapter.channel_name, "status": "active"}
-            for name, adapter in self._adapters.items()
-        ]
+        result = []
+        for name, adapter in self._adapters.items():
+            cfg = adapter.config or {}
+            result.append({
+                "name": name,
+                "channel": adapter.channel_name,
+                "status": "active" if cfg.get("enabled", True) else "inactive",
+                "webhook_url": cfg.get("webhook_url", cfg.get("webhook", "")),
+                "enabled": cfg.get("enabled", True),
+                "min_level": cfg.get("min_level", "medium"),
+                "config": cfg,
+            })
+        return result
 
     async def broadcast(self, content: str, channels: List[str] = None) -> List[Dict]:
         """广播到指定或全部频道"""

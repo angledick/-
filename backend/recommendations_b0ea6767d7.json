@@ -1,0 +1,57 @@
+{
+  "task_id": "task_b0ea6767d7",
+  "task_type": "recommend_actions",
+  "event_type": "compliance:check_started",
+  "generated_at": 1781426600,
+  "pipeline_stage": "RECOMMENDATIONS_GENERATED",
+  "priority_actions": [
+    {
+      "priority": "CRITICAL",
+      "action": "确认HS编码",
+      "deadline": "IMMEDIATE",
+      "description": "人工确认HS编码（建议范围：8518.30耳机或8517.62蓝牙设备）",
+      "responsible_party": "产品经理"
+    },
+    {
+      "priority": "HIGH",
+      "action": "准备CE认证",
+      "deadline": "2026-08-02",
+      "description": "获取CE认证以符合欧盟要求",
+      "responsible_party": "合规团队"
+    },
+    {
+      "priority": "HIGH",
+      "action": "完成WEEE注册",
+      "deadline": "BEFORE_MARKET_ENTRY",
+      "description": "在德国进行WEEE注册（EAR）",
+      "responsible_party": "合规团队"
+    },
+    {
+      "priority": "MODERATE",
+      "action": "准备RoHS合规",
+      "deadline": "2026-06-30",
+      "description": "完成RoHS合规性评估",
+      "responsible_party": "产品团队"
+    },
+    {
+      "priority": "MODERATE",
+      "action": "准备清关文件",
+      "deadline": "BEFORE_SHIPMENT",
+      "description": "准备商业发票、装箱单、运输单据等",
+      "responsible_party": "物流团队"
+    }
+  ],
+  "compliance_summary": {
+    "target_market": "DE",
+    "hs_code": "PENDING_MANUAL_REVIEW",
+    "vat_rate": 0.0,
+    "risk_level": "medium",
+    "risk_score": 55,
+    "critical_certifications": ["CE认证", "WEEE注册(EAR)", "RoHS合规"]
+  },
+  "timeline": {
+    "immediate_actions": ["HS编码确认"],
+    "short_term": ["CE认证准备", "WEEE注册"],
+    "medium_term": "RoHS合规", "清关文件准备"
+  }
+}

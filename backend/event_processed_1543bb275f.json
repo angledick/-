@@ -1,0 +1,28 @@
+{
+  "task_id": "task_1543bb275f",
+  "event_type": "compliance:check_started",
+  "processed_at": 1781426520,
+  "pipeline_stage": "INITIATED",
+  "six_stage_pipeline": {
+    "stage_1_event_perception": "COMPLETED",
+    "stage_2_data_loading": "IN_PROGRESS",
+    "stage_3_compliance_check": "IN_PROGRESS",
+    "stage_4_risk_assessment": "PENDING",
+    "stage_5_recommendations": "PENDING",
+    "stage_6_reporting": "PENDING"
+  },
+  "compliance_data": {
+    "hs_code": "PENDING_MANUAL_REVIEW",
+    "target_market": "DE",
+    "vat_rate": 0.0,
+    "certifications_required": ["CE认证", "WEEE注册(EAR)", "RoHS合规", "德国包装法(LUCID)", "ERP能效标签"],
+    "risk_level": "medium",
+    "risk_score": 55
+  },
+  "next_actions": [
+    "完成数据加载阶段",
+    "执行风险评估",
+    "生成推荐操作",
+    "生成合规报告"
+  ]
+}

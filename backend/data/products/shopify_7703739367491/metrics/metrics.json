@@ -1,0 +1,10 @@
+{
+  "event_count": 3,
+  "last_event_type": "compliance:check_started",
+  "last_event_time": "2026-06-14T09:03:45.333702+00:00",
+  "snapshot_time": "2026-06-14T09:04:48.301311+00:00",
+  "event_type_counts": {
+    "product:status_changed": 2,
+    "compliance:check_started": 1
+  }
+}

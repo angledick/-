@@ -1,65 +1,16 @@
 # ====== 定时任务配置文件 ======
 #
-# 本文件定义了系统中所有定时任务的元数据和默认参数。
-# 每个任务包含:
-#   - task_name:       唯一标识符，不可重复
-#   - display_name:    前端展示名称
-#   - description:     简短描述
-#   - agent_instructions: 发给执行 Worker / QA Agent 的语义化指令（Agent 读取此字段理解任务目的和执行步骤）
-#   - default_trigger: 触发方式（interval / cron）
-#   - trigger_args:    触发参数（分钟/小时/cron表达式）
-#   - default_worker:  默认绑定的 Worker
-#
-# 任务绑定逻辑:
-#   1. bindings.yaml 中的绑定优先级高于此处的 default_worker
-#   2. Worker 通过 WorkerRegistry.execute_worker_task() 执行任务
-#   3. 执行时 Worker 读取 agent_instructions 理解任务目标
-#
-# ⚠ 通过前端配置中心、API 或 QA Agent 修改此文件时：
-#   - 新增任务: 确保 task_name 唯一，并同步添加绑定到 bindings.yaml
-#   - 删除任务: 同时清理 bindings.yaml 中的对应绑定
-#   - 修改任务: 确保 agent_instructions 更新以保持 Agent 行为正确
+# 仅保留三项核心定时任务：
+#   1. 风险情报检索（每小时）
+#   2. 心跳自检（每5分钟）
+#   3. Shopify 商品同步（每20分钟，检测缺失商品并推送）
 #
 # ==================================
 tasks:
-  - task_name: poll_all_markets
-    display_name: "市场轮询"
-    description: "定时市场轮询 → 联网搜索 → 影响分析 → 预警推送"
-    agent_instructions: "此任务定期巡查所有配置的目标市场的法规/政策变更。执行流程：1) 调用 regulation-scan skill 扫描各市场 2) 如有变更调用 impact-analysis 评估影响 3) 高风险项触发 risk_worker 预警推送。Worker 在执行时需要收集各市场最近7天的法规公告，结构化输出变更列表。"
-    default_trigger: interval
-    trigger_args:
-      minutes: ${market_poll_interval_minutes}
-    default_worker: regulation_worker
-  - task_name: collect_metrics
-    display_name: "指标收集"
-    description: "定时聚合Dashboard指标数据"
-    agent_instructions: "此任务聚合系统各维度的合规运行指标：产品合规率、认证到期数量、法规变更统计、Worker健康状况、API请求量/错误率。将数据格式化后推送到 Dashboard 数据源。"
-    default_trigger: interval
-    trigger_args:
-      hours: 6
-    default_worker: system_worker
-  - task_name: daily_compliance_brief
-    display_name: "每日合规简报"
-    description: "每天09:00生成合规简报并推送到Dashboard"
-    agent_instructions: "此任务生成每日合规简报。1) 汇总过去24小时的所有法规变更 2) 汇总产品合规状态变化 3) 汇总认证到期预警 4) 生成合规评分趋势 5) 以Markdown格式输出简报并推送 Dashboard。输出应包括：高风险项TOP5、合规率变化、需关注事件列表。"
-    default_trigger: cron
-    trigger_args:
-      hour: 9
-      minute: 0
-    default_worker: compliance_worker
-  - task_name: check_cert_expiry
-    display_name: "认证到期预警"
-    description: "每天10:00检查产品认证是否即将到期"
-    agent_instructions: "此任务检查所有产品的合规认证到期状态。1) 遍历产品库中的所有认证记录 2) 识别30天内到期的认证 3) 对已过期认证标记为critical 4) 推送到期预警到 Dashboard/Email/WebSocket。需要输出：正常/即将到期/已过期 三级状态统计。"
-    default_trigger: cron
-    trigger_args:
-      hour: 10
-      minute: 0
-    default_worker: cert_worker
   - task_name: scan_regulation_changes
-    display_name: "法规变更扫描"
-    description: "每小时扫描目标市场法规变更"
-    agent_instructions: "此任务执行高频法规扫描。使用 regulation-scan skill 联网搜索各目标市场（EU/US/UK/JP/KR）过去7天的法规公告。输出结构化变更列表，对 high/critical 级别的变更需立即触发 impact-analysis。注意每个市场的数据源URL和搜索关键词。"
+    display_name: "风险情报检索"
+    description: "每小时扫描目标市场法规变更并推送预警"
+    agent_instructions: "此任务执行高频法规与风险情报扫描。使用 regulation-scan skill 联网搜索各目标市场（EU/US/UK/JP/KR）过去7天的法规公告、贸易政策变更、关税调整。输出结构化变更列表，对 high/critical 级别的变更立即触发 impact-analysis 并推送飞书预警。"
     default_trigger: interval
     trigger_args:
       hours: 1
@@ -72,27 +23,11 @@ tasks:
     trigger_args:
       minutes: 5
     default_worker: system_worker
-  - task_name: generate_cross_product_insights
-    display_name: "跨产品洞察"
-    description: "每4小时生成跨产品合规洞察报告"
-    agent_instructions: "此任务分析跨产品的合规模式和趋势。1) 识别共性问题（某类产品普遍缺少某认证）2) 发现风险聚集（某个市场的产品集中出现法规变更影响）3) 输出洞察报告供决策参考。数据来源：产品库、认证记录、法规变更历史、合规检查结果。"
+  - task_name: shopify_product_sync
+    display_name: "Shopify 商品同步"
+    description: "每20分钟同步 Shopify 商品到本地，检测缺失商品并推送通知"
+    agent_instructions: "此任务同步 Shopify 店铺商品到本地产品库。执行流程：1) 调用 Shopify Admin API 获取最新商品列表 2) 与本地产品库对比 3) 新增商品自动创建产品记录 4) 识别 Shopify 有但本地缺失的商品并推送飞书通知 5) 更新已有商品的库存和价格信息。"
     default_trigger: interval
     trigger_args:
-      hours: 4
-    default_worker: compliance_worker
-  - task_name: aggregate_global_metrics
-    display_name: "全局指标聚合"
-    description: "每12小时聚合全局合规指标"
-    agent_instructions: "此任务聚合12小时窗口内的全局指标。聚合维度：1) 产品维度：总数/合规率/高风险占比 2) 市场维度：各市场产品分布/法规变更数 3) 时间维度：合规率趋势/事件频率 4) Worker维度：执行次数/成功率/平均耗时。输出JSON格式的聚合数据供Dashboard查询。"
-    default_trigger: interval
-    trigger_args:
-      hours: 12
-    default_worker: system_worker
-  - task_name: news_collect_and_analyze
-    display_name: "新闻采集与分析"
-    description: "每小时采集新闻 + AI 风险分析 + 高风险推送预警"
-    agent_instructions: "此任务采集行业新闻并进行AI风险分析。1) 使用 news_collector 工具从配置的RSS/新闻源采集最新行业新闻 2) 使用 news_analyzer 工具对每条新闻进行风险评分 3) 高风险新闻推送预警到配置的通知渠道 4) 将结果存入 news_store 供查询。注意区分 regulation / tariff / certification / market 等新闻类别。"
-    default_trigger: interval
-    trigger_args:
-      hours: 1
-    default_worker: regulation_worker
+      minutes: 20
+    default_worker: listing_worker

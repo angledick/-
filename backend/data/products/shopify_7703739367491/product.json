@@ -12,12 +12,12 @@
     "smart home",
     "test"
   ],
-  "lifecycle_stage": "concept",
-  "business_stage": "阶段2",
+  "lifecycle_stage": "ready",
+  "business_stage": "阶段4",
   "compliance_status": "pending",
   "risk_level": "low",
   "created_at": "2026-06-13T23:50:11.327192+00:00",
-  "updated_at": "2026-06-14T08:03:41.981393+00:00",
+  "updated_at": "2026-06-14T09:04:14.184758+00:00",
   "metadata": {
     "shopify_id": 7703739367491,
     "handle": "astra-智能led灯带-smart-led-strip",

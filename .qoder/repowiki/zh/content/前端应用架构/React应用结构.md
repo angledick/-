@@ -3,40 +3,31 @@
 <cite>
 **本文档引用的文件**
 - [frontend/src/main.tsx](file://frontend/src/main.tsx)
-- [frontend/index.html](file://frontend/index.html)
-- [frontend/src/App.tsx](file://frontend/src/App.tsx)
-- [frontend/vite.config.ts](file://frontend/vite.config.ts)
-- [frontend/package.json](file://frontend/package.json)
-- [frontend/tsconfig.json](file://frontend/tsconfig.json)
-- [frontend/src/context/AuthContext.tsx](file://frontend/src/context/AuthContext.tsx)
-- [frontend/src/context/AppStore.tsx](file://frontend/src/context/AppStore.tsx)
-- [frontend/src/context/WebSocketContext.tsx](file://frontend/src/context/WebSocketContext.tsx)
-- [frontend/src/context/NotificationContext.tsx](file://frontend/src/context/NotificationContext.tsx)
-- [frontend/src/components/Layout.tsx](file://frontend/src/components/Layout.tsx)
+- [frontend/src/layouts/AppLayout.tsx](file://frontend/src/layouts/AppLayout.tsx)
+- [frontend/src/router/index.tsx](file://frontend/src/router/index.tsx)
+- [frontend/src/components/CommandPalette.tsx](file://frontend/src/components/CommandPalette.tsx)
 - [frontend/src/components/Sidebar.tsx](file://frontend/src/components/Sidebar.tsx)
-- [frontend/src/components/NotificationCenter.tsx](file://frontend/src/components/NotificationCenter.tsx)
-- [frontend/src/components/ToastNotification.tsx](file://frontend/src/components/ToastNotification.tsx)
-- [frontend/src/pages/LoginPage.tsx](file://frontend/src/pages/LoginPage.tsx)
-- [frontend/src/pages/OverviewPage.tsx](file://frontend/src/pages/OverviewPage.tsx)
-- [frontend/src/api/config.ts](file://frontend/src/api/config.ts)
-- [frontend/src/types/index.ts](file://frontend/src/types/index.ts)
-- [shopify-app/astra-compliance/app/root.jsx](file://shopify-app/astra-compliance/app/root.jsx)
-- [shopify-app/astra-compliance/app/routes/_index/route.jsx](file://shopify-app/astra-compliance/app/routes/_index/route.jsx)
-- [shopify-app/astra-compliance/app/routes/auth.login/route.jsx](file://shopify-app/astra-compliance/app/routes/auth.login/route.jsx)
-- [shopify-app/astra-compliance/app/db.server.js](file://shopify-app/astra-compliance/app/db.server.js)
-- [shopify-app/astra-compliance/prisma/schema.prisma](file://shopify-app/astra-compliance/prisma/schema.prisma)
-- [shopify-app/astra-compliance/package.json](file://shopify-app/astra-compliance/package.json)
-- [shopify-app/astra-compliance/vite.config.js](file://shopify-app/astra-compliance/vite.config.js)
-- [shopify-app/astra-compliance/tsconfig.json](file://shopify-app/astra-compliance/tsconfig.json)
+- [frontend/src/components/ErrorBoundary.tsx](file://frontend/src/components/ErrorBoundary.tsx)
+- [frontend/src/providers/QueryProvider.tsx](file://frontend/src/providers/QueryProvider.tsx)
+- [frontend/src/providers/ThemeProvider.tsx](file://frontend/src/providers/ThemeProvider.tsx)
+- [frontend/src/context/AuthContext.tsx](file://frontend/src/context/AuthContext.tsx)
+- [frontend/src/hooks/useConfirm.tsx](file://frontend/src/hooks/useConfirm.tsx)
+- [frontend/src/pages/Dashboard.tsx](file://frontend/src/pages/Dashboard.tsx)
+- [frontend/src/pages/ChatPage.tsx](file://frontend/src/pages/ChatPage.tsx)
+- [frontend/package.json](file://frontend/package.json)
+- [frontend/tailwind.config.ts](file://frontend/tailwind.config.ts)
+- [frontend/vite.config.ts](file://frontend/vite.config.ts)
 </cite>
 
 ## 更新摘要
 **所做更改**
-- 新增Shopify应用前端架构章节，涵盖React Router 7.12.0、TypeScript、Prisma集成
-- 更新架构总览图，包含Shopify应用的现代前端技术栈
-- 新增Shopify应用的数据库设计与Prisma集成说明
-- 扩展依赖关系分析，包含Shopify应用的现代化技术栈
-- 更新性能考虑章节，增加Shopify应用的优化策略
+- 完全重写文档以反映从旧架构到React 19 + TypeScript + Tailwind CSS的现代化迁移
+- 新增完整的AppLayout.tsx布局系统和CommandPalette命令面板
+- 更新Provider层次结构，包括新的ThemeProvider、QueryProvider、ConfirmProvider
+- 重构路由系统，采用React Router 7.1.0的现代化路由能力
+- 新增完整的UI组件库系统，包括Radix UI + shadcn/ui + Tailwind CSS
+- 更新聊天组件架构，包括ChatPage、MessageBubble、SessionList等
+- 优化构建配置，采用Vite 6.0.0和代码分割策略
 
 ## 目录
 1. [引言](#引言)
@@ -44,555 +35,490 @@
 3. [核心组件](#核心组件)
 4. [架构总览](#架构总览)
 5. [详细组件分析](#详细组件分析)
-6. [Shopify应用前端架构](#shopify应用前端架构)
-7. [依赖关系分析](#依赖关系分析)
-8. [性能考虑](#性能考虑)
-9. [故障排查指南](#故障排查指南)
-10. [结论](#结论)
-11. [附录](#附录)
+6. [现代化组件库系统](#现代化组件库系统)
+7. [聊天组件架构](#聊天组件架构)
+8. [依赖关系分析](#依赖关系分析)
+9. [性能考虑](#性能考虑)
+10. [故障排查指南](#故障排查指南)
+11. [结论](#结论)
+12. [附录](#附录)
 
 ## 引言
-本文件面向避风港平台的React前端应用，系统性梳理从应用入口到页面渲染的完整流程，重点覆盖以下方面：
-- 应用入口与初始化：main.tsx如何挂载根组件App.tsx
-- 根组件设计模式：路由、认证、通知、WebSocket与全局状态的组合使用
-- Vite构建与开发服务器：插件、代理与脚本配置
-- 路由系统与页面组织：静态路由与布局嵌套
-- 生命周期管理、错误边界与性能监控集成
-- 组件树结构、代码分割与Bundle优化策略
-- **新增** Shopify应用前端架构：React Router 7.12.0、TypeScript、Prisma集成等现代化前端技术栈
+本文件面向避风港平台的现代化React前端应用，系统性梳理从应用入口到页面渲染的完整流程。该应用已完成从传统架构到React 19 + TypeScript + Tailwind CSS的全面迁移，采用现代化的组件库系统和路由架构。
+
+**主要技术栈**：
+- React 19.0.0：最新React版本，提供并发特性和性能优化
+- TypeScript ~5.7.0：强类型安全保障
+- Tailwind CSS 3.4.16：实用优先的CSS框架
+- Radix UI：无障碍的底层组件库
+- shadcn/ui：高质量的UI组件库
+- React Router 7.1.0：现代化路由系统
+- @tanstack/react-query：智能状态管理
 
 ## 项目结构
-前端位于frontend目录，采用React + TypeScript + Vite技术栈，使用TailwindCSS进行样式管理。项目采用按功能域划分的目录组织方式，核心目录包括：
-- src：源码目录
-  - api：统一的后端API封装
-  - components：可复用UI组件
-  - context：全局状态与上下文（认证、WebSocket、通知、Zustand）
-  - hooks：自定义Hook
-  - pages：页面组件
-  - types：类型定义
-  - main.tsx：应用入口
-  - App.tsx：根组件
-- 构建配置：vite.config.ts、tsconfig.json、package.json
-- HTML入口：index.html
+前端位于frontend目录，采用React 19 + TypeScript + Vite技术栈，使用Tailwind CSS进行样式管理。项目采用按功能域划分的目录组织方式：
 
-**新增** Shopify应用位于shopify-app目录，采用Shopify React App架构，包含：
-- app：应用路由和组件
-- prisma：数据库模式和迁移
-- 现代化技术栈：React Router 7.12.0、TypeScript、Prisma集成
-
-```mermaid
-graph TB
-A["index.html<br/>挂载点 #root"] --> B["main.tsx<br/>创建根容器"]
-B --> C["App.tsx<br/>BrowserRouter + Providers"]
-C --> D["AuthContext<br/>登录/鉴权"]
-C --> E["WebSocketContext<br/>实时通知"]
-C --> F["NotificationContext<br/>通知/Toast"]
-C --> G["AppRoutes<br/>路由与页面"]
-G --> H["Layout<br/>侧边栏/顶部栏/Outlet"]
-H --> I["Sidebar<br/>导航"]
-H --> J["Outlet<br/>子路由内容"]
-J --> K["OverviewPage<br/>概览页"]
-J --> L["其他页面组件..."]
-subgraph "Shopify应用架构"
-S["shopify-app/<br/>React Router 7.12.0"]
-S --> R["app/<br/>路由与组件"]
-S --> P["prisma/<br/>数据库模式"]
-S --> T["TypeScript<br/>类型安全"]
-S --> PR["Prisma<br/>ORM集成"]
-end
+```
+frontend/
+├── src/
+│   ├── components/          # 现代化UI组件
+│   ├── context/            # 全局状态与上下文
+│   ├── hooks/              # 自定义Hook
+│   ├── layouts/            # 页面布局组件
+│   ├── pages/              # 页面组件
+│   ├── providers/          # 应用提供者
+│   ├── router/             # 路由配置
+│   ├── types/              # 类型定义
+│   ├── lib/                # 工具函数
+│   └── main.tsx           # 应用入口
+├── public/                # 静态资源
+├── package.json           # 依赖配置
+├── vite.config.ts         # 构建配置
+├── tailwind.config.ts     # 样式配置
+└── tsconfig.json          # TypeScript配置
 ```
 
-**图表来源**
-- [frontend/index.html:8-11](file://frontend/index.html#L8-L11)
-- [frontend/src/main.tsx:1-10](file://frontend/src/main.tsx#L1-L10)
-- [frontend/src/App.tsx:1-93](file://frontend/src/App.tsx#L1-L93)
-- [shopify-app/astra-compliance/app/root.jsx](file://shopify-app/astra-compliance/app/root.jsx)
-- [shopify-app/astra-compliance/prisma/schema.prisma](file://shopify-app/astra-compliance/prisma/schema.prisma)
-
 **章节来源**
-- [frontend/index.html:1-12](file://frontend/index.html#L1-L12)
-- [frontend/src/main.tsx:1-10](file://frontend/src/main.tsx#L1-L10)
-- [shopify-app/astra-compliance/package.json](file://shopify-app/astra-compliance/package.json)
+- [frontend/src/main.tsx:1-31](file://frontend/src/main.tsx#L1-L31)
+- [frontend/package.json:1-56](file://frontend/package.json#L1-L56)
 
 ## 核心组件
-本节聚焦应用启动与根组件的关键职责与实现要点。
+本节聚焦应用启动与现代化Provider层次结构的关键职责与实现要点。
 
-- 应用入口 main.tsx
-  - 使用React 18的createRoot挂载App组件
-  - 引入全局样式与根组件
-  - 严格模式包裹，便于捕获潜在问题
-
-- 根组件 App.tsx
-  - 使用BrowserRouter包裹，提供路由能力
-  - 通过AuthProvider注入认证上下文
-  - AppRoutes根据登录状态决定渲染登录页或受保护路由
-  - 在受保护路由下，嵌套WebSocketProvider、NotificationProvider与ConfigLoader，实现实时通知、通知中心与Agent配置加载
-  - 路由表定义了完整的页面映射，包含概览、合规、产品、对话、知识库、配置中心、内存树、指标、Agent监控、用户管理、风险中心等
-
-- 全局状态与上下文
-  - AuthContext：负责登录、登出、token持久化、鉴权fetch封装
-  - WebSocketContext：WebSocket连接、心跳、自动重连、事件分发
-  - NotificationContext：通知中心与Toast管理，支持WebSocket事件驱动
-  - AppStore（Zustand）：Agent配置、侧边栏状态等
-
-**新增** Shopify应用核心组件
-- root.jsx：应用根组件，提供路由容器和上下文提供者
-- db.server.js：数据库服务器配置，集成Prisma ORM
-- 路由组件：基于React Router 7.12.0的现代化路由系统
-
-**章节来源**
-- [frontend/src/main.tsx:1-10](file://frontend/src/main.tsx#L1-L10)
-- [frontend/src/App.tsx:1-93](file://frontend/src/App.tsx#L1-L93)
-- [frontend/src/context/AuthContext.tsx:1-106](file://frontend/src/context/AuthContext.tsx#L1-L106)
-- [frontend/src/context/WebSocketContext.tsx:1-132](file://frontend/src/context/WebSocketContext.tsx#L1-L132)
-- [frontend/src/context/NotificationContext.tsx:1-187](file://frontend/src/context/NotificationContext.tsx#L1-L187)
-- [frontend/src/context/AppStore.tsx:1-107](file://frontend/src/context/AppStore.tsx#L1-L107)
-- [shopify-app/astra-compliance/app/root.jsx](file://shopify-app/astra-compliance/app/root.jsx)
-- [shopify-app/astra-compliance/app/db.server.js](file://shopify-app/astra-compliance/app/db.server.js)
-
-## 架构总览
-应用采用"入口 -> 根组件 -> 上下文提供者 -> 路由 -> 页面"的分层架构。认证与实时通信贯穿整个应用，全局状态通过Zustand集中管理。
-
-**更新** 新增Shopify应用的现代化前端技术栈架构：
+### 应用入口 main.tsx
+应用入口采用React 19的createRoot API，构建了完整的Provider层次结构：
 
 ```mermaid
 graph TB
-subgraph "传统React应用"
-M["main.tsx"]
-I["index.html"]
-A["App.tsx"]
-AC["AuthContext"]
-WC["WebSocketContext"]
-NC["NotificationContext"]
-ZS["Zustand Store(AppStore)"]
-R["AppRoutes"]
-L["Layout"]
-S["Sidebar"]
-P1["OverviewPage"]
-P2["LoginPage"]
-P3["其他页面..."]
+A[main.tsx] --> B[StrictMode]
+B --> C[ThemeProvider]
+C --> D[QueryProvider]
+D --> E[AuthProvider]
+E --> F[ConfirmProvider]
+F --> G[ErrorBoundary]
+G --> H[RouterProvider]
+H --> I[Toaster]
+```
+
+**Provider层次结构**：
+- **ThemeProvider**：基于next-themes的主题管理系统
+- **QueryProvider**：@tanstack/react-query的状态缓存系统
+- **AuthProvider**：认证状态管理和token持久化
+- **ConfirmProvider**：全局确认对话框服务
+- **ErrorBoundary**：全局错误边界处理
+- **RouterProvider**：React Router 7.1.0路由系统
+
+**章节来源**
+- [frontend/src/main.tsx:15-30](file://frontend/src/main.tsx#L15-L30)
+
+### Provider层次结构
+每个Provider负责特定的功能领域，通过组合提供完整的应用功能：
+
+```mermaid
+sequenceDiagram
+participant App as 应用启动
+participant Theme as ThemeProvider
+participant Query as QueryProvider
+participant Auth as AuthProvider
+participant Confirm as ConfirmProvider
+participant Error as ErrorBoundary
+participant Router as RouterProvider
+App->>Theme : 初始化主题系统
+Theme->>Query : 包装查询缓存
+Query->>Auth : 包装认证状态
+Auth->>Confirm : 包装确认对话框
+Confirm->>Error : 包装错误边界
+Error->>Router : 包装路由系统
+Router-->>App : 渲染应用界面
+```
+
+**章节来源**
+- [frontend/src/providers/ThemeProvider.tsx:1-16](file://frontend/src/providers/ThemeProvider.tsx#L1-L16)
+- [frontend/src/providers/QueryProvider.tsx:1-31](file://frontend/src/providers/QueryProvider.tsx#L1-L31)
+- [frontend/src/context/AuthContext.tsx:1-137](file://frontend/src/context/AuthContext.tsx#L1-L137)
+- [frontend/src/hooks/useConfirm.tsx:1-99](file://frontend/src/hooks/useConfirm.tsx#L1-L99)
+
+## 架构总览
+应用采用"入口 -> Provider层次结构 -> 路由 -> 页面"的现代化分层架构。这种架构提供了清晰的关注点分离和强大的功能组合能力。
+
+**现代化架构特点**：
+- **React 19并发特性**：自动批处理和优先级调度
+- **组件库集成**：Radix UI + shadcn/ui + Tailwind CSS
+- **状态管理**：@tanstack/react-query智能缓存
+- **路由系统**：React Router 7.1.0现代化路由
+- **主题系统**：next-themes明暗主题切换
+- **错误处理**：全局ErrorBoundary和局部错误边界
+
+```mermaid
+graph TB
+subgraph "应用入口层"
+Main[main.tsx]
+Strict[StrictMode]
 end
-subgraph "Shopify应用架构"
-SR["Shopify Root"]
-SC["Shopify Components"]
-SP["Prisma ORM"]
-SD["Database Schema"]
-ST["TypeScript"]
-SRT["React Router 7.12.0"]
+subgraph "Provider层次结构"
+Theme[ThemeProvider]
+Query[QueryProvider]
+Auth[AuthProvider]
+Confirm[ConfirmProvider]
+Error[ErrorBoundary]
+Toaster[Toaster]
 end
-I --> M --> A
-A --> AC
-A --> WC
-A --> NC
-A --> ZS
-A --> R
-R --> L
-L --> S
-L --> P1
-R --> P2
-R --> P3
-SR --> SC
-SC --> SP
-SP --> SD
-SC --> ST
-SC --> SRT
+subgraph "路由系统"
+Router[RouterProvider]
+Route[React Router 7.1.0]
+Guard[路由守卫]
+end
+subgraph "页面层"
+Layout[AppLayout]
+Sidebar[Sidebar]
+Outlet[Outlet]
+Page[页面组件]
+end
+Main --> Strict --> Theme --> Query --> Auth --> Confirm --> Error --> Router
+Router --> Route --> Guard --> Layout
+Layout --> Sidebar --> Outlet --> Page
 ```
 
 **图表来源**
-- [frontend/src/main.tsx:1-10](file://frontend/src/main.tsx#L1-L10)
-- [frontend/src/App.tsx:1-93](file://frontend/src/App.tsx#L1-L93)
-- [shopify-app/astra-compliance/app/root.jsx](file://shopify-app/astra-compliance/app/root.jsx)
-- [shopify-app/astra-compliance/prisma/schema.prisma](file://shopify-app/astra-compliance/prisma/schema.prisma)
-- [shopify-app/astra-compliance/package.json](file://shopify-app/astra-compliance/package.json)
+- [frontend/src/main.tsx:15-30](file://frontend/src/main.tsx#L15-L30)
+- [frontend/src/router/index.tsx:62-252](file://frontend/src/router/index.tsx#L62-L252)
+- [frontend/src/layouts/AppLayout.tsx:29-43](file://frontend/src/layouts/AppLayout.tsx#L29-L43)
 
 **章节来源**
-- [frontend/src/main.tsx:1-10](file://frontend/src/main.tsx#L1-L10)
-- [frontend/src/App.tsx:1-93](file://frontend/src/App.tsx#L1-L93)
-- [shopify-app/astra-compliance/app/root.jsx](file://shopify-app/astra-compliance/app/root.jsx)
+- [frontend/src/main.tsx:1-31](file://frontend/src/main.tsx#L1-L31)
+- [frontend/src/router/index.tsx:1-253](file://frontend/src/router/index.tsx#L1-L253)
 
 ## 详细组件分析
 
 ### 应用入口与初始化流程
-- HTML提供挂载点#root
-- main.tsx创建根容器并渲染<App />
-- App.tsx在BrowserRouter内注入AuthProvider，随后根据登录状态决定渲染路径
+应用启动时按照严格的Provider嵌套顺序初始化各个功能模块：
 
 ```mermaid
 sequenceDiagram
-participant Browser as "浏览器"
-participant HTML as "index.html"
-participant Main as "main.tsx"
-participant App as "App.tsx"
-participant Auth as "AuthContext"
+participant Browser as 浏览器
+participant HTML as index.html
+participant Main as main.tsx
+participant Theme as ThemeProvider
+participant Query as QueryProvider
+participant Auth as AuthProvider
+participant Router as RouterProvider
 Browser->>HTML : 加载页面
-HTML-->>Browser : 渲染 <div id="root"></div>
+HTML-->>Browser : 渲染 <div id="root">
 Browser->>Main : 执行入口脚本
-Main->>App : createRoot(...).render(<App />)
-App->>Auth : 初始化AuthProvider
-App->>App : 判断登录状态并渲染路由
+Main->>Theme : 创建主题提供者
+Theme->>Query : 包装查询提供者
+Query->>Auth : 包装认证提供者
+Auth->>Router : 包装路由提供者
+Router-->>Browser : 渲染应用界面
 ```
 
-**图表来源**
-- [frontend/index.html:8-11](file://frontend/index.html#L8-L11)
-- [frontend/src/main.tsx:1-10](file://frontend/src/main.tsx#L1-L10)
-- [frontend/src/App.tsx:1-93](file://frontend/src/App.tsx#L1-L93)
-- [frontend/src/context/AuthContext.tsx:1-106](file://frontend/src/context/AuthContext.tsx#L1-L106)
+**初始化流程**：
+1. **HTML挂载**：index.html提供#root挂载点
+2. **StrictMode包裹**：提供开发时警告和错误边界
+3. **ThemeProvider**：初始化主题系统，支持明暗主题切换
+4. **QueryProvider**：设置@tanstack/react-query客户端
+5. **AuthProvider**：恢复本地认证状态
+6. **RouterProvider**：配置React Router路由
 
 **章节来源**
+- [frontend/src/main.tsx:15-30](file://frontend/src/main.tsx#L15-L30)
 - [frontend/index.html:1-12](file://frontend/index.html#L1-L12)
-- [frontend/src/main.tsx:1-10](file://frontend/src/main.tsx#L1-L10)
-- [frontend/src/App.tsx:1-93](file://frontend/src/App.tsx#L1-L93)
 
-### 根组件设计模式与路由系统
-- 根组件App.tsx通过BrowserRouter提供路由能力
-- AppRoutes根据useAuth的状态决定渲染：
-  - loading态：显示加载中
-  - 未登录：渲染LoginPage
-  - 已登录：渲染Layout与受保护路由
-- 路由表覆盖概览、系统合规、产品、对话、知识库、配置中心、内存树、指标、Agent监控、用户管理、风险中心等页面
-- Layout组件负责侧边栏、顶部状态栏与Outlet，形成主内容区域
+### Provider层次结构与路由系统
+路由系统采用React Router 7.1.0，支持现代化的路由特性：
 
 ```mermaid
 flowchart TD
-Start(["进入 AppRoutes"]) --> CheckLoading{"是否正在加载?"}
-CheckLoading --> |是| ShowLoading["显示加载中界面"]
-CheckLoading --> |否| CheckUser{"是否有用户?"}
-CheckUser --> |否| RenderLogin["渲染 LoginPage"]
-CheckUser --> |是| RenderLayout["渲染 Layout + 受保护路由"]
-RenderLayout --> Routes["Routes 定义页面映射"]
-Routes --> End(["完成渲染"])
+Start([应用启动]) --> ThemeProvider[ThemeProvider<br/>初始化主题]
+ThemeProvider --> QueryProvider[QueryProvider<br/>初始化查询缓存]
+QueryProvider --> AuthProvider[AuthProvider<br/>初始化认证状态]
+AuthProvider --> ConfirmProvider[ConfirmProvider<br/>初始化确认对话框]
+ConfirmProvider --> ErrorBoundary[ErrorBoundary<br/>设置错误边界]
+ErrorBoundary --> RouterProvider[RouterProvider<br/>设置路由]
+RouterProvider --> AppLayout[AppLayout<br/>应用布局]
+AppLayout --> Routes[路由配置<br/>页面映射]
+Routes --> Pages[页面组件<br/>Dashboard/ChatPage等]
 ```
 
-**图表来源**
-- [frontend/src/App.tsx:35-82](file://frontend/src/App.tsx#L35-L82)
-- [frontend/src/components/Layout.tsx:1-60](file://frontend/src/components/Layout.tsx#L1-L60)
-- [frontend/src/pages/LoginPage.tsx:1-90](file://frontend/src/pages/LoginPage.tsx#L1-L90)
+**路由配置特点**：
+- **首屏优化**：关键页面直接导入，次要页面懒加载
+- **权限控制**：RequireAuth、RequireAdmin路由守卫
+- **布局系统**：AppLayout统一页面结构
+- **错误处理**：NotFoundPage友好404页面
 
 **章节来源**
-- [frontend/src/App.tsx:1-93](file://frontend/src/App.tsx#L1-L93)
-- [frontend/src/components/Layout.tsx:1-60](file://frontend/src/components/Layout.tsx#L1-L60)
-- [frontend/src/pages/LoginPage.tsx:1-90](file://frontend/src/pages/LoginPage.tsx#L1-L90)
+- [frontend/src/router/index.tsx:62-252](file://frontend/src/router/index.tsx#L62-L252)
+- [frontend/src/layouts/AppLayout.tsx:9-44](file://frontend/src/layouts/AppLayout.tsx#L9-L44)
 
 ### 认证上下文与登录流程
-- AuthProvider负责：
-  - 启动时从localStorage恢复token与用户信息
-  - 提供login、logout方法
-  - 封装authFetch，自动附加Authorization头
-- LoginPage接收用户名/密码，调用login并处理错误
+AuthProvider负责完整的认证状态管理：
 
 ```mermaid
 sequenceDiagram
-participant UI as "LoginPage"
-participant Auth as "AuthContext"
-participant API as "后端 /api/v1/auth/login"
+participant UI as 登录页面
+participant Auth as AuthProvider
+participant API as 后端认证接口
+participant Storage as localStorage
 UI->>Auth : login(username, password)
 Auth->>API : POST /api/v1/auth/login
-API-->>Auth : 返回 access_token 与 user_id/role
-Auth->>Auth : 写入 localStorage
+API-->>Auth : 返回 access_token 和 user_id/role
+Auth->>Storage : 写入 token 和用户信息
 Auth-->>UI : 设置 user/token 状态
+Note over Auth : 自动重定向到仪表板
 ```
 
-**图表来源**
-- [frontend/src/context/AuthContext.tsx:44-72](file://frontend/src/context/AuthContext.tsx#L44-L72)
-- [frontend/src/pages/LoginPage.tsx:11-23](file://frontend/src/pages/LoginPage.tsx#L11-L23)
+**认证流程**：
+1. **启动恢复**：从localStorage恢复token和用户信息
+2. **状态验证**：异步验证token有效性
+3. **登录处理**：POST请求认证接口
+4. **状态更新**：设置认证状态和用户信息
+5. **持久化存储**：保存token和用户数据
 
 **章节来源**
-- [frontend/src/context/AuthContext.tsx:1-106](file://frontend/src/context/AuthContext.tsx#L1-L106)
-- [frontend/src/pages/LoginPage.tsx:1-90](file://frontend/src/pages/LoginPage.tsx#L1-L90)
+- [frontend/src/context/AuthContext.tsx:32-103](file://frontend/src/context/AuthContext.tsx#L32-L103)
 
-### 实时通知与WebSocket集成
-- WebSocketContext：
-  - 连接URL基于当前主机与固定端口
-  - 支持心跳与自动重连
-  - 事件分发：按type分发至注册处理器，支持通配符*
-- NotificationContext：
-  - 初始化时拉取风险预警作为通知
-  - 监听WebSocket事件，生成通知与Toast
-  - 提供通知增删改查与Toast管理
+### 错误边界与异常处理
+ErrorBoundary提供全局错误捕获和用户友好的错误展示：
 
-```mermaid
-sequenceDiagram
-participant WS as "WebSocketContext"
-participant NC as "NotificationContext"
-participant API as "后端 /api/v1/risk/alerts"
-participant UI as "NotificationCenter/Toast"
-WS->>WS : 连接 ws : //host : 8000/api/v1/ws?user_id=...
-WS->>NC : on('*', handler)
-NC->>API : GET /api/v1/risk/alerts
-API-->>NC : 返回 alerts
-NC->>UI : 渲染通知与Toast
-WS-->>NC : 收到消息 -> 触发 handler
-NC->>UI : 新增通知/Toast
-```
-
-**图表来源**
-- [frontend/src/context/WebSocketContext.tsx:31-108](file://frontend/src/context/WebSocketContext.tsx#L31-L108)
-- [frontend/src/context/NotificationContext.tsx:59-117](file://frontend/src/context/NotificationContext.tsx#L59-L117)
-- [frontend/src/api/config.ts:408-434](file://frontend/src/api/config.ts#L408-L434)
+**错误处理机制**：
+- **渲染时异常**：捕获组件渲染错误
+- **动态导入错误**：自动刷新解决chunk加载失败
+- **用户反馈**：提供重试和刷新按钮
+- **日志记录**：控制台错误日志
 
 **章节来源**
-- [frontend/src/context/WebSocketContext.tsx:1-132](file://frontend/src/context/WebSocketContext.tsx#L1-L132)
-- [frontend/src/context/NotificationContext.tsx:1-187](file://frontend/src/context/NotificationContext.tsx#L1-L187)
-- [frontend/src/api/config.ts:1-635](file://frontend/src/api/config.ts#L1-L635)
+- [frontend/src/components/ErrorBoundary.tsx:32-86](file://frontend/src/components/ErrorBoundary.tsx#L32-L86)
 
-### 全局状态与配置加载
-- AppStore（Zustand）：
-  - Agent配置：loadConfig、updateConfig、切换工具/技能、设置当前Agent
-  - 侧边栏状态：collapsed、toggle、setCollapsed
-- ConfigLoader在AppRoutes中首次渲染时触发loadConfig，保证页面渲染前具备基础配置
+## 现代化组件库系统
 
-```mermaid
-flowchart TD
-Start(["AppRoutes 渲染"]) --> LoadCfg["ConfigLoader 调用 loadConfig()"]
-LoadCfg --> FetchAPI["GET /api/v1/chat/config"]
-FetchAPI --> UpdateStore["更新 Zustand Store"]
-UpdateStore --> RenderRoutes["渲染受保护路由"]
-```
+### Radix UI组件库
+应用集成了完整的Radix UI组件库，提供无障碍、可访问性的底层组件：
 
-**图表来源**
-- [frontend/src/App.tsx:29-33](file://frontend/src/App.tsx#L29-L33)
-- [frontend/src/context/AppStore.tsx:28-44](file://frontend/src/context/AppStore.tsx#L28-L44)
+**基础组件**：
+- Button、Input、Label、Separator等
+- Dialog、DropdownMenu、Popover、Tooltip等
+- NavigationMenu、Tabs、Accordion等
+- AlertDialog、Progress、Skeleton等
+- Checkbox、RadioGroup、Select、Slider等
 
-**章节来源**
-- [frontend/src/context/AppStore.tsx:1-107](file://frontend/src/context/AppStore.tsx#L1-L107)
-- [frontend/src/App.tsx:28-33](file://frontend/src/App.tsx#L28-L33)
+**组件特点**：
+- **无障碍支持**：符合WCAG标准
+- **可访问性**：键盘导航和屏幕阅读器支持
+- **轻量级**：无副作用的底层组件
+- **可定制性**：CSS变量和样式覆盖
 
-### 页面组件与数据流
-- OverviewPage：
-  - 并行加载产品数量、市场数量、合规总分与风险预警
-  - 支持自动刷新与手动刷新
-  - 提供风险预警忽略、严重级别筛选、快速入口等交互
-- API封装：
-  - api/config.ts统一管理各类API，提供request封装与鉴权头处理
-  - types/index.ts定义了对话、事件链、风险预警、产品、定时任务等核心类型
+### shadcn/ui组件系统
+基于Tailwind CSS的高质量UI组件库，支持主题定制：
 
-```mermaid
-sequenceDiagram
-participant OP as "OverviewPage"
-participant API as "api/config.ts"
-participant BE as "后端接口"
-OP->>API : 并行调用 productsApi.list/pipelineApi.health/riskAlertsApi.list
-API->>BE : GET /api/v1/products, /api/v1/pipeline/health, /api/v1/risk/alerts
-BE-->>API : 返回数据
-API-->>OP : Promise.allSettled 结果
-OP->>OP : 更新状态/渲染UI
-```
+**组件配置**：
+- **components.json**：组件别名和样式配置
+- **设计令牌**：CSS变量和设计系统
+- **图标系统**：lucide-react图标库
+- **工具函数**：class-variance-authority和clsx
 
-**图表来源**
-- [frontend/src/pages/OverviewPage.tsx:54-81](file://frontend/src/pages/OverviewPage.tsx#L54-L81)
-- [frontend/src/api/config.ts:362-434](file://frontend/src/api/config.ts#L362-L434)
-- [frontend/src/types/index.ts:448-477](file://frontend/src/types/index.ts#L448-L477)
+**组件系统**：
+- **Button**：多种变体和尺寸
+- **Dialog**：模态对话框组件
+- **Badge**：标签和徽章组件
+- **Card**：卡片布局组件
+- **Input**：输入框组件
+
+### Tailwind CSS配置
+现代化的Tailwind CSS配置，支持Radix UI和设计令牌：
+
+**设计系统**：
+- **颜色系统**：基于CSS变量的颜色令牌
+- **字体系统**：DM Sans字体和中英文支持
+- **圆角系统**：统一的圆角半径
+- **阴影系统**：层次化的阴影效果
+
+**动画系统**：
+- **自定义keyframes**：accordion、fade-in、slide-up等
+- **动画配置**：ease-out和duration设置
+- **响应式设计**：移动端优先的设计系统
 
 **章节来源**
-- [frontend/src/pages/OverviewPage.tsx:1-316](file://frontend/src/pages/OverviewPage.tsx#L1-L316)
-- [frontend/src/api/config.ts:1-635](file://frontend/src/api/config.ts#L1-L635)
-- [frontend/src/types/index.ts:1-477](file://frontend/src/types/index.ts#L1-L477)
+- [frontend/package.json:12-39](file://frontend/package.json#L12-L39)
+- [frontend/tailwind.config.ts:14-155](file://frontend/tailwind.config.ts#L14-L155)
 
-### 组件树结构与交互
-- 组件树（简化）：index.html -> main.tsx -> App.tsx -> AuthProvider -> AppRoutes -> Layout -> Sidebar + Outlet -> 子页面
-- 交互链路：用户操作 -> 上下文/状态更新 -> 重新渲染 -> 可能触发API调用
+## 聊天组件架构
+
+### 聊天组件系统
+全新的聊天组件架构，基于现代化React和Tailwind CSS：
+
+**核心组件**：
+- **ChatPage**：聊天页面主组件
+- **MessageBubble**：消息气泡组件
+- **ChatComposer**：聊天输入组件
+- **SessionList**：会话列表组件
+- **ChainHistoryDrawer**：链历史抽屉
+
+**聊天特性**：
+- **实时通信**：基于WebSocket的实时消息传输
+- **流式渲染**：支持AI响应的流式显示
+- **状态管理**：集成@tanstack/react-query
+- **错误处理**：完善的错误边界和用户反馈
+- **性能优化**：虚拟滚动和懒加载
 
 ```mermaid
 graph TB
-Root["App.tsx"] --> Auth["AuthContext"]
-Root --> WS["WebSocketContext"]
-Root --> Noti["NotificationContext"]
-Root --> Store["Zustand Store"]
-Root --> Routes["AppRoutes"]
-Routes --> Layout["Layout"]
-Layout --> Sidebar["Sidebar"]
-Layout --> Outlet["Outlet"]
-Outlet --> Overview["OverviewPage"]
+ChatPage[ChatPage<br/>聊天页面] --> MessageBubble[MessageBubble<br/>消息气泡]
+ChatPage --> ChatComposer[ChatComposer<br/>聊天输入]
+ChatPage --> SessionList[SessionList<br/>会话列表]
+ChatPage --> ChainHistoryDrawer[ChainHistoryDrawer<br/>链历史]
+MessageBubble --> StreamMessageRenderer[StreamMessageRenderer<br/>流式渲染]
+MessageBubble --> TypewriterEffect[TypewriterEffect<br/>打字机效果]
+SessionList --> RuntimePanels[RuntimePanels<br/>运行时面板]
+ChatComposer --> WebSocket[WebSocket<br/>实时通信]
+MessageBubble --> QueryCache[@tanstack/react-query<br/>状态缓存]
 ```
 
 **图表来源**
-- [frontend/src/App.tsx:1-93](file://frontend/src/App.tsx#L1-L93)
-- [frontend/src/components/Layout.tsx:1-60](file://frontend/src/components/Layout.tsx#L1-L60)
-- [frontend/src/components/Sidebar.tsx:1-163](file://frontend/src/components/Sidebar.tsx#L1-L163)
-- [frontend/src/pages/OverviewPage.tsx:1-316](file://frontend/src/pages/OverviewPage.tsx#L1-L316)
-
-## Shopify应用前端架构
-
-**新增** Shopify应用采用现代化前端技术栈，包含React Router 7.12.0、TypeScript、Prisma集成等先进特性：
-
-### 应用入口与根组件
-- root.jsx：Shopify应用的根组件，提供路由容器和上下文提供者
-- 基于React Router 7.12.0的现代化路由系统，支持最新的路由特性
-- TypeScript类型安全，提供更好的开发体验和运行时保障
-
-### 路由系统与页面组织
-- app/routes：采用Shopify推荐的路由组织方式
-- _index：默认首页路由
-- auth.login：登录认证路由
-- app：主应用路由
-- webhooks：Shopify Webhook处理路由
-
-### 数据库与ORM集成
-- prisma/schema.prisma：数据库模式定义
-- db.server.js：数据库服务器配置
-- Prisma ORM：类型安全的数据库操作
-- 支持多种数据库后端（PostgreSQL、MySQL、SQLite等）
-
-### 现代化技术栈特性
-- React Router 7.12.0：最新版本的路由库，提供更好的性能和开发体验
-- TypeScript：完整的类型系统，提升代码质量和可维护性
-- Prisma：现代化ORM，支持数据库迁移和模式验证
-- Vite构建：快速的开发服务器和构建工具
-- TailwindCSS：实用优先的CSS框架
-
-```mermaid
-graph TB
-subgraph "Shopify应用技术栈"
-R7["React Router 7.12.0<br/>现代化路由"]
-TS["TypeScript<br/>类型安全"]
-PR["Prisma ORM<br/>数据库操作"]
-VITE["Vite<br/>构建工具"]
-TW["TailwindCSS<br/>样式框架"]
-END
-end
-subgraph "应用结构"
-ROOT["root.jsx<br/>根组件"]
-ROUTES["routes/<br/>路由组织"]
-DB["db.server.js<br/>数据库配置"]
-PRISMA["prisma/schema.prisma<br/>数据库模式"]
-END
-end
-R7 --> ROOT
-TS --> ROUTES
-PR --> DB
-VITE --> PRISMA
-TW --> ROOT
-```
-
-**图表来源**
-- [shopify-app/astra-compliance/app/root.jsx](file://shopify-app/astra-compliance/app/root.jsx)
-- [shopify-app/astra-compliance/prisma/schema.prisma](file://shopify-app/astra-compliance/prisma/schema.prisma)
-- [shopify-app/astra-compliance/app/db.server.js](file://shopify-app/astra-compliance/app/db.server.js)
-- [shopify-app/astra-compliance/package.json](file://shopify-app/astra-compliance/package.json)
+- [frontend/src/pages/ChatPage.tsx:169-362](file://frontend/src/pages/ChatPage.tsx#L169-L362)
+- [frontend/src/components/chat/MessageBubble.tsx](file://frontend/src/components/chat/MessageBubble.tsx)
+- [frontend/src/components/chat/ChatComposer.tsx](file://frontend/src/components/chat/ChatComposer.tsx)
+- [frontend/src/components/chat/SessionList.tsx](file://frontend/src/components/chat/SessionList.tsx)
 
 **章节来源**
-- [shopify-app/astra-compliance/app/root.jsx](file://shopify-app/astra-compliance/app/root.jsx)
-- [shopify-app/astra-compliance/app/routes/_index/route.jsx](file://shopify-app/astra-compliance/app/routes/_index/route.jsx)
-- [shopify-app/astra-compliance/app/routes/auth.login/route.jsx](file://shopify-app/astra-compliance/app/routes/auth.login/route.jsx)
-- [shopify-app/astra-compliance/prisma/schema.prisma](file://shopify-app/astra-compliance/prisma/schema.prisma)
-- [shopify-app/astra-compliance/package.json](file://shopify-app/astra-compliance/package.json)
+- [frontend/src/pages/ChatPage.tsx:169-362](file://frontend/src/pages/ChatPage.tsx#L169-L362)
+
+### 命令面板系统
+CommandPalette提供现代化的命令系统：
+
+**功能特性**：
+- **键盘快捷键**：Cmd/Ctrl+K打开命令面板
+- **智能搜索**：支持关键词搜索和分类导航
+- **会话管理**：快速访问最近会话
+- **管理员功能**：根据权限显示不同功能
+- **快速操作**：新建对话和刷新数据
+
+**命令分类**：
+- **导航项**：首页、智能对话、风险监控等
+- **合规工具**：店铺合规、产品合规、知识库等
+- **管理员功能**：Agent配置、模型配置、用户管理等
+- **快速操作**：新建对话、刷新数据等
+
+**章节来源**
+- [frontend/src/components/CommandPalette.tsx:71-218](file://frontend/src/components/CommandPalette.tsx#L71-L218)
 
 ## 依赖关系分析
-- 构建与开发
-  - Vite插件：@vitejs/plugin-react、@tailwindcss/vite
-  - 开发服务器：本地端口5173，代理/api到后端服务
-  - 脚本：dev/build/preview
-- 类型与编译：TypeScript配置为ESNext模块解析，bundler模式，JSX使用react-jsx
-- 运行时依赖：react、react-dom、react-router-dom、zustand、react-markdown
+现代化依赖配置，提供完整的功能支持：
 
-**更新** Shopify应用依赖关系：
-- React Router 7.12.0：现代化路由库
-- Prisma：数据库ORM和迁移工具
-- TypeScript：类型系统
-- Vite：构建工具
-- TailwindCSS：样式框架
+**核心依赖**：
+- **React 19.0.0**：最新React版本
+- **TypeScript ~5.7.0**：类型安全保障
+- **Tailwind CSS 3.4.16**：实用优先的CSS框架
+- **@tanstack/react-query 5.62.0**：智能状态管理
 
-```mermaid
-graph LR
-Vite["vite.config.ts"] --> Plugins["插件: react, tailwindcss"]
-Vite --> DevServer["开发服务器: 5173, 代理 /api"]
-Pkg["package.json"] --> Scripts["脚本: dev/build/preview"]
-TS["tsconfig.json"] --> Module["moduleResolution: bundler"]
-TS --> JSX["jsx: react-jsx"]
-subgraph "Shopify应用依赖"
-R7["react-router@7.12.0"]
-PR["prisma"]
-TS2["typescript"]
-VITE2["vite"]
-TAIL["tailwindcss"]
-end
-```
+**组件库依赖**：
+- **Radix UI**：@radix-ui/react-*系列组件
+- **shadcn/ui**：class-variance-authority、clsx
+- **图标库**：lucide-react
+- **主题系统**：next-themes
 
-**图表来源**
-- [frontend/vite.config.ts:1-16](file://frontend/vite.config.ts#L1-L16)
-- [frontend/package.json:1-28](file://frontend/package.json#L1-L28)
-- [frontend/tsconfig.json:1-20](file://frontend/tsconfig.json#L1-L20)
-- [shopify-app/astra-compliance/package.json](file://shopify-app/astra-compliance/package.json)
+**开发工具**：
+- **Vite 6.0.0**：现代化构建工具
+- **PostCSS**：CSS后处理器
+- **TypeScript**：类型检查
 
 **章节来源**
-- [frontend/vite.config.ts:1-16](file://frontend/vite.config.ts#L1-L16)
-- [frontend/package.json:1-28](file://frontend/package.json#L1-L28)
-- [frontend/tsconfig.json:1-20](file://frontend/tsconfig.json#L1-L20)
-- [shopify-app/astra-compliance/package.json](file://shopify-app/astra-compliance/package.json)
+- [frontend/package.json:12-54](file://frontend/package.json#L12-L54)
 
 ## 性能考虑
-- 代码分割与懒加载
-  - 当前路由以静态导入为主；如需进一步优化，可在路由层面引入动态导入（例如将大型页面组件按需加载），减少首屏包体积
-- 构建优化
-  - 使用Vite默认Rollup打包器，结合Tree-shaking与最小化策略
-  - TailwindCSS按需生成样式，避免冗余类
-- 状态与渲染
-  - 使用Zustand替代Redux，降低样板代码与内存占用
-  - 合理拆分组件，避免不必要的重渲染
-- 网络与缓存
-  - API封装统一处理鉴权头，减少重复逻辑
-  - WebSocket长连接配合心跳维持，提升实时性
+现代化性能优化策略：
 
-**新增** Shopify应用性能优化策略：
-- React Router 7.12.0的路由懒加载支持，减少初始包大小
-- Prisma的查询优化和连接池管理
-- TypeScript的编译时优化
-- Vite的快速热重载和构建优化
+**代码分割与懒加载**：
+- **首屏优化**：Dashboard和ChatPage直接导入
+- **路由级懒加载**：使用React.lazy和Suspense
+- **组件级懒加载**：大型聊天组件按需加载
+- **查询缓存**：@tanstack/react-query智能缓存策略
+
+**构建优化**：
+- **手动代码分割**：react-vendor、ui-radix、cmdk等
+- **chunk命名策略**：页面组件特殊命名
+- **Tree-shaking**：按需导入减少包体积
+- **压缩优化**：Rollup输出优化
+
+**运行时优化**：
+- **React 19并发**：自动批处理和优先级调度
+- **虚拟滚动**：大量消息的性能优化
+- **状态缓存**：智能查询缓存和失效
+- **主题切换**：CSS变量切换避免重排
+
+**章节来源**
+- [frontend/vite.config.ts:26-61](file://frontend/vite.config.ts#L26-L61)
 
 ## 故障排查指南
-- 登录失败
-  - 检查AuthContext.login的错误处理与提示
-  - 确认后端登录接口返回格式与异常分支
-- WebSocket无法连接
-  - 核对WebSocketContext中的连接地址与端口
-  - 关注自动重连逻辑与心跳机制
-- 通知不显示
-  - 确认NotificationContext已订阅WebSocket事件
-  - 检查风险预警API是否可用
-- 页面空白或路由不生效
-  - 确认BrowserRouter包裹与路由表配置
-  - 检查Layout与Outlet的嵌套关系
+常见问题和解决方案：
 
-**新增** Shopify应用故障排查：
-- 路由问题：检查React Router 7.12.0的路由配置和组件导入
-- 数据库连接：确认Prisma连接字符串和数据库可用性
-- 类型错误：检查TypeScript编译错误和类型定义
-- 构建问题：验证Vite配置和依赖版本兼容性
+**Provider层次问题**：
+- **检查嵌套顺序**：确保ThemeProvider在最外层
+- **验证初始化**：确认各Provider正确初始化
+- **状态检查**：使用React DevTools检查状态树
+
+**路由问题**：
+- **路由配置**：检查React Router 7.1.0配置
+- **守卫逻辑**：验证RequireAuth和RequireAdmin
+- **懒加载**：确认lazy组件正确导入
+
+**组件库问题**：
+- **Radix UI**：验证组件导入和配置
+- **Tailwind CSS**：检查类名拼写和配置
+- **shadcn/ui**：确认组件别名和样式
+
+**聊天组件问题**：
+- **WebSocket连接**：检查连接状态和错误日志
+- **消息流式渲染**：验证流式API和事件处理
+- **查询缓存**：检查@tanstack/react-query状态
+
+**性能问题**：
+- **React Profiler**：分析渲染性能瓶颈
+- **内存泄漏**：检查事件监听器清理
+- **网络请求**：优化查询缓存策略
 
 **章节来源**
-- [frontend/src/context/AuthContext.tsx:44-72](file://frontend/src/context/AuthContext.tsx#L44-L72)
-- [frontend/src/context/WebSocketContext.tsx:39-108](file://frontend/src/context/WebSocketContext.tsx#L39-L108)
-- [frontend/src/context/NotificationContext.tsx:89-117](file://frontend/src/context/NotificationContext.tsx#L89-L117)
-- [frontend/src/App.tsx:35-82](file://frontend/src/App.tsx#L35-L82)
+- [frontend/src/main.tsx:17-28](file://frontend/src/main.tsx#L17-L28)
+- [frontend/src/router/index.tsx:62-252](file://frontend/src/router/index.tsx#L62-L252)
+- [frontend/src/components/ErrorBoundary.tsx:32-86](file://frontend/src/components/ErrorBoundary.tsx#L32-L86)
 
 ## 结论
-避风港React应用采用清晰的分层架构：入口负责挂载，根组件负责路由与上下文整合，页面组件承载业务逻辑。通过认证、WebSocket与通知三大上下文，应用实现了安全、实时与可观测的用户体验。结合Zustand与Vite，整体具备良好的可维护性与性能表现。
+避风港React应用已完成从传统架构到现代化架构的全面升级。新的架构采用React 19 + TypeScript + Tailwind CSS + Radix UI的组合，提供了更好的开发体验、可访问性和性能表现。
 
-**新增** Shopify应用前端架构展示了现代化前端技术栈的最佳实践：
-- React Router 7.12.0提供了最新的路由特性和性能优化
-- TypeScript确保了代码质量和开发体验
-- Prisma集成实现了类型安全的数据库操作
-- 现代化的构建工具链提升了开发效率
+**主要成就**：
+- **现代化组件库**：Radix UI + shadcn/ui + Tailwind CSS提供一致的设计系统
+- **Provider层次结构**：清晰的功能分离和依赖管理
+- **命令面板系统**：基于cmdk的现代化命令系统
+- **聊天组件架构**：全新的聊天UI架构，支持流式渲染和实时通信
+- **查询缓存系统**：@tanstack/react-query提供智能状态管理
+- **主题系统**：基于next-themes的明暗主题切换
 
-后续可在路由层引入动态导入以进一步优化首屏加载，并完善错误边界与性能监控集成。同时，Shopify应用的现代化技术栈为平台扩展提供了坚实的技术基础。
+**未来发展方向**：
+- **路由优化**：进一步优化懒加载策略
+- **性能监控**：集成更完善的性能监控
+- **组件扩展**：探索更多Radix UI组件的应用
+- **用户体验**：持续优化交互和视觉体验
 
 ## 附录
-- API与类型
-  - api/config.ts：统一的API客户端，封装鉴权头与错误处理
-  - types/index.ts：核心业务类型定义，覆盖对话、事件链、风险预警、产品、定时任务等
-- UI组件
-  - Layout/Sidebar/NotificationCenter/ToastNotification：提供一致的导航与通知体验
-- **新增** Shopify应用组件
-  - root.jsx：应用根组件
-  - db.server.js：数据库服务器配置
-  - 路由组件：基于React Router 7.12.0的现代化路由系统
+
+### 组件库配置
+**Radix UI组件**：@radix-ui/react-*系列，提供无障碍底层组件
+**shadcn/ui组件**：class-variance-authority、clsx、lucide-react
+**Tailwind CSS**：设计令牌系统、动画配置、响应式设计
+
+### 聊天组件
+**ChatPage**：聊天页面主组件，支持智能体选择和会话管理
+**MessageBubble**：消息显示和样式组件
+**ChatComposer**：聊天输入和发送组件
+**SessionList**：会话管理和历史记录
+
+### 工具函数
+**lib/utils.ts**：class-variance-authority和clsx工具函数
+**hooks**：自定义Hook集合，包括查询Hook、确认对话框、WebSocket等
+
+### 类型定义
+**types/index.ts**：核心业务类型定义，支持现代化TypeScript特性
 
 **章节来源**
-- [frontend/src/api/config.ts:1-635](file://frontend/src/api/config.ts#L1-L635)
-- [frontend/src/types/index.ts:1-477](file://frontend/src/types/index.ts#L1-L477)
-- [frontend/src/components/Layout.tsx:1-60](file://frontend/src/components/Layout.tsx#L1-L60)
-- [frontend/src/components/Sidebar.tsx:1-163](file://frontend/src/components/Sidebar.tsx#L1-L163)
-- [frontend/src/components/NotificationCenter.tsx:1-119](file://frontend/src/components/NotificationCenter.tsx#L1-L119)
-- [frontend/src/components/ToastNotification.tsx:1-53](file://frontend/src/components/ToastNotification.tsx#L1-L53)
-- [shopify-app/astra-compliance/app/root.jsx](file://shopify-app/astra-compliance/app/root.jsx)
-- [shopify-app/astra-compliance/app/db.server.js](file://shopify-app/astra-compliance/app/db.server.js)
+- [frontend/src/pages/Dashboard.tsx:125-400](file://frontend/src/pages/Dashboard.tsx#L125-L400)
+- [frontend/src/pages/ChatPage.tsx:169-362](file://frontend/src/pages/ChatPage.tsx#L169-L362)
+- [frontend/src/components/Sidebar.tsx:76-462](file://frontend/src/components/Sidebar.tsx#L76-L462)

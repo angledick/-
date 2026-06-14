@@ -53,14 +53,9 @@ function triggerText(job: SchedulerJobItem) {
 
 function displayJobName(id: string) {
   const map: Record<string, string> = {
-    market_poll: '市场轮询',
-    metrics_collect: '指标收集',
-    proactive_daily_brief: '每日合规简报',
-    proactive_cert_expiry: '认证到期预警',
-    proactive_regulation_scan: '法规变更扫描',
+    proactive_regulation_scan: '风险情报检索',
     proactive_heartbeat: '心跳自检',
-    proactive_insights: '跨产品洞察',
-    proactive_global_metrics: '全局指标聚合',
+    proactive_shopify_sync: 'Shopify 商品同步',
   }
   for (const [prefix, label] of Object.entries(map)) {
     if (id.startsWith(prefix)) return label

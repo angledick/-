@@ -1,0 +1,38 @@
+{
+  "task_id": "task_b453a05f75",
+  "event_type": "compliance:check_started",
+  "rule_engine_status": "EXECUTED",
+  "pipeline_status": "INITIATED",
+  "target_product": "Wireless bluetooth earbuds",
+  "target_market": "DE",
+  "compliance_results": {
+    "hs_code_query": "COMPLETED",
+    "hs_code_status": "PENDING_MANUAL_REVIEW",
+    "vat_query": "COMPLETED",
+    "vat_rate": 0.0,
+    "compliance_check": "COMPLETED",
+    "risk_level": "medium",
+    "risk_score": 55
+  },
+  "certifications_required": ["CE认证", "WEEE注册(EAR)", "RoHS合规", "德国包装法(LUCID)", "ERP能效标签"],
+  "rule_matches": [
+    {
+      "rule_type": "HS_CODE_LOOKUP",
+      "match_found": false,
+      "action": "PENDING_MANUAL_REVIEW",
+      "recommendation": "建议人工确认HS编码：8518.30或8517.62"
+    },
+    {
+      "rule_type": "VAT_RATE_CHECK",
+      "match_found": true,
+      "rate": 0.0,
+      "status": "NORMAL"
+    },
+    {
+      "rule_type": "CERTIFICATION_REQUIREMENT",
+      "match_found": true,
+      "required_certs": ["CE", "WEEE", "RoHS"],
+      "status": "COMPLIANCE_NEEDED"
+    }
+  ]
+}

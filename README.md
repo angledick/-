@@ -1,175 +1,137 @@
 # 避风港 SafeHarbor
 
-> 面向中小出海企业的低成本、全链路、可解释 AI 合规基础设施
+> 让每一个出海卖家，都拥有一支专属的合规团队。
 
 ---
 
-## 项目简介
+## 这是什么
 
-避风港是一款跨境电商合规智能体平台，将传统高昂的合规服务转化为普惠型数字化解决方案。系统集成规则引擎 + LLM 混合推理 + 多 Agent 协同架构，覆盖产品出海全生命周期的合规需求。
+**避风港**是一款面向跨境电商卖家的智能合规助手。
 
-**核心能力：**
+如果你正在把商品卖向海外——欧洲、美国、日本、韩国——你会遇到无数看不见的"墙"：产品认证不全被海关扣货、VAT 税号遗漏被平台冻结、包装标签不合规被消费者投诉、突发的贸易政策变化让你措手不及。
 
-- 产品合规预检（HS 编码、VAT、认证矩阵、风险标记）
-- 多市场法规监控（EU/US/JP/KR）与实时预警
-- Shopify 店铺集成与自动化合规检查
-- 六步执行流水线（感知→检查→推荐→告知→交互→处理）
-- 多 Agent 调度与 Skills 扩展体系
-- SSE 流式 AI 对话与 WebSocket 实时推送
+避风港就是帮你翻越这些墙的人。它像一个经验丰富的合规顾问，7×24 小时在线，在你上架商品的那一刻就开始工作：检查合规风险、追踪法规变化、提醒关键事项、必要时直接通过飞书通知你的团队。
 
 ---
 
-## 技术栈
+## 它为谁而做
 
-| 层级 | 技术 |
-|------|------|
-| 后端 | Python 3.13 + FastAPI |
-| 前端 | React 18 + TypeScript + Vite + TailwindCSS |
-| 向量数据库 | ChromaDB |
-| 关系存储 | SQLite |
-| LLM | OpenRouter（多模型路由） |
-| 认证 | JWT (HS256) |
-| 实时通信 | WebSocket + SSE |
-| 调度 | APScheduler |
+- ** Shopify 独立站卖家** —— 不想因为合规问题被关店
+- **跨境新手团队** —— 请不起专职合规顾问，但需要一个靠谱的向导
+- **多市场运营企业** —— 面对欧盟/美国/日韩不同法规体系，需要一站式管理
+- **供应链管理者** —— 需要实时掌握风险动态，在问题发生前介入
 
 ---
 
-## 目录结构
+## 它能做什么
 
-```
-astra-main/
-├── backend/                   # 后端服务
-│   ├── app/
-│   │   ├── api/               # 27 个 REST API 路由模块
-│   │   ├── core/              # 核心引擎（合规规则/事件/调度/管理Agent等）
-│   │   ├── services/          # 业务服务层
-│   │   ├── storage/           # 分层存储引擎
-│   │   ├── knowledge/         # 知识库与市场路由
-│   │   ├── models/            # 数据模型
-│   │   ├── config.py          # 全局配置
-│   │   └── main.py            # FastAPI 入口
-│   ├── data/                  # 运行时数据（config/products/prompts等）
-│   ├── tests/                 # 测试套件
-│   └── requirements.txt       # Python 依赖
-├── frontend/                  # 前端 SPA
-│   ├── src/
-│   │   ├── pages/             # 13 个页面组件
-│   │   ├── components/        # 22 个 UI 组件
-│   │   ├── context/           # React Context
-│   │   ├── hooks/             # 自定义 Hook
-│   │   └── api/config.ts      # 统一 API 客户端
-│   └── package.json
-├── data/config/               # 全局配置
-└── .env.example               # 环境变量模板
-```
+### 商品合规预检
+上架前就知道行不行。系统自动识别你的商品类别，匹配目标市场的认证要求（CE、FCC、PSE、KC 等），核查 HS 编码和关税税率，提示 VAT 合规状态。不是事后补救，而是事前预防。
+
+### 法规变化实时监控
+全球法规不是一成不变的。欧盟今天发布了一个新指令，美国昨晚调整了关税清单——避风港持续追踪四大市场的法规动态，一旦发现与你业务相关的变化，第一时间推送预警。
+
+### 风险情报主动告知
+当检测到高危事件（如你的商品被列入管制清单、目标国出台紧急贸易限制），系统会自动通过飞书群通知你的团队，确保关键信息不遗漏、不延误。
+
+### Shopify 深度集成
+直接连接你的 Shopify 店铺，自动同步商品信息，在商品上架、修改时触发合规检查。不需要手动导入导出，一切在后台自动完成。
+
+### 智能对话助手
+遇到具体问题，直接和它聊天。产品包装需要哪些标签？某个配件的 HS 编码是什么？欧盟最新的电池指令对你的产品有什么影响？用自然语言提问，得到专业回答。
 
 ---
 
-## 快速启动
+## 它怎么工作
 
-### 环境准备
+避风港围绕商品的完整出海旅程，构建了六个环节的闭环：
+
+1. **感知** —— 监控法规变化、Shopify 动态、市场信号
+2. **检查** —— 自动匹配规则库，识别合规风险
+3. **推荐** —— 针对发现的问题给出可执行的解决方案
+4. **告知** —— 通过飞书、应用内通知等渠道触达相关人员
+5. **交互** —— 支持人工确认、审批、对话式追问
+6. **处理** —— 自动执行修复操作或生成整改工单
+
+每一步都有记录、可追溯、可审计。
+
+---
+
+## 快速开始
+
+### 准备环境
 
 - Python 3.13+
 - Node.js 18+
-- (可选) ChromaDB 实例
 
-### 后端启动
+### 启动后端
 
 ```bash
 cd backend
-
-# 安装依赖
 pip install -r requirements.txt
-
-# 配置环境变量
-cp .env.example .env
-# 编辑 .env 填入 OPENROUTER_API_KEY 等
-
-# 启动服务（默认 8001 端口）
-uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload
+cp .env.example .env   # 编辑 .env 填入密钥
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-### 前端启动
+### 启动前端
 
 ```bash
 cd frontend
-
-# 安装依赖
 npm install
-
-# 开发模式启动（默认 5173 端口）
 npm run dev
 ```
 
 ### 访问
 
-- 前端页面：http://localhost:5173
-- 后端 API：http://localhost:8001/api/v1
-- API 文档：http://localhost:8001/docs
-- 默认账号：`admin` / `admin123`
+| 入口 | 地址 |
+|------|------|
+| 前端应用 | http://localhost:5173 |
+| 后端 API | http://localhost:8000/api/v1 |
+| API 文档 | http://localhost:8000/docs |
+| 默认账号 | `admin` / `admin123` |
 
 ---
 
-## API 概览
+## 核心配置
 
-系统提供 200+ 个 REST 端点，主要分组：
+| 配置项 | 说明 |
+|--------|------|
+| `ANTHROPIC_API_KEY` | AI 模型 API 密钥（必填） |
+| `FEISHU_APP_ID` | 飞书应用 App ID（启用飞书通知） |
+| `FEISHU_APP_SECRET` | 飞书应用 App Secret |
+| `RISK_INTEL_FEISHU_CHAT_ID` | 风险预警推送的飞书群 ID |
+| `SHOPIFY_CLIENT_ID` | Shopify 应用 Client ID |
+| `SHOPIFY_CLIENT_SECRET` | Shopify 应用 Client Secret |
+| `SDK_SKILLS_JSON` | 默认加载 `["lark-cli"]` 启用飞书消息能力 |
 
-| 模块 | 路径前缀 | 说明 |
-|------|----------|------|
-| 认证 | `/api/v1/auth` | 登录、用户管理 |
-| 对话 | `/api/v1/chat/stream` | SSE 流式 AI 对话 |
-| 产品 | `/api/v1/products` | 产品全生命周期管理 |
-| 事件 | `/api/v1/events` | 事件总线 |
-| Shopify | `/api/v1/shopify` | OAuth + 产品同步 |
-| Agent | `/api/v1/agents` | 多 Agent 配置调度 |
-| Skills | `/api/v1/skills` | 技能扩展管理 |
-| 风险 | `/api/v1/risk` | 预警与市场扫描 |
-| 知识库 | `/api/v1/knowledge` | RAG 文档检索 |
-| 记忆 | `/api/v1/memory` | 记忆树浏览 |
-| 调度 | `/api/v1/scheduler` | 定时任务 |
-| 管理 | `/api/v1/admin` | RBAC 权限管理 |
-
-完整文档请启动后端后访问 `/docs`（Swagger UI）。
+完整配置项见 `.env.example`。
 
 ---
 
-## 开发指引
+## 项目结构
 
-### 运行测试
-
-```bash
-cd backend
-pytest                           # 运行全部测试
-pytest tests/test_rule_engine.py # 运行指定文件
-pytest --cov=app                 # 带覆盖率
 ```
-
-详细规范见 [backend/tests/测试规范.md](backend/tests/测试规范.md)。
-
-### 前端类型检查
-
-```bash
-cd frontend
-npx tsc --noEmit
-```
-
-### 代码风格
-
-- 后端：Python 类型注解、FastAPI Depends 依赖注入
-- 前端：TypeScript strict、函数式组件、TailwindCSS utility-first
-- API 客户端：集中在 `frontend/src/api/config.ts`，类型安全
-
----
-
-## 环境变量
-
-参考 `.env.example`：
-
-```env
-OPENROUTER_API_KEY=your_key_here
-JWT_SECRET=your_jwt_secret
-SHOPIFY_API_KEY=your_shopify_key
-SHOPIFY_API_SECRET=your_shopify_secret
+astra-main/
+├── backend/                   后端服务
+│   ├── app/
+│   │   ├── api/               REST API 路由
+│   │   ├── core/              核心引擎（合规/事件/调度/风险情报）
+│   │   ├── services/          业务服务层
+│   │   ├── storage/           数据存储层
+│   │   ├── knowledge/         知识库与检索
+│   │   ├── config.py          全局配置
+│   │   └── main.py            应用入口
+│   ├── data/                  运行时数据与配置
+│   └── requirements.txt
+├── frontend/                  前端应用
+│   ├── src/
+│   │   ├── pages/             页面
+│   │   ├── components/        UI 组件
+│   │   ├── hooks/             数据查询 hooks
+│   │   ├── context/           状态管理
+│   │   └── lib/               API 客户端
+│   └── package.json
+└── .env.example               环境变量模板
 ```
 
 ---

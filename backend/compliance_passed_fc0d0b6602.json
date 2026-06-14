@@ -1,0 +1,28 @@
+{
+  "task_id": "task_fc0d0b6602",
+  "event_type": "compliance:check_passed",
+  "compliance_status": "PASSED",
+  "timestamp": 1781421760,
+  "formatted_time": "2026-06-14T02:22:40Z",
+  "score_update": {
+    "previous_score": null,
+    "current_score": 100,
+    "status": "COMPLIANT",
+    "risk_level": "LOW",
+    "overall_status": "PASS"
+  },
+  "notification_sent": {
+    "dashboard": true,
+    "websocket": true,
+    "channels": ["dashboard_update", "websocket_push"],
+    "message": "合规检查通过 - 产品符合所有目标市场要求"
+  },
+  "actions_taken": [
+    "确认合规状态为通过",
+    "更新产品合规评分记录至100分",
+    "通过Dashboard推送通过通知",
+    "发送WebSocket实时通知"
+  ],
+  "remediation_required": false,
+  "next_steps": []
+}

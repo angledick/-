@@ -54,15 +54,26 @@ export async function listNotifyChannels(
   if (!res.ok) throw new Error(`获取渠道失败: HTTP ${res.status}`)
   const data = await res.json()
   const channels = Array.isArray(data.channels) ? data.channels : []
-  return channels.map((item: { name: string; channel: ChannelType; status: string }) => ({
-    id: item.name,
-    name: item.name,
-    channel: item.channel,
-    webhook_url: '',
-    enabled: item.status === 'active',
-    min_level: 'medium',
-    status: item.status,
-  }))
+  return channels.map((item: {
+    name: string
+    channel: ChannelType
+    status: string
+    webhook_url?: string
+    enabled?: boolean
+    min_level?: MinLevel
+    config?: Record<string, unknown>
+  }) => {
+    const cfg = item.config || {}
+    return {
+      id: item.name,
+      name: item.name,
+      channel: item.channel,
+      webhook_url: item.webhook_url || (cfg.webhook_url as string) || (cfg.webhook as string) || '',
+      enabled: item.enabled ?? (cfg.enabled as boolean) ?? (item.status === 'active'),
+      min_level: item.min_level || (cfg.min_level as MinLevel) || 'medium',
+      status: item.status,
+    }
+  })
 }
 
 function bodyToConfig(body: ChannelBody): Record<string, unknown> {
