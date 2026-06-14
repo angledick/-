@@ -164,8 +164,16 @@ class Settings(BaseSettings):
     shopify_app_url: str = "https://example.com"
     shopify_embedded: bool = True
 
+    # Feishu / Lark
+    feishu_app_id: str = ""
+    """飞书自建应用 App ID（tenant_access_token 认证用）。"""
+    feishu_app_secret: str = ""
+    """飞书自建应用 App Secret。"""
+
     # Risk Alerts storage
     risk_alert_dir: str = "./data/risk_alerts"
+    risk_intel_feishu_chat_id: str = ""
+    """风险情报严重事件推送飞书群聊 ID。"""
 
     # ── JWT 认证 ──────────────────────────────────────────────
     jwt_secret: str = "astra-change-me-in-production-2024"
